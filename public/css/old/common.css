@@ -1,0 +1,201 @@
+body {
+    background-color: #FFFFF4;
+    color: white;
+}
+span{
+    background-color:#FFFFF4;
+}
+*:disabled {
+    background-color: #add6e6 !important;
+    color: linen;
+    opacity: 1;
+}
+select {
+    height: 45px;
+    font-size: 15px;
+}
+
+.tablet {
+    display: none;
+}
+
+/* .navbar {
+  
+    margin-bottom: 50px;
+    padding-bottom: 50px;
+} */
+.clearfix::after {
+    display: table;
+    clear: both;
+    content: "";
+  }
+  li {
+    list-style: none;
+  }
+/* .nav-link {
+    display: none;
+} */
+.update-batton{
+    color: #FFFAFA;
+    background-color: #419f07;
+    border-color: #419f07;
+    box-shadow: 0px 1px 2px #419f07;
+    height: 50px;
+    
+}
+.save-batton {
+    color: #FFFAFA;
+    background-color: #1C82AD;
+    border-color: #1C82AD;
+    box-shadow: 0px 1px 2px #1C82AD;
+    height:50px;  
+}
+.delete-batton {
+    /* box-shadow: 0px 1px 2px #1C82AD; */
+    height:50px;
+    border-color: #a2040b; 
+    color: #FFFAFA;
+    background-color: #a2040b; 
+
+}
+.announce-batton {
+    color: #FFFAFA;
+    background-color: #18c295;
+    border-color: #18c295;
+    box-shadow: 0px 1px 2px #18c295;
+    height:50px;  
+}
+.containers {
+    max-width: 100%!important;
+    background: no-repeat center/cover;
+    
+}
+#hts_updateBton {
+    display: none;
+}
+
+.refresh-follow {
+    background-color: #D4F6CC;
+    border-color: #FFFAFA;
+    color: #000;
+    height: 50px;
+    
+}
+.header-text {
+    text-align: center;
+    box-shadow: 0px 4px 5px #456a89;
+    border-bottom: 1px solid #3f3f7a;
+    padding: 20px;
+    font-weight: 800;
+}
+.form-control {
+    height: 50px;
+    font-size: 17px;
+}
+label,.btn {
+    font-size: 17px;
+}
+
+/* date format change  */
+input[type="date"]::-webkit-datetime-edit, input[type="date"]::-webkit-inner-spin-button, input[type="date"]::-webkit-clear-button {
+    color: #fff;
+    position: relative !important;
+  }
+  input[type="date"].form-control {
+    position: relative;
+  }
+  
+  input[type="date"]::-webkit-datetime-edit-year-field{
+    position: absolute !important;
+   
+    padding: 2px;
+    color:#000;
+    left: 80px;
+  }
+  
+  input[type="date"]::-webkit-datetime-edit-month-field{
+    position: absolute !important;
+      
+    padding: 2px;
+    color:#000;
+    left: 40px;
+  }
+  
+  
+  input[type="date"]::-webkit-datetime-edit-day-field{
+    position: absolute !important;
+    color:#000;
+
+    padding: 2px;
+    left: 4px;
+  }
+   input[type="date"]::after {
+    left: 42px;
+    top: 25px;
+    background: url(../img/line.png);
+    width: 8px;
+    height: 3px;
+    content: "";
+    position: absolute;
+	
+  }  
+  input[type="date"]::before {
+    left: 85px;
+    top: 25px;
+    background: url(../img/line.png);
+    width: 8px;
+    height: 3px;
+    content: "";
+    position: absolute;
+	
+  } 
+ 
+@media screen and (min-width: 768px) and (max-width: 1099px) {
+    /* .navbar {
+  
+        margin-bottom: 6.667vw;
+        padding-bottom: 6.667vw;
+    } */
+    /* .nav-link {
+        display: none;
+    } */
+    .tablet {
+        display: block;
+    }
+    .pc{
+        display: none;
+    }
+    .update-batton {
+        color: #FFFAFA;
+        background-color: #419f07;;
+        border-color: #419f07;
+        box-shadow: 0px 0.998px 2.002px #419f07;
+        
+    }
+    .containers {
+        max-width: 100%!important;
+    }
+    .refresh-follow {
+        background-color: #D4F6CC;
+        border-color: #FFFAFA;
+        color: #000;
+        
+    }
+    .header-text {
+        text-align: center;
+        box-shadow: 0px 3.998px 5.003px #456a89;
+        border-bottom: 0.998px solid #3f3f7a;
+        padding: 20.002px;
+        font-weight: 800;
+    }
+    .form-control {
+        height: 50.002px;
+        font-size: 17.002px;
+    }
+    label,.btn {
+        font-size: 17.002px;
+    }
+
+   
+     
+}

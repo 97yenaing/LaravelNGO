@@ -1,0 +1,115 @@
+.appointment-serach {
+background-color: #D4F6CC;
+border-color: #FFFAFA;
+color: #000;
+width: 100%;
+}
+.appointment-table {
+    margin: 0px;
+}
+ .appointment-table tr th , .appointment-table tr th td{
+    color: #fff;;
+}
+#list {
+    color: #fff;
+}
+.appointment-text,.appointment-date {
+    width:22%;
+}
+.appointment-text label {
+    margin-top: 11px;
+}
+.next-serachBatton {
+    width: 9%;
+    display: flex;
+    
+    padding-top: 36px;
+}
+
+
+.appointemt-search div {
+    width: 80%;
+    float: right;
+}
+@media screen and (min-width: 600px) and (max-width: 1160px) {
+    .appointment-serach {
+        background-color: #D4F6CC;
+        border-color: #FFFAFA;
+        color: #000;
+        }
+        .reception-appointmentInfo div {
+            width: 50%;
+        }
+        .appointment-table {
+            margin: 0px;
+        }
+         .appointment-table tr th , .appointment-table tr th td{
+            color: #fff;;
+        }
+        #list {
+            color: #fff;
+        }
+        
+
+        .appointemt-search label {
+            width:auto;
+        }
+       
+      
+       
+        .next-serachBatton  {
+        justify-content: left;
+        }
+        .next-serachBatton button {
+            width: 63%;
+        }
+       
+
+    
+}
+
+@media screen and (max-width: 599.9px) {
+    .appointment-serach {
+        background-color: #D4F6CC;
+        border-color: #FFFAFA;
+        color: #000;
+        }
+        .reception-appointmentInfo div {
+            width: 100%;
+            justify-content: center;
+        }
+        .appointment-table {
+            margin: 0px;
+        }
+         .appointment-table tr th , .appointment-table tr th td{
+            color: #fff;;
+        }
+        #list {
+            color: #fff;
+        }
+        
+        .appointment-text label{
+            float: none;}
+        .appointment-date input{
+            width:100%;
+        }
+        .appointemt-search label {
+            width:auto;
+        }
+        .appointemt-search select {
+            width:80%
+        }
+      
+       
+        .next-serachBatton  {
+        justify-content: left;
+        }
+        .next-serachBatton button {
+            width: 63%;
+        }
+        .appointment-table table {
+            font-size: 11px;
+        }
+
+
+}

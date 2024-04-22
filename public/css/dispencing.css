@@ -1,0 +1,239 @@
+.dispencing_ul li{
+    background-color: #D4F6CC;
+    margin-right: 2%;
+    margin-top: 10px;
+}
+#export_Header{
+    font-size: 25px;
+    text-align: center;
+}
+#dis_exportDate{
+    width: 25%;
+    float: left;
+}
+#dis_exportCount{
+    float: right;
+    width: 50%;
+}
+#expord_data{
+    width: 75%;
+    float: right;
+}
+
+.dis-exportData,.export-row,.export-rowData{
+    justify-content: center;
+}
+
+.export-row div,.export-rowData div{
+    border: 1px solid #fff;
+    padding: 5px 2%;
+}
+.export-rowData{
+    font-size: 20px;
+    text-align: left;
+}
+.export-rowData div:nth-child(1),.export-rowData div:nth-child(3){
+    text-align: right;
+}
+#expord_data{
+    padding: 0px 1%;
+}
+.comsumption_section{
+    position: relative;
+}
+.dis-addStock{
+    margin-top: 35px;
+    width: 50%;
+}
+.dis_updatedID,.dis-updtedBtn,.dis-exportBtn,#dis_exportCount,.dis-comsumMenu div:nth-child(1),#dispensing_search,.consmumUp-other{
+    margin-top: 35px;
+}
+.dis-exportBtn{
+    width: 50%;
+    height: 50px;
+    float: left;
+}
+.dis-saveRefresh{
+    padding-top: 35px;
+}
+.dis-saveBtn{
+    width: 50%;
+}
+.medic_area{
+    background-color: #fff;
+    
+    color: #000;
+    margin-top: 35px;
+}
+.medi-listName{
+    padding: 4px 0% 4px 2%;
+    position: relative;
+}
+.btn-remove,.btn-cancelUpdate{
+    background-color: #d91a1a;
+    color: #1d0202;
+}
+.btn-cancelUpdate{
+    margin-top:35px;
+}
+.medic_nameLabel,.medic_nameNo,.repaire_nameLabel{
+    font-size: 17px;
+    text-align: left;
+    display: inline-block;
+   
+}
+.medic_nameNo{
+    top: 15px;
+    position: absolute;
+}
+.medic_nameLabel{
+    width: 68%;
+    margin-left: 3%;
+}
+.medic-Lableqty{
+    font-size: 14px;
+    display: inline-block;
+    width: 10%;
+    color: #f40606;
+    margin-right: 2%;
+}
+
+#saveQuantity{
+    width: 90%;
+    position: absolute;
+    top: 37%;
+    left: 50%;
+    z-index: 1;
+    transform: translate(-50%, -50%);
+    background-color: #1d0202;
+    border: 2px solid #fff;
+    border-radius: 10px;
+}
+.save-quantity{
+    padding: 10px 0%;
+    text-align: center;
+}
+.consum-header{
+    position: relative;
+}
+.dis-SerachBtn,.medic_addEdit{
+    position: absolute;
+    top: 15px;
+    right: 4%;
+}
+.medic_othercon{
+    position: absolute;
+    top: 15px;
+    left: 2%;
+    width: 10%;
+    background-color: #cd9b78;
+}
+.medic_addEdit{
+    width: 20%;
+}
+.medic-searchUpdate{
+    opacity: -1;
+    position: absolute;
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 7%;
+    background-color: #000;
+    justify-content: center;
+    border: 2px solid #fff;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.repaire_nameLabel{
+    margin-right: 2%;
+    color: #fff;
+    width: 65%;
+    font-size: 15px;
+}
+.medic_repaireqty{
+    width: 20%;
+    height: 45px;
+    margin-right: 2%;
+}
+.listQtyblock button{
+    height: 45px;
+}
+.dis-newItem{
+    width: 70%;
+    margin-top: 35px;
+}
+.medictake-patient{
+    background-color: #56eef1;
+    float: right;
+}
+.report-detail,.reportCon-detail{
+    width: 100%;
+    display:none;
+    font-size: 20px;
+}
+.rp-detailhead{
+    border: 1px solid #fff;
+    font-size: 19px;
+    text-align: center;
+    margin-top: 20px;
+}
+.rpDetail_data,.male_conrpDeatail,.female_conrpDeatail{
+    border: 1px solid #fff;
+    font-size: 17px; 
+}
+.rpDetail_btnRow{
+    margin-top: 20px;
+}
+#to_report{
+    width: 100%;
+}
+.dis-reportHeader{
+    position: relative;
+}
+.condome-report{
+    width: 15%;
+    position: absolute;
+    top: 17px;
+    left: 2%;
+    background-color: #986060;
+    color: #ffff;
+    display: none;
+}
+.dis-exBtn{
+    margin-top: 35px;
+    width: 100%;
+}
+.show-update-header,.show-update-data,.medical-entry-list-head,.medical-entry-list{
+    justify-content: center;
+    margin: 0%;
+
+}
+.medical-entry-list div{
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+.show-update-list{
+    display: none;
+}
+.show-update-header div,.show-update-data div,.medical-entry-list-head div,.medical-entry-list div{
+    font-size: 20px;
+    border: 1px solid #fff;
+    text-align: center;
+    margin: 0%;
+}
+.show-update-data div,.medical-entry-list div{
+    text-align: left;
+}
+.show-update-data div:last-child{
+    text-align: center;
+}
+.show-update-data button{
+    margin:5px 0%;
+
+}
+.dis-show-consum{
+    margin-top: 10px;
+    width: 100%;
+}
+    
+

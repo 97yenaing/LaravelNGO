@@ -1,0 +1,663 @@
+/* .switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  } */
+.counGeneral button {
+  margin-top: 35px;
+}
+
+.custom-alert,
+.hts-warning {
+  position: fixed;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  padding: 20px;
+  background-color: yellow;
+  color: black;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.fetch-color {
+  height: 50px;
+  border: 1px solid #ffff;
+  margin-top: 5px;
+}
+
+.counselHTS-table td,
+.counselHTS-table th {
+  color: #fff;
+}
+
+.counsel-report-btn {
+  margin-top: 33px;
+}
+
+.hts-warning {
+  background-color: rgba(255, 0, 93, 0.768);
+}
+
+.counHTS-show {
+  margin-top: 35px;
+  width: 100%;
+}
+
+.id_searchType {
+  margin-top: 35px;
+}
+
+
+#labTestDate,
+#riskChangeLab {
+  background-color: #f6ff00d8;
+  font-weight: 900;
+}
+
+#coun_count,
+#test_do {
+  background-color: #D4F6CC;
+}
+
+.consel-mainlist li {
+  width: 50%;
+}
+
+.consel-mainlist {
+  width: 80%;
+}
+
+.update-counHts select {
+  background-color: #20c997;
+}
+
+
+#hts_updateBton {
+  width: 100%;
+}
+
+.consulor-list {
+  margin-left: 2%;
+
+}
+
+.consulor-list li {
+  background-color: #D4F6CC;
+  margin-right: 2%
+}
+
+.cosulor-parent-div {
+  background-color: #003865;
+
+}
+
+.consulor-prepCounseling {
+  border: 1px solid #fff;
+  background-color: #0F6292;
+  color: #FFED00;
+  border-radius: 5px;
+  margin-top: 35px;
+  padding: 8px 0% 8px 3%
+}
+
+.counselling-prePost {
+  border: 1px solid #fff;
+  background-color: #0F6292;
+  color: #FFED00;
+  border-radius: 5px;
+  padding: 8px 0% 8px 0.5%;
+}
+
+.consulor-switch {
+  display: none;
+}
+
+.consulor-result {
+  border: 1px solid #E9F8F9;
+
+  padding-bottom: 20px;
+}
+
+.consulor-refresh {
+  float: right;
+}
+
+.consulor-responbox {
+  margin-left: 4%;
+  margin-right: 11.66%;
+}
+
+.consulor-rfr-btn {
+  float: right;
+}
+
+.con-prepost {
+  height: 20px;
+  margin-right: 3%;
+}
+
+.counselor-riskRow {
+  border-top: 1px solid #E9F8F9;
+}
+
+.counselor-riskRow div:nth-child(3) {
+  margin-top: 35px;
+  margin-bottom: 30px;
+}
+
+/* .counselor-riskRow div:nth-child(4) {
+  border-bottom:1px solid #E9F8F9; 
+} */
+.counselor-risklabel {
+  font-size: 19px;
+  border-bottom: 1px solid #E9F8F9;
+  color: #FFED00;
+
+}
+
+.counselling-type .col-sm-1 {
+  width: 15%;
+}
+
+.counselling-type label {
+  text-align: left;
+}
+
+.counHTS-show {
+  background-color: #D4F6CC;
+  border-color: #FFFAFA;
+  color: #000;
+}
+
+.counHTS-show {
+  padding: 11px;
+}
+
+.counHTS-date {
+  width: 18%;
+}
+
+/* .search-type,.id_searchType{
+  margin-left: 9%;
+} */
+.counsel-syphillis {
+  width: 81%;
+}
+
+#ls_rpr_dilution {
+  color: #4def00;
+  ;
+  width: 18%;
+  background-color: #003865;
+}
+
+.counsel-delete {
+  margin-left: 4%;
+}
+
+.counsel-update-list thead tr th {
+  font-size: 20px;
+}
+
+.counsel-update-list td {
+  font-size: 18px;
+  color: #010c12;
+}
+
+.counsel-update-list {
+  background-color: #A7DBD8;
+}
+
+.hts-main-head div,
+.remain_data div {
+  font-size: 20px;
+  text-align: center;
+  border: 1px solid #FFFAFA;
+}
+
+#remainig_hts_list div {
+  font-size: 17px;
+  margin: 0px;
+}
+
+.hts_remaining_block .row {
+  justify-content: center;
+}
+
+.hts_remaining_block {
+  padding: 20px 4%;
+}
+
+.hts-remain-btn {
+  margin-top: 35px;
+  height: 45px;
+}
+
+.remain_data button {
+  margin: 8px 0%;
+}
+
+
+@media screen and (min-width: 600px) and (max-width: 1160px) {
+
+  #list tr td:last-of-type {
+    padding-left: 1px;
+    padding-right: 1px;
+  }
+
+  .consulor-responbox {
+    margin-left: 4%;
+  }
+
+  .counsel-update-list td {
+    font-size: 12px;
+  }
+
+  .counsel-update-list td button:nth-of-type(1) {
+    float: left;
+  }
+
+  .hts-remaining-info {
+    width: 100%;
+  }
+
+  .hts-remain-date {
+    width: 33%;
+  }
+
+  .remian-head-Id,
+  .remian-head-vdate,
+  .remain_data div:nth-child(2),
+  .remain_data div:nth-child(6) {
+    width: 23%;
+    padding: 0px;
+  }
+
+  .remian-head-age,
+  .remian-head-sex,
+  .remain_data div:nth-child(n+3):nth-child(-n+4) {
+    width: 12%;
+    padding: 0px;
+  }
+
+  .remian-head-risk,
+  .remain_data div:nth-child(5) {
+    width: 20%;
+    padding: 0px;
+  }
+
+  .consulor-mainrisk,
+  .consulor-subrisk,
+  .consulor-age {
+    width: 33%;
+  }
+
+  .counsulor-regAge {
+    width: 16.5%;
+  }
+
+  /* .consulor-subrisk,
+  .consulor-township {
+    /* padding-right: 0%; 
+ } */
+
+  .update-counHts {
+    margin-left: 5%;
+    width: 33%;
+  }
+
+  .change-risk,
+  .labTest-date {
+    width: 33%;
+  }
+
+  .search-type {
+    width: 30%;
+  }
+
+  .counGeneral div:nth-child(n+3) {
+    width: 17%;
+  }
+
+  .conunselling_type {
+    width: 50%;
+  }
+
+  .do-test {
+    width: 50%;
+  }
+
+  .id_searchType {
+    width: 50%;
+  }
+
+  .consulor-refresh {
+    width: 20%;
+  }
+
+  .consulor-date,
+  .coun_searchID {
+    width: 33%;
+  }
+
+  .consulor-div,
+  .consul-registerDate {
+    width: 33%;
+  }
+
+  .consulor-srt {
+    width: 33.333%;
+  }
+
+  .consulor-prepCounseling {
+    border: 1px solid #fff;
+    background-color: #0F6292;
+    color: #FFED00;
+    border-radius: 5px;
+    margin-top: 35px;
+    padding: 8px 0% 8px 3%
+  }
+
+  .counselling-prePost {
+    border: 1px solid #fff;
+    border-radius: 5px;
+    padding: 8px 0% 8px 0.5%;
+    width: 33.33%;
+  }
+
+  .consulor-switch {
+    display: none;
+  }
+
+  .consulor-result .row:nth-of-type(1) {
+    width: 79%;
+  }
+
+  .consulor-result .row:nth-of-type(2) div {
+    width: 50%;
+  }
+
+  .counsel-syphillis {
+    width: 72%;
+  }
+
+  .consulor-result {
+    border: 1px solid #E9F8F9;
+    width: 100%;
+    padding-bottom: 20px;
+  }
+
+  .consulor-responbox {
+    margin-left: 4%;
+    margin-right: 11.66%;
+    display: none;
+  }
+
+  .consulor-rfr-btn {
+    float: right;
+  }
+
+  .con-prepost {
+    height: 20px;
+    margin-right: 3%;
+  }
+
+  .counselor-riskRow {
+    border-top: 1px solid #E9F8F9;
+  }
+
+  .counselor-riskRow div:nth-child(3) {
+    margin-top: 35px;
+    margin-bottom: 30px;
+  }
+
+  /* .counselor-riskRow div:nth-child(4) {
+border-bottom:1px solid #E9F8F9; 
+} */
+  .counselor-risklabel {
+    font-size: 18px;
+    border-bottom: 1px solid #E9F8F9;
+    color: #FFED00;
+
+  }
+
+  #status_hide,
+  #prep_hide,
+  #prep_status_hide {
+    width: 50%;
+  }
+
+  .counHTS-prepost {
+    justify-content: center;
+  }
+
+  .counselling-type div {
+
+    padding: 0px;
+  }
+
+  .counselling-type .col-sm-1 {
+    width: 33.33%;
+    margin: 10px 0%;
+
+  }
+
+  .counselling-type label {
+    text-align: left;
+  }
+
+  .counHTS-show {
+    background-color: #D4F6CC;
+    border-color: #FFFAFA;
+    color: #000;
+  }
+
+  .counHTS-show {
+    padding: 11px;
+  }
+
+  .counHTS-date {
+    width: 33%;
+  }
+
+  .counHTS-date:nth-of-type(2) {
+    margin-left: 5%;
+  }
+
+  .counselShow,
+  .coun-export {
+    width: 25%;
+  }
+
+  .export-counHts {
+    width: 40%
+  }
+
+  .counexport-date {
+    width: 30%;
+  }
+
+}
+
+@media screen and (max-width: 599.9px) {
+  .consulor-responbox {
+    margin-left: 4%;
+  }
+
+  .consulor-mainrisk,
+  .consulor-subrisk {
+    width: 33%;
+  }
+
+  .consulor-subrisk,
+  .consulor-township {
+    padding-right: 0%;
+  }
+
+  .counGeneral div:nth-of-type(1) {
+    width: 100%;
+  }
+
+  .counGeneral div:nth-of-type(2) {
+    width: 50%;
+  }
+
+  .consulor-refresh {
+    width: 50%;
+  }
+
+  .consulor-date {
+    width: 100%;
+  }
+
+  .consulor-div {
+    width: 100%;
+  }
+
+  .consulor-age {
+    width: 50%;
+  }
+
+  .consulor-srt {
+    width: 50%;
+  }
+
+
+  .consulor-prepCounseling {
+    border: 1px solid #fff;
+    background-color: #0F6292;
+    color: #FFED00;
+    border-radius: 5px;
+    margin-top: 35px;
+    padding: 8px 0% 8px 3%
+  }
+
+  .counselling-prePost {
+    border: 1px solid #fff;
+    border-radius: 5px;
+    padding: 8px 0% 8px 0.5%;
+    width: 100%;
+  }
+
+  .consulor-switch {
+    display: none;
+  }
+
+  .consulor-result .row:nth-of-type(1) {
+    width: 100%;
+    margin: 0%;
+  }
+
+  .consulor-result .row:nth-of-type(1) div {
+    padding: 0%
+  }
+
+  .consulor-result .row:nth-of-type(1) span {
+    padding: 0%
+  }
+
+  .consulor-result .row:nth-of-type(2) div {
+    width: 50%;
+  }
+
+  .consulor-result {
+    border: 1px solid #E9F8F9;
+    width: 100%;
+    padding: 0px 1%;
+    padding-bottom: 20px;
+  }
+
+  .consulor-responbox {
+    margin-left: 4%;
+    margin-right: 11.66%;
+    display: none;
+  }
+
+  .consulor-rfr-btn {
+    float: right;
+  }
+
+  .con-prepost {
+    height: 20px;
+    margin-right: 3%;
+  }
+
+  .counselor-riskRow {
+    border-top: 1px solid #E9F8F9;
+  }
+
+  .counselor-riskRow div:nth-child(3) {
+    margin-top: 35px;
+    margin-bottom: 30px;
+  }
+
+  /* .counselor-riskRow div:nth-child(4) {
+border-bottom:1px solid #E9F8F9; 
+} */
+  .counselor-risklabel {
+    font-size: 18px;
+    border-bottom: 1px solid #E9F8F9;
+    color: #FFED00;
+
+  }
+
+  #status_hide,
+  #prep_hide,
+  #prep_status_hide {
+    width: 100%;
+  }
+
+  .counHTS-prepost {
+    justify-content: center;
+  }
+
+  .counHTS-prepost .consulor-srt {
+    width: 100%;
+  }
+
+  .counselling-type div {
+    width: 44%;
+    padding: 0px;
+  }
+
+  .counselling-type .col-sm-1:nth-of-type(n+5):nth-of-type(-n+7) {
+    width: 44%;
+
+  }
+
+  .counselling-type .col-sm-1:nth-of-type(n+14):nth-of-type(-n+15) {
+    width: 44%;
+  }
+
+  .counselling-type .col-sm-1:nth-of-type(18) {
+    width: 44%;
+
+    padding-right: 0px;
+  }
+
+  .counselling-type .col-sm-1:nth-of-type(19) {
+    width: 44%;
+    padding-left: 0.1%;
+  }
+
+  .counselling-type label {
+    text-align: left;
+  }
+
+  .counHTS-show {
+    background-color: #D4F6CC;
+    border-color: #FFFAFA;
+    color: #000;
+  }
+
+  .counHTS-show {
+    padding: 11px;
+  }
+
+  .counHTS-date {
+    width: 100%;
+  }
+
+}

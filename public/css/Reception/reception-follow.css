@@ -1,0 +1,85 @@
+.btn-searchFollowup {
+    height: 50px;
+}
+.follow-table th {
+    color: #fff;
+}
+.reception-code1 .input-group button ,.reception-code2 .input-group button {
+    padding: 0px 17%;
+}
+@media screen and (min-width: 600px) and (max-width: 1160px) {
+    .reception-followSection div {
+        width: 50%;
+    }
+    
+    .follow-table th,.follow-table td {
+        padding: 0px;
+        font-size: 13px;
+    }
+    .receptionFollow-pfn,.receptionFollow-gender,.receptionFollow-visitDate {
+        width: 33.333%;
+    }
+    .receptionFollow-ageYear ,.receptionFollow-ageMonth {
+        width: 50%;
+    }
+    .receptionFollow-consult {
+        width: 40%;
+    }
+    .receptionFollow-newOld {
+        width: 20%;
+    }
+    .receptionFollow-refer {
+        width: 40%;
+    }
+    .receptionFollow-category {
+        width: 60%;
+    }
+    .receptionFollow-supply {
+        width: 40%;
+    }
+    #followupHistory-tablet ul {
+        padding-left: 0%;
+        padding-right: 0%;
+    }
+    #followupHistory-tablet ul li{
+        float: left;
+        text-align: center;
+    }
+    #followupHistory-tablet ul:nth-of-type(1) li{
+        width: 50%;
+        margin-bottom: 10px;
+    } 
+    #followupHistory-tablet ul:nth-of-type(1) {
+        border-bottom: 1px solid #fff;
+    }
+    #followupHistory-tablet ul:nth-of-type(1) li:nth-of-type(n+4){
+        width: 25%;
+    }
+    #followupHistory-tablet ul:nth-of-type(n+2) li{
+        width: 25%;
+    }
+
+    
+}
+@media screen and (max-width: 599.9px) {
+    #followupHistory-mobile, #followupHistory-mobile ul {
+        padding-left: 0%;
+        padding-right: 0%;
+    }
+    
+    #followupHistory-mobile ul li{
+        float: left;
+        margin-right: 2%;
+        width: 38%;
+        text-align: center;
+    }
+    #followupHistory-mobile ul li:nth-child(1) {
+        width: 20%;
+    }
+    
+  
+    #followupHistory-mobile ul li:last-child {
+        margin-right: 0%;
+    }
+
+}

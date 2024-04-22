@@ -1,0 +1,1417 @@
+#toshow {
+    color: red;
+}
+
+
+.sti-tablet {
+    display: none;
+}
+.sti-mobile{
+    display: none;
+}
+
+
+#f44 h2 {
+    text-align: center;
+}
+
+#lastVisit_Date {
+    margin-top: 15px;
+    font-size: 18px;
+   color:#808080;
+   background-color: #f5f5dc;
+   font-weight: 900;
+}
+#idchange_section label{
+    display: inline-block;
+    margin-top: 9px;
+}
+#idchange_section input{
+    width: 5%;
+    float: left;
+    margin-right: 4%;
+}
+
+.sti-colist li a {
+    color: #d4f6cc;
+}
+
+.sti-colist li {
+    margin-right: 2.5%;
+}
+
+.assist-nav-ul li {
+    width: 20%;
+}
+
+.assist-sti {
+    background-color: #003865;
+}
+
+.LabTR-genital td {
+    width: 25%;
+}
+
+.LabTR-genital td label {
+    width: 100%;
+}
+
+.LabTR-genital td select {
+    margin: 0px 45%;
+}
+
+.LabTR-genital {
+    margin: 1px;
+}
+
+.LabTR-genital table tr th {
+    text-align: center;
+}
+
+.sti-risk,
+.sti-exam {
+    margin-bottom: 20px;
+}
+
+/* asssist Register Css &&  assist Physical Exam Css */
+.assist-nav-ul {
+    width: 90%;
+}
+
+.assist-parent-div {
+    background-color: #003865;
+}
+
+.register-first-section.phyExam-section,
+.LabRT-section,
+.assist-history {
+    padding: 0px 1%;
+    border: 1px solid #e9f8f9;
+    padding-bottom: 10px;
+}
+
+.register-second-section {
+    padding: 10px 1%;
+}
+
+.register-second-section h2,
+.LabRT-section h2,
+.assist-history h2 {
+    margin-top: 10px;
+    font-size: 25px;
+    font-weight: 900;
+    color: #f5f5dc;
+}
+
+.sti-diagnosis {
+    width: 20%;
+}
+
+.sti-check {
+    width: 80%;
+    text-align: center;
+}
+
+#f44 h2,
+.sti-male h2,
+.sti-female h2,
+.sti-common h2,
+.LabTR-patient label {
+    font-size: 22px;
+    margin-bottom: 10px;
+
+    padding-bottom: 10px;
+}
+
+.sti-male h2,
+.sti-female h2,
+.sti-common h2,
+.sti-phymale h2 {
+    text-align: center;
+    border-bottom: none;
+    box-shadow: 0px 4px 5px #456a89;
+}
+
+.sti-male .row,
+.sti-female .row,
+.sti-common .row {
+    margin-bottom: 20px;
+}
+
+.sti-cervical-infection {
+    margin-bottom: 15px;
+}
+
+.LabRT-section h3 {
+    margin-top: 10px;
+    font-size: 20px;
+    font-weight: 900;
+    color: #f5f5dc;
+}
+
+.LabTR-patient {
+    /* border: 1px solid #E9F8F9; */
+    /* padding: 5px 1%; */
+    margin-bottom: 10px;
+}
+
+.LabTR-genital table,
+.assist-history table {
+    color: #ffffff;
+    border: 1px solid #e9f8f9;
+    margin-top: 20px;
+}
+
+.LabRDT-treatment-checkbox,
+.LabRDT-treatment-allergy {
+    margin-left: 1%;
+    border: 1px solid #e9f8f9;
+    margin-bottom: 20px;
+    width: 98.2%;
+    padding-bottom: 20px;
+}
+
+/* .LabRDT-treatment-allergy {
+  border: 1px solid #E9F8F9;
+  margin-bottom: 20px;
+} */
+.LabRDT-treatment-checkbox input[type="checkbox"] {
+    height: 15px;
+    width: 18px;
+}
+
+.LabRDT-treatment-checkbox label {
+    display: inline-block;
+    text-align: left;
+}
+
+.LabRDT-treatment-checkbox label {
+    font-size: 20px;
+}
+
+.LabRDT-treatment-checkbox div {
+    margin: 10px 0px;
+    float: left;
+    width: 33.333%;
+
+    max-width: 100%;
+}
+
+.assist-history ul {
+    width: 20%;
+    float: left;
+}
+
+.general-id {
+    margin-top: 35px;
+}
+
+.female-row {
+    margin-bottom: 20px;
+}
+
+.calculate-score {
+    padding: 10px 0px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.calculate-score button {
+    background-color: #dc3545;
+}
+
+.sti-risk-remark {
+    margin-bottom: 20px;
+}
+
+.show-button {
+    display: none;
+    justify-content: center;
+}
+
+.sti-button {
+    justify-content: center;
+}
+
+.hide {
+    display: none;
+}
+
+.sti-female,
+.sti-common,
+.sti-phymale {
+    border: 1px solid #c060a1;
+    padding: 10px 1%;
+    margin: 1px;
+    margin-bottom: 20px;
+}
+
+.sti-common,
+.sti-phymale {
+    border: 1px solid #f0caa3;
+}
+
+.sti-male {
+    border: 1px solid #e9f8f9;
+    margin: 0px 1px 20px 1px;
+    padding: 10px 2%;
+}
+
+.sti-phySection {
+    padding-left: 2%;
+    padding-right: 2%;
+}
+
+.sti-score {
+    width: 100%;
+    height: 100%;
+    padding: 14px 0px;
+    font-size: 20px;
+}
+#stiUpdate td,#menu3 td,#menu4 td{
+    font-size: 16px;
+    color: #003865;
+}
+.sti-update-button{
+    margin-right: 5%;
+}
+/* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+    .sidenav {
+        padding-top: 15px;
+    }
+
+    .sidenav a {
+        font-size: 18px;
+    }
+}
+
+@media screen and (min-width: 600px) and (max-width: 1160px) {
+    .sti-tablet {
+        display: block;
+    }
+    .sti-mobile{
+        display: none;
+    }
+    
+   
+
+    #toshow {
+        color: red;
+    }
+
+    #f44 h2 {
+        text-align: center;
+    }
+
+    #lastVisit_Date {
+        margin-top: 15px;
+        font-size: 16px;
+        
+    }
+
+    .sti-colist li a {
+        color: #d4f6cc;
+    }
+
+    .sti-colist li {
+        margin-right: 2.5%;
+    }
+
+    .sti-Id .col-sm-2 {
+        width: 50%;
+    }
+
+    .sti-Id .col-sm-3 {
+        width: 50%;
+    }
+
+    .assist-nav-ul li {
+        width: 20%;
+    }
+
+    .assist-sti {
+        background-color: #003865;
+    }
+
+    .LabTR-genital td {
+        width: 25%;
+    }
+
+    .LabTR-genital td label {
+        width: 70%;
+        font-size: 15px;
+    }
+
+    .LabTR-genital {
+        margin: 1px;
+    }
+
+    .sti-risk,
+    .sti-exam {
+        margin-bottom: 20px;
+    }
+
+    .sti-risk div:nth-of-type(1) {
+        width: 100%;
+        text-align: left;
+    }
+
+    .sti-risk div:nth-of-type(1) label {
+        width: 35%;
+    }
+
+    .sti-risk div:nth-of-type(1) select {
+        width: 30.33%;
+    }
+
+    .sti-risk div:nth-of-type(n+2) {
+        width: 33.33%;
+    }
+
+    /* asssist Register Css &&  assist Physical Exam Css */
+    .assist-nav-ul {
+        width: 90%;
+    }
+
+    .assist-parent-div {
+        background-color: #003865;
+    }
+
+    .register-first-section.phyExam-section,
+    .LabRT-section,
+    .assist-history {
+        padding: 0px 1%;
+        border: 1px solid #e9f8f9;
+        padding-bottom: 10px;
+    }
+
+    .register-second-section {
+        padding: 10px 1%;
+    }
+
+    .register-second-section h2,
+    .LabRT-section h2,
+    .assist-history h2 {
+        margin-top: 10px;
+        font-size: 25px;
+        font-weight: 900;
+        color: #f5f5dc;
+    }
+
+    .sti-diagnosis {
+        width: 30%;
+    }
+
+    .sti-check {
+        width: 80%;
+        text-align: center;
+    }
+
+    #f44 h2,
+    .sti-male h2,
+    .sti-female h2,
+    .sti-common h2,
+    .LabTR-patient label {
+        font-size: 22px;
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+    }
+    .LabTR-patient label {
+        font-size: 18px;
+    }
+
+    .sti-male h2,
+    .sti-female h2,
+    .sti-common h2,
+    .sti-phymale h2 {
+        text-align: center;
+        border-bottom: none;
+        box-shadow: 0px 4px 5px #456a89;
+    }
+
+    .sti-male .row,
+    .sti-female .row,
+    .sti-common .row {
+        margin-bottom: 20px;
+    }
+
+    .sti-cervical-infection {
+        margin-bottom: 15px;
+    }
+
+    .LabRT-section h3 {
+        margin-top: 10px;
+        font-size: 20px;
+        font-weight: 900;
+        color: #f5f5dc;
+    }
+
+    .LabTR-patient {
+        /* border: 1px solid #E9F8F9; */
+        /* padding: 5px 1%; */
+        margin-bottom: 10px;
+    }
+
+    .LabTR-genital table,
+    .assist-history table {
+        color: #ffffff;
+        border: 1px solid #e9f8f9;
+        margin-top: 20px;
+    }
+
+    .LabRDT-treatment-checkbox,
+    .LabRDT-treatment-allergy {
+        margin-left: 1%;
+        border: 1px solid #e9f8f9;
+        margin-bottom: 20px;
+        width: 98.2%;
+        padding-bottom: 20px;
+    }
+
+    /* .LabRDT-treatment-allergy {
+      border: 1px solid #E9F8F9;
+      margin-bottom: 20px;
+    } */
+    .LabRDT-treatment-checkbox input[type="checkbox"] {
+        height: 15px;
+        width: 18px;
+    }
+
+    .LabRDT-treatment-checkbox div {
+        margin: 10px 0px;
+        float: left;
+       
+    }
+
+    .assist-history ul {
+        width: 20%;
+        float: left;
+    }
+
+    .general-id {
+        margin-top: 35px;
+    }
+
+    .female-row {
+        margin-bottom: 20px;
+    }
+  
+    .disease-std li {
+        width: 33.333%;
+        float: left;
+        text-align: center;
+        padding: 5px 0px;
+        background-color: #dc3545;
+        margin-right: 2%;
+        
+    }
+   
+
+    .disease-std li:nth-of-type(2){
+        width: 44%;
+    }
+    .disease-std li:nth-of-type(3){
+        width: 18%;
+        margin-right: 0px;
+    }
+    .ucler-list,.disharge-list,.otherStd-list {
+       display: none;
+    }
+    .ucler-list ul li,.disharge-list ul li,.otherStd-list ul li {
+        float: left;
+        width: 50%;
+        
+    }
+    .ucler-list ul li label, .disharge-list ul li label,.otherStd-list ul li label {
+        font-size: 18px;
+        display: inline-block;
+        width: 70%;
+    }
+    .disharge-list ul li label{
+        width: 80%;
+    }
+    .otherStd-list ul li label {
+        width: 81%;
+    }
+
+    .ucler-list ul,.disharge-list ul,.otherStd-list ul  {
+        padding-left: 0px;
+    }
+    
+    .disease-std {
+        padding-left: 0px;
+    }
+
+    .calculate-score {
+        padding: 10px 0px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .calculate-score button {
+        background-color: #dc3545;
+    }
+
+    .sti-risk-remark {
+        margin-bottom: 20px;
+    }
+
+    .show-button {
+        display: none;
+        justify-content: center;
+    }
+
+    .sti-button {
+        justify-content: center;
+    }
+    .sti-button div {
+        width: 40%;
+    }
+
+    .hide {
+        display: none;
+    }
+
+    .sti-female,
+    .sti-common,
+    .sti-phymale {
+        border: 1px solid #c060a1;
+        padding: 10px 1%;
+        margin: 1px;
+        margin-bottom: 20px;
+    }
+
+    .sti-common,
+    .sti-phymale {
+        border: 1px solid #f0caa3;
+    }
+
+    .sti-male {
+        border: 1px solid #e9f8f9;
+        margin: 0px 1px 20px 1px;
+        padding: 10px 2%;
+    }
+
+    .sti-registerMale div {
+        width: 32.33%;
+    }
+
+    .sti-registerMale div:nth-child(4) {
+        width: 100%;
+    }
+
+    .sti-registerMale div:nth-child(4) div:last-child {
+        width: 35%;
+    }
+
+    .sti-registerFemale div:nth-child(2) div:nth-of-type(1),
+    .sti-registerFemale div:nth-child(3) div:nth-of-type(1) select {
+        width: 42.33%;
+    }
+
+    .sti-registerFemale div:nth-child(2) div:nth-of-type(2) {
+        width: 33.33%;
+    }
+
+    .sti-registerFemale div:nth-child(3) div:nth-of-type(1) {
+        width: 100%;
+    }
+
+    .sti-registerFemale div:nth-child(3) div:nth-of-type(1) label {
+        text-align: left;
+    }
+
+    .sti-registerFemale div:nth-child(3) div:nth-of-type(n+2) {
+        width: 33.33%;
+    }
+
+    .sti-registerFemale div:nth-child(4) div:nth-of-type(1) {
+        width: 37%;
+    }
+
+    .sti-registerFemale div:nth-child(4) div:nth-of-type(2) {
+        width: 35%;
+    }
+
+    .sti-registerFemale div:nth-child(4) div:nth-of-type(3) {
+        width: 28%;
+    }
+
+    .sti-registerFemale div:nth-child(5) div:nth-of-type(1) {
+        width: 29%;
+    }
+
+    .sti-registerFemale div:nth-child(5) div:nth-of-type(2) {
+        width: 45%;
+    }
+
+    .sti-registerFemale div:nth-child(5) div:nth-of-type(3) {
+        width: 26%;
+    }
+
+    .sti-registerCommon div:nth-child(4) div:nth-of-type(1) {
+        width: 33.333%;
+    }
+
+    .sti-registerCommon div:nth-child(4) div:nth-of-type(2) {
+        width: 25%;
+    }
+
+    .sti-registerCommon div:nth-child(4) div:nth-of-type(3) {
+        width: 26%;
+    }
+
+    .sti-registerCommon div:nth-child(4) div:nth-of-type(4) {
+        width: 25%;
+    }
+
+    .sti-registerCommon div:nth-child(4) div:nth-of-type(6) {
+        width: 41%;
+    }
+
+    .sti-registerCommon div:nth-child(4) div:nth-of-type(7),
+    .sti-registerCommon div:nth-child(4) div:nth-of-type(8) {
+        width: 31.5%;
+    }
+
+    .sti-registerCommon div:nth-child(4) div:nth-of-type(9) {
+        width: 37%;
+    }
+
+    .sti-registerCommon div:nth-child(n+5) div:nth-of-type(odd) {
+        width: 33.33%;
+    }
+
+    .sti-registerCommon div:nth-child(n+5) div:nth-of-type(even) {
+        width: 25%;
+        margin-right: 9%;
+    }
+
+    .sti-registerCommon div:nth-child(5) div:last-of-type {
+        width: 37%;
+    }
+
+
+
+
+    .sti-phySection {
+        padding-left: 2%;
+        padding-right: 2%;
+    }
+
+    .sti-phyFemale .row:nth-child(11) div:nth-of-type(1) {
+        width: 37%;
+        margin-right: 26%;
+    }
+
+    .sti-phyFemale .row:nth-child(11) div:nth-of-type(2),
+    .sti-phyFemale .row:nth-child(11) div:nth-of-type(3),
+    .sti-phyFemale .row:nth-child(12) div:nth-of-type(1) {
+        width: 37%;
+    }
+    .sti-phyFemale .row:nth-child(12) div:nth-of-type(2) {
+        width: 63%;
+    }
+
+    .sti-phyFemale div:nth-child(11) {
+        justify-content: center;
+    }
+
+    .sti-phyFemale .row:nth-child(12) div:nth-of-type(1) .sti-score {
+        width: 100%;
+        height: 100%;
+        padding: 14px 0px;
+        font-size: 20px;
+    }
+    .sti-phyFemale div:nth-child(13) {
+        width: 37%;
+    }
+    .sti-phyFemale div:nth-child(14) {
+        width: 37%;
+    }
+
+    .sti-firstSecond div {
+        width: 50%;
+    }
+
+    .wash-v3ah {
+        width: 50%;
+    }
+
+    .stiPhysical-urinated {
+        width: 100%;
+    }
+
+    .stiPhysical-urinated label {
+        text-align: left;
+    }
+
+    .stiPhysical-urinated select {
+        width: 25%;
+    }
+
+    #stiPhy-maleID div:nth-child(3) {
+        width: 32%;
+    }
+    #stiPhy-maleID div:nth-child(6) {
+        width: 32%;
+
+    }
+    #stiPhy-maleID {
+        justify-content: center;
+    }
+    
+
+    #stiPhy-maleID div:nth-child(4) {
+        width: 42%;
+    }
+
+    #stiPhy-maleID div:nth-child(5) {
+        width: 26%;
+    }
+
+    #stiPhy-maleID div:nth-child(n+7):nth-child(-n+10) {
+        width: 33%;
+    }
+
+    #stiPhy-maleID div:nth-child(n+11):nth-child(-n+13) {
+        width: 33.33%;
+    }
+
+    #stiPhy-maleID div:last-child {
+        width: 68%;
+    }
+    .sti-phyCommon .row:nth-child(2) div {
+        width: 50%;
+    }
+    .sti-phyCommon .row:last-child div {
+        width: 33.333333%;
+    }
+
+    .stiPhy-anysexSecond div{
+        width: 50%;
+    }
+    /* .stiPhy-anysexSecond div:last-child {
+        width: 40%;
+
+    } */
+
+    .stiPhy-abomal div:nth-child(1n) {
+        width: 100%;
+    }
+    .calculate-score button {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+    .sti-labMale div{
+        width: 100%;
+        
+    }
+    .sti-labMale div label {
+        font-size: 16px;
+    }
+    .LabRDT-treatment-checkbox label {
+        font-size: 18px;}
+        .LabRDT-treatment-checkbox div:nth-child(n+9) {
+            width: 50%;
+        }
+        .LabRDT-treatment-allergy div:first-child div {
+            width: 50%;
+        }
+        #menu5 div:nth-child(2) div:nth-of-type(1) {
+            width: 35%;
+        }
+
+}
+
+@media screen and (max-width: 599.9px) {
+    .sti-tablet {
+        display: none;
+    }
+
+    #toshow {
+        color: red;
+    }
+
+    #f44 h2 {
+        text-align: center;
+    }
+
+    #lastVisit_Date {
+        margin-top: 15px;
+        font-size: 10px;
+        color: rgb(244, 105, 169);
+    }
+
+    .sti-colist li a {
+        color: #d4f6cc;
+    }
+
+    .sti-colist li {
+        margin-right: 2.5%;
+    }
+
+    .sti-Id .col-sm-2 {
+        width: 33.33%;
+    }
+
+    .sti-Id .col-sm-3 {
+        width: 100%;
+    }
+
+    .assist-nav-ul li {
+        width: 20%;
+    }
+
+    .assist-sti {
+        background-color: #003865;
+    }
+
+    .LabTR-genital td {
+        width: 25%;
+    }
+
+    .LabTR-genital td label {
+        width: 70%;
+        font-size: 15px;
+    }
+
+    .LabTR-genital {
+        margin: 1px;
+    }
+
+    .sti-risk,
+    .sti-exam {
+        margin-bottom: 20px;
+    }
+
+    .sti-risk {
+        padding-right: 0px;
+    }
+
+    .sti-risk div:nth-of-type(1n) {
+        width: 50%;
+        text-align: center;
+    }
+
+    .sti-risk div:nth-of-type(2) select {
+        background-image: none;
+        padding: 0px;
+    }
+
+    .sti-risk div:nth-of-type(n + 3) {
+        width: 100%;
+    }
+
+    /* asssist Register Css &&  assist Physical Exam Css */
+    .assist-nav-ul {
+        width: 90%;
+    }
+
+    .assist-parent-div {
+        background-color: #003865;
+    }
+
+    .register-first-section.phyExam-section,
+    .LabRT-section,
+    .assist-history {
+        padding: 0px 1%;
+        border: 1px solid #e9f8f9;
+        padding-bottom: 10px;
+    }
+
+    .register-second-section {
+        padding: 10px 1%;
+    }
+
+    .register-second-section h2,
+    .LabRT-section h2,
+    .assist-history h2 {
+        margin-top: 10px;
+        font-size: 16px;
+        font-weight: 900;
+        color: #f5f5dc;
+    }
+
+    .sti-diagnosis {
+        width: 50%;
+    }
+
+    .sti-check {
+        width: 80%;
+        text-align: center;
+    }
+
+    #f44 h2,
+    .sti-male h2,
+    .sti-female h2,
+    .sti-common h2,
+    .LabTR-patient label {
+        font-size: 14px;
+        margin-bottom: 10px;
+
+        padding-bottom: 10px;
+    }
+    .LabTR-patient label {
+        font-size: 12px;
+        margin-bottom: 0px;
+
+        padding-bottom: 0px;
+    }
+   
+
+    .sti-male h2,
+    .sti-female h2,
+    .sti-common h2,
+    .sti-phymale h2 {
+        text-align: center;
+        border-bottom: none;
+        box-shadow: 0px 4px 5px #456a89;
+    }
+
+    .sti-male .row,
+    .sti-female .row,
+    .sti-common .row {
+        margin-bottom: 20px;
+    }
+
+    .sti-cervical-infection {
+        margin-bottom: 15px;
+    }
+
+    .LabRT-section h3 {
+        margin-top: 10px;
+        font-size: 20px;
+        font-weight: 900;
+        color: #f5f5dc;
+    }
+
+    .LabTR-patient {
+        margin-bottom: 10px;
+    }
+
+    .LabTR-genital table,
+    .assist-history table {
+        color: #ffffff;
+        border: 1px solid #e9f8f9;
+        margin-top: 20px;
+    }
+    .assist-history table{
+        font-size: 12px;
+    }
+
+    .LabRDT-treatment-checkbox,
+    .LabRDT-treatment-allergy {
+        margin-left: 1%;
+        border: none;
+        margin-bottom: 20px;
+        width: 98.2%;
+        padding-bottom: 20px;
+    }
+
+    .LabRDT-treatment-checkbox input[type="checkbox"] {
+        height: 15px;
+        width: 18px;
+    }
+
+    .LabRDT-treatment-checkbox div {
+        width: 50%;
+        margin: 10px 0px;
+        float: left;
+        padding: 0px;
+    }
+
+    .assist-history ul {
+        width: 20%;
+        float: left;
+    }
+
+    .general-id {
+        margin-top: 20px;
+    }
+
+    .female-row {
+        margin-bottom: 20px;
+    }
+    .disease-std li {
+        width: 100%;
+        float: none;
+        text-align: center;
+        padding: 5px 0px;
+        background-color: #dc3545;
+        margin-right: 2%;
+        margin-top: 10px;
+        
+    }
+   
+
+   
+   
+    .ucler-list,.disharge-list,.otherStd-list {
+       display: none;
+    }
+    .ucler-list ul li,.disharge-list ul li,.otherStd-list ul li {
+        float: left;
+        width: 100%;
+        margin-bottom: 10px;
+        
+    }
+    .ucler-list ul li label, .disharge-list ul li label,.otherStd-list ul li label {
+        font-size: 14px;
+        display: inline-block;
+        width: 80%;
+    }
+    .disharge-list ul li label{
+        width: 80%;
+    }
+    .otherStd-list ul li label {
+        width: 81%;
+    }
+
+    .ucler-list ul,.disharge-list ul,.otherStd-list ul  {
+        padding-left: 0px;
+    }
+    
+    .disease-std {
+        padding-left: 0px;
+    }
+
+
+    .calculate-score {
+        padding:  0px;
+        text-align: none;
+        margin-bottom: 20px;
+        width: 50%;
+    }
+    .sti-score {
+        width: 50%;
+        height: 100%;
+        padding: 14px 0px;
+        font-size: 14px;}
+
+    .calculate-score button {
+        background-color: #dc3545;
+    }
+    .calculate-score:first-child {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .sti-risk-remark {
+        margin-bottom: 20px;
+    }
+
+    .show-button {
+        display: none;
+        justify-content: center;
+    }
+
+    .sti-button {
+        justify-content: center;
+    }
+
+    .hide {
+        display: none;
+    }
+
+    .sti-female,
+    .sti-common,
+    .sti-phymale {
+        border: 1px solid #c060a1;
+        padding: 10px 1%;
+        margin: 1px;
+        margin-bottom: 20px;
+    }
+
+    .sti-common,
+    .sti-phymale {
+        border: 1px solid #f0caa3;
+    }
+
+    .sti-male {
+        border: 1px solid #e9f8f9;
+        margin: 0px 1px 20px 1px;
+        padding: 10px 0%;
+    }
+
+    .sti-registerMale div:nth-of-type(odd) {
+        width: 52%;
+    }
+
+    .sti-registerMale div:nth-of-type(even) {
+        width: 48%;
+    }
+
+    .sti-registerMale div:nth-child(4) {
+        width: 100%;
+        padding-right: 0px;
+    }
+
+    .sti-registerMale div:nth-child(4) div:last-child {
+        width: 100%;
+    }
+
+    .sti-registerFemale div:nth-child(2) div:nth-of-type(1) {
+        width: 67.33%;
+    }
+
+    .sti-registerFemale div:nth-child(3) div:nth-of-type(1) select {
+        width: 100%;
+    }
+
+    .sti-registerFemale div:nth-child(2) div:nth-of-type(2) {
+        width: 32.33%;
+    }
+
+    .sti-registerFemale div:nth-child(3) div:nth-of-type(1) {
+        width: 66%;
+    }
+
+    .sti-registerFemale div:nth-child(3) div:nth-of-type(1) label {
+        text-align: center;
+    }
+
+    .sti-registerFemale div:nth-child(3) div:nth-of-type(2) {
+        width: 33.33%;
+    }
+
+    .sti-registerFemale div:nth-child(3) div:nth-of-type(2) select {
+        padding: 0px;
+        background-image: none;
+    }
+
+    .sti-registerFemale div:nth-child(3) div:nth-of-type(n + 3) {
+        width: 50%;
+    }
+
+    .sti-registerFemale div:nth-child(4) div:nth-of-type(1) {
+        width: 100%;
+    }
+
+    .sti-registerFemale div:nth-child(4) div:nth-of-type(2) {
+        width: 54%;
+    }
+
+    .sti-registerFemale div:nth-child(4) div:nth-of-type(3) {
+        width: 46%;
+    }
+
+    .sti-registerFemale div:nth-child(5) div:nth-of-type(1) {
+        width: 29%;
+    }
+
+    .sti-registerFemale div:nth-child(5) div:nth-of-type(1) select {
+        padding: 0px;
+        background-image: none;
+    }
+
+    .sti-registerFemale div:nth-child(5) div:nth-of-type(2) {
+        width: 71%;
+    }
+
+    .sti-registerFemale div:nth-child(5) div:nth-of-type(3) {
+        width: 100%;
+    }
+
+    .sti-registerCommon div:nth-child(2) div {
+        width: 100%;
+    }
+
+    .sti-registerCommon div:nth-child(4) div {
+        width: 50%;
+    }
+
+    .sti-registerCommon div:nth-child(4) div:nth-of-type(5) {
+        width: 100%;
+    }
+
+    .sti-registerCommon div:nth-child(4) div:nth-of-type(6) {
+        width: 100%;
+    }
+
+    .sti-registerCommon div:nth-child(4) div:nth-of-type(7),
+    .sti-registerCommon div:nth-child(4) div:nth-of-type(8) {
+        width: 50%;
+    }
+
+    .sti-registerCommon div:nth-child(4) div:nth-of-type(9) {
+        width: 100%;
+    }
+
+    .sti-registerCommon div:nth-child(n + 5) div:nth-of-type(1) {
+        width: 55%;
+    }
+
+    .sti-registerCommon div:nth-child(n + 5) div:nth-of-type(2) {
+        width: 45%;
+    }
+
+    .sti-registerCommon div:nth-child(5) div:nth-of-type(n + 3) {
+        width: 100%;
+    }
+
+    .sti-phySection {
+        padding-left: 2%;
+        padding-right: 2%;
+    }
+
+    .sti-phyFemale .row:nth-child(11) div:nth-of-type(1) {
+        width: 100%;
+        margin-right: 0%;
+    }
+
+   
+    .sti-phyFemale .row:nth-child(12) div:nth-of-type(1) {
+        width: 50%;
+    }
+    .sti-phyFemale .row:nth-child(11) div:nth-of-type(2),
+    .sti-phyFemale .row:nth-child(11) div:nth-of-type(3){
+        width: 100%;
+    }
+
+    .sti-phyFemale .row:nth-child(12) div:nth-of-type(2) {
+        width: 100%;
+    }
+
+    .sti-phyFemale div:nth-child(11) {
+       padding: 0px;
+       margin-left: 1px;
+       justify-content: none;
+    }
+
+    .sti-phyFemale .row:nth-child(12) div:nth-of-type(1) .sti-score {
+        width: 100%;
+        height: 100%;
+        padding: 14px 0px;
+        font-size: 20px;
+    }
+
+    .sti-phyFemale div:nth-child(13) {
+        width: 50%;
+    }
+
+    .sti-phyFemale div:nth-child(14) {
+        width: 50%;
+    }
+
+    .sti-firstSecond div {
+        width: 50%;
+    }
+
+    .sti-firstSecond div:nth-of-type(n + 3) {
+        width: 100%;
+    }
+
+    .wash-v3ah {
+        width: 100%;
+    }
+
+    .stiPhysical-urinated {
+        width: 100%;
+    }
+
+    .stiPhysical-urinated label {
+        text-align: center;
+    }
+
+    .stiPhysical-urinated select {
+        width: 100%;
+    }
+
+    #stiPhy-maleID div:nth-child(3) {
+        width: 47%;
+    }
+
+    #stiPhy-maleID div:nth-child(6) {
+        width: 50%;
+    }
+
+    #stiPhy-maleID {
+        justify-content: center;
+    }
+    .sti-phymale select {
+        padding: 0px;
+        background-image: none;
+    }
+
+    #stiPhy-maleID div:nth-child(4) {
+        width: 53%;
+    }
+
+    #stiPhy-maleID div:nth-child(5) {
+        width: 50%;
+    }
+
+    #stiPhy-maleID div:nth-child(n + 7):nth-child(-n + 10) {
+        width: 50%;
+    }
+
+    #stiPhy-maleID div:nth-child(n + 11):nth-child(-n + 13) {
+        width: 50%;
+    }
+
+    #stiPhy-maleID div:last-child {
+        width: 100%;
+    }
+   
+
+    .sti-phyCommon .row:nth-child(2) div {
+        width: 50%;
+    }
+
+    .sti-phyCommon .row:last-child div {
+        width: 50%;
+    }
+
+    .stiPhy-anysexSecond div {
+        width: 50%;
+    }
+    #g28,#g29 {
+        width: 100%;
+    }
+
+    /* .stiPhy-anysexSecond div:last-child {
+        width: 40%;
+
+    } */
+
+    .stiPhy-abomal div:nth-child(1n) {
+        width: 100%;
+    }
+
+    .calculate-score button {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .sti-labMale div {
+        width: 100%;
+        margin-left: 0%;
+        margin-bottom: 10px;
+    }
+
+    .sti-labMale div label {
+        font-size: 12px;
+    }
+
+    .LabRDT-treatment-checkbox label {
+        font-size: 14px;
+    }
+
+    .LabRDT-treatment-checkbox div:nth-child(9) {
+        width: 100%;
+    }
+
+    .LabRDT-treatment-allergy div:first-child div {
+        width: 50%;
+    }
+
+    #menu5 div:nth-child(2) div:nth-of-type(1) {
+        width: 100%;
+    }
+    #menu5 div:nth-child(2) div:nth-of-type(2) {
+        width:50%;
+       margin: 0px 25%;
+    }
+}

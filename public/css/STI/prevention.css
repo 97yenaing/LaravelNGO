@@ -1,0 +1,78 @@
+.prev-combine{
+    height: 50px;
+    background-color: #d452fd4f;
+    color: #fff0f5;
+    margin-top: 35px;
+}
+#log_sheet{
+    padding-bottom: 30px;
+}
+.prev-visitDate{
+    width: 20%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+.log-first{
+    border-bottom: 1px solid #0dcaf0;
+    padding:20px 0%;
+    margin-bottom: 10px;  
+}
+.log-second{
+    margin-bottom: 20px;
+}
+.he-checkbox{
+    padding: 0% 4%;
+}
+.He-span {
+    font-size: 14px;
+    color: #e90b16c6;
+}
+#meeting_point {
+    background-color: #a5386fa3;
+    color: #ffff;
+}
+.he-sesion,.cbs-serviceTK{
+    background-color: #25651a;
+}
+.log-sheetSection{
+    border: 1px solid #0dcaf0;
+    margin-bottom: 20px;
+    padding:0% 1%;
+}
+.log-button{
+    justify-content: center;
+}
+.log-save{
+    color: #371107;
+    background-color: aquamarine;
+    border-color: #0dcaf0;
+}
+
+/* CBs Css */
+.cbs-Section{
+    border: 1px solid #5ab416f4;
+    padding:0% 1%;
+    padding-top: 10px;
+}
+.cbs-serviceTK,.cbsCheck-span{
+    margin-top: 43px;
+}
+.log_sheet_history table,.cbs_history table{
+    color: #fff0f5;
+    font-size: 20px;
+}
+.log-sheet-edit{
+    margin-right:4% ;
+}
+.confidential-head{
+    position: relative;
+}
+.confidental-head-label{
+    position: absolute;
+    left: 3%;
+    top: 24px;
+    font-size: 18px;
+    color: #5bd828;
+    
+}
+

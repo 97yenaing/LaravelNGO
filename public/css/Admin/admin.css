@@ -1,0 +1,46 @@
+.admin-list {
+    width: 89%;
+}
+.admin-list li {
+    width: 30%;
+}
+.search-row {
+    margin-bottom: 30px;
+}
+.admin-section,.card {
+    background-color: #2C254A;
+    color: #fff;
+    border: none;
+}
+.card-body {
+    box-shadow: 0px 0px 6px 2px #7d838c;
+    margin-top: 20px;
+    border-radius: 9px;
+}
+.card-header {
+    border: none;
+}
+.admin-section input,.admin-section select {
+    border-radius: 9px;
+}
+.admin-register{
+    font-size: 28px;
+}
+.admin-userList,#showUser table {
+    color: #fff;
+    margin: 30px 0px;
+    
+}
+.annoounce-row {
+    margin-bottom: 30px;
+}
+.admin-userList tr:last-child {
+margin-bottom: 30px;
+}
+textarea.admin-announce {
+ 
+    height: 200px;
+}
+.admin-annouceBatton {
+    margin-top: 20%;
+}

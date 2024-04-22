@@ -1,0 +1,162 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateStifemalesTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('stifemales', function (Blueprint $table) {
+          $table->id();
+          $table->tinyText('gender',6);
+          $table->tinyInteger('clinic')->nullable();
+          $table->bigInteger('CID')->nullable();
+          $table->tinyInteger('first_visit')->nullable();
+          $table->tinyInteger('last_vis_within')->nullable();
+          $table->tinyInteger('vtype')->nullable();
+          $table->tinyInteger('age')->nullable();
+          $table->tinyInteger('about_clinic')->nullable();
+          $table->tinyText('demo_remarks',10)->nullable();
+          $table->date('Visit date')->nullable();
+          $table->tinyInteger('Expr1')->nullable();
+          $table->tinyInteger('episode')->nullable();
+          $table->tinyInteger('rea_for_visit')->nullable();
+          $table->tinyText('risk_factor',30)->nullable();
+          $table->tinyInteger('abn_vaginal_disc')->nullable();
+          $table->tinyText('abn_vaginal_disc_long',100)->nullable();
+          $table->tinyInteger('linked_menstru')->nullable();
+          $table->tinyInteger('amount')->nullable();
+          $table->tinyInteger('colour')->nullable();
+          $table->tinyText('colour_oth')->nullable();
+          $table->tinyInteger('abn_veginal_odour')->nullable();
+          $table->tinyInteger('l_abn_pain')->nullable();
+          $table->tinyInteger('l_abon_pain_hl')->nullable();
+          $table->tinyInteger('fever')->nullable();
+          $table->tinyInteger('rec_terminate_preg')->nullable();
+          $table->tinyInteger('dyspareunia')->nullable();
+          $table->tinyText('oth_GI_sympt',10)->nullable();
+          $table->tinyInteger('dysuria')->nullable();
+          $table->tinyText('dysuria_hl',10)->nullable();
+          $table->tinyInteger('gen_prutitus')->nullable();
+          $table->tinyInteger('gen_prutitus_hl')->nullable();
+          $table->tinyInteger('gen_burn_pain')->nullable();
+          $table->tinyInteger('gen_burn_pain_hl')->nullable();
+          $table->tinyInteger('gen_ulcer')->nullable();
+          $table->tinyInteger('gen_ulcer_hl')->nullable();
+          $table->tinyInteger('pain')->nullable();
+          $table->tinyInteger('ulcer')->nullable();
+          $table->tinyInteger('prodromal_itch')->nullable();
+          $table->tinyInteger('vesicles')->nullable();
+          $table->tinyInteger('recurrent')->nullable();
+          $table->tinyText('recurrent_last_episode',10)->nullable();
+          $table->tinyInteger('patient_suspects_herpes')->nullable();
+          $table->tinyInteger('inguinal_ln')->nullable();
+          $table->tinyInteger('inguinal_ln_hl')->nullable();
+          $table->tinyInteger('unilateal_Bilateral')->nullable();
+          $table->tinyInteger('leg_ulcer_oth_inf')->nullable();
+          $table->tinyInteger('genital_warts')->nullable();
+          $table->tinyInteger('genital_warts_hl')->nullable();
+          $table->tinyInteger('phy_exam_done')->nullable();
+          $table->tinyInteger('washed_inside')->nullable();
+          $table->tinyInteger('vulvar_erythema')->nullable();
+          $table->tinyInteger('vulvar_odema')->nullable();
+          $table->tinyInteger('vaginal_discharge')->nullable();
+          $table->tinyInteger('vag_dis_amount')->nullable();
+          $table->tinyInteger('homogeneous')->nullable();
+          $table->tinyText('homogeneous_col',10)->nullable();
+          $table->tinyInteger('smell_without_KOH')->nullable();
+          $table->tinyInteger('vaginal_wall_injury')->nullable();
+          $table->tinyInteger('adnexal_tenderness')->nullable();
+          $table->tinyInteger('adnexal_enlargement')->nullable();
+          $table->tinyInteger('genital_blisters')->nullable();
+          $table->tinyInteger('genital_blisters_Location')->nullable();
+          $table->tinyInteger('gential_ulcer')->nullable();
+          $table->tinyText('gential_ulcerl',20)->nullable();
+          $table->tinyInteger('gent_ulcer_sm')->nullable();
+          $table->tinyInteger('gential_ulcer_pain')->nullable();
+          $table->tinyInteger('susp_herpes')->nullable();
+          $table->tinyInteger('inguinal_bubo')->nullable();
+          $table->tinyInteger('fluctuant')->nullable();
+          $table->tinyInteger('fluctuant_tender')->nullable();
+          $table->tinyInteger('oth_leg_infection')->nullable();
+          $table->tinyInteger('genital_wart')->nullable();
+          $table->tinyInteger('crab_lice')->nullable();
+          $table->tinyInteger('scablices')->nullable();
+          $table->tinyInteger('KOH_smell_test')->nullable();
+          $table->tinyText('pH_vagina',50)->nullable();
+          $table->tinyText('des_size',50)->nullable();
+          $table->tinyInteger('prev_STI')->nullable();
+          $table->tinyInteger('patient_genital_ulcer')->nullable();
+          $table->tinyInteger('patient_compl_low_abd')->nullable();
+          $table->tinyInteger('new_pat_past_3mont')->nullable();
+          $table->tinyInteger('part_compl_gential_sym')->nullable();
+          $table->tinyInteger('sworker')->nullable();
+          $table->tinyInteger('rg_score')->nullable();
+          $table->tinyInteger('risk')->nullable();
+          $table->tinyText('risk_cal_remark',255)->nullable();
+          $table->tinyInteger('abn_yellow_disc')->nullable();
+          $table->tinyInteger('dysuria_risk_ass')->nullable();
+          $table->tinyInteger('low_abd_pain')->nullable();
+          $table->tinyInteger('pain_dur_sexual')->nullable();
+          $table->tinyInteger('unp_sex_new_clients')->nullable();
+          $table->tinyInteger('partner_ulcer')->nullable();
+          $table->tinyText('presumptive_diag',255)->nullable();
+          $table->tinyInteger('pri_syphillis')->nullable();
+          $table->tinyInteger('sec_syphillis')->nullable();
+          $table->tinyInteger('chancroid')->nullable();
+          $table->tinyInteger('gen_herpes')->nullable();
+          $table->tinyInteger('gen_scabies')->nullable();
+          $table->tinyInteger('gud_other')->nullable();
+          $table->tinyInteger('other_plz_specify')->nullable();
+          $table->tinyInteger('Gonorhoea')->nullable();
+          $table->tinyInteger('non_gono_urethritis')->nullable();
+          $table->tinyInteger('non_gono_cervities')->nullable();
+          $table->tinyInteger('trichomonas')->nullable();
+          $table->tinyInteger('genital_candidiosis')->nullable();
+          $table->tinyInteger('beterial_vaginosis')->nullable();
+          $table->tinyInteger('congenial_syphillis')->nullable();
+          $table->tinyInteger('latent_syphillis')->nullable();
+          $table->tinyInteger('latent_syphillis_preg')->nullable();
+          $table->tinyInteger('molluscum_contag')->nullable();
+          $table->tinyInteger('bubos')->nullable();
+          $table->tinyInteger('othstd_genital_warts')->nullable();
+          $table->tinyInteger('ostd_other')->nullable();
+          $table->tinyInteger('tre_azythro')->nullable();
+          $table->tinyInteger('tre_cefixim')->nullable();
+          $table->tinyInteger('tre_ciprofloxacin')->nullable();
+          $table->tinyInteger('tre_tinidazole')->nullable();
+          $table->tinyInteger('tre_fluconazole')->nullable();
+          $table->tinyInteger('tre_doxycycline')->nullable();
+          $table->tinyInteger('tre_ceftriaxone')->nullable();
+          $table->tinyInteger('tre_benz_pen')->nullable();
+          $table->tinyInteger('tre_Other')->nullable();
+          $table->tinyInteger('clotrimazole_vaginal_tab')->nullable();
+          $table->tinyInteger('no_treatment')->nullable();
+          $table->tinyInteger('al_Penicillin')->nullable();
+          $table->tinyInteger('al_sulfa')->nullable();
+          $table->tinyInteger('part_treat')->nullable();
+          $table->tinyInteger('condom_giv')->nullable();
+          $table->tinyText('tre_remarks',10)->nullable();
+          $table->tinyText('followup',10)->nullable();
+          $table->tinyText('clinician',20)->nullable();
+          $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('stifemales');
+    }
+}

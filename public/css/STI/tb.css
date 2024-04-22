@@ -1,0 +1,35 @@
+.tb-register03{
+    padding:20px 1%;   
+    
+}
+.tb-parent-div{
+    background-color: #003865;
+}
+.tb-generalCode{
+    margin-top: 36px;
+}
+.tb_essential{
+    border-bottom: 1px solid #179f5a;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+.tb_hivActivites {
+    margin-top: 20px;
+   
+}
+.tb-m2,.tb-m3,.tb-m5,.tb-endDiag {
+    border: 1px solid #d5e00f;
+    margin-bottom: 20px;
+}
+.tb_sartDiag{
+    margin-bottom: 20px;
+}
+#tb_outcome,#tb_outDate,#tb_EoutDate{
+    background-color: #b08e1d;
+}
+#tb_IRSD{
+    background-color: #33e7e1;
+}
+.export-div{
+    justify-content: center;
+}

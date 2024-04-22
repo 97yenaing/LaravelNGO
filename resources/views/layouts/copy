@@ -1,0 +1,56 @@
+<ul class="nav nav-tabs">
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Registration</a>
+    <ul class="dropdown-menu">
+      <li><a class="dropdown-item" href="{{url('Reception/HTY_A_Reception')}}">Clinic Reception</a></li>
+      <li><a class="dropdown-item" href="{{url('Reception/HTY_A_Reception')}}">Clinic HE/Peer</a></li>
+      <li><a class="dropdown-item" href="{{url('Reception/patients')}}">Patients </a></li>
+    </ul>
+  </li><li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Programs</a>
+    <ul class="dropdown-menu">
+      <li><a class="dropdown-item" href="#">HIV/AIDS</a></li>
+      <li><a class="dropdown-item" href="{{url('STI/stiform')}}">STI Forms</a></li>
+      <li><a class="dropdown-item" href="{{url('NCD/Ncd')}}">NCD Forms</a></li>
+    </ul>
+  </li>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Labs</a>
+    <ul class="dropdown-menu">
+      <li><a class="dropdown-item" href="{{url('Labs/labs')}}">Labs</a></li>
+      <li><a class="dropdown-item" href="{{url('Labs/HivLabRecord')}}">Hiv Lab Records</a></li>
+      <li><a class="dropdown-item" href="{{url('Labs/UrineRecords')}}">Urine Lab Records</a></li>
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">Dispencing</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">Reports</a>
+  </li>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">ImportsFiles</a>
+    <ul class="dropdown-menu">
+      <li><a class="dropdown-item" href="{{url('import/NcdRegImport')}}">NCD Register</a></li>
+      <li><a class="dropdown-item" href="{{url('import/NcdArImport')}}">NCD AR</a></li>
+      <li><a class="dropdown-item" href="{{url('import/NcdFollowup')}}">NCD Follow Up</a></li>
+    </ul>
+  </li>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Export</a>
+    <ul class="dropdown-menu">
+      <li><a class="dropdown-item" href="{{url('import/NcdRegImport')}}">NCD Register</a></li>
+      <li><a class="dropdown-item" href="{{url('import/NcdArImport')}}">NCD AR</a></li>
+      <li><a class="dropdown-item" href="{{url('import/NcdFollowup')}}">NCD Follow Up</a></li>
+    </ul>
+  </li>
+
+</ul>
+
+
+
+@if (Route::has('register'))
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+    </li>
+@endif

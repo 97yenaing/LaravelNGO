@@ -1,0 +1,132 @@
+body {
+    background-color: #FFFFF4;
+    color: white;
+}
+.navbar {
+
+    margin-bottom: 50px;
+    padding-bottom: 50px;
+}
+/* .nav-link {
+    display: none;
+} */
+.update-batton {
+    color: #FFFAFA;
+    background-color: #419f07;;
+    border-color: #419f07;
+    box-shadow: 0px 1px 2px #419f07;
+
+}
+.containers {
+    max-width: 100%!important;
+}
+.refresh-follow {
+    background-color: #D4F6CC;
+    border-color: #FFFAFA;
+    color: #000;
+
+}
+.header-text {
+    text-align: center;
+    box-shadow: 0px 4px 5px #456a89;
+    border-bottom: 1px solid #3f3f7a;
+    padding: 20px;
+    font-weight: 800;
+}
+.form-control {
+    height: 50px;
+    font-size: 17px;
+}
+label,.btn {
+    font-size: 17px;
+}
+
+/*
+
+ */
+ input[type="date"]::-webkit-datetime-edit, input[type="date"]::-webkit-inner-spin-button, input[type="date"]::-webkit-clear-button {
+   color: #fff;
+   position: relative;
+ }
+
+ input[type="date"]::-webkit-datetime-edit-year-field{
+   position: absolute !important;
+   /* border-left:1px solid #8c8c8c; */
+   padding: 2px;
+
+   color:#000;
+   left: 56px;
+ }
+
+ input[type="date"]::-webkit-datetime-edit-month-field{
+   position: absolute !important;
+   /* border-left:1px solid #8c8c8c; */
+   padding: 2px;
+   color:#000;
+   left: 26px;
+
+ }
+
+
+ input[type="date"]::-webkit-datetime-edit-day-field{
+   position: absolute !important;
+   color:#000;
+   padding: 2px;
+   left: 4px;
+
+ }
+
+/*
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+@media screen and (min-width: 768px) and (max-width: 1099px) {
+    .navbar {
+
+        margin-bottom: 6.667vw;
+        padding-bottom: 6.667vw;
+    }
+    /* .nav-link {
+        display: none;
+    } */
+    .update-batton {
+        color: #FFFAFA;
+        background-color: #419f07;;
+        border-color: #419f07;
+        box-shadow: 0vw 0.133vw 0.267vw #419f07;
+
+    }
+    .containers {
+        max-width: 100%!important;
+    }
+    .refresh-follow {
+        background-color: #D4F6CC;
+        border-color: #FFFAFA;
+        color: #000;
+
+    }
+    .header-text {
+        text-align: center;
+        box-shadow: 0vw 0.533vw 0.667vw #456a89;
+        border-bottom: 0.133vw solid #3f3f7a;
+        padding: 2.667vw;
+        font-weight: 800;
+    }
+    .form-control {
+        height: 6.667vw;
+        font-size: 2.267vw;
+    }
+    label,.btn {
+        font-size: 2.267vw;
+    }
+}

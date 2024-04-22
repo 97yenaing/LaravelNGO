@@ -1,0 +1,73 @@
+.Tb-IPTSection,.iptGeneral-info,.ipt_data,.ipt_btn{
+    padding: 10px 1%;
+}
+.Tb-IPTSection,.ipt-followList .row{
+    justify-content: center;
+}
+
+.tbIPt-generalCode{
+    margin-top: 36px;
+}
+.ipt_btn .row,.ipt_btn .row .col-sm-3{
+    justify-content: center;
+    text-align: center;
+}
+.ipt-header{
+    position: relative;
+}
+.ipt-historyBtn{
+    position: absolute;
+    top: 14px;
+    left: 2%;
+    width: 11%;
+    display: none;
+}
+.history-alert{
+    position: absolute;
+    top: 16px;
+    left:15%;
+    display: none;
+    color: #ded742;
+}
+.ipt-historyshow{
+    display: none;
+}
+.ipt-followList .row:nth-of-type(1) div{
+    font-size: 20px;
+    text-align: center;
+    border: 1px solid #fff;
+    
+}
+.ipt-hisrow div{
+    border: 1px solid #fff;
+    font-size: 17px;
+    padding-top:5px;
+}
+.ipt-hisBtn{
+    margin-right: 3%;
+    background-color: #3ed68c;
+}
+.iptHis-cancel{
+    width: 10%;
+    background-color: #df2b2b;
+}
+.ipt_IDchangeBlock{
+    width: 15%;
+    position: absolute;
+    text-align: left;
+    top: 2px;
+    left: 23%;
+    display: none;
+}
+.ipt_IDchangeBlock label{
+    position: absolute;
+    display: inline-block;
+    top: 10px;
+    left: 10%;
+}
+.ipt_IDchangeBlock input[type='checkbox']{
+    width: 8%;
+}
+.ipt-exportBtn{
+    margin-top:35px ;
+}

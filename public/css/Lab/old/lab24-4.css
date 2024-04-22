@@ -1,0 +1,721 @@
+.print-sti-first .print-hiv-table tbody tr td:nth-child(n+3),
+.print-hiv-table tbody tr td:nth-child(n+3) {
+  padding: 0px;
+}
+
+
+.printResultTable div table tbody tr .covid-td {
+  padding: 0px;
+}
+
+.print-sti-urine .print-hiv-table tr td:nth-child(n+3) {
+  padding: 0px;
+}
+
+.print-tr {
+  padding-left: 0.5rem !important;
+}
+
+.viralLoad-container {
+  max-width: 100%;
+  justify-content: center;
+}
+
+.viralLoad-arso {
+  width: 20%;
+}
+
+.viralLoad-dateResult {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+
+input {
+  height: 45px;
+}
+
+select {
+  height: 45px;
+}
+
+span {
+  font-size: 16px;
+}
+
+#tbrow {
+  font-size: 14px;
+  height: auto;
+}
+
+
+#borderimg {
+  border: 10px solid transparent;
+  margin: auto;
+  padding-left: 50px;
+  border-image: url(/border.png) 30 stretch;
+}
+
+#toshowResult {
+  margin: auto;
+}
+
+
+
+#main {
+  padding: 0px;
+  display: flex;
+}
+
+
+#main div:nth-of-type(1) {
+  flex-grow: 1;
+}
+
+#main div:nth-of-type(2) {
+  flex-grow: 1;
+}
+
+#main div:nth-of-type(3) {
+  flex-grow: 1;
+}
+
+#myBlueDiv {
+  animation: mymove 5s infinite;
+}
+
+#printPtInfo {
+  color: #000000;
+  border-bottom-style: dotted;
+  margin-left: 2%;
+  margin-right: 2%;
+}
+
+
+.print-coheader-list ul li {
+  float: left;
+  list-style: none;
+}
+
+.print-coheader-list ul li:nth-child(2n) {
+
+  padding-right: 1%;
+
+}
+
+.first-li {
+  margin-right: 0.5%;
+}
+
+.print-coheader-list ul li:last-child {
+  margin-right: 0%;
+  border-right: none;
+}
+
+.print-hiv-footer ul li {
+  float: left;
+  list-style: none;
+}
+
+.print-hiv-footer ul {
+  padding-left: 10.5%;
+  color: #000000;
+}
+
+
+.print-hiv-footer ul li:nth-child(2n) {
+  margin-right: 6.5%;
+
+  padding-right: 1%;
+}
+
+.print-header .hiv-p {
+  border-bottom: 1px solid #EF5B0C;
+  float: right;
+  margin-right: 43%;
+  font-weight: 900;
+
+}
+
+.print-hiv-table td:first-child {
+  width: 10px;
+}
+
+.print-hiv-table,
+.print-hiv-table td,
+.print-hiv-table tr {
+  border-collapse: collapse;
+  border: 1px solid #000000;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.table> :not(:first-child) {
+  border-top: 1px solid currentColor;
+}
+
+
+
+
+@keyframes mymove {
+  50% {
+    flex-grow: 8;
+  }
+}
+
+.print-header {
+  color: black;
+  width: 100%;
+  padding-left: 3%;
+  padding-top: 20px;
+}
+
+
+
+.lab-nav {
+  width: 87%;
+  margin-left: 2%;
+}
+
+.lab-nav li {
+  width: 25%;
+}
+
+.lab-containers {
+  padding-bottom: 20px;
+  border: 1px solid #1C82AD;
+  background: #003865 no-repeat center/cover;
+}
+
+.lab-form {
+  padding-left: 1.9%;
+  padding-right: 1.9%;
+  background: no-repeat center/cover;
+
+}
+
+.lab-second-link a {
+  color: #D4F6CC;
+  padding: 0.5rem 0px;
+}
+.lab-second-link li {
+  margin-right: 2%; 
+}
+.lab-second-link li:last-child {
+  margin-right: 0px;
+}
+
+.lab-incon {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.lab-incon-div {
+  max-width: 100%;
+  margin: 0px;
+}
+
+.sti-table {
+  color: #F1F6F5;
+  margin-bottom: 30px;
+}
+
+.label-year {
+  float: left;
+  margin-right: 3%;
+  border: 1px solid #F0CAA3;
+  padding: 10px 5%;
+}
+.label-sex {
+  float: left;
+  margin-right: 3%;
+  border: 1px solid #F0CAA3;
+  padding: 10px 5%;
+}
+
+.lab-year {
+  float: left;
+  width: 41%;
+  height: 50px;
+}
+.lab-sex {
+  float: left;
+  width: 62%;
+  height: 50px;
+}
+
+.lab-year-div {
+  width: 12%;
+  height: 50px;
+  padding-right: 0px;
+}
+.lab-year-sex {
+  width: 16%;
+  height: 50px;
+  padding-right: 0px;
+}
+
+.risk-label {
+  border: 1px solid #F0CAA3;
+  padding: 10px 3%;
+}
+.main-risk {
+  width: 35%;
+}
+
+.mrisk-data,
+.srisk-data {
+  width: 72%;
+  float: right;
+
+}
+
+.srisk-data {
+  width: 65%;
+}
+
+.print-sti-footer {
+  padding-left: 13.5%;
+}
+
+.print-dispaly {
+  display: none;
+}
+
+.urine-analyzer {
+  border: 1px solid #dae4e9;
+  margin-top: 10px;
+  padding-bottom: 10px;
+
+}
+
+.urine-comment {
+  width: 100%;
+}
+.afb-sample {
+  color:#77e326;
+}
+.afb-slidedata,.afb-slide,.afb-sample {
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.afb-slidedata .col-sm-4:first-child,.afb-slide .col-sm-4:first-child,.afb-sample .col-sm-4:first-child {
+  margin-right: 10%;
+}
+.afb-slidedata label,.afb-slide label,.afb-sample label {
+  text-align: center;
+  display: block;
+  margin-bottom: 5px;
+ 
+}
+
+@media screen and (min-width: 768px) and (max-width: 1160px) {
+
+.print-sti-first .print-hiv-table tbody tr td:nth-child(n+3),
+.print-hiv-table tbody tr td:nth-child(n+3) {
+  padding: 0px;
+}
+
+
+.printResultTable div table tbody tr .covid-td {
+  padding: 0px;
+}
+
+.print-sti-urine .print-hiv-table tr td:nth-child(n+3) {
+  padding: 0px;
+}
+
+.print-tr {
+  padding-left: 0.5rem !important;
+}
+
+.viralLoad-container {
+  max-width: 100%;
+  justify-content: center;
+}
+
+.viralLoad-arso {
+  width: 20%;
+}
+
+.viralLoad-dateResult {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+
+input {
+  height: 45px;
+}
+
+select {
+  height: 45px;
+}
+
+span {
+  font-size: 16px;
+}
+
+#tbrow {
+  font-size: 14px;
+  height: auto;
+}
+
+
+#borderimg {
+  border: 10px solid transparent;
+  margin: auto;
+  padding-left: 50px;
+  border-image: url(/border.png) 30 stretch;
+}
+
+#toshowResult {
+  margin: auto;
+}
+
+
+
+#main {
+  padding: 0px;
+  display: flex;
+}
+
+
+#main div:nth-of-type(1) {
+  flex-grow: 1;
+}
+
+#main div:nth-of-type(2) {
+  flex-grow: 1;
+}
+
+#main div:nth-of-type(3) {
+  flex-grow: 1;
+}
+
+#myBlueDiv {
+  animation: mymove 5s infinite;
+}
+
+#printPtInfo {
+  color: #000000;
+  border-bottom-style: dotted;
+  margin-left: 2%;
+  margin-right: 2%;
+}
+
+
+.print-coheader-list ul li {
+  float: left;
+  list-style: none;
+}
+
+.print-coheader-list ul li:nth-child(2n) {
+
+  padding-right: 1%;
+
+}
+
+.first-li {
+  margin-right: 0.5%;
+}
+
+.print-coheader-list ul li:last-child {
+  margin-right: 0%;
+  border-right: none;
+}
+
+.print-hiv-footer ul li {
+  float: left;
+  list-style: none;
+}
+
+.print-hiv-footer ul {
+  padding-left: 10.5%;
+  color: #000000;
+}
+
+
+.print-hiv-footer ul li:nth-child(2n) {
+  margin-right: 6.5%;
+
+  padding-right: 1%;
+}
+
+.print-header .hiv-p {
+  border-bottom: 1px solid #EF5B0C;
+  float: right;
+  margin-right: 43%;
+  font-weight: 900;
+
+}
+
+.print-hiv-table td:first-child {
+  width: 10px;
+}
+
+.print-hiv-table,
+.print-hiv-table td,
+.print-hiv-table tr {
+  border-collapse: collapse;
+  border: 1px solid #000000;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.table> :not(:first-child) {
+  border-top: 1px solid currentColor;
+}
+
+
+
+
+@keyframes mymove {
+  50% {
+    flex-grow: 8;
+  }
+}
+
+.print-header {
+  color: black;
+  width: 100%;
+  padding-left: 3%;
+  padding-top: 20px;
+}
+
+
+
+.lab-nav {
+  width: 87%;
+  margin-left: 2%;
+}
+
+.lab-nav li {
+  width: 25%;
+}
+
+.lab-containers {
+  padding-bottom: 20px;
+  border: 1px solid #1C82AD;
+  background: #003865 no-repeat center/cover;
+}
+
+.lab-form {
+  padding-left: 1.9%;
+  padding-right: 1.9%;
+  background: no-repeat center/cover;
+
+}
+
+.lab-second-link a {
+  color: #D4F6CC;
+  padding: 0.5rem 0px;
+}
+/* .lab-second-link li {
+  margin-right: 8%; 
+} */
+.lab-second-link li:last-child {
+  margin-right: 0px;
+}
+
+.lab-incon {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.lab-incon-div {
+  max-width: 100%;
+  margin: 0px;
+}
+
+.sti-table {
+  color: #F1F6F5;
+  margin-bottom: 30px;
+}
+
+.label-year {
+  float: left;
+  margin-right: 3%;
+  border: 1px solid #F0CAA3;
+  padding: 10px 5%;
+}
+.label-sex {
+  float: left;
+  margin-right: 3%;
+  border: 1px solid #F0CAA3;
+  padding: 10px 5%;
+}
+
+
+.lab-year {
+  float: left;
+  width: 41%;
+  height: 50px;
+}
+
+.lab-year-div {
+  width: 20%;
+  height: 50px;
+  padding-right: 0px;
+}
+.lab-year-sex {
+  width: 27%;
+  height: 50px;
+  padding-right: 0px;
+}
+.risk-label {
+  border: 1px solid #F0CAA3;
+  padding: 10px 0%;
+  width: 29%;
+  text-align: center;
+}
+
+.mrisk-data,
+.srisk-data {
+  width: 71%;
+  float: right;
+
+}
+.main-risk {
+  width: 45%;
+}
+.sub-risk {
+  width: 45%;
+}
+.hiv-bloodDate {
+  width: 100%;
+}
+.hiv-bloodDate input {
+  width: 25%;
+}
+.hiv-test {
+  width: 25%;
+}
+.hiv-issue {
+  width: 35%;
+}
+
+
+
+
+
+
+.print-sti-footer {
+  padding-left: 13.5%;
+}
+
+.print-dispaly {
+  display: none;
+}
+
+.urine-analyzer {
+  border: 1px solid #dae4e9;
+  margin-top: 10px;
+  padding-bottom: 10px;
+
+}
+
+.urine-comment {
+  width: 100%;
+}
+.genral-info {
+  justify-content: center;
+}
+.general-task{
+  width: 33%;
+  margin-bottom: 10px;
+}
+.lab-sex {
+  float: left;
+  width: 62%;
+  height: 50px;
+}
+.labMain-rqdoctor {
+  float: left;
+  border: 1px solid #F0CAA3;
+  padding: 10px 0%;
+  width: 65%;
+  text-align: center;
+}
+.lab-reqdoctor {
+  float: right;
+  width: 33%;
+}
+.rdt-test{
+  width: 25%;
+}
+.hbc-test {
+  width: 40%;
+}
+.oi-tb {
+  width: 100%;
+}
+.oi-tb select{
+  width: 25%;
+}
+.oi-toxoanti {
+  width: 30%;
+}
+.oi-dilu{
+  width: 40%;
+  margin-bottom: 10px;
+}
+.gt-homodl,.gt-hba1c,.gt-result,.oi-csf,.oi-serum {
+  width: 35%;
+}
+.gt-sgs {
+  width: 25%;
+}
+.gt-rdt {
+  width: 50%;
+}
+.afb-reasonExam {
+  width: 100%;
+}
+.afb-reasonExam input {
+  width: 31%;
+}
+.afb-diagnosis {
+  width: 33.333%;
+}
+.covid-age {
+  width: 30%;
+}
+.covid-age input {
+  width: 80%;
+}
+.covid-tpatient {
+  width: 70%;
+}
+.covid-tpatient input {
+  width: 41%;
+}
+.covid-testType {
+  width: 20%;
+}
+.covid-comment{
+  width: 40%;
+}
+.viralLoad-arso:nth-child(1){
+  width:40% ;
+}
+.viralLoad-arso:nth-child(2){
+  width:40% ;
+}
+.viralLoad-arso:nth-child(2) input {
+  width: 80%;
+}
+.viralLoad-arso:nth-child(1) input {
+  width: 80%;
+}
+.viralLoad-arso {
+  width: 33%;
+  margin-bottom: 10px;
+}
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+
+
+
+}

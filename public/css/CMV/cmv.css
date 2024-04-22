@@ -1,0 +1,79 @@
+#cmv{
+    padding: 10px 1%;
+}
+.cmv-generalCode{
+    margin-top: 35px;
+}
+#cmv h3{
+    text-align: center;
+}
+.vision,.finding,.treatment{
+    border: 1px solid #fff;
+}
+.cmv_InfoBtn{
+    justify-content: center;
+}
+.cmv-header{
+    position: relative;
+}
+.cmv-historyBtn{
+    position: absolute;
+    left: 1%;
+    top: 20px;
+    display:none;
+}
+.cmv_refresh{
+    position: absolute;
+    right: 1%;
+    top: 20px;
+}
+.cmvhistory-alert{
+    position: absolute;
+    top: 20px;
+    left: 9%;
+    color: #ded742;
+    display: none;
+}
+.cmv_IDchangeBlock{
+    width: 15%;
+    position: absolute;
+    text-align: left;
+    top: 5px;
+    left: 19%;
+    display: none;
+}
+.cmv_IDchangeBlock label{
+    position: absolute;
+    display: inline-block;
+    top: 10px;
+    left: 10%;
+}
+.cmv_IDchangeBlock input[type='checkbox'] {
+    width: 8%;
+}
+.cmv_historyHead{
+    border: 1px solid #fff;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 900;
+}
+.cmv_hisDataRow{
+    justify-content: center;
+}
+.cmv-hisData{
+    border: 1px solid #fff;
+    font-size: 17px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.cmv-hisData:last-child{
+    text-align: center;
+    border: none;
+}
+.cmv-hisData:last-child button:first-child{
+    margin-right: 3%;
+}
+
+.cmv-gohomeBtn{
+    margin-top: 30px;
+}

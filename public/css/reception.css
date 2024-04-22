@@ -1,0 +1,248 @@
+#new_old_text{
+  color:red;
+  background-color: red;
+}
+.reception-nav-ul {
+  width: 100%;
+    margin-left: 2%;
+}
+.recption-dropdown {
+  width: 25%;
+}
+
+
+.tablet {
+  display: none;
+}
+.reception-s-update-div {
+  width: 19%;
+  padding-left: 2%;
+}
+.reception-laID {
+  width: 45.3333333%;
+  
+}
+.s-t-update {
+  padding-top: 11px;
+  padding-bottom: 11px
+}
+.reception-laID-label {
+  padding-left: 12%;
+  padding-top: 11px;
+}
+.reception-neID {
+  color: red;
+  margin-left: 12%;
+}
+.reception-clinic {
+  width: 19%;
+  padding-left: 3%;
+}
+.reception-refresh {
+  float: right;
+  padding-top: 11px;
+  padding-bottom: 11px
+}
+
+.reception-serach {
+  padding: 4.5px 22%;
+  background-color: #D4F6CC;
+  border-color: #FFFAFA;
+  color: #000;
+}
+.btn-primary:hover {
+  color: #fff;
+  background-color: #EF5B0C;
+  border-color: #EF5B0C;
+}
+.reception-gender {
+  width: 14%;
+  float: left;
+}
+.reception-age {
+  width: 11%;
+}
+.reception-re-fo {
+  width: 100%;
+}
+.reception-register,.reception-follow   {
+  margin-right: 3%;
+}
+.reception-select {
+  height: 50px;
+}
+.reception-show {
+  float: left;
+}
+.reception-consu-label {
+  float: left;
+  margin-right: 3%;
+}
+.reception-consu-ul {
+  padding-left: 0px;
+  padding-top: 3px;
+}
+.reception-consu-ul li{
+  margin-right: 10%;
+}
+.reception-consu-ul li:last-child{
+  margin-right: 0%;
+}
+.sub_category_box{
+  float: left;
+  width: 61%;
+  padding-top: 51px;
+}
+.sub_category_box select {
+  margin-left: 2%;
+  height: 50px;
+  border-radius: 5px;
+}
+.reception-add-select {
+  width: 25%;
+}
+.hide-select{
+  display: none;
+}
+.new-old{
+  margin-bottom: 24px;
+}
+
+
+@media screen and (min-width: 768px) and (max-width: 1099px) {
+  .tablet {
+    display: block;
+  }
+  #clinic_code {
+    padding-left: 0.75rem;
+   
+  }
+  .s-t-update {
+    padding-top: 11.003px;
+    padding-bottom: 11.003px
+  }
+  .reception-s-update-div {
+    width: 25%;
+    padding-left: 2%;
+  }
+  .reception-laID {
+    width: 58.333333%;
+    
+  }
+  .reception-laID-label {
+    padding-left: 0%;
+
+  }
+  .reception-neID {
+    color: red;
+    margin-left: 12%;
+  }
+  .reception-clinic {
+    width: 100%;
+    margin-top: 20.002px;
+  }
+  
+  
+  .reception-serach {
+    padding: 0.6vw 22%;
+  }
+  .reception-gender {
+    width: 21%;
+    margin-right: 3%;
+   
+  }
+  .reception-age {
+    width: 15%;
+    margin-right: 2%;
+  }
+  .reception-re-fo {
+    width: 100%;
+    text-align: center;
+  }
+  .reception-register,.reception-follow   {
+    margin-right: 3%;
+  }
+  .reception-code1,.reception-code2 {
+  width: 45%;
+  }
+  .reception-code1 {
+    margin-right: 8%;
+  }
+  .reception-pfn{
+    width:30%;
+    margin-right: 5%;
+   
+  }
+  .reception-father {
+    width:30%;
+    margin-right: 0vw;
+  }
+  .reception-visitDate,.reception-township,.reception-region {
+    width: 25%;
+  }
+  .reception-reason-visit{
+    width:30%;
+    margin-left: 26%;
+  }
+  .reception-region {
+    margin-left: 26%;
+  }
+  .reception-refresh { 
+    padding-top: 1.467vw;
+    padding-bottom: 1.467vw
+  }
+
+  .reception-gender {
+    width: 14%;
+    float: left;
+  }
+  .reception-age {
+    width: 11%;
+  }
+  .reception-re-fo {
+    width: 100%;
+  }
+  .reception-register,.reception-follow   {
+    margin-right: 3%;
+  }
+  .reception-select {
+    height: 50px;
+  }
+  .reception-show {
+    float: left;
+  }
+  .reception-consu-label {
+    float: left;
+    margin-right: 3%;
+  }
+  .reception-consu-ul {
+    padding-left: 0px;
+    padding-top: 3px;
+  }
+  .reception-consu-ul li{
+    margin-right: 10%;
+  }
+  .reception-consu-ul li:last-child{
+    margin-right: 0%;
+  }
+  .sub_category_box{
+    width: 100%;
+    padding-top: 39px;
+   text-align: center;
+  }
+  .sub_category_box select {
+    margin-left: 2%;
+    height: 50px;
+  }
+  .reception-add-select {
+    width: 33%;
+  }
+  .new-old{
+    margin-bottom: 24px;
+  }
+  .tablet-newold {
+    margin-top: 22px;
+  }
+
+}
+
