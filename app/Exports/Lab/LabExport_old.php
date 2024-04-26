@@ -42,10 +42,7 @@ class LabExport implements FromView , WithColumnFormatting
    }
    public function view(): View 
    {    $export_final=$this->users;
-        $testName=$this->testName;
-
-       
-     
+        //dd($export_final);
 
         $export_final = $this->users->map(function ($user) {
             if($user["ptconfig"]!=null){
@@ -393,15 +390,6 @@ class LabExport implements FromView , WithColumnFormatting
         foreach ($encrypted_columns as $column) {
             $user[$column]=Crypt::decrypt_light($user[$column],"General");
             $user[$column]=Crypt::codeBook($user[$column],"encode");
-            if($this-> testName=="hep"){
-                if($column=="Hiv status"){
-                    if($user[$column]!=24 && $user[$column]!=25){
-                        $user[$column]="unknown";
-                    }
-                }
-               
-            }
-            
         }
         if($this-> testName=="afb"){
             for ($i=(count($encrypted_columns)-4); $i < count($encrypted_columns) ; $i++) { 

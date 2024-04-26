@@ -100,14 +100,18 @@ class PreventionExport implements FromView,WithColumnFormatting
     
     if($tb == "cbs"){
         $encrypted_columns= [
-          "Main_Risk",
-          "Sub_Risk",
-          "HIV_determine_result",
-          "HIV result",
-          "HIV Sero-Status",
-          "Sex", // decrypt 
-          "Visit_Date",
-          "date_confirm",//     Date of arrival at confirmation Facility (DD/MM/YY) 
+            "Main_Risk",
+            "Sub_Risk",
+            "HIV_determine_result",
+            "HIV result",
+            "HIV Sero-Status",
+            "Sex", // decrypt
+
+           
+            "Visit_Date",
+            "date_confirm",//     Date of arrival at confirmation Facility (DD/MM/YY)
+           
+           
         ];
         $decrypted_data = $this->data->map(function($user) use ($encrypted_columns) {
             if($user["ptconfig"]!=null){

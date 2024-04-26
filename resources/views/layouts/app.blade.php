@@ -136,6 +136,7 @@
                 <li><a class="dropdown-item" href="{{url('RiskHistory/risk_history')}}">Risk Log</a></li>
                 <li><a class="dropdown-item" href="{{url('All_Export/export_all')}}">Export All Data</a></li>
                 <li><a class="dropdown-item" href="{{url('MME/mme_export')}}">MME Export</a></li>
+                <li><a class="dropdown-item" href="{{url('Id_Fix/Id_Delete')}}">ID Fix</a></li>
 
               </ul>
             </li>

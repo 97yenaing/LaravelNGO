@@ -931,13 +931,14 @@ function Tb03_viewDeatail(){
     }
    } 
    $("#Tb_registerForm h2").text("Update TB Register_03");
-   $("#tb_info .TB-button").text("Update TB_03")
+   $("#tb_info .TB-button").text("Update TB_03");
    $("#Tb_registerForm .tb-generalCode").children().prop("disabled", function(index) {
         return index !== 2;
     });
     tB03_UP="Update 03";
     $(".TB-idChange input[type='checkbox']").prop("checked", false);
     $(".TB-idChange").show();
+    updateRid=TB03_hisData[updateRid]['id'];
     DateTo_text();
 }
 

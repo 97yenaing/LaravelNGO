@@ -71,7 +71,7 @@ class Export_age
                
             }
         }
-        if($vdate==null&&$config["Agey"]==null){
+        if($vdate==null){
             $current_agey=404;
             $current_agem=404;
         }

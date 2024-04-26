@@ -54,14 +54,14 @@ class CounsellingExport implements FromView, WithColumnFormatting
    public function columnFormats(): array
    {  if($this-> hts_coul == "counsel_data"){
        return [
-           "M"=>"d-m-yyyy",
+           "K"=>"d-m-yyyy",
        ];
       }else{
         return [
-          "J"=>"d-m-yyyy",
-          "T"=>"d-m-yyyy",
-          "Y"=>"d-m-yyyy",
-          "AC"=>"d-m-yyyy",
+          "G"=>"d-m-yyyy",
+          "Q"=>"d-m-yyyy",
+          "V"=>"d-m-yyyy",
+          "Z"=>"d-m-yyyy",
           
       ];
       }

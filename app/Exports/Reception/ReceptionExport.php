@@ -41,6 +41,9 @@ class ReceptionExport implements FromView,WithColumnFormatting
    {
 
        $encrypted_columns = [
+         "Gender",
+         "Main Risk",
+         "Sub Risk",
          "Fever",
          "MUAC"
        ];
@@ -76,6 +79,7 @@ class ReceptionExport implements FromView,WithColumnFormatting
            return [
                "K"=>"d-m-yyyy",
                "AP"=>"d-m-yyyy",
+               "AQ"=>"d-m-yyyy",
            ];
        }
 

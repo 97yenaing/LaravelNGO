@@ -1,98 +1,88 @@
 <?php
 
-namespace App\Exports;
+namespace App\Exports\Reception;
 
 use App\Models\Patients;
+use App\Models\Followup_general;
+use App\Models\PtConfig;
 
+//use Maatwebsite\Excel\Concerns\FromQuery;
+
+use Maatwebsite\Excel\Concerns\Exportable;
+//use Maatwebsite\Excel\Concerns\WithHeadings;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+
+use Illuminate\Contracts\View\View;
+use Maatwebsite\Excel\Concerns\FromView;
+use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\WithStyles;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Illuminate\Support\Facades\Crypt;
-use Maatwebsite\Excel\Concerns\FromCollection;
-
-// use Maatwebsite\Excel\Concerns\FromQuery;
-// use Maatwebsite\Excel\Concerns\Exportable;
-// use Maatwebsite\Excel\Concerns\WithHeadings;
-
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 //class ReceptionExport implements FromQuery,   WithHeadings
-class ReceptionExport implements FromCollection
+
+
+
+class ReceptionExport implements FromView,WithColumnFormatting
 {
-  // use Exportable;
-  // public function headings(): array
-  //   {
-  //       return [
-  //           'id',
-  //           'Clinic Code',
-  //           'General ID',
-  //           'FuchiaID',
-  //           'PrEPCode',
-  //           'Agey',
-  //           'Agem',
-  //           'Gender',
-  //           'Reg Date',
-  //           'Date of Birth',
-  //           'Region',
-  //           'Township',
-  //           'Quarter',
-  //           'Reason for Visit',
-  //           'Sub Reason0',
-  //           'Sub Reason1',
-  //           'Main Risk',
-  //           'Sub Risk',
-  //           'Created at',
-  //           'Updated at',
-  //       ];
-  //   }
-  //
-  // public function __construct(int $year)
-  // {
-  //     $this->year = $year;
-  // }
-  // public function query()
-  // {
-  //   return Patients::query()->whereYear('Reg Date', $this->year);
-  //   }
 
+  private $users;private $users1;private $users2;
+  
+   public function __construct($users,$users1,$users2)
+   {
+        $this->users = $users;
+        $this->users1 = $users1;
+        $this->users2 = $users2;
+   }
+   public function view(): View
+   {
 
+       $encrypted_columns = [
+         "Gender",
+         "Main Risk",
+         "Sub Risk",
+         "Fever",
+         "MUAC"
+       ];
 
+       $encrypted_columns1 = [
+        "Pateint_Diagnosis",
+      ];
 
-  private $patients;
+    
+      //$diagnosis_encrypt=$followupData[0]["Pateint_Diagnosis"];
 
-    public function __construct($patients)
-    {
-        $this->patients = $patients;
+       $users_treated = $this->users->map(function($user) use ($encrypted_columns) {
+           foreach($encrypted_columns as $column) {
+               if($user->{$column}=="731"){
+                $user->{$column} ="";
+               }else{
+                $user->{$column} = Crypt::decrypt_light($user->{$column},"General");
+               }
+           }
+           return $user;
+       });
+       $users1 = $this->users1;
+       $users2 = $this->users2;
+       return view('Reception.export_followup_tb', [
+           'users' => $users_treated,
+           'users1'=> $users1,
+           'users2'=> $users2,
+       ]);
     }
 
-    public function collection()
-    {
-        return $this->patients->map(function($patient) {
-            $patient->name = Crypt::decryptString($patient->name);
-            $patient->email = Crypt::decryptString($patient->email);
+    public function columnFormats(): array
+       {
+           return [
+               "AM"=>"d-m-yyyy",
+               "H"=>"d-m-yyyy",
+           ];
+       }
 
-            $patient->Gender = Crypt::decrypt_light($patient->Gender);
-            // $patient->Main Risk = Crypt::decrypt_light($patient->Main Risk);
-            // $patient-> = Crypt::decrypt_light($patient->);
-            // $patient-> = Crypt::decrypt_light($patient->);
-            // $patient-> = Crypt::decrypt_light($patient->);
-            // $patient-> = Crypt::decrypt_light($patient->);
-            // $patient-> = Crypt::decrypt_light($patient->);
-            // $patient-> = Crypt::decrypt_light($patient->);
-            // $patient-> = Crypt::decrypt_light($patient->);
-            // $patient-> = Crypt::decrypt_light($patient->);
-            // $patient-> = Crypt::decrypt_light($patient->);
-            // $patient-> = Crypt::decrypt_light($patient->);
 
-            // "Gender",
-            // "Main Risk",
-            // "Sub Risk",
-            // "Patient Type",
-            // "New_Old",
-            // "Fever",
-            // "Diagnosis",
-            // "Support",
-            // "Patient Type_1",
-            // "New_Old_1",
-            // "Fever_1",
-            // "Diagnosis_1",
-            // "Support_1",
-            return $patient;
-        });
-    }
-}
+
+
+}// class end

@@ -2,7 +2,7 @@
 
 namespace App\Exports;
 
-use App\Models\DailyConsultationreport;
+
 
 //use Maatwebsite\Excel\Concerns\FromQuery;
 
@@ -25,20 +25,20 @@ use Illuminate\Support\Facades\Crypt;
 
 
 
-class DailyconsultreportExport implements FromView, WithStyles, ShouldAutoSize
+class DailyconsultExport implements FromView, WithStyles, ShouldAutoSize
 {
 
-  private $oneRow;
+  private $parseData;
 
-   public function __construct($oneRow)
+   public function __construct($parseData)
    {
-        $this->oneRow = $oneRow;
+        $this->parseData= $parseData;
    }
    public function view(): View
    {
-       $oneRow = $this->oneRow;
-       return view('Reception.exportReport', [
-           'data' => $oneRow,
+        $parseData = $this->parseData;
+       return view('Reception.export_daily_Report', [
+           'dailyData' => $parseData,
        ]);
 
     }

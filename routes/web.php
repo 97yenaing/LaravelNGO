@@ -37,6 +37,7 @@ use App\Http\Controllers\AllExportController;
 use App\Http\Controllers\MME_ExportController;
 use App\Http\Controllers\HtsReportController;
 use App\Http\Controllers\ImportController;
+use App\Http\Controllers\IdFixController;
 
 use App\Providers\AppServiceProvider;
 //use App\Exports\StimaleExport;
@@ -232,6 +233,10 @@ Route::get("import/GeneralPatientImport", [ImportController::class, "generalImpo
 //Route::post('import/GeneralPatientImport', [ReceptimportController::class,'generalPatient'])->name('general_import');// This is for patients
 //Route::post('import/GeneralPatientImport', [ReceptimportController::class,'generalPatient1'])->name('general_import');// This is for confid
 Route::post("import/GeneralPatientImport", [ImportController::class, "importer_select"])->name("general_import"); // This is for follow up
+
+Route::get('Id_Fix/Id_Delete',[IdFixController::class,'idFix_view']);
+
+Route::post('Id_Fix/Id_Delete',[IdFixController::class,'idFix_control'])->name("id_search");
 
 Route::get("/home", [App\Http\Controllers\HomeController::class, "index"])->name("home");
 
