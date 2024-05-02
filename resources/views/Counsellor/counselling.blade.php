@@ -6,351 +6,384 @@
 <script src="{{asset('js/Counselling/counselling.js')}}"></script>
 
 <div id="customAlertBox" class="custom-alert" style="display:none">
-    <label>SuccessFully Collected</label>
-    <button  class="btn btn-warning " id="cus_alert" onclick="custom_alert()">OK</button>
+  <label>SuccessFully Collected</label>
+  <button class="btn btn-warning " id="cus_alert" onclick="custom_alert()">OK</button>
 </div>
 <div id="hts_warining" class="hts-warning" style="display:none">
-    <label>Your Hts Data is not Complete</label>
-    <button  class="btn btn-warning " id="cus_alert" onclick="custom_alert()">OK</button>
+  <label>Your Hts Data is not Complete</label>
+  <button class="btn btn-warning " id="cus_alert" onclick="custom_alert()">OK</button>
 </div>
 <p class="btn-gnavi">
-				<span></span>
-				<span></span>
-				<span></span>
-			</p>
+  <span></span>
+  <span></span>
+  <span></span>
+</p>
 <div class="container containers ">
-    <ul class="nav nav-tabs toggle consulor-list" id="hidden-title" >
-      <li class="nav-item">
-        <a class="nav-link active toggle-link" data-toggle="tab" href="#first" id="firstPage" onclick="">Counselling facts and HTS data entry</a>
-      </li>
-       <li class="nav-item">
-        <a class="nav-link toggle-link " data-toggle="tab" href="#second" id="secondPage" onclick="">HTS Data/Update</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link toggle-link " data-toggle="tab" href="#HTS-remaining" id='hts_remaining_page' onclick="HTS_remaining()">HTS_Remaining</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link toggle-link " data-toggle="tab" href="#export" >Export</a>
-      </li>
+  <ul class="nav nav-tabs toggle consulor-list" id="hidden-title">
+    <li class="nav-item">
+      <a class="nav-link active toggle-link" data-toggle="tab" href="#first" id="firstPage" onclick="">Counselling facts
+        and HTS data entry</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link toggle-link " data-toggle="tab" href="#second" id="secondPage" onclick="">HTS Data/Update</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link toggle-link " data-toggle="tab" href="#HTS-remaining" id='hts_remaining_page'
+        onclick="HTS_remaining()">HTS_Remaining</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link toggle-link " data-toggle="tab" href="#export">Export</a>
+    </li>
 
-    </ul>
+  </ul>
 
-    <div class="tab-content containers">
-      <div class="tab-pane container containers active cosulor-parent-div" id="first">
-        <div style="margin:auto" id="toshowResult"></div>
-        <div id="hider0" class="container containers">
+  <div class="tab-content containers">
+    <div class="tab-pane container containers active cosulor-parent-div" id="first">
+      <div style="margin:auto" id="toshowResult"></div>
+      <div id="hider0" class="container containers">
         <br>
         <!--   <form class="" id="reg" method="post" > -->
         @csrf
         <div class="row justify-content-center">
-          <div class="col-md-12 "  >
-              <h3 class='header-text' style="text-align: center;">Counselling Room</h3>
+          <div class="col-md-12 ">
+            <h3 class='header-text' style="text-align: center;">Counselling Room</h3>
           </div>
         </div>
 
-              <div class="row counGeneral">
-                <div class="col-md-2 coun_searchID">
-                  <label for="">Search ID</label>
-                  <input  type="text" class="form-control" autofocus id="gid" placeholder="General ID or Fuchia ID" >
-                </div>
-                <div class="col-md-2 consulor-date">
-                  <label for="">Counselling Date</label>                 
-                    <!-- <input type="date"  id="vDate"  class="form-control" required> -->
-                    <div class="date-holder">
-                      <input type="text" id="vDate" class="form-control Gdate" placeholder="dd-mm-yyyy">
-                      <img src="../img/calendar3.svg" class="dateimg" alt="date">
-                    </div>
-                </div>
-                <div class="col-md-1">
-                  <button  class="btn btn-warning update-batton" id="hts-search" onclick="ptData()">Search</button>
-                </div>
-                <!-- <div class="col-sm-2">
+        <div class="row counGeneral">
+          <div class="col-md-2 coun_searchID">
+            <label for="">Search ID</label>
+            <input type="text" class="form-control" autofocus id="gid" placeholder="General ID or Fuchia ID">
+          </div>
+          <div class="col-md-2 consulor-date">
+            <label for="">Counselling Date</label>
+            <!-- <input type="date"  id="vDate"  class="form-control" required> -->
+            <div class="date-holder">
+              <input type="text" id="vDate" class="form-control Gdate" placeholder="dd-mm-yyyy">
+              <img src="../img/calendar3.svg" class="dateimg" alt="date">
+            </div>
+          </div>
+          <div class="col-md-1">
+            <button class="btn btn-warning update-batton" id="hts-search" onclick="ptData()">Search</button>
+          </div>
+          <!-- <div class="col-sm-2">
 
                 </div> -->
-                <div class="col-md-1 consulor-refresh ">
-                  <button  class="btn btn-success refresh-follow consulor-rfr-btn" onclick="refresh()">Refresh</button>
-                </div>
+          <div class="col-md-1 consulor-refresh ">
+            <button class="btn btn-success refresh-follow consulor-rfr-btn" onclick="refresh()">Refresh</button>
+          </div>
 
-              </div><br>
+        </div><br>
 
-              <br>
-              <div class="row">
-                <div class="col-sm-12">
-                  <label id="gen_data"class="form-control"></label>
-                </div>
-              </div>
-              <br>
-              <div class="row">
-                <div class="row">
-                  <div class="col-sm-3 do-test">
-                    <label for="">Counselling / Patient_record</label>
-                    <select class="form-control" id="test_do" onchange="testDo()" >
-                      <option selected value="counsel_info">Counselling</option>
-                      <option  value="pat_record">Patient_record</option>
-                    </select>
-                  </div>
-                  <div class="col-sm-3 conunselling_type">
-                      <label>HTS Entry / Counselling Only</label>
-                      <select class="form-control"id="coun_count" onchange="Counselling_Count()" >
-                        <option selected value="one">Counselling Only</option>
-                        <option  value="two">HTS Entry and Counselling</option>
-                      </select>
-                  </div>
-                </div>
-                
-                <div class="col-sm-2 consul-registerDate">
-                  <label for="">Register Date</label>                 
-                    <!-- <input type="date"  id="vDate"  class="form-control" required> -->
-                    <div class="date-holder">
-                      <input type="text" id="coun_reg_date" class="form-control Gdate" placeholder="dd-mm-yyyy" disabled>
-                      <img src="../img/calendar3.svg" class="dateimg" alt="date">
-                    </div>
-                </div>
-                <div class="col-md-2 consulor-date ">
-                  <label  class="form-label">Date Of Birth</label>                
-                    <!-- <input  type="date" id="dob" onblur="dateOfBirth_to_age()" class="form-control reception-dateformat" disabled > -->
-                    <div class="date-holder">
-                      <input type="text" id="dob" onblur="dateOfBirth()" class="form-control Gdate dob reception-dateformat" placeholder="dd-mm-yyyy">
-                      <img src="../img/calendar3.svg" class="dateimg" alt="date">
-                    </div>
-                </div>
-                <div class="col-md-2 consulor-div">
-                  <label for="">Counselor</label>
-                  <select class="form-select" id="counsellor">
-                    <option value="-"></option>
-                    <option value="col_1">Counsellor 1</option>
-                    <option value="col_2">Counsellor 2</option>
-                    <option value="col_3">Counsellor 3</option>
-                    <option value="col_4">Counsellor 4</option>
-                    <option value="col_5">Counsellor 5</option>
-                    <option value="col_6">Counsellor 6</option>
-                    <option value="col_7">Counsellor 7</option>
-                    <option value="col_8">Counsellor 8</option>
-                    <option value="col_9">Counsellor 9</option>
-                    <option value="col_10">Counsellor 10</option>
-                    <option value="col_11">Counsellor 11</option>
-                    <option value="col_12">Counsellor 12</option>
-                    <option value="col_13">Counsellor 13</option>
-                    <option value="col_14">Counsellor 14</option>
-                    <option value="col_15">Counsellor 15</option>
-                    <option value="col_16">Counsellor 16</option>
-                    <option value="col_17">Counsellor 17</option>
-                    <option value="col_18">Counsellor 18</option>
-                    <option value="col_19">Counsellor 19</option>
-                    <option value="col_20">Counsellor 20</option>
-                    <option value="col_21">Counsellor 21</option>
-                    <option value="col_22">Counsellor 22</option>
-                    <option value="col_23">Counsellor 23</option>
-                    <option value="col_24">Counsellor 24</option>
-                    <option value="col_25">Counsellor 25</option>
-                    <option value="col_26">Counsellor 26</option>
-                    <option value="col_27">Counsellor 27</option>
-                    <option value="col_28">Counsellor 28</option>
-                    <option value="col_29">Counsellor 29</option>
-                    <option value="col_30">Counsellor 30</option>
-                    <option value="col_31">Counsellor 31</option>
-                    <option value="col_32">Counsellor 32</option>
-                    <option value="col_33">Counsellor 33</option>
-                    <option value="col_34">Counsellor 34</option>
-                    <option value="col_35">Counsellor 35</option>
-                  </select>
-                </div>
-                <div class="col-sm-2 change-risk">
-                  <label for="">Defined_Risk</label>
-                  <select class="form-control" id="riskChangeLab" onchange="riskChangeLab()" >
-                    <option  value="Yes">Yes</option>
-                    <option selected value="No">No</option>
-                  </select>
-                </div>
-                <div class="col-sm-2 labTest-date" style="display:none">
-                  <label for="" class="form-label">Due to patient</label>
-                  <select name="" id="risk_change_resason" class="form-select">
-                    <option value=""></option>
-                    <option value="Yes">Yes</option>
-                  </select>
-                </div>
+        <br>
+        <div class="row">
+          <div class="col-sm-12">
+            <label id="gen_data" class="form-control"></label>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="row">
+            <div class="col-sm-3 do-test">
+              <label for="">Counselling / Patient_record</label>
+              <select class="form-control" id="test_do" onchange="testDo()">
+                <option selected value="counsel_info">Counselling</option>
+                <option value="pat_record">Patient_record</option>
+              </select>
+            </div>
+            <div class="col-sm-3 conunselling_type">
+              <label>HTS Entry / Counselling Only</label>
+              <select class="form-control" id="coun_count" onchange="Counselling_Count()">
+                <option selected value="one">Counselling Only</option>
+                <option value="two">HTS Entry and Counselling</option>
+              </select>
+            </div>
+          </div>
 
-                <div class="col-sm-2 labTest-date" style="display:none">
-                  <label for="">Risk Change Date</label>
-                  <div class="date-holder">
-                    <input type="text" id="labTestDate"  class="form-control Gdate" placeholder="dd-mm-yyyy">
-                    <img src="../img/calendar3.svg" class="dateimg" alt="date">
-                  </div>
-                    <!-- <input type="date"  id="labTestDate"  class="form-control" disabled required> -->
-                </div>
+          <div class="col-sm-2 consul-registerDate">
+            <label for="">Register Date</label>
+            <!-- <input type="date"  id="vDate"  class="form-control" required> -->
+            <div class="date-holder">
+              <input type="text" id="coun_reg_date" class="form-control Gdate" placeholder="dd-mm-yyyy" disabled>
+              <img src="../img/calendar3.svg" class="dateimg" alt="date">
+            </div>
+          </div>
+          <div class="col-md-2 consulor-date ">
+            <label class="form-label">Date Of Birth</label>
+            <!-- <input  type="date" id="dob" onblur="dateOfBirth_to_age()" class="form-control reception-dateformat" disabled > -->
+            <div class="date-holder">
+              <input type="text" id="dob" onblur="dateOfBirth()" class="form-control Gdate dob reception-dateformat"
+                placeholder="dd-mm-yyyy">
+              <img src="../img/calendar3.svg" class="dateimg" alt="date">
+            </div>
+          </div>
+          <div class="col-md-2 consulor-div">
+            <label for="">Counselor</label>
+            <select class="form-select" id="counsellor">
+              <option value="-"></option>
+              <option value="col_1">Counsellor 1</option>
+              <option value="col_2">Counsellor 2</option>
+              <option value="col_3">Counsellor 3</option>
+              <option value="col_4">Counsellor 4</option>
+              <option value="col_5">Counsellor 5</option>
+              <option value="col_6">Counsellor 6</option>
+              <option value="col_7">Counsellor 7</option>
+              <option value="col_8">Counsellor 8</option>
+              <option value="col_9">Counsellor 9</option>
+              <option value="col_10">Counsellor 10</option>
+              <option value="col_11">Counsellor 11</option>
+              <option value="col_12">Counsellor 12</option>
+              <option value="col_13">Counsellor 13</option>
+              <option value="col_14">Counsellor 14</option>
+              <option value="col_15">Counsellor 15</option>
+              <option value="col_16">Counsellor 16</option>
+              <option value="col_17">Counsellor 17</option>
+              <option value="col_18">Counsellor 18</option>
+              <option value="col_19">Counsellor 19</option>
+              <option value="col_20">Counsellor 20</option>
+              <option value="col_21">Counsellor 21</option>
+              <option value="col_22">Counsellor 22</option>
+              <option value="col_23">Counsellor 23</option>
+              <option value="col_24">Counsellor 24</option>
+              <option value="col_25">Counsellor 25</option>
+              <option value="col_26">Counsellor 26</option>
+              <option value="col_27">Counsellor 27</option>
+              <option value="col_28">Counsellor 28</option>
+              <option value="col_29">Counsellor 29</option>
+              <option value="col_30">Counsellor 30</option>
+              <option value="col_31">Counsellor 31</option>
+              <option value="col_32">Counsellor 32</option>
+              <option value="col_33">Counsellor 33</option>
+              <option value="col_34">Counsellor 34</option>
+              <option value="col_35">Counsellor 35</option>
+            </select>
+          </div>
+          <div class="col-sm-2 change-risk">
+            <label for="">Defined_Risk</label>
+            <select class="form-control" id="riskChangeLab" onchange="riskChangeLab()">
+              <option value="Yes">Yes</option>
+              <option selected value="No">No</option>
+            </select>
+          </div>
+          <div class="col-sm-2 labTest-date" style="display:none">
+            <label for="" class="form-label">Due to patient</label>
+            <select name="" id="risk_change_resason" class="form-select">
+              <option value=""></option>
+              <option value="Yes">Yes</option>
+            </select>
+          </div>
 
-
-              </div>
-              <br>
-              <div class="row  ">
-              <!-- counselor-riskRow -->
-                 <div class="col-md-2 consulor-mainrisk">
-                  <label for="">Main Risk</label>
-                  <select class="form-control" id="main_risk" onchange="PatientType()" disabled>
-                    <option selected  value="-"></option>
-                    <option id="preg_mom" value="Pregnant Mother">Pregnant Mother</option>
-                    <option id="sp_preg_mom" value="Spouse of pregnant mother">Spouse of pregnant mother</option>
-                    <option id="" value="Exposed Children">Exposed Children</option>
-                    <option id="" value="Low Risk">Low Risk</option>
-                    <option id="" value="PWUD">PWUD</option>
-                    <option id="fsw" value="FSW">FSW</option>
-                    <option id="cl_fsw" value="Client of FSW">Client of FSW</option>
-                    <option id="msm" value="MSM">MSM</option>
-                    <option id="" value="IDU">IDU</option>
-                    <option id="tg" value="TG">TG</option>
-                    <option id="pt_kp" value="Partner of KP">Partner of KP</option>
-                    <option id="pt_kp_plhiv" value="Partner of PLHIV">Partner of PLHIV</option>
-                    <option id="" value="Special Groups">Special Groups</option>
-                    <option value="Migrant Population">Migrant Population</option>
-                  </select>
-                 </div>
-                  <div class="col-sm-2 consulor-subrisk" >
-                    <label for="">Sub Risk</label>
-                      <select class="form-control" id="sub_risk" disabled >
-                      <option selected value="-"></option>
-                      <option value="PP">PP</option>
-                      <option value="MP">MP</option>
-                      <option value="HIV(Pos)">HIV(Pos)</option>
-                      <option value="HIV(Neg)Woman">HIV(Neg)Woman</option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="Youth(15-24)">Youth(15-24)</option>
-                      <option value="Other Low Risk">Other Low Risk</option>
-                      <option value="FSW_PWID">FSW_PWID</option>
-                      <option value="FSW_PWUD">FSW_PWUD</option>
-                      <option value="MSM_PWID">MSM_PWID</option>
-                      <option value="MSM_PWUD">MSM_PWUD</option>
-                      <option value="PWID_FSW">PWID_FSW</option>
-                      <option value="PWID_MSM">PWID_MSM</option>
-                      <option value="TG_PWID">TG_PWID</option>
-                      <option value="TG_PWUD">TG_PWUD</option>
-                      <option value="TG_SW">TG_SW</option>
-                      <option value="Partner of PWID">Partner of PWID</option>
-                      <option value="Partner of FSW">Partner of FSW</option>
-                      <option value="Female of MSM">Female of MSM</option>
-                      <option value="TB Patient">TB Patient</option>
-                      <option value="Institutionalize">Institutionalize</option>
-                      <option value="Uniformed Services Personnel">Uniformed Services Personnel</option>
-                    </select>
-
-                  </div>
-                  
-                  <div class="col-md-2 counsulor-regAge">
-                    <label for="validationCustom02" class="form-label">Register Age</label>
-                    <input type="number" id="agey_register"  onblur="reg_age_change()"  class="form-control">
-                  </div>
-                  <div class="col-md-2 counsulor-regAge">
-                    <label for="validationCustom02" class="form-label">Reg_Age(M)</label>
-                    <input type="number" id="agem_register"  onblur="reg_age_change()"  class="form-control">
-                  </div>
-                  <div class="col-md-2 consulor-age" >
-                    <label for="validationCustom02" class="form-label">Current Age(Year)</label>
-                    <input type="number" id="agey" class="form-control">
-                    <div class="valid-feedback">
-                      plz put patient age.
-                    </div>
-                  </div>
-                  <div class="col-md-2 consulor-age">
-                    <label for="validationCustom02" class="form-label">Current Age(Month)</label>
-                    <input type="number" id="agem" onchange="monthValid()" class="form-control">
-                    <div class="valid-feedback">
-                      plz put patient age.
-                    </div>
-                  </div>
-                  
-                  <div class="col-md-2" style="display: none">
-                    <label for="validationCustom02" class="form-label">Register Age(month)</label>
-                    <input type="number" id="agem_register"   class="form-control">
-                  </div>
-
-                  
-                    <div class="col-sm-2 consulor-srt" id="state_hide">
-                      <label for="">State / Region</label>
-
-                      <select  class="form-select reception-select"  id="state"  required onchange="region(this.value)">
-                        <option selected  value="-"></option>
-                        <option value="Ayeyarwady">Ayeyarwady</option>
-                        <option value="Bago(East)">Bago(East)</option>
-                        <option value="Bago(West)">Bago(West)</option>
-                        <option value="Chin">Chin</option>
-                        <option value="Kachin">Kachin</option>
-                        <option value="Kayah">Kayah</option>
-                        <option value="Kayin">Kayin</option>
-                        <option value="Mgway">Mgway</option>
-                        <option value="Mandalay">Mandalay</option>
-                        <option value="Mon">Mon</option>
-                        <option value="NaypyiTaw">NaypyiTaw</option>
-                        <option value="Rakhine">Rakhine</option>
-                        <option value="Sagaing">Sagaing</option>
-                        <option value="Shan(East)">Shan(East)</option>
-                        <option value="Shan(North)">Shan(North)</option>
-                        <option value="Shan(South)">Shan(South)</option>
-                        <option value="Tanintharyi">Tanintharyi</option>
-                        <option value="Yangon">Yangon</option>
-                      </select>
-                    </div>
-                    <div class="col-sm-2 consulor-srt" id="township_hide">
-                      <label for="">Township</label>
-
-                        <select class="form-select reception-select" id="township"   >
-                          <option id="tt_opt"></option>
-                          <option selected  value="-"></option>
-                          <option value="Insein">Insein</option><option value="MingalarDon" >MingalarDon</option><option value= "Hmawbi">Hmawbi</option>
-                          <option value="Hlegu">Hlegu</option><option value="Taikkyi" >Taikkyi</option><option value="Htantabin" >Htantabin</option>
-                          <option value="Shwepyithar">Shwepyithar</option><option value= "Hlaingtharya">Hlaingtharya</option><option value="Thingangyun" >Thingangyun</option>
-                          <option value= "Yankin">Yankin</option><option value= "South Okkalapa">South Okkalapa</option><option value= "North Okkalapa">North Okkalapa</option>
-                          <option value= "Thaketa">Thaketa</option><option value="Dawbon">Dawbon</option><option value="Tamwe" >Tamwe</option>
-                          <option value= "Pazundaung">Pazundaung</option><option value= "Botahtaung">Botahtaung</option><option value="Dagon Myothit (South)" >Dagon Myothit (South)</option>
-                          <option value= "Dagon Myothit (North)">Dagon Myothit (North)</option><option value="Dagon Myothit (East)">Dagon Myothit (East)</option>
-                          <option value= "Dagon Myothit (Seikkan)">Dagon Myothit (Seikkan)</option><option value= "Mingalartaungnyunt">Mingalartaungnyunt</option>
-                          <option value= "Thanlyin">Thanlyin</option><option value= "Kyauktan">Kyauktan</option><option value= "Thongwa">Thongwa</option>
-                          <option value= "Kayan">Kayan</option><option value= "Twantay">Twantay</option><option value= "Kawhmu">Kawhmu</option>
-                          <option value= "Kungyangon">Kungyangon</option><option value= "Dala">Dala</option><option value= "Seikgyikanaungto">Seikgyikanaungto</option>
-                          <option value= "Cocokyun">Cocokyun</option><option value= "Kyauktada">Kyauktada</option><option value= "Pabedan">Pabedan</option>
-                          <option value= "Lanmadaw">Lanmadaw</option><option value="Latha" >Latha</option><option value= "Ahlone">Ahlone</option>
-                          <option value= "Kyeemyindaing">Kyeemyindaing</option><option value="Sanchaung" >Sanchaung</option><option value= "Hlaing">Hlaing</option>
-                          <option value= "Kamaryut">Kamaryut</option><option value= "Mayangone">Mayangone</option><option value= "Dagon">Dagon</option>
-                          <option value= "Bahan">Bahan</option><option value= "Seikkan">Seikkan</option>
-                        </select>
-
-                    </div>
-                    <div class="col-md-2 consulor-srt"id="quarter_hide">
-                      <label for="">Ward/Village(detail)</label>
-                      <input type="text" id="quarter"  class="form-control" required >
-                    </div>
-                    <div class="col-sm-2 consulor-srt" id="phone_hide">
-                      <label for="">Phone No.1</label>
-                      <div>
-                        <input id="phone" class="form-control"  type="text" name="" placeholder="09123459789" >
-                      </div>
-                    </div>
-                    <div class="col-sm-2 consulor-srt" id="phone2_hide" >
-                      <label for="">Phone No.2</label>
-                      <div>
-                        <input id="phone2" class="form-control"  type="text" name="" placeholder="09123459789" >
-                      </div>
-                    </div>
-                    <div class="col-sm-2 consulor-srt"id="phone3_hide" >
-                      <label for="">Phone No.3</label>
-                      <div>
-                        <input id="phone3" class="form-control" type="text" name="" placeholder="09123459789" >
-                      </div>
-                    </div>
-
-                  
-                  <div class="col-md-3">
-                    <button type="button" id="riskUpdate" onclick="Save_and_Update()" class="btn btn-warning update-batton " style="display:none" >Only Patient Info_Update</button>
-                  </div>
-
-                </div>
+          <div class="col-sm-2 labTest-date" style="display:none">
+            <label for="">Risk Change Date</label>
+            <div class="date-holder">
+              <input type="text" id="labTestDate" class="form-control Gdate" placeholder="dd-mm-yyyy">
+              <img src="../img/calendar3.svg" class="dateimg" alt="date">
+            </div>
+            <!-- <input type="date"  id="labTestDate"  class="form-control" disabled required> -->
+          </div>
 
 
+        </div>
+        <br>
+        <div class="row  ">
+          <!-- counselor-riskRow -->
+          <div class="col-md-2 consulor-mainrisk">
+            <label for="">Main Risk</label>
+            <select class="form-control" id="main_risk" onchange="PatientType()" disabled>
+              <option selected value="-"></option>
+              <option id="preg_mom" value="Pregnant Mother">Pregnant Mother</option>
+              <option id="sp_preg_mom" value="Spouse of pregnant mother">Spouse of pregnant mother</option>
+              <option id="" value="Exposed Children">Exposed Children</option>
+              <option id="" value="Low Risk">Low Risk</option>
+              <option id="" value="PWUD">PWUD</option>
+              <option id="fsw" value="FSW">FSW</option>
+              <option id="cl_fsw" value="Client of FSW">Client of FSW</option>
+              <option id="msm" value="MSM">MSM</option>
+              <option id="" value="IDU">IDU</option>
+              <option id="tg" value="TG">TG</option>
+              <option id="pt_kp" value="Partner of KP">Partner of KP</option>
+              <option id="pt_kp_plhiv" value="Partner of PLHIV">Partner of PLHIV</option>
+              <option id="" value="Special Groups">Special Groups</option>
+              <option value="Migrant Population">Migrant Population</option>
+            </select>
+          </div>
+          <div class="col-sm-2 consulor-subrisk">
+            <label for="">Sub Risk</label>
+            <select class="form-control" id="sub_risk" disabled>
+              <option selected value="-"></option>
+              <option value="PP">PP</option>
+              <option value="MP">MP</option>
+              <option value="HIV(Pos)">HIV(Pos)</option>
+              <option value="HIV(Neg)Woman">HIV(Neg)Woman</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="Youth(15-24)">Youth(15-24)</option>
+              <option value="Other Low Risk">Other Low Risk</option>
+              <option value="FSW_PWID">FSW_PWID</option>
+              <option value="FSW_PWUD">FSW_PWUD</option>
+              <option value="MSM_PWID">MSM_PWID</option>
+              <option value="MSM_PWUD">MSM_PWUD</option>
+              <option value="PWID_FSW">PWID_FSW</option>
+              <option value="PWID_MSM">PWID_MSM</option>
+              <option value="TG_PWID">TG_PWID</option>
+              <option value="TG_PWUD">TG_PWUD</option>
+              <option value="TG_SW">TG_SW</option>
+              <option value="Partner of PWID">Partner of PWID</option>
+              <option value="Partner of FSW">Partner of FSW</option>
+              <option value="Female of MSM">Female of MSM</option>
+              <option value="TB Patient">TB Patient</option>
+              <option value="Institutionalize">Institutionalize</option>
+              <option value="Uniformed Services Personnel">Uniformed Services Personnel</option>
+            </select>
 
-              <br>
-              <div class="counselling_test">
-                  <!-- <div class="row">
+          </div>
+
+          <div class="col-md-2 counsulor-regAge">
+            <label for="validationCustom02" class="form-label">Register Age</label>
+            <input type="number" id="agey_register" onblur="reg_age_change()" class="form-control">
+          </div>
+          <div class="col-md-2 counsulor-regAge">
+            <label for="validationCustom02" class="form-label">Reg_Age(M)</label>
+            <input type="number" id="agem_register" onblur="reg_age_change()" class="form-control">
+          </div>
+          <div class="col-md-2 consulor-age">
+            <label for="validationCustom02" class="form-label">Current Age(Year)</label>
+            <input type="number" id="agey" class="form-control">
+            <div class="valid-feedback">
+              plz put patient age.
+            </div>
+          </div>
+          <div class="col-md-2 consulor-age">
+            <label for="validationCustom02" class="form-label">Current Age(Month)</label>
+            <input type="number" id="agem" onchange="monthValid()" class="form-control">
+            <div class="valid-feedback">
+              plz put patient age.
+            </div>
+          </div>
+
+          <div class="col-md-2" style="display: none">
+            <label for="validationCustom02" class="form-label">Register Age(month)</label>
+            <input type="number" id="agem_register" class="form-control">
+          </div>
+
+
+          <div class="col-sm-2 consulor-srt" id="state_hide">
+            <label for="">State / Region</label>
+
+            <select class="form-select reception-select" id="state" required onchange="region(this.value)">
+              <option selected value="-"></option>
+              <option value="Ayeyarwady">Ayeyarwady</option>
+              <option value="Bago(East)">Bago(East)</option>
+              <option value="Bago(West)">Bago(West)</option>
+              <option value="Chin">Chin</option>
+              <option value="Kachin">Kachin</option>
+              <option value="Kayah">Kayah</option>
+              <option value="Kayin">Kayin</option>
+              <option value="Mgway">Mgway</option>
+              <option value="Mandalay">Mandalay</option>
+              <option value="Mon">Mon</option>
+              <option value="NaypyiTaw">NaypyiTaw</option>
+              <option value="Rakhine">Rakhine</option>
+              <option value="Sagaing">Sagaing</option>
+              <option value="Shan(East)">Shan(East)</option>
+              <option value="Shan(North)">Shan(North)</option>
+              <option value="Shan(South)">Shan(South)</option>
+              <option value="Tanintharyi">Tanintharyi</option>
+              <option value="Yangon">Yangon</option>
+            </select>
+          </div>
+          <div class="col-sm-2 consulor-srt" id="township_hide">
+            <label for="">Township</label>
+
+            <select class="form-select reception-select" id="township">
+              <option id="tt_opt"></option>
+              <option selected value="-"></option>
+              <option value="Insein">Insein</option>
+              <option value="MingalarDon">MingalarDon</option>
+              <option value="Hmawbi">Hmawbi</option>
+              <option value="Hlegu">Hlegu</option>
+              <option value="Taikkyi">Taikkyi</option>
+              <option value="Htantabin">Htantabin</option>
+              <option value="Shwepyithar">Shwepyithar</option>
+              <option value="Hlaingtharya">Hlaingtharya</option>
+              <option value="Thingangyun">Thingangyun</option>
+              <option value="Yankin">Yankin</option>
+              <option value="South Okkalapa">South Okkalapa</option>
+              <option value="North Okkalapa">North Okkalapa</option>
+              <option value="Thaketa">Thaketa</option>
+              <option value="Dawbon">Dawbon</option>
+              <option value="Tamwe">Tamwe</option>
+              <option value="Pazundaung">Pazundaung</option>
+              <option value="Botahtaung">Botahtaung</option>
+              <option value="Dagon Myothit (South)">Dagon Myothit (South)</option>
+              <option value="Dagon Myothit (North)">Dagon Myothit (North)</option>
+              <option value="Dagon Myothit (East)">Dagon Myothit (East)</option>
+              <option value="Dagon Myothit (Seikkan)">Dagon Myothit (Seikkan)</option>
+              <option value="Mingalartaungnyunt">Mingalartaungnyunt</option>
+              <option value="Thanlyin">Thanlyin</option>
+              <option value="Kyauktan">Kyauktan</option>
+              <option value="Thongwa">Thongwa</option>
+              <option value="Kayan">Kayan</option>
+              <option value="Twantay">Twantay</option>
+              <option value="Kawhmu">Kawhmu</option>
+              <option value="Kungyangon">Kungyangon</option>
+              <option value="Dala">Dala</option>
+              <option value="Seikgyikanaungto">Seikgyikanaungto</option>
+              <option value="Cocokyun">Cocokyun</option>
+              <option value="Kyauktada">Kyauktada</option>
+              <option value="Pabedan">Pabedan</option>
+              <option value="Lanmadaw">Lanmadaw</option>
+              <option value="Latha">Latha</option>
+              <option value="Ahlone">Ahlone</option>
+              <option value="Kyeemyindaing">Kyeemyindaing</option>
+              <option value="Sanchaung">Sanchaung</option>
+              <option value="Hlaing">Hlaing</option>
+              <option value="Kamaryut">Kamaryut</option>
+              <option value="Mayangone">Mayangone</option>
+              <option value="Dagon">Dagon</option>
+              <option value="Bahan">Bahan</option>
+              <option value="Seikkan">Seikkan</option>
+            </select>
+
+          </div>
+          <div class="col-md-2 consulor-srt" id="quarter_hide">
+            <label for="">Ward/Village(detail)</label>
+            <input type="text" id="quarter" class="form-control" required>
+          </div>
+          <div class="col-sm-2 consulor-srt" id="phone_hide">
+            <label for="">Phone No.1</label>
+            <div>
+              <input id="phone" class="form-control" type="text" name="" placeholder="09123459789">
+            </div>
+          </div>
+          <div class="col-sm-2 consulor-srt" id="phone2_hide">
+            <label for="">Phone No.2</label>
+            <div>
+              <input id="phone2" class="form-control" type="text" name="" placeholder="09123459789">
+            </div>
+          </div>
+          <div class="col-sm-2 consulor-srt" id="phone3_hide">
+            <label for="">Phone No.3</label>
+            <div>
+              <input id="phone3" class="form-control" type="text" name="" placeholder="09123459789">
+            </div>
+          </div>
+
+
+          <div class="col-md-3">
+            <button type="button" id="riskUpdate" onclick="Save_and_Update()" class="btn btn-warning update-batton "
+              style="display:none">Only Patient Info_Update</button>
+          </div>
+
+        </div>
+
+
+
+        <br>
+        <div class="counselling_test">
+          <!-- <div class="row">
                     <div class="col-md-3" id="hts-onOff">
                       <label class="switch" style="float:left;">
                         <input type="checkbox" checked id="switch_toggle" onchange="switchToggle()">
@@ -359,558 +392,566 @@
                       <label>HTS Entry On/Off</label>
                     </div>
                   </div> -->
-                  <div class="row hts-entry"> <!--service -->
-                    <div class="col-md-2 consulor-srt consulor-switch">
-                      <label for="">Service Modality</label>
-                      <select class="form-select"onchange="Service_Modality()" id="service"required>
-                        <option selected  value="-" ></option>
-                        <option value="Community">Community</option>
-                        <option value="Facility">Facility</option>
-                      </select>
-                    </div>
-                    <div class="col-md-2 consulor-srt consulor-switch">
-                      <label for="">Mode of Entry</label>
-                      <select class="form-select" id="m_o_entry"required>
-                        <option selected  value="-"></option>
-                        <option value="Index">Index</option>
-                        <option value="SNS">SNS</option>
-                        <option value="TB">TB</option>
-                        <option value="STI">STI</option>
-                        <option value="HIV-ST">HIV-ST</option>
-                        <option value="VCT">VCT</option>
+          <div class="row hts-entry">
+            <!--service -->
+            <div class="col-md-2 consulor-srt consulor-switch">
+              <label for="">Service Modality</label>
+              <select class="form-select" onchange="Service_Modality()" id="service" required>
+                <option selected value="-"></option>
+                <option value="Community">Community</option>
+                <option value="Facility">Facility</option>
+              </select>
+            </div>
+            <div class="col-md-2 consulor-srt consulor-switch">
+              <label for="">Mode of Entry</label>
+              <select class="form-select" id="m_o_entry" required>
+                <option selected value="-"></option>
+                <option value="Index">Index</option>
+                <option value="SNS">SNS</option>
+                <option value="TB">TB</option>
+                <option value="STI">STI</option>
+                <option value="HIV-ST">HIV-ST</option>
+                <option value="VCT">VCT</option>
 
-                        <option value="Moble/CBS">Mobile/CBS</option>
-                        <option value="SNS">SNS</option>
-                        <option value="Index">Index</option>
-                        <option value="HIV-ST">HIV-ST</option>
-                      </select>
-                    </div>
-                    <div class="col-md-2 consulor-srt consulor-switch">
-                      <label for="">New/Old</label>
-                      <select class="form-select" id="new_old"required>
-                        <option selected  value="-"></option>
-                        <option value="New">New</option>
-                        <option value="Old">Old</option>
-                      </select>
-                    </div>
-                    <div class="col-md-2 consulor-srt consulor-switch">
-                      <label for="">Test Type</label>
-                      <select class="form-select" id="lab_location" onchange="Lab_locate()">
-                        <option selected  value="clinic_lab">Clinic Lab</option>
-                        <option value="self_test">Self test</option>
-                        <option value="cbs">Cbs</option>
-                        <option value="private">Private</option>
+                <option value="Moble/CBS">Mobile/CBS</option>
+                <option value="SNS">SNS</option>
+                <option value="Index">Index</option>
+                <option value="HIV-ST">HIV-ST</option>
+              </select>
+            </div>
+            <div class="col-md-2 consulor-srt consulor-switch">
+              <label for="">New/Old</label>
+              <select class="form-select" id="new_old" required>
+                <option selected value="-"></option>
+                <option value="New">New</option>
+                <option value="Old">Old</option>
+              </select>
+            </div>
+            <div class="col-md-2 consulor-srt consulor-switch">
+              <label for="">Test Type</label>
+              <select class="form-select" id="lab_location" onchange="Lab_locate()">
+                <option selected value="clinic_lab">Clinic Lab</option>
+                <option value="self_test">Self test</option>
+                <option value="cbs">Cbs</option>
+                <option value="private">Private</option>
 
-                      </select>
-                    </div>
-                  </div>
-                  <div class="row hts-entry">
-                    <div class="col-sm-5 consulor-result consulor-switch"><!--HIV -->
-                      <div class="row">
-                        <label >HIV Test Results</label>
-                        <div class="input-group mb-2 no-margin">
-                          <div class="date-holder">
-                            <input type="text" id="hiv_test_date" class="form-control Gdate" placeholder="dd-mm-yyyy">
-                            <img src="../img/calendar3.svg" class="dateimg" alt="date">
-                          </div>
-                          <!-- <input type="date"  id="hiv_test_date"  class="form-control" required> -->
-                          <div class="input-group-prepend no-margin">
-                            <button onclick="hiv_test_date()" class="btn btn-info input-group-text fetch-color">Fetch</button>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-md-3">
-                          <label>Determine</label>
-                          <select onchange="determineResult()" class="form-control"id="d_result" name="" disabled >
-                            <option value=""></option>
-                            <option value="Reactive">Reactive</option>
-                            <option value="Non Reactive">Non Reactive</option>
-                            <option value="Invalid">Invalid</option>
-                          </select>
-                        </div>
-                        <div class="col-md-3">
-                          <label>Uni-Gold</label>
-                          <select class="form-control" onchange="hiv_uni_result()" id="uni_result" name="" disabled >
-                            <option id="uni_bl" value=""></option>
-                            <option value="Reactive">Reactive</option>
-                            <option value="Non Reactive">Non Reactive</option>
-                            <option value="Invalid">Invalid</option>
-                          </select>
-                        </div>
-                        <div class="col-md-3">
-                          <label>STAT-PAK</label>
-                          <select class="form-control" onchange="hiv_result_cal()" id="stat_result" name="" disabled >
-                            <option id="stat_bl" value=""></option>
-                            <option value="Reactive">Reactive</option>
-                            <option value="Non Reactive">Non Reactive</option>
-                            <option value="Invalid">Invalid</option>
-                          </select>
-                        </div>
-                        <div class="col-md-3">
-                          <label>Final Result</label>
-                          <select class="form-control"id="final_result" disabled>
-                            <option value=""></option>
-                            <option id="Positive" value="Positive">Positive</option>
-                            <option id="Negative" value="Negative">Negative</option>
-                            <option id="Inconclusive" value="Inconclusive">Inconclusive</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-sm-3 consulor-result consulor-switch">
-                      <div class="row">
-                        <label>Hepatitis Test Results</label>
-                        <div class="input-group mb-2">
-                          <div class="date-holder">
-                            <input type="text" id="hep_date" class="form-control Gdate" placeholder="dd-mm-yyyy">
-                            <img src="../img/calendar3.svg" class="dateimg" alt="date">
-                          </div>
-                          <div class="input-group-prepend no-margin">
-                            <button onclick="hepB_test_date()" class="btn btn-info input-group-text fetch-color">Fetch</button>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-md-6">
-                          <label>HBsAg</label>
-                          <select class="form-control" id="B_result" disabled >
-                            <option value=""></option>
-                            <option value="Positive">Positive</option>
-                            <option value="Negative">Negative</option>
-                          </select>
-                        </div>
-                        <div class="col-md-6">
-                          <label>HCV Ab</label>
-                          <select class="form-control" id="C_result" disabled >
-                            <option value=""></option>
-                            <option value="Positive">Positive</option>
-                            <option value="Negative">Negative</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-sm-4 consulor-result consulor-switch">
-                      <div class="row">
-                        <label class="counsel-syphillis">Syphillis Test Results /Last Dilution: </label> <span id="ls_rpr_dilution"></span>
-                        <div class="input-group mb-2">
-                          <!-- <input type="date"  id="syp_date"  class="form-control" required> -->
-                          <div class="date-holder">
-                            <input type="text" id="syp_date" class="form-control Gdate" placeholder="dd-mm-yyyy">
-                            <img src="../img/calendar3.svg" class="dateimg" alt="date">
-                          </div>
-                          <div class="input-group-prepend no-margin">
-                            <button onclick="Rrp_test_date()" class="btn btn-info input-group-text fetch-color">Fetch</button>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-md-4">
-                          <label>RDT</label>
-                          <select class="form-control" id="Sy_rdt_result" disabled >
-                            <option value=""></option>
-                            <option value="Positive">Positive</option>
-                            <option value="Negative">Negative</option>
-                          </select>
-                        </div>
-                        <div class="col-md-4">
-                          <label>RPR</label>
-                          <select class="form-control" id="qualitative" disabled >
-                            <option value=""></option>
-                            <option value="Reactive">Reactive</option>
-                            <option value="Non Reactive">Non Reactive</option>
-                          </select>
-                        </div>
-                        <div class="col-md-4">
-                          <label>VDRL</label>
-                          <input id="syp_vdrl" class="form-control" type="text" name="" value="" disabled>
-                        </div>
-                        
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row counHTS-prepost">
-                    <div class="col-md-2 counselling-prePost" >
-
-                      <div class="">
-                        <input type="checkbox" id="pre" class="con-prepost "  ><label class="form-label" style="background-color: #0F6292;display: inline;">Pre-test Counselling</label>
-                      </div>
-                      <div class="">
-                        <input type="checkbox" id="post" class="con-prepost"  ><label class="form-label" style="background-color: #0F6292;display: inline;">Post-test Counselling</label>
-                      </div>
-
-                    </div>
-                    <div class="col-md-2 consulor-srt "id="hts_test_done_hide">
-                      <label for="">HTS Testing</label>
-                      <select class="form-select" onchange="reason()" id="hts_test_done"required>
-                        <option value="Yes">Yes</option>
-                        <option value="No" selected>No</option>
-                      </select>
-                    </div>
-                    <div class="col-md-2 consulor-srt "id="hts_test_no_reason_hide">
-                      <label for="">Reason</label>
-                      <select class="form-select"onchange="" id="hts_test_no_reason"required>
-                        <option selected  value="-" ></option>
-                        <option value="KC">KC</option>
-                        <option value="OVP">OVP</option>
-                        <option value="RPR Only">RPR Only</option>
-                        <option value="Denied">Client Denied</option>
-                      </select>
-                    </div>
-                    <div class="col-md-2"id="status_hide">
-                      <label for="">Status</label>
-                      <select class="form-select"onchange="" disabled id="status">
-                        <option selected  value="-" ></option>
-                        <option value="Enroll to Clinic">Enroll to Clinic</option>
-                        <option value="Refer or Temporary">Refer or Temporary</option>
-                        <option value="Client denied">Client denied</option>
-                      </select>
-                    </div>
-                    <div class="col-md-2 " id="prep_hide" >
-                      <div class="consulor-prepCounseling">
-                      <input type="checkbox" id="prep" class="con-prepost"  ><label class="form-label" style="background-color: #0F6292;display: inline;">PrEP Counselling</label>
-                      </div>
-                    </div>
-                    <div class="col-md-2 "id="prep_status_hide">
-                      <label for="">PrEP Status</label>
-                      <select class="form-select"onchange="" id="prep_status"required>
-                        <option selected  value="-" ></option>
-                        <option value="Initiate_Enroll">InitiateEnroll to Clinic</option>
-                        <option value="Follow_Up">Follow Up</option>
-                        <option value="Restart">Restart</option>
-                        <option value="Stop">Stop</option>
-                      </select>
-                    </div>
-                  </div>
-                  <br class="pc">
-                  <div class="row counselling-type">
-                      <h3 id="toc_title_hide" class="header-text">Type of Counselling</h3>
-                        <div class="form-check-inline col-sm-1"id="c1_hide">
-                            <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" id="c1" value="">C1
-                            </label>
-                        </div>
-                        <div class="form-check-inline col-sm-1" id="c2_hide">
-                            <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" id="c2" value="">C2
-                            </label>
-                        </div>
-                        <div class="form-check-inline col-sm-1" id="c2_hide">
-                          <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input" id="c2_done" value="">C2 Done
-                          </label>
-                        </div>
-                        <div class="form-check-inline col-sm-1"id="c3_hide">
-                            <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" id="c3" value="">C3
-                            </label>
-                        </div>
-                        <div class="form-check-inline col-sm-1"id="adh_hide">
-                            <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" id="adh" value="">ADH
-                            </label>
-                        </div>
-                        <div class="form-check-inline col-sm-1" id="adh_hide">
-                          <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input" id="stable" value="">Stable
-                          </label>
-                      </div>
-                        <div class="form-check-inline col-sm-1"id="child_adoles_hide" style="display:none">
-                            <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" id="child_adoles" value=""> &#60;15 Adoles
-                            </label>
-                        </div>
-                        <div class="form-check-inline col-sm-1"id="child_dis_hide">
-                            <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" id="child_dis" value=""> &#60;15 Disclosure
-                            </label>
-                        </div>
-                        <div class="form-check-inline col-sm-1"id="child_adh_hide">
-                            <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" id="child_adh" value="">&#60;15 ADH
-                            </label>
-                        </div>
-                        <div class="form-check-inline col-sm-1"id="mmt_hide">
-                            <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" id="mmt" value=""> OST
-                            </label>
-                        </div>
-                        <div class="form-check-inline col-sm-1"id="ipt_hide">
-                            <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" id="ipt" value=""> ART+TB/IPT
-                            </label>
-                        </div>
-                        <div class="form-check-inline col-sm-1"id="tb_hide">
-                            <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" id="tb"value="">Only TB
-                            </label>
-                        </div>
-
-                      <div class="form-check-inline col-sm-1"id="ncd_hide">
-                          <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input" id="ncd"value=""> NCD
-                          </label>
-                      </div>
-                      <div class="form-check-inline col-sm-1"id="anc_hide" >
-                          <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input" id="anc" value=""> ANC
-                          </label>
-                      </div>
-                      <div class="form-check-inline col-sm-1"id="pfa_hide">
-                          <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input" id="pfa" value=""> PFA
-                          </label>
-                      </div>
-                      <div class="form-check-inline col-sm-1"id="phq9_hide">
-                          <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input" id="phq9" value=""> PHQ9
-                          </label>
-                      </div>
-                      <div class="form-check-inline col-sm-1"id="other_hide">
-                          <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input" id="other"value=""> Other
-                          </label>
-                      </div>
-                      <div class="form-check-inline col-sm-1" id="eac_hide">
-                          <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input" id="eac" value=""> EAC
-                          </label>
-                      </div>
-                      <div class="form-check-inline col-sm-1"id="hmt_hide">
-                          <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input"id="hmt" value="">FHT
-                          </label>
-                      </div>
-                      <div class="form-check-inline col-sm-1"id="c_p_case_hide">
-                          <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input"id="c_p_case" value=""> C P case
-                          </label>
-                      </div>
-                      <div class="form-check-inline col-sm-1"id="pmtct_hide">
-                          <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input"id="pmtct" value=""> PMTCT
-                          </label>
-                      </div>
-                      <div class="form-check-inline col-sm-1">
-                        <label class="form-check-label">
-                          <input type="checkbox" class="form-check-input"id="phq4" value=""> PHQ4
-                        </label>
-                      </div>
-                      <div class="form-check-inline col-sm-1">
-                        <label class="form-check-label">
-                          <input type="checkbox" class="form-check-input"id="gad7" value=""> GAD7
-                        </label>
-                      </div>
-                      <div class="form-check-inline col-sm-1">
-                        <label class="form-check-label">
-                          <input type="checkbox" class="form-check-input"id="brest_cancer" value=""> Breast Cancer
-                        </label>
-                      </div>
-                      <div class="form-check-inline col-sm-1">
-                        <label class="form-check-label">
-                          <input type="checkbox" class="form-check-input"id="hepC" value=""> Hep C
-                        </label>
-                      </div>
-                      <div class="form-check-inline col-sm-1">
-                        <label class="form-check-label">
-                          <input type="checkbox" class="form-check-input"id="art_ost" value=""> ART+OST
-                        </label>
-                      </div>
-                      <div class="form-check-inline col-sm-1">
-                        <label class="form-check-label">
-                          <input type="checkbox" class="form-check-input"id="d1" value=""> D1
-                        </label>
-                      </div>
-                      <div class="form-check-inline col-sm-1">
-                        <label class="form-check-label">
-                          <input type="checkbox" class="form-check-input"id="d2" value="">D2
-                        </label>
-                      </div>
-                      <div class="form-check-inline col-sm-1">
-                        <label class="form-check-label">
-                          <input type="checkbox" class="form-check-input"id="d3" value=""> D3
-                        </label>
-                      </div>
-                      <div class="form-check-inline col-sm-1">
-                        <label class="form-check-label">
-                          <input type="checkbox" class="form-check-input"id="d4" value=""> D4
-                        </label>
-                      </div>
-                      <div class="form-check-inline col-sm-1">
-                        <label class="form-check-label">
-                          <input type="checkbox" class="form-check-input"id="cage" value=""> CAGE
-                        </label>
-                      </div>
-                    </div>
-
-                  <br>
-                  <div class='row' >
-
-                    <div class="col-sm-2 tablet-pc" >
-                      <button type="button" id="saveBton" onclick="Save_and_Update()" class="btn btn-warning update-batton ">Save</button>
-                    </div>
-                    <div class="col-sm-2" >
-                      <button type="button" id="updateBton" style="display:none;" onclick="Save_and_Update()" class="btn btn-warning update-batton ">Update</button>
-                    </div>
-                    <div class="col-md-6 ">
-                      <label style="color:yellow;"  id="responseText">With Lab Risk Data Updated</label>
-                    </div>
-                  </div>
-              </div>
-
-        </div><br>
-      </div>
-      <div class="tab-pane container containers cosulor-parent-div" id="second">
-        <div>
-          <div>
-              <h2 class="header-text">HTS Data Update Section</h2>
+              </select>
+            </div>
           </div>
-        </div><br>
-
-              <div class="row ">
-                <div class="col-sm-2 search-type">
-                  <label>Date or ID search</label>
-                  <select class="form-control" id="search_type" onchange="type_Search()">
-                    <option selected value="date_type">Date</option>
-                    <option value="id_type">ID</option>
-                  </select>
-                </div>
-                <div class="col-sm-2 update-counHts">
-                  <label>Counselling/HTS</label>
-                  <select class="form-control" id="update_type">
-                    <option selected value="upd_counsel">Counselling Updated</option>
-                    <option value="upd_HTS">HTS_Updated</option>
-                  </select>
-              </div>
-              <div class="col-sm-2 counHTS-date">
-                  <label for="validationCustom01" class="form-label HTS-label">From(dd-mm-yyyy)</label>
+          <div class="row hts-entry">
+            <div class="col-sm-5 consulor-result consulor-switch">
+              <!--HIV -->
+              <div class="row">
+                <label>HIV Test Results</label>
+                <div class="input-group mb-2 no-margin">
                   <div class="date-holder">
-                    <input type="text"  id="dateFrom" class="form-control Gdate" placeholder="dd-mm-yyyy">
+                    <input type="text" id="hiv_test_date" class="form-control Gdate" placeholder="dd-mm-yyyy">
                     <img src="../img/calendar3.svg" class="dateimg" alt="date">
                   </div>
-                  <!-- <input id="dateFrom" type="date" autofocus class="form-control" > -->
-                </div>
-               
-                <div class="col-sm-2 counHTS-date">
-                  <label for="validationCustom01" class="form-label HTS-label">To(dd-mm-yyyy)</label>
-                  <div class="date-holder">
-                    <input type="text"  id="dateTo" class="form-control Gdate" placeholder="dd-mm-yyyy">
-                    <img src="../img/calendar3.svg" class="dateimg" alt="date">
+                  <!-- <input type="date"  id="hiv_test_date"  class="form-control" required> -->
+                  <div class="input-group-prepend no-margin">
+                    <button onclick="hiv_test_date()" class="btn btn-info input-group-text fetch-color">Fetch</button>
                   </div>
-                  <!-- <input id="dateTo" type="date"  class="form-control" > -->
-                </div>
-                <div class="col-md-2 id_searchType " style="display:none">
-                  <input type="text" class="form-control" autofocus="" id="sid" placeholder="General ID ">
-                </div>
-                <div class="col-sm-1 no-margin counselShow">
-                  <button type="button" id="updateBton" onclick="HTS_list()" class="btn btn-primary counHTS-show ">Show</button>
                 </div>
               </div>
+              <div class="row">
+                <div class="col-md-3">
+                  <label>Determine</label>
+                  <select onchange="determineResult()" class="form-control" id="d_result" name="" disabled>
+                    <option value=""></option>
+                    <option value="Reactive">Reactive</option>
+                    <option value="Non Reactive">Non Reactive</option>
+                    <option value="Invalid">Invalid</option>
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <label>Uni-Gold</label>
+                  <select class="form-control" onchange="hiv_uni_result()" id="uni_result" name="" disabled>
+                    <option id="uni_bl" value=""></option>
+                    <option value="Reactive">Reactive</option>
+                    <option value="Non Reactive">Non Reactive</option>
+                    <option value="Invalid">Invalid</option>
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <label>STAT-PAK</label>
+                  <select class="form-control" onchange="hiv_result_cal()" id="stat_result" name="" disabled>
+                    <option id="stat_bl" value=""></option>
+                    <option value="Reactive">Reactive</option>
+                    <option value="Non Reactive">Non Reactive</option>
+                    <option value="Invalid">Invalid</option>
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <label>Final Result</label>
+                  <select class="form-control" id="final_result" disabled>
+                    <option value=""></option>
+                    <option id="Positive" value="Positive">Positive</option>
+                    <option id="Negative" value="Negative">Negative</option>
+                    <option id="Inconclusive" value="Inconclusive">Inconclusive</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-3 consulor-result consulor-switch">
+              <div class="row">
+                <label>Hepatitis Test Results</label>
+                <div class="input-group mb-2">
+                  <div class="date-holder">
+                    <input type="text" id="hep_date" class="form-control Gdate" placeholder="dd-mm-yyyy">
+                    <img src="../img/calendar3.svg" class="dateimg" alt="date">
+                  </div>
+                  <div class="input-group-prepend no-margin">
+                    <button onclick="hepB_test_date()" class="btn btn-info input-group-text fetch-color">Fetch</button>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <label>HBsAg</label>
+                  <select class="form-control" id="B_result" disabled>
+                    <option value=""></option>
+                    <option value="Positive">Positive</option>
+                    <option value="Negative">Negative</option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label>HCV Ab</label>
+                  <select class="form-control" id="C_result" disabled>
+                    <option value=""></option>
+                    <option value="Positive">Positive</option>
+                    <option value="Negative">Negative</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4 consulor-result consulor-switch">
+              <div class="row">
+                <label class="counsel-syphillis">Syphillis Test Results /Last Dilution: </label> <span
+                  id="ls_rpr_dilution"></span>
+                <div class="input-group mb-2">
+                  <!-- <input type="date"  id="syp_date"  class="form-control" required> -->
+                  <div class="date-holder">
+                    <input type="text" id="syp_date" class="form-control Gdate" placeholder="dd-mm-yyyy">
+                    <img src="../img/calendar3.svg" class="dateimg" alt="date">
+                  </div>
+                  <div class="input-group-prepend no-margin">
+                    <button onclick="Rrp_test_date()" class="btn btn-info input-group-text fetch-color">Fetch</button>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label>RDT</label>
+                  <select class="form-control" id="Sy_rdt_result" disabled>
+                    <option value=""></option>
+                    <option value="Positive">Positive</option>
+                    <option value="Negative">Negative</option>
+                  </select>
+                </div>
+                <div class="col-md-4">
+                  <label>RPR</label>
+                  <select class="form-control" id="qualitative" disabled>
+                    <option value=""></option>
+                    <option value="Reactive">Reactive</option>
+                    <option value="Non Reactive">Non Reactive</option>
+                  </select>
+                </div>
+                <div class="col-md-4">
+                  <label>VDRL</label>
+                  <input id="syp_vdrl" class="form-control" type="text" name="" value="" disabled>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div class="row counHTS-prepost">
+            <div class="col-md-2 counselling-prePost">
+
+              <div class="">
+                <input type="checkbox" id="pre" class="con-prepost "><label class="form-label"
+                  style="background-color: #0F6292;display: inline;">Pre-test Counselling</label>
+              </div>
+              <div class="">
+                <input type="checkbox" id="post" class="con-prepost"><label class="form-label"
+                  style="background-color: #0F6292;display: inline;">Post-test Counselling</label>
+              </div>
+
+            </div>
+            <div class="col-md-2 consulor-srt " id="hts_test_done_hide">
+              <label for="">HTS Testing</label>
+              <select class="form-select" onchange="reason()" id="hts_test_done" required>
+                <option value="Yes">Yes</option>
+                <option value="No" selected>No</option>
+              </select>
+            </div>
+            <div class="col-md-2 consulor-srt " id="hts_test_no_reason_hide">
+              <label for="">Reason</label>
+              <select class="form-select" onchange="" id="hts_test_no_reason" required>
+                <option selected value="-"></option>
+                <option value="KC">KC</option>
+                <option value="OVP">OVP</option>
+                <option value="RPR Only">RPR Only</option>
+                <option value="Denied">Client Denied</option>
+              </select>
+            </div>
+            <div class="col-md-2" id="status_hide">
+              <label for="">Status</label>
+              <select class="form-select" onchange="" disabled id="status">
+                <option selected value="-"></option>
+                <option value="Enroll to Clinic">Enroll to Clinic</option>
+                <option value="Refer or Temporary">Refer or Temporary</option>
+                <option value="Client denied">Client denied</option>
+              </select>
+            </div>
+            <div class="col-md-2 " id="prep_hide">
+              <div class="consulor-prepCounseling">
+                <input type="checkbox" id="prep" class="con-prepost"><label class="form-label"
+                  style="background-color: #0F6292;display: inline;">PrEP Counselling</label>
+              </div>
+            </div>
+            <div class="col-md-2 " id="prep_status_hide">
+              <label for="">PrEP Status</label>
+              <select class="form-select" onchange="" id="prep_status" required>
+                <option selected value="-"></option>
+                <option value="Initiate_Enroll">InitiateEnroll to Clinic</option>
+                <option value="Follow_Up">Follow Up</option>
+                <option value="Restart">Restart</option>
+                <option value="Stop">Stop</option>
+              </select>
+            </div>
+          </div>
+          <br class="pc">
+          <div class="row counselling-type">
+            <h3 id="toc_title_hide" class="header-text">Type of Counselling</h3>
+            <div class="form-check-inline col-sm-1" id="c1_hide">
+              <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" id="c1" value="">C1
+              </label>
+            </div>
+            <div class="form-check-inline col-sm-1" id="c2_hide">
+              <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" id="c2" value="">C2
+              </label>
+            </div>
+            <div class="form-check-inline col-sm-1" id="c2_hide">
+              <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" id="c2_done" value="">C2 Done
+              </label>
+            </div>
+            <div class="form-check-inline col-sm-1" id="c3_hide">
+              <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" id="c3" value="">C3
+              </label>
+            </div>
+            <div class="form-check-inline col-sm-1" id="adh_hide">
+              <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" id="adh" value="">ADH
+              </label>
+            </div>
+            <div class="form-check-inline col-sm-1" id="adh_hide">
+              <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" id="stable" value="">Stable
+              </label>
+            </div>
+            <div class="form-check-inline col-sm-1" id="child_adoles_hide" style="display:none">
+              <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" id="child_adoles" value=""> &#60;15 Adoles
+              </label>
+            </div>
+            <div class="form-check-inline col-sm-1" id="child_dis_hide">
+              <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" id="child_dis" value=""> &#60;15 Disclosure
+              </label>
+            </div>
+            <div class="form-check-inline col-sm-1" id="child_adh_hide">
+              <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" id="child_adh" value="">&#60;15 ADH
+              </label>
+            </div>
+            <div class="form-check-inline col-sm-1" id="mmt_hide">
+              <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" id="mmt" value=""> OST
+              </label>
+            </div>
+            <div class="form-check-inline col-sm-1" id="ipt_hide">
+              <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" id="ipt" value=""> ART+TB/IPT
+              </label>
+            </div>
+            <div class="form-check-inline col-sm-1" id="tb_hide">
+              <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" id="tb" value="">Only TB
+              </label>
+            </div>
+
+            <div class="form-check-inline col-sm-1" id="ncd_hide">
+              <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" id="ncd" value=""> NCD
+              </label>
+            </div>
+            <div class="form-check-inline col-sm-1" id="anc_hide">
+              <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" id="anc" value=""> ANC
+              </label>
+            </div>
+            <div class="form-check-inline col-sm-1" id="pfa_hide">
+              <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" id="pfa" value=""> PFA
+              </label>
+            </div>
+            <div class="form-check-inline col-sm-1" id="phq9_hide">
+              <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" id="phq9" value=""> PHQ9
+              </label>
+            </div>
+            <div class="form-check-inline col-sm-1" id="other_hide">
+              <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" id="other" value=""> Other
+              </label>
+            </div>
+            <div class="form-check-inline col-sm-1" id="eac_hide">
+              <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" id="eac" value=""> EAC
+              </label>
+            </div>
+            <div class="form-check-inline col-sm-1" id="hmt_hide">
+              <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" id="hmt" value="">FHT
+              </label>
+            </div>
+            <div class="form-check-inline col-sm-1" id="c_p_case_hide">
+              <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" id="c_p_case" value=""> C P case
+              </label>
+            </div>
+            <div class="form-check-inline col-sm-1" id="pmtct_hide">
+              <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" id="pmtct" value=""> PMTCT
+              </label>
+            </div>
+            <div class="form-check-inline col-sm-1">
+              <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" id="phq4" value=""> PHQ4
+              </label>
+            </div>
+            <div class="form-check-inline col-sm-1">
+              <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" id="gad7" value=""> GAD7
+              </label>
+            </div>
+            <div class="form-check-inline col-sm-1">
+              <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" id="brest_cancer" value=""> Breast Cancer
+              </label>
+            </div>
+            <div class="form-check-inline col-sm-1">
+              <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" id="hepC" value=""> Hep C
+              </label>
+            </div>
+            <div class="form-check-inline col-sm-1">
+              <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" id="art_ost" value=""> ART+OST
+              </label>
+            </div>
+            <div class="form-check-inline col-sm-1">
+              <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" id="d1" value=""> D1
+              </label>
+            </div>
+            <div class="form-check-inline col-sm-1">
+              <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" id="d2" value="">D2
+              </label>
+            </div>
+            <div class="form-check-inline col-sm-1">
+              <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" id="d3" value=""> D3
+              </label>
+            </div>
+            <div class="form-check-inline col-sm-1">
+              <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" id="d4" value=""> D4
+              </label>
+            </div>
+            <div class="form-check-inline col-sm-1">
+              <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" id="cage" value=""> CAGE
+              </label>
+            </div>
+          </div>
+
+          <br>
+          <div class='row'>
+
+            <div class="col-sm-2 tablet-pc">
+              <button type="button" id="saveBton" onclick="Save_and_Update()"
+                class="btn btn-warning update-batton ">Save</button>
+            </div>
+            <div class="col-sm-2">
+              <button type="button" id="updateBton" style="display:none;" onclick="Save_and_Update()"
+                class="btn btn-warning update-batton ">Update</button>
+            </div>
+            <div class="col-md-6 ">
+              <label style="color:yellow;" id="responseText">With Lab Risk Data Updated</label>
+            </div>
+          </div>
+        </div>
+
+      </div><br>
+    </div>
+    <div class="tab-pane container containers cosulor-parent-div" id="second">
+      <div>
+        <div>
+          <h2 class="header-text">HTS Data Update Section</h2>
+        </div>
+      </div><br>
+
+      <div class="row ">
+        <div class="col-sm-2 search-type">
+          <label>Date or ID search</label>
+          <select class="form-control" id="search_type" onchange="type_Search()">
+            <option selected value="date_type">Date</option>
+            <option value="id_type">ID</option>
+          </select>
+        </div>
+        <div class="col-sm-2 update-counHts">
+          <label>Counselling/HTS</label>
+          <select class="form-control" id="update_type">
+            <option selected value="upd_counsel">Counselling Updated</option>
+            <option value="upd_HTS">HTS_Updated</option>
+          </select>
+        </div>
+        <div class="col-sm-2 counHTS-date">
+          <label for="validationCustom01" class="form-label HTS-label">From(dd-mm-yyyy)</label>
+          <div class="date-holder">
+            <input type="text" id="dateFrom" class="form-control Gdate" placeholder="dd-mm-yyyy">
+            <img src="../img/calendar3.svg" class="dateimg" alt="date">
+          </div>
+          <!-- <input id="dateFrom" type="date" autofocus class="form-control" > -->
+        </div>
+
+        <div class="col-sm-2 counHTS-date">
+          <label for="validationCustom01" class="form-label HTS-label">To(dd-mm-yyyy)</label>
+          <div class="date-holder">
+            <input type="text" id="dateTo" class="form-control Gdate" placeholder="dd-mm-yyyy">
+            <img src="../img/calendar3.svg" class="dateimg" alt="date">
+          </div>
+          <!-- <input id="dateTo" type="date"  class="form-control" > -->
+        </div>
+        <div class="col-md-2 id_searchType " style="display:none">
+          <input type="text" class="form-control" autofocus="" id="sid" placeholder="General ID ">
+        </div>
+        <div class="col-sm-1 no-margin counselShow">
+          <button type="button" id="updateBton" onclick="HTS_list()" class="btn btn-primary counHTS-show ">Show</button>
+        </div>
+      </div>
 
 
-              <!-- <div class="row date_typeRow">
+      <!-- <div class="row date_typeRow">
                 
                 
               </div> -->
-              <div class="row justify-content-center counselHTS-table">
-                <table class="table  counsel-update-list">
-                  <thead>
-                    {{-- <tr>
-                      <th >Serial</th>
-                      <th>General ID</th>
-                      <th>Fuchia ID</th>
-                      <th>Visit Date</th>
-                      <th class="tablet-pc">To Update</th>
-                    </tr> --}}
-                  </thead>
-                  <tbody id='list'>
-                  </tbody>
-                </table>
-              </div>
-      </div>
-      <div class="tab-pane container containers cosulor-parent-div"  id="HTS-remaining">
-        <h2 class="header-text">HTS Remaning List</h2>
-        
-        <div class="row">
-            <div class="col-sm-3 hts-remaining-info" id="hts_remaing_count">
-              <h4>HTS Remaining Patient-0</h4>
-            </div>
-          </div>
-        <div class="hts_remaining_block">
-          <div class="row">
-            <div class="col-sm-2 hts-remain-date">
-              <label for="" class="form-label">HTS Start Date</label>
-              <div class="date-holder">
-                <input type="text" id="date_HTS_From" class="form-control Gdate" placeholder="dd-mm-yyyy">
-                <img src="../img/calendar3.svg" class="dateimg" alt="date">
-              </div>
-            </div>
-            <div class="col-sm-2 hts-remain-date">
-              <label for="" class="form-label">HTS End Date</label>
-              <div class="date-holder">
-                <input type="text" id="date_HTS_To" class="form-control Gdate" placeholder="dd-mm-yyyy">
-                <img src="../img/calendar3.svg" class="dateimg" alt="date">
-              </div>
-            </div>
-            <div class="col-sm-2 hts-remain-date">
-              <button class="btn btn-info hts-remain-btn" onclick="HTS_remaining()">Search</button>
-            </div>
-          </div>
-          <div id="remainig_hts_list">
-            <div class="row hts-main-head">
-              <div class="col-sm-1">No.</div>
-              <div class="col-sm-2 remian-head-Id">General ID</div>
-              <div class="col-sm-2 remian-head-age">Age</div>
-              <div class="col-sm-2 remian-head-sex">Sex</div>
-              <div class="col-sm-2 remian-head-risk">Risk</div>
-              <div class="col-sm-2 remian-head-vdate">Visit date</div>
-            </div>
-
-          </div>
-         
-        </div>
-      </div>
-      <div class="tab-pane container containers cosulor-parent-div " id="export">
-        <h1>Export</h1>
-				<form action="{{ route('counsellor_export') }}" method="POST" enctype="multipart/form-data">
-					@csrf
-				<br>
-				<div class="row ">
-					
-					<div class="col-md-2 export-counHts">
-            <label for="">HTS or Counselling data</label>
-						<select class="form-select"  name="hts_coul"required>
-							<option value="hts_data">HTS Data</option>
-							<option value="counsel_data">Counselling Data</option>
-						</select>
-					</div>
-					
-					<div class="col-sm-2 counexport-date">
-            <label  class="form-label HTS-label">From(dd-mm-yyyy)</label>
-						<!-- <input id="from_export" name="dateFrom" type="date" autofocus class="form-control" > -->
-            <div class="date-holder">
-              <input type="text"  id="from_export" name="dateFrom" class="form-control Gdate" placeholder="dd-mm-yyyy">
-              <img src="../img/calendar3.svg" class="dateimg" alt="date">
-            </div>
-					</div>
-					
-					<div class="col-sm-2 counexport-date">
-            <label  class="form-label HTS-label">To(dd-mm-yyyy)</label>
-						<!-- <input id="to_export" name="dateTo" type="date"  class="form-control" > -->
-            <div class="date-holder">
-              <input type="text"  id="to_export" name="dateTo" class="form-control Gdate" placeholder="dd-mm-yyyy">
-              <img src="../img/calendar3.svg" class="dateimg" alt="date">
-            </div>
-					</div>
-					<div class="col-sm-1  coun-export no-margin">
-						<button   class="btn btn-primary counHTS-show ">Export</button>
-					</div>
-				</div>
-				<br>
-				</form>
+      <div class="row justify-content-center counselHTS-table">
+        <table class="table  counsel-update-list">
+          <thead>
+            {{-- <tr>
+              <th>Serial</th>
+              <th>General ID</th>
+              <th>Fuchia ID</th>
+              <th>Visit Date</th>
+              <th class="tablet-pc">To Update</th>
+            </tr> --}}
+          </thead>
+          <tbody id='list'>
+          </tbody>
+        </table>
       </div>
     </div>
+    <div class="tab-pane container containers cosulor-parent-div" id="HTS-remaining">
+      <h2 class="header-text">HTS Remaning List</h2>
+
+      <div class="row">
+        <div class="col-sm-3 hts-remaining-info" id="hts_remaing_count">
+          <h4>HTS Remaining Patient-0</h4>
+        </div>
+      </div>
+      <div class="hts_remaining_block">
+        <div class="row">
+          <div class="col-sm-2 hts-remain-date">
+            <label for="" class="form-label">HTS Start Date</label>
+            <div class="date-holder">
+              <input type="text" id="date_HTS_From" class="form-control Gdate" placeholder="dd-mm-yyyy">
+              <img src="../img/calendar3.svg" class="dateimg" alt="date">
+            </div>
+          </div>
+          <div class="col-sm-2 hts-remain-date">
+            <label for="" class="form-label">HTS End Date</label>
+            <div class="date-holder">
+              <input type="text" id="date_HTS_To" class="form-control Gdate" placeholder="dd-mm-yyyy">
+              <img src="../img/calendar3.svg" class="dateimg" alt="date">
+            </div>
+          </div>
+          <div class="col-sm-2 hts-remain-date">
+            <button class="btn btn-info hts-remain-btn" onclick="HTS_remaining()">Search</button>
+          </div>
+        </div>
+        <div id="remainig_hts_list">
+          <div class="row hts-main-head">
+            <div class="col-sm-1">No.</div>
+            <div class="col-sm-2 remian-head-Id">General ID</div>
+            <div class="col-sm-2 remian-head-age">Age</div>
+            <div class="col-sm-2 remian-head-sex">Sex</div>
+            <div class="col-sm-2 remian-head-risk">Risk</div>
+            <div class="col-sm-2 remian-head-vdate">Visit date</div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+    <div class="tab-pane container containers cosulor-parent-div " id="export">
+      <h1>Export</h1>
+      <form action="{{ route('counsellor_export') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        <br>
+        <div class="row ">
+
+          <div class="col-md-2 export-counHts">
+            <label for="">HTS or Counselling data</label>
+            <select class="form-select" name="hts_coul" required>
+              <option value="hts_data">HTS Data</option>
+              <option value="counsel_data">Counselling Data</option>
+            </select>
+          </div>
+
+          <div class="col-sm-2 counexport-date">
+            <label class="form-label HTS-label">From(dd-mm-yyyy)</label>
+            <!-- <input id="from_export" name="dateFrom" type="date" autofocus class="form-control" > -->
+            <div class="date-holder">
+              <input type="text" id="from_export" name="dateFrom" class="form-control Gdate" placeholder="dd-mm-yyyy">
+              <img src="../img/calendar3.svg" class="dateimg" alt="date">
+            </div>
+          </div>
+
+          <div class="col-sm-2 counexport-date">
+            <label class="form-label HTS-label">To(dd-mm-yyyy)</label>
+            <!-- <input id="to_export" name="dateTo" type="date"  class="form-control" > -->
+            <div class="date-holder">
+              <input type="text" id="to_export" name="dateTo" class="form-control Gdate" placeholder="dd-mm-yyyy">
+              <img src="../img/calendar3.svg" class="dateimg" alt="date">
+            </div>
+          </div>
+          <div class="col-sm-1  coun-export no-margin">
+            <button class="btn btn-primary counHTS-show ">Export</button>
+          </div>
+        </div>
+        <br>
+      </form>
+    </div>
+  </div>
 
 </div>
 

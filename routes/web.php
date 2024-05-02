@@ -238,6 +238,7 @@ Route::get('Id_Fix/Id_Delete',[IdFixController::class,'idFix_view']);
 
 Route::post('Id_Fix/Id_Delete',[IdFixController::class,'idFix_control'])->name("id_search");
 
+
 Route::get("/home", [App\Http\Controllers\HomeController::class, "index"])->name("home");
 
 Auth::routes();

@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PtConfig extends Model
+class PtConfig_log extends Model
 {
     use HasFactory;
     protected $connection ='mysql2';
@@ -39,10 +39,6 @@ class PtConfig extends Model
       'preCode',
       'Risk Changed',
       'Risk Log',
+      'Reason'
     ];
-   
-    public function lab_hiv()
-    {
-        return $this->hasMany(Lab::class,'CID','Pid');
-    }
 }
