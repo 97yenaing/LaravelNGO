@@ -2,10 +2,10 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
 </head>
 @extends('layouts.app')
 
@@ -13,87 +13,85 @@
 @auth
 
 <body>
-    <form action={{ route('mme_export') }} method="post">
-        @csrf
-        <div class="page-color containers container">
-            <h1 class="header-text">M&E All Data Export</h1>
-            <div class="row">
-                <div class="col-sm-2">
-                    <label for="" class="form-lable">Clinic</label>
-                    <select name="clinic_road" id="" class="form-select">
-                        <option value="0">HTY-A</option>
-                        <option value="1">HTY-C1</option>
-                        <option value="2">HTY-C2</option>
-                        <option value="2">HTY-B</option>
-                        <option value="3">SPT</option>
-                        <option value="4">SDG</option>
-                        <option value="5">TL</option>
-                    </select>
-                    @error('clinic_road')
-                    <div class="alert alert-danger">Chosse Correct Clinic</div>
-                    @enderror
-                </div>
-                <div class="col-sm-2">
-                    <label for="" class="form-label">Export Type</label>
-                    <select name="road" id="type_choice" class="form-select" onchange="complete_fun()">
-                        <option value=""></option>
-                        <option value="0">Reception</option>
-                        <option value="1">Lab</option>
-                        <option value="2">Counselling</option>
-                        <option value="3">STI</option>
-                        <option value="4">Prevention</option>
-                        <option value="5">Cervical Cancer</option>
-                        <option value="6">CMV</option>
-                        <option value="7">NCD</option>
-                        <option value="8">TB-03</option>
-                        <option value="9">Pre TB</option>
-                        <option value="10">IPT</option>
-                    </select>
-                    @error('road')
-                    <div class="alert alert-danger">Please select export type</div>
-                    @enderror
-                </div>
-                <div class="col-sm-2" id="other_block" style="display: none">
-                    <label for="" class="form-label" id="other"></label>
-                    <select name="other" id="other_type" class="form-select">
-                    </select>
+	<form action={{ route('mme_export') }} method="post">
+		@csrf
+		<div class="page-color containers container">
+			<h1 class="header-text">M&E All Data Export</h1>
+			<div class="row">
+				<div class="col-sm-2">
+					<label for="" class="form-lable">Clinic</label>
+					<select name="clinic_road" id="" class="form-select">
+						<option value="0">HTY-A</option>
+						<option value="1">HTY-C1</option>
+						<option value="2">HTY-C2</option>
+						<option value="3">HTY-B</option>
+						<option value="4">SPT</option>
+						<option value="5">SDG</option>
+						<option value="6">TL</option>
+					</select>
+					@error('clinic_road')
+					<div class="alert alert-danger">Chosse Correct Clinic</div>
+					@enderror
+				</div>
+				<div class="col-sm-2">
+					<label for="" class="form-label">Export Type</label>
+					<select name="road" id="type_choice" class="form-select" onchange="complete_fun()">
+						<option value=""></option>
+						<option value="0">Reception</option>
+						<option value="1">Lab</option>
+						<option value="2">Counselling</option>
+						<option value="3">STI</option>
+						<option value="4">Prevention</option>
+						<option value="5">Cervical Cancer</option>
+						<option value="6">CMV</option>
+						<option value="7">NCD</option>
+						<option value="8">TB-03</option>
+						<option value="9">Pre TB</option>
+						<option value="10">IPT</option>
+					</select>
+					@error('road')
+					<div class="alert alert-danger">Please select export type</div>
+					@enderror
+				</div>
+				<div class="col-sm-2" id="other_block" style="display: none">
+					<label for="" class="form-label" id="other"></label>
+					<select name="other" id="other_type" class="form-select">
+					</select>
 
-                </div>
-                <div class="col-sm-2">
-                    <label for="" class="form-label">From Date</label>
-                    <div class="date-holder">
-                        <input type="text" id="ddFrom" class="form-control Gdate" name="From_date"
-                            placeholder="dd-mm-yyyy">
-                        <img src="../img/calendar3.svg" class="dateimg" alt="date">
-                    </div>
-                    @error('From_date')
-                    <div class="alert alert-danger">Please input date</div>
-                    @enderror
-                </div>
-                <div class="col-sm-2">
-                    <label for="" class="form-label">To Date</label>
-                    <div class="date-holder">
-                        <input type="text" id="ddTo" class="form-control Gdate" name="To_date" placeholder="dd-mm-yyyy">
-                        <img src="../img/calendar3.svg" class="dateimg" alt="date">
-                    </div>
-                    @error('To_date')
-                    <div class="alert alert-danger">Please input date</div>
-                    @enderror
-                </div>
-                <div class="col-sm-2">
-                    <button class="btn btn-info" style="margin-top: 35px">Export</button>
-                </div>
-            </div>
-        </div>
-    </form>
-
+				</div>
+				<div class="col-sm-2">
+					<label for="" class="form-label">From Date</label>
+					<div class="date-holder">
+						<input type="text" id="ddFrom" class="form-control Gdate" name="From_date" placeholder="dd-mm-yyyy">
+						<img src="../img/calendar3.svg" class="dateimg" alt="date">
+					</div>
+					@error('From_date')
+					<div class="alert alert-danger">Please input date</div>
+					@enderror
+				</div>
+				<div class="col-sm-2">
+					<label for="" class="form-label">To Date</label>
+					<div class="date-holder">
+						<input type="text" id="ddTo" class="form-control Gdate" name="To_date" placeholder="dd-mm-yyyy">
+						<img src="../img/calendar3.svg" class="dateimg" alt="date">
+					</div>
+					@error('To_date')
+					<div class="alert alert-danger">Please input date</div>
+					@enderror
+				</div>
+				<div class="col-sm-2">
+					<button class="btn btn-info" style="margin-top: 35px">Export</button>
+				</div>
+			</div>
+		</div>
+	</form>
 </body>
 @endauth
 @endsection
 
 </html>
 <script type="text/javascript">
-    function complete_fun() {
+	function complete_fun() {
         let type = $("#type_choice").val();
         let test, test_name;
         switch (type) {
@@ -141,8 +139,8 @@
             case "4": //Prevention
                 $("#other_block").show();
                 $("#other").text("Export Type");
-                test = ["log_sheet", "cbs",]
-                test_name = ['Log Sheet', 'CBS',]
+                test = ["log_sheet", "cbs","confidential"]
+                test_name = ['Log Sheet', 'CBS',"Confidential"]
                 $("#other_type").empty();
                 test.forEach(function(value, index) {
                     var option = $("<option value='" + value + "'>" + test_name[index] + "</option>");

@@ -38,6 +38,7 @@ use App\Http\Controllers\MME_ExportController;
 use App\Http\Controllers\HtsReportController;
 use App\Http\Controllers\ImportController;
 use App\Http\Controllers\IdFixController;
+use App\Http\Controllers\ServerRiskLogController;
 
 use App\Providers\AppServiceProvider;
 //use App\Exports\StimaleExport;
@@ -237,6 +238,9 @@ Route::post("import/GeneralPatientImport", [ImportController::class, "importer_s
 Route::get('Id_Fix/Id_Delete',[IdFixController::class,'idFix_view']);
 
 Route::post('Id_Fix/Id_Delete',[IdFixController::class,'idFix_control'])->name("id_search");
+
+Route::get("MME/serverRiskLog", [ServerRiskLogController::class, "risk_log_View"])->name("risk_log_view");
+Route::post("MME/serverRiskLog", [ServerRiskLogController::class, "risk_log"])->name("server_risk_log_data");
 
 
 Route::get("/home", [App\Http\Controllers\HomeController::class, "index"])->name("home");
