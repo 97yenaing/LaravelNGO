@@ -23,86 +23,170 @@
       </div>
       @if($allCount!=null)
       <div id="all_countData">
-        <table class="table">
+        <table class="table" style="display:inline;margin-right:3%">
           <thead>
-            <tr>
-              <th>Clinic Confidiential</th>
-              <th>Server Confidiential</th>
-              <th>Reception</th>
-              <th>HIV</th>
-              <th>RPR</th>
-              <th>Lab STI</th>
-              <th>Hep/bc</th>
-              <th>Urine</th>
-              <th>OI</th>
-            </tr>
           </thead>
           <tbody>
             <tr>
+              <td>1</td>
+              <td>Clinic Confidiential</td>
               <td>{{$allCount['PtConfig']}}</td>
+
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Server Confidiential</td>
               <td>{{$allCount['Patients']}}</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Reception</td>
               <td>{{$allCount['Followup_general']}}</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>HIV</td>
               <td>{{$allCount['Lab']}}</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>RPR</td>
               <td>{{$allCount['Rprtest']}}</td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td>Lab STI</td>
               <td>{{$allCount['Labstitest']}}</td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td>Hep/bc</td>
               <td>{{$allCount['LabHbcTest']}}</td>
+            </tr>
+            <tr>
+              <td>8</td>
+              <td>Urine</td>
               <td>{{$allCount['Urine']}}</td>
+            </tr>
+            <tr>
+              <td>9</td>
+              <td>OI</td>
               <td>{{$allCount['Lab_oi']}}</td>
             </tr>
+          </tbody>
+        </table>
+        <table class="table" style="display:inline;margin-right:3%">
+          <thead></thead>
+          <tbody>
             <tr>
-
-              <th>General</th>
-              <th>Stool</th>
-              <th>AFB</th>
-              <th>Covid</th>
-              <th>Viral Load</th>
-              <th>Counselling Only</th>
-              <th>HTS</th>
-              <th>STI Male</th>
-              <th>STI Female</th>
+              <td>10</td>
+              <td>General</td>
+              <td>{{$allCount['LabGeneralTest']}}</td>
             </tr>
             <tr>
-              <td>{{$allCount['LabGeneralTest']}}</td>
+              <td>11</td>
+              <td>Stool</td>
               <td>{{$allCount['LabStoolTest']}}</td>
+            </tr>
+            <tr>
+              <td>12</td>
+              <td>AFB</td>
               <td>{{$allCount['LabAfbTest']}}</td>
+            </tr>
+            <tr>
+              <td>13</td>
+              <td>Covid</td>
               <td>{{$allCount['LabCovidTest']}}</td>
+            </tr>
+            <tr>
+              <td>14</td>
+              <td>Viral Load</td>
               <td>{{$allCount['Viralload']}}</td>
+            </tr>
+            <tr>
+              <td>15</td>
+              <td>Counselling Only</td>
               <td>{{$allCount['CounsellorRecords']}}</td>
+            </tr>
+            <tr>
+              <td>16</td>
+              <td>HTS</td>
               <td>{{$allCount['Coulselling']}}</td>
+            </tr>
+            <tr>
+              <td>17</td>
+              <td>STI Male</td>
               <td>{{$allCount['Stimale']}}</td>
+            </tr>
+            <tr>
+              <td>18</td>
+              <td>STI Female</td>
               <td>{{$allCount['Stifemale']}}</td>
             </tr>
+          </tbody>
+        </table>
+        <table class="table" style="display:inline;margin-right:3%">
+          <thead></thead>
+          <tbody>
             <tr>
+              <td>19</td>
               <td>Log Sheet</td>
-              <td>CBS</td>
-              <td>CMV</td>
-              <td>Cervical Cancer</td>
-              <td>NCD Register</td>
-              <td>NCD Follow up</td>
-              <td>TB 03</td>
-              <td>Pre TB</td>
-              <td>IPT</td>
+              <td>{{$allCount['PreventionLogsheet']}}</td>
             </tr>
             <tr>
-              <td>{{$allCount['PreventionLogsheet']}}</td>
+              <td>20</td>
+              <td>CBS</td>
               <td>{{$allCount['PreventionCBS']}}</td>
+            </tr>
+            <tr>
+              <td>21</td>
+              <td>CMV</td>
               <td>{{$allCount['cmv']}}</td>
+            </tr>
+            <tr>
+              <td>22</td>
+              <td>Cervical Cancer</td>
               <td>{{$allCount['Cervicalcancer']}}</td>
+            </tr>
+            <tr>
+              <td>23</td>
+              <td>NCD Register</td>
               <td>{{$allCount['ncd_pt_register']}}</td>
+            </tr>
+            <tr>
+              <td>24</td>
+              <td>NCD Follow up</td>
               <td>{{$allCount['ncdFollowup']}}</td>
+            </tr>
+            <tr>
+              <td>25</td>
+              <td>TB 03</td>
               <td>{{$allCount['tb_registerO3']}}</td>
+            </tr>
+            <tr>
+              <td>26</td>
+              <td>Pre TB</td>
               <td>{{$allCount['preTB']}}</td>
+            </tr>
+            <tr>
+              <td>27</td>
+              <td>IPT</td>
               <td>{{$allCount['Tbipt']}}</td>
             </tr>
+
+          </tbody>
+        </table>
+        <table class="table" style="display:inline;">
+          <thead></thead>
+          <tbody>
             <tr>
-              <th>Comsumption</th>
-            </tr>
-            <tr>
+              <td>28</td>
+              <td>Comsumption</td>
               <td>{{$allCount['Consumption']}}</td>
             </tr>
           </tbody>
-
         </table>
+
       </div>
 
       @endif
