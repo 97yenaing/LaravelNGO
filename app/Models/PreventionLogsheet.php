@@ -67,6 +67,9 @@ class PreventionLogsheet extends Model
             "OST_Initial_Date",
             "Test_Clinic",
             "Test_New_Old",
+            'OST_Eligible',
+            'Decline_Reason_new',
+            'Referral_Coupon',
             'updated_by',
     
     ];

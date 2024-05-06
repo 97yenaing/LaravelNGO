@@ -54,7 +54,7 @@ class PreventionExport implements FromView,WithColumnFormatting
             "Reg_Date",
             "Visit_Date",
             "Risk changed Date",
-            "OST_Initial_Date",
+            // "OST_Initial_Date",
         ];
         $data = $this->data->map(function ($user) use ($encrypted_columns) {
             $user["Name"]= Crypt::DecryptString($user["ptconfig"]["Name"]);
@@ -159,7 +159,7 @@ class PreventionExport implements FromView,WithColumnFormatting
             'H' => 'dd-mm-yyyy',
             'I' => 'dd-mm-yyyy',
             'AJ' => 'dd-mm-yyyy',
-            'AS' => 'dd-mm-yyyy',
+            // 'AS' => 'dd-mm-yyyy',
 
         ];
     }
