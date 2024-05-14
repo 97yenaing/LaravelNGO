@@ -64,6 +64,13 @@ class CounsellorRecords extends Model
                             
                             'created_by',
       			            'updated_by',
+                            'Disclosure_Define', 
+                            'Case_Presention', 
+                            'PHQ9_Define', 
+                            'PHATB_Define',
+                            'Only_IPT', 
+                            'Only_TB_Define',
+                            'gad7_Define',
                           ];
                           protected $connection ='mysql';
                           public function ptconfig(){
