@@ -381,9 +381,6 @@
           </div>
 
         </div>
-
-
-        br lr kwer;
         <br>
         <div class="counselling_test">
           <!-- <div class="row">
