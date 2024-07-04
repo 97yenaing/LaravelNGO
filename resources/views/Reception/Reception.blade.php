@@ -2,9 +2,10 @@
 @stack('css')
 @auth
 @section('content')
-<script src="{{asset('js/jquery.min.js')}}"></script>
-<script src="{{asset('js/jquery-ui.min.js')}}"></script>
-<script src="{{asset('js/reception.js')}}"></script>
+<script src="{{ asset('js/jquery.min.js') }}"></script>
+<script src="{{ asset('js/jquery-ui.min.js') }}"></script>
+<script src="{{ asset('js/reception.js') }}"></script>
+<link href="{{ asset('js/jquery.min.js') }}" media="print" rel="stylesheet" />
 
 <body>
   @php
@@ -34,10 +35,16 @@
           onclick="showPatientList()">Consultation Records</a>
       </li>
       <li class="nav-item">
+        <a class="nav-link toggle-link" data-toggle="tab" href="#recepint_PtList2">Patient List</a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link toggle-link" data-toggle="tab" href="#search_name">Search By Name</a>
       </li>
       <li class="nav-item">
         <a class="nav-link toggle-link" data-toggle="tab" href="#export">Export</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link toggle-link" data-toggle="tab" href="#qrexport">QR Export</a>
       </li>
     </ul> <!-- *adding containers clss -->
 
@@ -55,14 +62,18 @@
       <div class="tab-content">
         <div class="tab-pane container containers active" id="reception">
           <div class="row justify-content-center">
-            <div class="col-md-12">
+            <div class="col-md-10">
               <ul class="clearfix current-md-list">
-                @foreach ($current_md as $key=> $item)
-                <li>{{$key}}-</li>
-                <li>{{$item}}</li>
+                @foreach ($current_md as $key => $item)
+                <li>{{ $key }}-</li>
+                <li>{{ $item }}</li>
                 @endforeach
 
               </ul>
+            </div>
+            <div class="col-md-2">
+              <button class="btn btn-success reception-refresh refresh-follow reception-clinic"
+                onclick="refresh()">Refresh</button>
             </div>
           </div>
           <div class="row">
@@ -81,23 +92,28 @@
               <button class="btn  s-t-update update-batton" onclick="searchID()">Search to Update</button>
               <!-- *Remover class btn-warning -->
             </div>
-            @foreach($lastPt as $key => $value)
+            @foreach ($lastPt as $key => $value)
             <div class="col-md-3 reception-laID">
-              <label class="form-control reception-laID-label" id="lastID"> Last ID ({{ $value -> Pid}})
+              <label class="form-control reception-laID-label" id="lastID"> Last ID ({{ $value->Pid }})
 
-                <a class="reception-neID">Next ID</a> <a id="nextID" onclick="idgiven()" style="color:red;">{{ $value ->
-                  Pid+1}}</a>
+                <a class="reception-neID">Next ID</a> <a id="nextID" onclick="idgiven()" style="color:red;">{{
+                  $value->Pid + 1 }}</a>
               </label>
             </div><br class="tablet">
             @endforeach
+            <div class="col-sm-2">
+              <select name="" id="online_follow" class="form-select">
+                <option value="No">Online Reach</option>
+                <option value="Prevent Yangon">Prevent Yangon</option>
+                <option value="SHE">SHE</option>
+                <option value="Helping Hand">Helping Hand</option>
+                <option value="Other">Other</option>
+              </select>
 
-            <div class="col-md-1 reception-clinic">
-
-              <button class="btn btn-success reception-refresh refresh-follow" onclick="refresh()">Refresh</button>
             </div>
 
-
           </div><br>
+
           <div class="row">
 
             <div class="col-md-1">
@@ -132,6 +148,9 @@
             </div>
             <div class="col-md-2">
               <input type="number" id="pt_code" placeholder="Serial code input" class="form-control">
+            </div>
+            <div class="col-md-2">
+              <input type="number" id="eyes_code" placeholder="Eye Scan Code" class="form-control">
             </div>
             <div class="col-md-1">
               <button onclick="peerCode()" class="code-combine"> Search</button>
@@ -172,6 +191,11 @@
                 <option value="MD28">28</option>
                 <option value="MD29">29</option>
                 <option value="MD30">30</option>
+                <option value="MD31">31</option>
+                <option value="MD32">32</option>
+                <option value="MD33">33</option>
+                <option value="MD34">34</option>
+                <option value="MD35">35</option>
 
                 <option value="MDF1">MD-F1</option>
                 <option value="MDF2">MD-F2</option>
@@ -181,13 +205,7 @@
 
               </select>
             </div>
-            <div class="col-sm-2">
-              <select name="" id="online_follow" class="form-select">
-                <option value="No">Online Reach</option>
-                <option value="Yes">Yes</option>
-              </select>
 
-            </div>
 
           </div>
           <div class="row">
@@ -443,10 +461,18 @@
                 <option value="yellow">Yellow</option>
                 <option value="orange">Orange</option>
               </select>
+            </div>
+            <div class="col-md-2">
+              <label class="form-label">Print QR/Bar Code</label>
+              <select class="form-control" id="qrcode_print">
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+
+              </select>
 
             </div>
 
-            <div class="col-md-4" style="display: none" id="reception_remark_block">
+            <div class="col-md-12" style="display: none" id="reception_remark_block">
               <label for="" class="form-label">Remark</label>
               <input type="text" id="reception_remark" class="form-control">
             </div>
@@ -553,6 +579,11 @@
                 <option value="MD28">28</option>
                 <option value="MD29">29</option>
                 <option value="MD30">30</option>
+                <option value="MD31">31</option>
+                <option value="MD32">32</option>
+                <option value="MD33">33</option>
+                <option value="MD34">34</option>
+                <option value="MD35">35</option>
 
                 <option value="MDF1">MD-F1</option>
                 <option value="MDF2">MD-F2</option>
@@ -961,16 +992,42 @@
                   <select class="form-select reception-select" id="follow_up_md_toupdate" required="">
                     <option value="-"></option>
                     <option value="TL">Team Leader MD</option>
-                    <option value="MD1">MD-1</option>
-                    <option value="MD2">MD-2</option>
-                    <option value="MD3">MD-3</option>
-                    <option value="MD4">MD-4</option>
-                    <option value="MD5">MD-5</option>
-                    <option value="MD6">MD-6</option>
-                    <option value="MD7">MD-7</option>
-                    <option value="MD8">MD-8</option>
-                    <option value="MD9">MD-9</option>
-                    <option value="MD10">MD-10</option>
+                    <option value="MD1">1</option>
+                    <option value="MD2">2</option>
+                    <option value="MD3">3</option>
+                    <option value="MD4">4</option>
+                    <option value="MD5">5</option>
+                    <option value="MD6">6</option>
+                    <option value="MD7">7</option>
+                    <option value="MD8">8</option>
+                    <option value="MD9">9</option>
+                    <option value="MD10">10</option>
+                    <option value="MD11">11</option>
+                    <option value="MD12">12</option>
+                    <option value="MD13">13</option>
+                    <option value="MD14">14</option>
+                    <option value="MD15">15</option>
+                    <option value="MD16">16</option>
+                    <option value="MD17">17</option>
+                    <option value="MD18">18</option>
+                    <option value="MD19">19</option>
+                    <option value="MD20">20</option>
+                    <option value="MD21">21</option>
+                    <option value="MD22">22</option>
+                    <option value="MD23">23</option>
+                    <option value="MD24">24</option>
+                    <option value="MD25">25</option>
+                    <option value="MD26">26</option>
+                    <option value="MD27">27</option>
+                    <option value="MD28">28</option>
+                    <option value="MD29">29</option>
+                    <option value="MD30">30</option>
+                    <option value="MD31">31</option>
+                    <option value="MD32">32</option>
+                    <option value="MD33">33</option>
+                    <option value="MD34">34</option>
+                    <option value="MD35">35</option>
+
                     <option value="MDF1">MD-F1</option>
                     <option value="MDF2">MD-F2</option>
                     <option value="MDF3">MD-F3</option>
@@ -982,24 +1039,27 @@
                 <div class="col-sm-2">
                   <select name="" id="online_followupdate" class="form-select" style="margin-top:35px">
                     <option value="No">Online Reach</option>
-                    <option value="Yes">Yes</option>
+                    <option value="Prevent Yangon">Prevent Yangon</option>
+                    <option value="SHE">SHE</option>
+                    <option value="Helping Hand">Helping Hand</option>
+                    <option value="Other">Other</option>
                   </select>
                 </div>
               </div>
-              <div id="resDiaSecton" class="clearfix resDiaBlock">
+              <div id="resDiaSecton2" class="clearfix resDiaBlock">
                 <div class="pha_artbox">
                   <ul class="clearfix" id="pha_ulupdate">
                     <li><input type="checkbox" id="phacheckupdate" name=""><label>PHA</label></li>
                     <li><label class="form-label new-old">New/Old</label>
                       <select class="form-select reception-select" id="pha_new_oldupdate" required="">
-                        <option value="-"></option>
+                        <option value=""></option>
                         <option value="New">New</option>
                         <option value="Old">Old</option>
                       </select>
                     </li>
                     <li><label class="form-label">MAM Cohort</label>
                       <select class="form-select reception-select" id="pha_cohortupdate" required="">
-                        <option value="-"></option>
+                        <option value=""></option>
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
                       </select>
@@ -1009,14 +1069,14 @@
                     <li><input type="checkbox" id="artcheckupdate" name=""><label>ART</label></li>
                     <li><label class="form-label new-old">New/Old</label>
                       <select class="form-select reception-select" id="art_new_oldupdate" required="">
-                        <option value="-"></option>
+                        <option value=""></option>
                         <option value="New">New</option>
                         <option value="Old">Old</option>
                       </select>
                     </li>
                     <li><label class="form-label">MAM Cohort</label>
                       <select class="form-select reception-select" id="art_cohortupdate" required="">
-                        <option value="-"></option>
+                        <option value=""></option>
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
                       </select>
@@ -1029,7 +1089,7 @@
                     <li><input type="checkbox" id="prepcheckupdate" name=""><label>PrEP</label></li>
                     <li><label class="form-label new-old">New/Old</label>
                       <select class="form-select reception-select" id="prep_new_oldupdate" required="">
-                        <option value="-"></option>
+                        <option value=""></option>
                         <option value="New">New</option>
                         <option value="Old">Old</option>
                       </select>
@@ -1040,7 +1100,7 @@
                     <li><input type="checkbox" id="pmtctcheckupdate" name=""><label>PMTCT</label></li>
                     <li><label class="form-label new-old">New/Old</label>
                       <select class="form-select reception-select" id="pmtct_new_oldupdate" required="">
-                        <option value="-"></option>
+                        <option value=""></option>
                         <option value="New">New</option>
                         <option value="Old">Old</option>
                       </select>
@@ -1052,7 +1112,7 @@
                     <li><input type="checkbox" id="anccheckupdate" name=""><label>ANC</label></li>
                     <li><label class="form-label new-old">New/Old</label>
                       <select class="form-select reception-select" id="anc_new_oldupdate" required="">
-                        <option value="-"></option>
+                        <option value=""></option>
                         <option value="New">New</option>
                         <option value="Old">Old</option>
                       </select>
@@ -1062,7 +1122,7 @@
                     <li><input type="checkbox" id="fmaplancheckupdate" name=""><label>Family Planning</label></li>
                     <li><label class="form-label new-old">New/Old</label>
                       <select class="form-select reception-select" id="famaplan_new_oldupdate" required="">
-                        <option value="-"></option>
+                        <option value=""></option>
                         <option value="New">New</option>
                         <option value="Old">Old</option>
                       </select>
@@ -1075,14 +1135,14 @@
                     <li><input type="checkbox" id="gneralcheckupdate" name=""><label>General</label></li>
                     <li><label class="form-label new-old">New/Old</label>
                       <select class="form-select reception-select" id="general_new_oldupdate" required="">
-                        <option value="-"></option>
+                        <option value=""></option>
                         <option value="New">New</option>
                         <option value="Old">Old</option>
                       </select>
                     </li>
                     <li><label class="form-label">Type of Diagnosis</label>
                       <select class="form-select reception-select" id="general_diagnosisupdate" required="">
-                        <option value="-"></option>
+                        <option value=""></option>
                       </select>
                     </li>
                     <li><label class="form-label">OPD</label>
@@ -1098,19 +1158,19 @@
                     <li><input type="checkbox" id="ncdcheckupdate" name=""><label>NCD</label></li>
                     <li><label class="form-label new-old">New/Old</label>
                       <select class="form-select reception-select" id="ncd_new_oldupdate" required="">
-                        <option value="-"></option>
+                        <option value=""></option>
                         <option value="New">New</option>
                         <option value="Old">Old</option>
                       </select>
                     </li>
                     <li><label class="form-label">Type of Diagnosis</label>
                       <select class="form-select reception-select" id="ncd_diagnosisupdate" required="">
-                        <option value="-"></option>
+                        <option value=""></option>
                       </select>
                     </li>
                     <li><label class="form-label">Drug Supply By MAM</label>
                       <select class="form-select reception-select" id="ncd_drugSupplyupdate" required="">
-                        <option value="-"></option>
+                        <option value=""></option>
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
                       </select>
@@ -1121,7 +1181,7 @@
                     <li><input type="checkbox" id="hivTBcheckupdate" name=""><label>HIV(-)TB</label></li>
                     <li><label class="form-label new-old">New/Old</label>
                       <select class="form-select reception-select" id="hivTB_new_oldupdate" required="">
-                        <option value="-"></option>
+                        <option value=""></option>
                         <option value="New">New</option>
                         <option value="Old">Old</option>
                       </select>
@@ -1135,7 +1195,7 @@
                     <li><input type="checkbox" id="fcentercheckupdate" name=""><label>Feeding Centre</label></li>
                     <li><label class="form-label new-old">New/Old</label>
                       <select class="form-select reception-select" id="feedcentre_new_oldupdate" required="">
-                        <option value="-"></option>
+                        <option value=""></option>
                         <option value="New">New</option>
                         <option value="Old">Old</option>
                       </select>
@@ -1146,7 +1206,7 @@
                     </li>
                     <li><label class="form-label new-old">New/Old</label>
                       <select class="form-select reception-select" id="labInvest_new_oldupdate" required="">
-                        <option value="-"></option>
+                        <option value=""></option>
                         <option value="New">New</option>
                         <option value="Old">Old</option>
                       </select>
@@ -1208,6 +1268,11 @@
                     <option value="MD28">28</option>
                     <option value="MD29">29</option>
                     <option value="MD30">30</option>
+                    <option value="MD31">31</option>
+                    <option value="MD32">32</option>
+                    <option value="MD33">33</option>
+                    <option value="MD34">34</option>
+                    <option value="MD35">35</option>
 
                     <option value="MDF1">MD-F1</option>
                     <option value="MDF2">MD-F2</option>
@@ -1345,7 +1410,7 @@
                 <label for="" class="form-label" id="reception_find_noti"></label>
               </div>
             </div>
-            <table class="table table-hover table-bordered">
+            <table class="table  table-bordered">
               <thead>
                 <tr>
                   <td>General ID</td>
@@ -1364,2337 +1429,2661 @@
 
           </div>
         </div>
+
+        <div class="tab-pane container containers fade" id="recepint_PtList2">
+          <h2 class="header-text">Patient List</h2>
+          <div class="rec-patient-list2 ">
+            <div class="row">
+              <div class="col-sm-2">
+                <label for="" class="form-laber">Find Date</label>
+                <div class="date-holder">
+                  <input type="text" id="rec_show_date2" class="form-control Gdate date-verify"
+                    placeholder="dd-mm-yyyy">
+                  <img src="../img/calendar3.svg" class="dateimg" alt="date">
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <button class="btn btn-info" onclick="showPatientList2(this)" style="margin-top: 35px">Show
+                  Patient
+                  List</button>
+              </div>
+            </div>
+            <div class="row no-margin rec-patient-header">
+              <div class="col-sm-1 no-margin">NO.</div>
+              <div class="col-sm-2 no-margin">General ID</div>
+              <div class="col-sm-2 no-margin">Fuchia ID</div>
+              <div class="col-sm-2 no-margin">Name</div>
+              <div class="col-sm-2 no-margin">Father's Name</div>
+              <div class="col-sm-1 no-margin">Sex</div>
+              <div class="col-sm-1 no-margin">Register Age</div>
+              <div class="col-sm-1 no-margin">Register Month</div>
+            </div>
+
+          </div>
+        </div>
+        <div class="tab-pane container containers fade" id="qrexport">
+          <div class="row">
+            <div class="col-sm-2">
+              <label for="" class="form-lable">GeneralID</label>
+              <input type="number" name="generalID" id="qr_Pid" class="form-control">
+            </div>
+            <div class="col-sm-2">
+              <button class="btn  s-t-update update-batton" style="margin-top:33px" onclick="qrExport()">print
+                QR</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
 
+  </div>
+  <div class="row">
+    <div>
+      <div class="vertical-barcode  barcode" style="left:-5%">
+
+      </div>
+    </div>
+    <div>
+      <div class="vertical-barcode  barcode" style="left:2%">
+
+      </div>
+    </div>
+    <div>
+      <div class="vertical-barcode  barcode" style="left:9.5%">
+
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div>
+      <div class="vertical-barcode qr-top barcode" style="left:-5%">
+
+      </div>
+    </div>
+    <div>
+      <div class="vertical-barcode qr-top barcode" style="left:2%">
+
+      </div>
+    </div>
+    <div>
+      <div class="vertical-barcode qr-top barcode" style="left:9.5%">
+
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div>
+      <div class="barcode" style="left: 2%;
+      top: 490px;
+      position: absolute;">
+
+      </div>
+    </div>
+    <div>
+      <div class="" id="qrcode" style="left: 10%;
+      top: 570px;
+      position: absolute;">
+
+      </div>
+    </div>
   </div>
 
 </body>
 @endsection
 @endauth
 <script type="text/javascript" language="javascript">
-  let generatedID=0; let text =0; let ptID=0;let rowNumber=0;
-  let generatedID1=0;
-  let genID=[];
-  let ddDate=0;
+  let generatedID = 0;
+  let text = 0;
+  let ptID = 0;
+  let rowNumber = 0;
+  let generatedID1 = 0;
+  let genID = [];
+  let ddDate = 0;
   let age;
-  let updateCheck,preCode=0; // general and ncd select box determination update or simple click
-  let serch_name_result;// to find by name
-  let consultation_record;// for consultation_records;
-  var diagnosis=[
-        "1.RTI(<2wks)","2.RTI(≥2 wks)","3. Obstructive pul. D/s","4. NCD/Cerebro-vascular diseases (CVD)",
-        "5.Renal D/s","6.GI & Hepatobiliary","7.Gynaecology","8.Musculoskeleton and rheumatology",
-        "9.Skin Infection","10.Covid related consultation","11.TB related consultation","12.Sexual violence",
-        "13.STI","14.Others",
+  let updateCheck, preCode = 0; // general and ncd select box determination update or simple click
+  let serch_name_result; // to find by name
+  let consultation_record; // for consultation_records;
+  var diagnosis = [
+    "1.RTI(<2wks)", "2.RTI(≥2 wks)", "3. Obstructive pul. D/s", "4. NCD/Cerebro-vascular diseases (CVD)",
+    "5.Renal D/s", "6.GI & Hepatobiliary", "7.Gynaecology", "8.Musculoskeleton and rheumatology",
+    "9.Skin Infection", "10.Covid related consultation", "11.TB related consultation", "12.Sexual violence",
+    "13.STI", "14.Others",
   ];
-  var diagnosis_value=[
-        "RTI<2wks","RTI>=2","ObstructiveDs","NCD-CVD",
-        "RenalDs","GI-Hepato","Gynaecology","Musculo-rheumatology",
-        "SkinInfect","Covid-consul","TB-consul","Sexual-viol",
-        "STI","Others",
+  var diagnosis_value = [
+    "RTI<2wks", "RTI>=2", "ObstructiveDs", "NCD-CVD",
+    "RenalDs", "GI-Hepato", "Gynaecology", "Musculo-rheumatology",
+    "SkinInfect", "Covid-consul", "TB-consul", "Sexual-viol",
+    "STI", "Others",
   ];
-  var diagnosisUn15=[
-        "1.RTI(<2wks)","2.RTI(≥2 wks)","3. Obstructive pul. D/s","4.Dengue Fever",
-        "5.Renal D/s","6.GI & Hepatobiliary","7.Malnourished","8.Child Abuse",
-        "9.Skin Infection","10.Covid related consultation","11.TB related consultation","12.Others",
-        
+  var diagnosisUn15 = [
+    "1.RTI(<2wks)", "2.RTI(≥2 wks)", "3. Obstructive pul. D/s", "4.Dengue Fever",
+    "5.Renal D/s", "6.GI & Hepatobiliary", "7.Malnourished", "8.Child Abuse",
+    "9.Skin Infection", "10.Covid related consultation", "11.TB related consultation", "12.Others",
+
   ];
-  var diagnosis_valueUn15=[
-        "RTI<2wks","RTI>=2","ObstructiveDs","Dengue-Fever",
-        "RenalDs","GI-Hepato","Malnouri","Child-Abuse",
-        "SkinInfect","Covid-consul","TB-consul","Others",
+  var diagnosis_valueUn15 = [
+    "RTI<2wks", "RTI>=2", "ObstructiveDs", "Dengue-Fever",
+    "RenalDs", "GI-Hepato", "Malnouri", "Child-Abuse",
+    "SkinInfect", "Covid-consul", "TB-consul", "Others",
   ];
- 
-function showPatientList(){ 
-    if($("#rec_show_date").val()==""){
-      var rec_show_findDate=formatDate(todayIn);
-    }else{
-      var rec_show_findDate=formatDate($("#rec_show_date").val());
+
+  function showPatientList() {
+    if ($("#rec_show_date").val() == "") {
+      var rec_show_findDate = formatDate(todayIn);
+    } else {
+      var rec_show_findDate = formatDate($("#rec_show_date").val());
     }
-    if($("#rec_show_date").val()==""){
-      var rec_show_To=formatDate(todayIn);
-    }else{
-      var rec_show_To=formatDate($("#rec_date_To").val());
+    if ($("#rec_show_date").val() == "") {
+      var rec_show_To = formatDate(todayIn);
+    } else {
+      var rec_show_To = formatDate($("#rec_date_To").val());
     }
     var differenceInMilliseconds = Math.abs(new Date(rec_show_findDate) - new Date(rec_show_To));
 
     // Convert milliseconds to days
     var differenceInDays = differenceInMilliseconds / (1000 * 60 * 60 * 24);
 
-    var ckdata={
-      notice:"Find Patient List",
-      rec_show_findDate:rec_show_findDate,//from
-      rec_show_To:rec_show_To//to
+    var ckdata = {
+      notice: "Find Patient List",
+      rec_show_findDate: rec_show_findDate, //from
+      rec_show_To: rec_show_To //to
     }
     console.log(ckdata);
-    if(differenceInDays<11 && new Date(rec_show_findDate)<=new Date(rec_show_To) ){
+    if (differenceInDays < 11 && new Date(rec_show_findDate) <= new Date(rec_show_To)) {
       $.ajaxSetup({
-          headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-          }
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+        }
       });
       $.ajax({
-            type:'POST',
-            url:"{{route('reception_road')}}",
-            dataType:'json',
-            contentType: 'application/json',
-            data: JSON.stringify(ckdata),
-            success:function(response){
-              console.log(response);
-              consultation_record=response;
-              show_consultation_record();
+        type: 'POST',
+        url: "{{ route('reception_road') }}",
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify(ckdata),
+        success: function(response) {
+          console.log(response);
+          consultation_record = response;
+          show_consultation_record();
 
-              
-            }
+
+        }
       })
-    }else{
+    } else {
       alert("Wrong Formatted or exceed 10 day");
       $("#rec_show_date,#rec_date_To").val("");
     }
-    
-  
-  
-}
 
-function show_consultation_record(){
-  if(consultation_record.length>0){
-    $(".rec-patient-list table tbody tr").remove();
-    var prep_patient=0;
-    var prep_new=0;
-    var prep_old=0;
-    $.each(consultation_record, function(index, value) {
-      if(value["prep"]!=null&&value["prep"]!=""){
-        prep_patient+=1;
-        if(value["prep"]=="New"){
-          prep_new+=1
-        }else{
-          prep_old++;
-        }
-      }
-      if($("#find_reception_type").val()=="PrepCode"){
-        if(value["prep"]!=null&&value["prep"]!=""){
-          var Pt_list = $("<tr>")
-                      .append($("<td>").text(value["Pid"]))
-                      .append($("<td>").text(value["FuchiaID"]))
-                      .append($("<td>").text(value["prep"]))
-                      .append($("<td>").text(value["Name"]))
-                      .append($("<td>").text(value["Gender"]))
-                      .append($("<td>").text(value["Main Risk"]))
-                      .append($("<td>").text(value["Next Appointment Date"]));
-                      $(".rec-patient-list table tbody").append(Pt_list);
-                    }
-          }else{
-                  var Pt_list = $("<tr>")
-                      .append($("<td>").text(value["Pid"]))
-                      .append($("<td>").text(value["FuchiaID"]))
-                      .append($("<td>").text(value["prep"]))
-                      .append($("<td>").text(value["Name"]))
-                      .append($("<td>").text(value["Gender"]))
-                      .append($("<td>").text(value["Main Risk"]))
-                      .append($("<td>").text(value["Next Appointment Date"]));
-                    $(".rec-patient-list table tbody").append(Pt_list);
-          }
-    });
-    $("#reception_find_noti").html("Total patient:"+consultation_record.length+
-    "<br>"+"Total Prep patient:"+prep_patient+"<br>"+"Prep New:"+prep_new+"<br>"+"Prep Old:"+prep_old)
+
 
   }
-}
- 
-function preadd(){
-  var preCount=$("#pre_number").val();
-  
-  if(preCount < 21 && preCount > 0){
-    var stillID=@json($value["Pid"]);
-    var preDefine={
-      notice:"Predfine General Code",
-      preCount:preCount,
-      stillID:stillID,
-      clinic_code:mam_clinicID,
+
+  function qrExport() {
+    let changeQR = {
+      Pid: $("#qr_Pid").val(),
+      notice: "Change to QR",
     }
-    console.log(preDefine);
     $.ajaxSetup({
-	      headers: {
-	          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-	       }
-	  });
-	  $.ajax({
-	      type:'POST',
-	      url:"{{route('reception_road')}}",
-	      dataType:'json',
-	      contentType: 'application/json',
-	      data: JSON.stringify(preDefine),
-	      success:function(response){
-          alert("You add from "+(Number(stillID)+1)+" to "+(Number(stillID)+Number(preCount)));
-          history.go(0);
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+      }
+    });
+    $.ajax({
+      type: 'POST',
+      url: "{{ route('reception_road') }}",
+      dataType: 'json',
+      contentType: 'application/json',
+      data: JSON.stringify(changeQR),
+      success: function(response) {
+        // alert("You add from "+(Number(stillID)+1)+" to "+(Number(stillID)+Number(preCount)));
+        // history.go(0);
+
+        console.log(response);
+        if (response == "No ID") {
+          alert("ဤ ID သည် Confidential အချက်အလက်များမရှိပါ၊၊ Reception တွင် စရင်းသွင်းပးပါ၊၊");
+        } else {
+          $('.barcode').html(response.barcode1DHtml);
+          $('#qrcode').html(response.barcode2DHtml);
+
+          $('.barcode').append(
+            $("<label>")
+            .attr({
+              "class": "",
+              "style": "color:black"
+            })
+
+            .text($("#qr_Pid").val())
+          );
+          $('#qrcode').append(
+            $("<label>")
+            .attr({
+              "class": "",
+              "style": "color:black;position:absolute;left:-50%"
+            })
+
+            .text($("#qr_Pid").val())
+          );
+          $(".container").hide();
+          window.print();
+          location.reload(true);
         }
+
+      }
+    })
+  }
+
+  function showPatientList2(button) {
+
+    if ($("#rec_show_date2").val() == "") {
+      var rec_show_findDate = formatDate(todayIn);
+    } else {
+      var rec_show_findDate = formatDate($("#rec_show_date2").val());
+    }
+    var functionLoco = 14;
+    var ckdata = {
+      functionLoco: functionLoco,
+      rec_show_findDate: rec_show_findDate,
+    }
+    console.log(ckdata);
+
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+      }
+    });
+    $.ajax({
+      type: 'POST',
+      url: "{{ route('reception_road') }}",
+      dataType: 'json',
+      contentType: 'application/json',
+      data: JSON.stringify(ckdata),
+      timeout: 10000,
+      beforeSend: function() {
+        // Set a timeout to show the loading div after 3 seconds
+        $(button).prop("disabled", true);
+        timeoutHandle = setTimeout(function() {
+
+          $("#loadingSpinner").css("opacity", 1).addClass("spinner");
+          $(".tab-content").css("opacity", 0.3);
+          $(".tab-content").addClass("freeze-body");
+        }, 3000);
+      },
+      success: function(response) {
+        $(button).prop("disabled", false);
+        clearTimeout(timeoutHandle);
+        $(".pt-list-record").remove();
+        $.each(response[0], function(index, value) {
+          var Pt_list = $("<div>").attr("class", "row pt-list-record rec-patient-header no-margin")
+            .append($("<div>").attr({
+              class: "col-sm-1 no-margin"
+            }).text(index + 1))
+            .append($("<div>").attr({
+              class: "col-sm-2 no-margin"
+            }).text(value["Pid"]))
+            .append($("<div>").attr("class", "col-sm-2 no-margin").text(value["FuchiaID"]))
+            .append($("<div>").attr("class", "col-sm-2 no-margin").text(value["Name"]))
+            .append($("<div>").attr("class", "col-sm-2 no-margin").text(value["Father"]))
+            .append($("<div>").attr("class", "col-sm-1 no-margin").text(value["Gender"]))
+            .append($("<div>").attr("class", "col-sm-1 no-margin").text(value["Agey"]))
+            .append($("<div>").attr("class", "col-sm-1 no-margin").text(value["Agem"]));
+          $(".rec-patient-list2").append(Pt_list);
+        });
+      }
     })
 
+
   }
 
-}
-
-function find_next_md(){
-  var next_app_date=formatDate($("#nDate").val());
-  var find_next_md={
-    notice:"find next md",
-    next_app_date:next_app_date,
-  }
-  console.log(find_next_md);
-  $.ajaxSetup({
-	       headers: {
-	           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-	       }
-	});
-	$.ajax({
-	        type:'POST',
-	        url:"{{route('reception_road')}}",
-	        dataType:'json',
-	        //  processData:false,
-	        contentType:'application/json',
-	        data: JSON.stringify(find_next_md),
-	        success:function(response){
-            console.log(response)
-            $("#next_md_list li").remove();
-            if(Object.keys(response).length>0){
-              $.each(response, function(index, next_md) {
-                var next_md_list = $("<li>").text(index+"-").add($("<li>").text(next_md));
-                $("#next_md_list").append(next_md_list);    
-              })
-            }else{
-              // $("#next_md_list").append($("<li>").text("All Doctor is free at--"+$("#nDate").val()))
-            }
-            
+  function show_consultation_record() {
+    if (consultation_record.length > 0) {
+      $(".rec-patient-list table tbody tr").remove();
+      var prep_patient = 0;
+      var prep_new = 0;
+      var prep_old = 0;
+      $.each(consultation_record, function(index, value) {
+        if (value["prep"] != null && value["prep"] != "") {
+          prep_patient += 1;
+          if (value["prep"] == "New") {
+            prep_new += 1
+          } else {
+            prep_old++;
           }
-        })   
-}
+        }
+        if ($("#find_reception_type").val() == "PrepCode") {
+          if (value["prep"] != null && value["prep"] != "") {
+            var Pt_list = $("<tr>")
+              .append($("<td>").text(value["Pid"]))
+              .append($("<td>").text(value["FuchiaID"]))
+              .append($("<td>").text(value["prep"]))
+              .append($("<td>").text(value["Name"]))
+              .append($("<td>").text(value["Gender"]))
+              .append($("<td>").text(value["Main Risk"]))
+              .append($("<td>").text(value["Next Appointment Date"]));
+            $(".rec-patient-list table tbody").append(Pt_list);
 
-function diagnosis_validation(target_valid){
-  var diag_valid_check=$("#"+target_valid+" input[type='checkbox']")
-  var all_fine_diagnosis=true;
- $.each(diag_valid_check, function (index, value) {
-    if ($("#" + value.id).prop("checked")) {
+          }
+        } else {
+          var Pt_list = $("<tr>").attr({
+              id: "ptlist" + index
+            })
+            .append($("<td>").text(value["Pid"]))
+            .append($("<td>").text(value["FuchiaID"]))
+            .append($("<td>").text(value["prep"]))
+            .append($("<td>").text(value["Name"]))
+            .append($("<td>").text(value["Gender"]))
+            .append($("<td>").text(value["Main Risk"]))
+            .append($("<td>").text(value["Next Appointment Date"]));
+          $(".rec-patient-list table tbody").append(Pt_list);
+          if (value["Pateint_Diagnosis"] == null || value["Pateint_Diagnosis"] == "731") {
+            $("#ptlist" + index).css("background-color", "#ffa20078")
+          }
+        }
+      });
+      $("#reception_find_noti").html("Total patient:" + consultation_record.length +
+        "<br>" + "Total Prep patient:" + prep_patient + "<br>" + "Prep New:" + prep_new + "<br>" + "Prep Old:" + prep_old)
+
+    }
+  }
+
+  function preadd() {
+    var preCount = $("#pre_number").val();
+
+    if (preCount < 21 && preCount > 0) {
+      var stillID = @json($value['Pid']);
+      var preDefine = {
+        notice: "Predfine General Code",
+        preCount: preCount,
+        stillID: stillID,
+        clinic_code: mam_clinicID,
+      }
+      console.log(preDefine);
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+        }
+      });
+      $.ajax({
+        type: 'POST',
+        url: "{{ route('reception_road') }}",
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify(preDefine),
+        success: function(response) {
+          alert("You add from " + (Number(stillID) + 1) + " to " + (Number(stillID) + Number(preCount)));
+          history.go(0);
+        }
+      })
+
+    }
+
+  }
+
+  function find_next_md() {
+    var next_app_date = formatDate($("#nDate").val());
+    var find_next_md = {
+      notice: "find next md",
+      next_app_date: next_app_date,
+    }
+    console.log(find_next_md);
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+      }
+    });
+    $.ajax({
+      type: 'POST',
+      url: "{{ route('reception_road') }}",
+      dataType: 'json',
+      //  processData:false,
+      contentType: 'application/json',
+      data: JSON.stringify(find_next_md),
+      success: function(response) {
+        console.log(response)
+        $("#next_md_list li").remove();
+        if (Object.keys(response).length > 0) {
+          $.each(response, function(index, next_md) {
+            var next_md_list = $("<li>").text(index + "-").add($("<li>").text(next_md));
+            $("#next_md_list").append(next_md_list);
+          })
+        } else {
+          // $("#next_md_list").append($("<li>").text("All Doctor is free at--"+$("#nDate").val()))
+        }
+
+      }
+    })
+  }
+
+  function diagnosis_validation(target_valid) {
+    var diag_valid_check = $("#" + target_valid + " input[type='checkbox']")
+    var all_fine_diagnosis = true;
+
+    $.each(diag_valid_check, function(index, value) {
+      if ($("#" + value.id).prop("checked")) {
         var diag_child_selects = $("#" + value.id).parent().parent().find("select");
 
         var isFine = true; // Flag variable
 
-        $.each(diag_child_selects, function (c_index, c_value) {
-            if ($("#" + c_value.id).val() == "") {
-                isFine = false;
-                return false; // Exit the inner loop as soon as an empty value is found
-            }
+        $.each(diag_child_selects, function(c_index, c_value) {
+          if ($("#" + c_value.id).val() == "" || $("#" + c_value.id).val() == null) {
+            isFine = false;
+            return false; // Exit the inner loop as soon as an empty value is found
+          }
         });
         if (!isFine) {
-            all_fine_diagnosis = false;
-            return false; // Exit the outer loop as soon as an empty value is found
+          all_fine_diagnosis = false;
+          return false; // Exit the outer loop as soon as an empty value is found
         }
-    }
-  });
-  return all_fine_diagnosis;
-}
-
-function SeachByName(){
-  var serach_name_data={
-    serch_year:$("#name_serach_year").val(),
-    notice:"Serach By name"
-  }
-  $("#show_name_result table tbody tr").remove();
-  $("#search_input_name").val("");
-  console.log(serach_name_data);
-  if($("#name_serach_year").val()!=""){
-    $.ajaxSetup({
-	  headers: {
-	    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-	  }
+      }
     });
-    $.ajax({
-              type:'POST',
-              url:"{{route('reception_road')}}",
-              dataType:'json',
-              //  processData:false,
-              contentType:'application/json',
-              data: JSON.stringify(serach_name_data),
-              success:function(response){
-                  if(response[0].length>0){
-                    console.log(response)
-                    $("#search_input_name").show();
-                    serch_name_result=response[0];
-                  }else{
-                    alert("There is no Clinet in this year")
-                  }
-                  
-              }
-    })
+    return all_fine_diagnosis;
+  }
+
+  function SeachByName() {
+    var serach_name_data = {
+      serch_year: $("#name_serach_year").val(),
+      notice: "Serach By name"
+    }
+    $("#show_name_result table tbody tr").remove();
+    $("#search_input_name").val("");
+    console.log(serach_name_data);
+    if ($("#name_serach_year").val() != "") {
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+        }
+      });
+      $.ajax({
+        type: 'POST',
+        url: "{{ route('reception_road') }}",
+        dataType: 'json',
+        //  processData:false,
+        contentType: 'application/json',
+        data: JSON.stringify(serach_name_data),
+        success: function(response) {
+          if (response[0].length > 0) {
+            console.log(response)
+            $("#search_input_name").show();
+            serch_name_result = response[0];
+          } else {
+            alert("There is no Clinet in this year")
+          }
+
+        }
+      })
+
+    }
 
   }
-  
-}
-        
- 
-// function location ( 1 ) to ready New Id and first checked is that the new one and return
-function idgiven(){
-	  clearFacts();
-	  document.getElementById('gid').value = document.getElementById('nextID').innerHTML;
-	  // For Date
-	  var date = new Date();
-	  var day = date.getDate();
-	  var month = date.getMonth() + 1;
-	  var year = date.getFullYear();
-	  if (month < 10) month = "0" + month;
-	  if (day < 10) day = "0" + day;
-	  var today = year + "-" + month + "-" + day;
-	  document.getElementById('vDate').value = today;
 
-	  var gid =document.getElementById('gid').value;
-	  var searchIDtoCK = document.getElementById('search_id').value;
-		var functionLoco=1;
-	  if(searchIDtoCK.length<5){
-	  let ckID = 1;
-	  var checkPatient = 1;
-	  var ckdata = {
-										functionLoco:functionLoco,
-	                  gid:gid,
-	                  ckID:ckID
-	                };
-	  $.ajaxSetup({
-	      headers: {
-	          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-	       }
-	     });
-	  $.ajax({
-	      type:'POST',
-	      url:"{{route('reception_road')}}",
-	      dataType:'json',
-	      contentType: 'application/json',
-	      data: JSON.stringify(ckdata),
-	      success:function(response){
 
-	          if(response[0]==null){
-	                    document.getElementById('regbutton').disabled=false;
-	                    document.getElementById('updateBton').disabled=true;
-	                    document.getElementById('followBton').disabled=true;
-	                    document.getElementById('responseText').innerHTML="";
-	                    document.getElementById('responseText').innerHTML="The new code was checked ,it is the new ID.";
-	                    document.getElementById('fid').focus();
-                      $("#register_date,#register_date,#agey_register,#agem_register").prop("disabled",false)
-	                 }
-	                 if (response[0] != null) {
-	                     generatedID=response[0]['id'];
-	                   if(response[1]!= null){
-	                    document.getElementById('responseText').innerHTML="";
-	                    document.getElementById('responseText').innerHTML="We have got data.";
-	                   }
-	                   document.getElementById("name").value=response[1];
-	                   document.getElementById("father").value=response[2];
-	                   document.getElementById('gender').value= response[0]["Gender"];
-	                   document.getElementById("agey").value=response[0]["Agey"];
-	                   document.getElementById("agem").value=response[0]["Agem"];
-	                   document.getElementById("state").value=response[0]["Region"];
-	                   document.getElementById("tt_opt").value=response[0]["Township"];
-	                  // document.getElementById("quarter").value=response[0]["Quarter"];
-	                   document.getElementById("fid").value=response[0]["FuchiaID"];
-	                   //document.getElementById("vdate").value=response[0]["Reg Date"];
-	                   //document.getElementById("dob").value=response[0]["Date Of Birth"];
-	                   document.getElementById('main_risk').disabled=false;
-	                   document.getElementById('sub_risk').disabled=false;
+  // function location ( 1 ) to ready New Id and first checked is that the new one and return
+  function idgiven() {
+    clearFacts();
+    document.getElementById('gid').value = document.getElementById('nextID').innerHTML;
+    // For Date
+    var date = new Date();
+    var day = date.getDate();
+    var month = date.getMonth() + 1;
+    var year = date.getFullYear().toString();
+    console.log(year);
+    if (month < 10) month = "0" + month;
+    if (day < 10) day = "0" + day;
+    var today = year + "-" + month + "-" + day;
+    document.getElementById('vDate').value = today;
+    $("#clinic_code").val(mam_clinicID)
+    $("#year_code").val(year.slice(year.length - 2, year.length));
+    var gid = document.getElementById('gid').value;
+    var searchIDtoCK = document.getElementById('search_id').value;
+    var functionLoco = 1;
+    if (searchIDtoCK.length < 5) {
+      let ckID = 1;
+      var checkPatient = 1;
+      var ckdata = {
+        functionLoco: functionLoco,
+        gid: gid,
+        ckID: ckID
+      };
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+        }
+      });
+      $.ajax({
+        type: 'POST',
+        url: "{{ route('reception_road') }}",
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify(ckdata),
+        success: function(response) {
+          $("#qrcode_print").val("No");
+          if (response[0] == null) {
+            document.getElementById('regbutton').disabled = false;
+            document.getElementById('updateBton').disabled = true;
+            document.getElementById('followBton').disabled = true;
+            document.getElementById('responseText').innerHTML = "";
+            document.getElementById('responseText').innerHTML = "The new code was checked ,it is the new ID.";
+            document.getElementById('fid').focus();
+            $("#register_date,#register_date,#agey_register,#agem_register").prop("disabled", false)
+          }
+          if (response[0] != null) {
+            generatedID = response[0]['id'];
+            if (response[1] != null) {
+              document.getElementById('responseText').innerHTML = "";
+              document.getElementById('responseText').innerHTML = "We have got data.";
+            }
+            document.getElementById("name").value = response[1];
+            document.getElementById("father").value = response[2];
+            document.getElementById('gender').value = response[0]["Gender"];
+            document.getElementById("agey").value = response[0]["Agey"];
+            document.getElementById("agem").value = response[0]["Agem"];
+            document.getElementById("state").value = response[0]["Region"];
+            document.getElementById("tt_opt").value = response[0]["Township"];
+            // document.getElementById("quarter").value=response[0]["Quarter"];
+            document.getElementById("fid").value = response[0]["FuchiaID"];
+            //document.getElementById("vdate").value=response[0]["Reg Date"];
+            //document.getElementById("dob").value=response[0]["Date Of Birth"];
+            document.getElementById('main_risk').disabled = false;
+            document.getElementById('sub_risk').disabled = false;
 
-	                   document.getElementById('regbutton').disabled=true;
-	                   document.getElementById('updateBton').disabled=true;
-	                   document.getElementById('followBton').disabled=false;
-	                 }
-	               }
-	         });
-	        }
-	}
-//functionLocation ( 1 ) Search General with ID
-function ptData(){
-	  // For Date
-	  var date = new Date();
-	  var day = date.getDate();
-	  var month = date.getMonth() + 1;
-	  var year = date.getFullYear();
-	  if (month < 10) month = "0" + month;
-	  if (day < 10) day = "0" + day;
-	  var today = year + "-" + month + "-" + day;
-	  document.getElementById('vDate').value = today;
-     
+            document.getElementById('regbutton').disabled = true;
+            document.getElementById('updateBton').disabled = true;
+            document.getElementById('followBton').disabled = false;
+          }
+        }
+      });
+    }
+  }
+  //functionLocation ( 1 ) Search General with ID
+  function ptData() {
+    // For Date
+    var date = new Date();
+    var day = date.getDate();
+    var month = date.getMonth() + 1;
+    var year = date.getFullYear();
+    if (month < 10) month = "0" + month;
+    if (day < 10) day = "0" + day;
+    var today = year + "-" + month + "-" + day;
+    document.getElementById('vDate').value = today;
 
-	  var gid =document.getElementById('gid').value;
-    var Fid=$("#fid").val();
-	  var searchIDtoCK = document.getElementById('search_id').value;
-	  var gidLength = gid.length;
-	  if(gidLength>9||Fid.length>5){
-	    document.getElementById('responseText').innerHTML="";
-	  if(searchIDtoCK.length<5||Fid.length>5){
-	  var functionLoco = 1;
-		let ckID = 1;
-	  var checkPatient = 1;
-	  var ckdata = {
-	                  gid:gid,
-                    Fid:Fid,
-	                  functionLoco:functionLoco,
-										ckID:ckID,
-	                };
-    console.log(ckdata);
-	  $.ajaxSetup({
-	      headers: {
-	          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-	       }
-	     });
-	  $.ajax({
-	      type:'POST',
-	      url:"{{route('reception_road')}}",
-	      dataType:'json',
-	      contentType: 'application/json',
-	      data: JSON.stringify(ckdata),
-	      success:function(response){
-	        console.log(response);
-          console.log(response.length);
-          if(response[0]==null)
-	        {
-	                    document.getElementById("gid").value = gid;
-	                    document.getElementById('regbutton').disabled=false;
-	                    document.getElementById('updateBton').disabled=true;
-	                    document.getElementById('followBton').disabled=true;
-	                    document.getElementById("responseText").innerHTML="There is no data for this client."
-                      $("#register_date").prop("disabled",false);
-                      alert("New Patient");
-                      DateTo_text();
-	        }
-          if(response.length>8){
-	          if (response[0] != null)
-	          {
-	            var response7 = response[7];
-	            if(response7 != null){
-	              var nextDate =  response[7]["Next Appointment Date"];
-                $("#reception_LastVDate").val(response[7]["Visit Date"])
-               
-                  
-								if(today != nextDate){
-		              document.getElementById('responseText').innerHTML="Unplanned Visit";                
-		            }else{
-                  document.getElementById('responseText').innerHTML="Planned  Visit";
+
+    var gid = document.getElementById('gid').value;
+    var Fid = $("#fid").val();
+    var searchIDtoCK = document.getElementById('search_id').value;
+    var gidLength = gid.length;
+    if (gidLength > 9 || Fid.length > 5 || eyes_code != null) {
+      document.getElementById('responseText').innerHTML = "";
+      if (searchIDtoCK.length < 5 || Fid.length > 5 || eyes_code != null) {
+        var functionLoco = 1;
+        let ckID = 1;
+        var checkPatient = 1;
+        var ckdata = {
+          gid: gid,
+          Fid: Fid,
+          eye_code: $("#eyes_code").val(),
+          functionLoco: functionLoco,
+          ckID: ckID,
+        };
+        console.log(ckdata);
+        $.ajaxSetup({
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+          }
+        });
+        $.ajax({
+          type: 'POST',
+          url: "{{ route('reception_road') }}",
+          dataType: 'json',
+          contentType: 'application/json',
+          data: JSON.stringify(ckdata),
+          success: function(response) {
+            console.log(response);
+            console.log(response.length);
+            $("#qrcode_print").val("No");
+            if (response[0] == null) {
+              document.getElementById("gid").value = gid;
+              document.getElementById('regbutton').disabled = false;
+              document.getElementById('updateBton').disabled = true;
+              document.getElementById('followBton').disabled = true;
+              document.getElementById("responseText").innerHTML = "There is no data for this client."
+              $("#register_date").prop("disabled", false);
+              alert("New Patient");
+              DateTo_text();
+            }
+            if (response.length > 8) {
+              if (response[0] != null) {
+                var response7 = response[7];
+                $("#eyes_code").val(response[0]["Eyes_code"]);
+                if (response7 != null) {
+                  var nextDate = response[7]["Next Appointment Date"];
+                  $("#reception_LastVDate").val(response[7]["Visit Date"]);
+
+
+                  if (today != nextDate) {
+                    document.getElementById('responseText').innerHTML = "Unplanned Visit";
+                  } else {
+                    document.getElementById('responseText').innerHTML = "Planned  Visit";
+                  }
+                  $("#regbutton,#updateBton").prop("disabled", true);
+                  $("#followBton").prop("disabled", false);
+                  $("#register_date").prop("disabled", true);
+
+                } else {
+                  document.getElementById('responseText').innerHTML = "";
+                  document.getElementById('responseText').innerHTML = "We have got data.";
                 }
-                $("#regbutton,#updateBton").prop("disabled",true);
-                $("#followBton").prop("disabled",false);
-                $("#register_date").prop("disabled",true);
 
-	            }else{
-	              document.getElementById('responseText').innerHTML="";
-	              document.getElementById('responseText').innerHTML="We have got data.";
-	            }
+                generatedID = response[0]['id'];
+                register_date = response[0]['Reg Date'];
+                if (response[1] != null) { // For Name
+                  document.getElementById("name").value = response[1];
+                }
+                if (response[2] != null) { //For Father
+                  document.getElementById("father").value = response[2];
+                }
 
-	              generatedID=response[0]['id'];
-                register_date=response[0]['Reg Date'];
-	              if(response[1] != null){ // For Name
-	                document.getElementById("name").value=response[1];
-	              }
-	              if(response[2] != null){//For Father
-	                document.getElementById("father").value=response[2];
-	              }
-
-	              if(response[3] != null){// For Date of Birth and Age
-                  var closeBtn=0;
-	                var bd_date = response[3];
-                  dob_input=response[3];
+                if (response[3] != null) { // For Date of Birth and Age
+                  var closeBtn = 0;
+                  var bd_date = response[3];
+                  dob_input = response[3];
                   var registerAge = response[0]["Agey"];
-                  dob_month=dob_input.split("-")[1];
-                  dob_day=dob_input.split("-")[2];
-                  if(dob_month=="6"&&dob_day=="15"&&registerAge==1){
-                    dob_input="";
+                  dob_month = dob_input.split("-")[1];
+                  dob_day = dob_input.split("-")[2];
+                  if (dob_month == "6" && dob_day == "15" && registerAge == 1) {
+                    dob_input = "";
                   }
                   var registerDate = response[0]["Reg Date"];
 
-                  if(bd_date =="" || bd_date == null || bd_date =="0" || bd_date.length<2) {
-                        // not get date of birth form pt config
-                    if(registerAge <= 0 && response[0]["Agem"]<=0 ){
-                      alert("Age မှားနေပါသည်။");       
+                  if (bd_date == "" || bd_date == null || bd_date == "0" || bd_date.length < 2) {
+                    // not get date of birth form pt config
+                    if (registerAge <= 0 && response[0]["Agem"] <= 0) {
+                      alert("Age မှားနေပါသည်။");
                       $("#search_id").focus();
                       $('#search_id').val(gid);
                       $('#agey').css("background", "red");
-                      closeBtn=1;
-                    }    
+                      closeBtn = 1;
+                    }
+                  } else {
+                    var dateSplited = bd_date.split("-");
+                    var dtYear = dateSplited[0];
+                    var dtMonth = dateSplited[1];
+                    if (dtYear.length != 4) {
+                      alert("Age မှားနေပါသည်။");
+                      $("#search_id").focus();
+                      $('#search_id').val(gid);
+                      $('#agey').css("background", "red");
+                      closeBtn = 1;
+                    }
+
                   }
-                  else{
-                        var dateSplited = bd_date.split("-");
-                        var dtYear = dateSplited[0];
-                        var dtMonth = dateSplited[1];
-                        if(dtYear.length!=4){
-                          alert("Age မှားနေပါသည်။");
-                              $("#search_id").focus();
-                              $('#search_id').val(gid);
-                              $('#agey').css("background", "red");
-                              closeBtn=1;                          
-                      }
-                             
+
+                  if (response[4] != null) { // For Region
+                    document.getElementById("state").value = response[4];
+                    region();
+                  }
+                  if (response[5] != null) { // For Township
+                    document.getElementById("tt").value = response[5];
+                  }
+                  document.getElementById('gender').value = response[8];
+                  document.getElementById('quarter').value = response[6];
+                  document.getElementById("gid").value = response[0]["Pid"];
+                  document.getElementById("fid").value = response[0]["FuchiaID"];
+                  document.getElementById("prepCode").value = response[0]["PrEPCode"];
+                  $("#main_risk").val(response[0]["Main Risk"]);
+                  $("#sub_risk").val(response[0]["Sub Risk"]);
+                  $("#register_date").val(response[0]["Reg Date"]);
+                  $("#agey_register").val(response[0]["Agey"]);
+                  $("#agem_register").val(response[0]["Agem"]);
+
+
+
+                  //  document.getElementById("vDate").value=today;
+
+                  $("#heigth").val(response[9]);
+
+                  if (registerAge > 12) {
+                    $(".reception-muac").hide();
                   }
 
-                  if(response[4]!= null){ // For Region
-                       document.getElementById("state").value=response[4];
-                       region();
+                  document.getElementById('prepCode').disabled = true;
+                  document.getElementById('name').disabled = true;
+                  document.getElementById('father').disabled = true;
+                  document.getElementById('gender').disabled = true;
+                  document.getElementById('state').disabled = true;
+                  document.getElementById('tt').disabled = true;
+
+
+
+                  document.getElementById('dob').disabled = true;
+                  document.getElementById('agey').disabled = true;
+                  document.getElementById('agem').disabled = true;
+                  $("#agey_register,#agem_register").prop("disabled", true)
+                  document.getElementById('main_risk').disabled = true;
+                  document.getElementById('sub_risk').disabled = true;
+                  if ((response[0]["Main Risk"] == null || response[0]["Main Risk"] == "-") && (response[0]["FuchiaID"] != null || response[0][
+                      "FuchiaID"
+                    ] != "-")) {
+                    $("#main_risk,#sub_risk").prop("disabled", false);
                   }
-                  if(response[5]!= null){ // For Township
-                       document.getElementById("tt").value=response[5];
+
+
+                  document.getElementById('regbutton').disabled = true;
+                  document.getElementById('updateBton').disabled = true;
+                  document.getElementById('followBton').disabled = false;
+                  $("#reception_remark_block").show();
+                  if (closeBtn == 1) {
+                    document.getElementById('followBton').disabled = true;
                   }
-                     document.getElementById('gender').value= response[8];
-                     document.getElementById('quarter').value= response[6];
-                     document.getElementById("gid").value=response[0]["Pid"];
-                     document.getElementById("fid").value=response[0]["FuchiaID"];
-                     document.getElementById("prepCode").value=response[0]["PrEPCode"];
-                     $("#main_risk").val(response[0]["Main Risk"]);
-                     $("#sub_risk").val(response[0]["Sub Risk"]);
-                     $("#register_date").val(response[0]["Reg Date"]);
-                     $("#agey_register").val(response[0]["Agey"]);
-                     $("#agem_register").val(response[0]["Agem"]);
 
+                }
 
+              }
+              DateTo_text();
 
-                    //  document.getElementById("vDate").value=today;
-                    
-                     $("#heigth").val(response[9]);
+              dateOfBirth();
+            } else if (response.length == 2) {
+              $("#regbutton,#updateBton").prop("disabled", true);
+              preCode = response[1];
+              $("#responseText").text("Pre define patient").css("color", "#0cf21e");
+              document.getElementById('regbutton').disabled = true;
+              document.getElementById('updateBton').disabled = true;
+              $("#followBton,#register_date,#agey_register,#agem_register").prop("disabled", false);
+            }
 
-                     if(registerAge >12){
-                      $(".reception-muac").hide();
-                     }
-                    
-                     document.getElementById('prepCode').disabled=true;
-                     document.getElementById('name').disabled=true;
-                     document.getElementById('father').disabled=true;
-                     document.getElementById('gender').disabled=true;
-                     document.getElementById('state').disabled=true;
-                     document.getElementById('tt').disabled=true;
-                     
-
-
-                     document.getElementById('dob').disabled=true;
-                     document.getElementById('agey').disabled=true;
-                     document.getElementById('agem').disabled=true;
-                     $("#agey_register,#agem_register").prop("disabled",true)
-                     document.getElementById('main_risk').disabled=true;
-                     document.getElementById('sub_risk').disabled=true;
-                     if((response[0]["Main Risk"]==null||response[0]["Main Risk"]=="-")&&(response[0]["FuchiaID"]!=null||response[0]["FuchiaID"]!="-")){
-                      $("#main_risk,#sub_risk").prop("disabled",false);
-                     }
-                     
-
-                     document.getElementById('regbutton').disabled=true;
-                     document.getElementById('updateBton').disabled=true;
-                     document.getElementById('followBton').disabled=false;
-                     $("#reception_remark_block").show();
-                     if(closeBtn==1){
-                      document.getElementById('followBton').disabled=true;
-                     }
-                     
-	              }
-
-	          }
-            DateTo_text();
-          
-            dateOfBirth();
           }
-          else if(response.length==2){
-            $("#regbutton,#updateBton").prop("disabled",true);
-            preCode=response[1];
-            $("#responseText").text("Pre define patient").css("color","#0cf21e");
-            document.getElementById('regbutton').disabled=true;
-            document.getElementById('updateBton').disabled=true;
-            $("#followBton,#register_date,#agey_register,#agem_register").prop("disabled",false);
-          }
-          
-	        }
-	      });
-	    }
-	  }else
-	  {
-	        clearFacts();
-	        document.getElementById('responseText').innerHTML="ID'length is  < 10";
-	        document.getElementById('regbutton').disabled=true;
-	        document.getElementById('updateBton').disabled=true;
-	        document.getElementById('followBton').disabled=true;
-	  }
-	  
-	    
-	}
-//function Location ( 2 ) Search with Fuchia ID
-function searchFuchiaID(){
-	  // For Date
-	  var date = new Date();
-	  var day = date.getDate();
-	  var month = date.getMonth() + 1;
-	  var year = date.getFullYear();
-	  if (month < 10) month = "0" + month;
-	  if (day < 10) day = "0" + day;
-	  var today = year + "-" + month + "-" + day;
-	  document.getElementById('vDate').value = today;
+        });
+      }
+    } else {
+      clearFacts();
+      document.getElementById('responseText').innerHTML = "ID'length is  < 10";
+      document.getElementById('regbutton').disabled = true;
+      document.getElementById('updateBton').disabled = true;
+      document.getElementById('followBton').disabled = true;
+    }
 
-	  let fuchiaShar =1;
-		var functionLoco = 2;
-	  let fuID = document.getElementById('fid').value;
 
-	  var  pati={
-					functionLoco:functionLoco,
-	        fuchiaShar:fuchiaShar,
-	        fuID:fuID,
-	       };
+  }
+  //function Location ( 2 ) Search with Fuchia ID
+  function searchFuchiaID() {
+    // For Date
+    var date = new Date();
+    var day = date.getDate();
+    var month = date.getMonth() + 1;
+    var year = date.getFullYear();
+    if (month < 10) month = "0" + month;
+    if (day < 10) day = "0" + day;
+    var today = year + "-" + month + "-" + day;
+    document.getElementById('vDate').value = today;
+
+    let fuchiaShar = 1;
+    var functionLoco = 2;
+    let fuID = document.getElementById('fid').value;
+
+    var pati = {
+      functionLoco: functionLoco,
+      fuchiaShar: fuchiaShar,
+      fuID: fuID,
+    };
     console.log(pati);
-	  $.ajaxSetup({
-	     headers: {
-	         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-	     }
-	   });
-	      $.ajax({
-	           type:'POST',
-	           url:"{{route('reception_road')}}",
-	           dataType:'json',
-	         //  processData:false,
-	           contentType:'application/json',
-	           data: JSON.stringify(pati),
-	           success:function(response){
-              console.log(response);
-	               if(response[0]==null){
-	                         document.getElementById('regbutton').disabled=false;
-	                         document.getElementById('updateBton').disabled=true;
-	                         document.getElementById('followBton').disabled=true;
-	                         var new_old = document.getElementById('new_old');
-	                         if(new_old.innerHTML!=null){
-	                           new_old.innerHTML="";
-	                         }
-	                            var sel = document.getElementById('new_old');
-	                            var opt = document.createElement("option");
-	                            opt.appendChild( document.createTextNode("There is no data for this client."));
-	                            opt.value = "New";
-	                            sel.appendChild(opt);
-	                            sel.style.color = "red";
-	                      }
-	                      if (response[0] != null) {
-	                        clearFacts();
-	                        generatedID=response[0]['id'];
-                         
-	                        // var new_old = document.getElementById('new_old');
-	                        // if(new_old.innerHTML!=null){
-	                        //   new_old.innerHTML="";
-	                        // }
-	                        // var sel = document.getElementById('new_old');
-	                        $("#responseText").text("We have Got Data")
-	                        if(response[1] != null){ // For Name
-	                          document.getElementById("name").value=response[1];
-	                        }
-	                        if(response[2] != null){//For Father
-	                          document.getElementById("father").value=response[2];
-	                        }
-	                        if(response[3] != null){// For Date of Birth and Age
-	                          var bd_date = response[3];
-	                          var dateSplited = bd_date.split("-");
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+      }
+    });
+    $.ajax({
+      type: 'POST',
+      url: "{{ route('reception_road') }}",
+      dataType: 'json',
+      //  processData:false,
+      contentType: 'application/json',
+      data: JSON.stringify(pati),
+      success: function(response) {
+        console.log(response);
+        if (response[0] == null) {
+          document.getElementById('regbutton').disabled = false;
+          document.getElementById('updateBton').disabled = true;
+          document.getElementById('followBton').disabled = true;
+          var new_old = document.getElementById('new_old');
+          if (new_old.innerHTML != null) {
+            new_old.innerHTML = "";
+          }
+          var sel = document.getElementById('new_old');
+          var opt = document.createElement("option");
+          opt.appendChild(document.createTextNode("There is no data for this client."));
+          opt.value = "New";
+          sel.appendChild(opt);
+          sel.style.color = "red";
+        }
+        if (response[0] != null) {
+          clearFacts();
+          generatedID = response[0]['id'];
 
-	                          var dtYear = dateSplited[0];
-	                          var dtMonth = dateSplited[1];
+          // var new_old = document.getElementById('new_old');
+          // if(new_old.innerHTML!=null){
+          //   new_old.innerHTML="";
+          // }
+          // var sel = document.getElementById('new_old');
+          $("#responseText").text("We have Got Data")
+          if (response[1] != null) { // For Name
+            document.getElementById("name").value = response[1];
+          }
+          if (response[2] != null) { //For Father
+            document.getElementById("father").value = response[2];
+          }
+          if (response[3] != null) { // For Date of Birth and Age
+            var bd_date = response[3];
+            var dateSplited = bd_date.split("-");
 
-	                          if(dtYear == year){
-	                           document.getElementById("agem").value=Number(dtMonth) + Number(month);
-	                          }else{
-	                            var Adate = new Date();
-	                            var Aday = Adate.getDate();
-	                            var Amonth = Adate.getMonth() + 1;
-	                            var Ayear = Adate.getFullYear();
-	                            var toshowYear = Ayear - Number(dtYear);
-	                           // document.getElementById("agey").value=getAge(bd_date);
-	                            document.getElementById("agey").value= toshowYear;
-	                          }
-	                        }
-	                        document.getElementById('gender').value= response[0]["Gender"];
+            var dtYear = dateSplited[0];
+            var dtMonth = dateSplited[1];
 
-	                        document.getElementById("gid").value=response[0]["Pid"];
+            if (dtYear == year) {
+              document.getElementById("agem").value = Number(dtMonth) + Number(month);
+            } else {
+              var Adate = new Date();
+              var Aday = Adate.getDate();
+              var Amonth = Adate.getMonth() + 1;
+              var Ayear = Adate.getFullYear();
+              var toshowYear = Ayear - Number(dtYear);
+              // document.getElementById("agey").value=getAge(bd_date);
+              document.getElementById("agey").value = toshowYear;
+            }
+          }
+          document.getElementById('gender').value = response[0]["Gender"];
 
-
-	                        if(response[4]!= null){ // For Region
-	                          document.getElementById("state").value=response[4];
-	                        }
-	                        if(response[5]!= null){ // For Township
-	                          document.getElementById("tt").value=response[5];
-	                        }
+          document.getElementById("gid").value = response[0]["Pid"];
 
 
-	                        document.getElementById("fid").value=response[0]["FuchiaID"];
-	                        document.getElementById("vDate").value=today;
-	                        //document.getElementById("dob").value=response[0]["Date of Birth"];
-	                        //document.getElementById("Ptype").value=response[0]["Patient Type"];
-	                        //document.getElementById("tt_sub").value=response[0]["Patient Type Sub"];
-	                        //document.getElementById("tt_sub_2").value=response[0]["Patient Type Sub1"];
-                          $("#regbutton,#updateBton,#name,#father,#gender,#state,#tt,#dob,#agey,#agem,#main_risk,#sub_risk")
-                          .prop("disabled",true);
-                          $("##followBton").prop("disabled",false);
-
-	                      }
+          if (response[4] != null) { // For Region
+            document.getElementById("state").value = response[4];
+          }
+          if (response[5] != null) { // For Township
+            document.getElementById("tt").value = response[5];
+          }
 
 
+          document.getElementById("fid").value = response[0]["FuchiaID"];
+          document.getElementById("vDate").value = today;
+          //document.getElementById("dob").value=response[0]["Date of Birth"];
+          //document.getElementById("Ptype").value=response[0]["Patient Type"];
+          //document.getElementById("tt_sub").value=response[0]["Patient Type Sub"];
+          //document.getElementById("tt_sub_2").value=response[0]["Patient Type Sub1"];
+          $("#regbutton,#updateBton,#name,#father,#gender,#state,#tt,#dob,#agey,#agem,#main_risk,#sub_risk")
+            .prop("disabled", true);
+          $("##followBton").prop("disabled", false);
 
-	            if(response[0]==null)
-	            {
-	              document.getElementById('responseText').innerHTML="";
-	              document.getElementById('responseText').innerHTML="Wrong ID";
-	              document.getElementById('updateBton').disabled=true;
-	              document.getElementById('regbutton').disabled=false;
-	              //location.reload(true);
-	            }
-
-	           }
-	          });
-
-
-	}
-// function location ( 3 ) Add new patient
-function send(){
-	    let gtReg =1;
-			var functionLoco=3;
-	    var created_by = document.getElementById("navbarDropdown").innerHTML;
-	    var gid = document.getElementById("gid").value;
-      var clinic_code = document.getElementById("clinic_code").value;
-	    var name = document.getElementById("name").value;
-	    if(name.length<1){
-	      name="-";
-	    }
-	    var father = document.getElementById("father").value;
-	    if(father.length<1){
-	      father="-";
-	    }
-	    var agey = document.getElementById("agey").value;
-	    if(agey.length<1){
-	      agey=0;
-	    }
-	    var agem = document.getElementById("agem").value;
-	    if(agem.length<1){
-	      agem=0;
-	    }
-	    var gender = document.getElementById("gender").value;
-	    if(gender.length<1){
-	      gender="-";
-	    }
-	    var vdate = document.getElementById("vDate").value;
-      vdate = formatDate(vdate); // Date formatChange function
-      console.log(vdate+"visit date")
-
-	    dateOfBirth();
-	    var dobdate = ddDate;
-     
+        }
 
 
 
-	    var state = document.getElementById("state").value;
-	    if(state.length<1){
-	      state="-";
-	    }
-	    var tt = document.getElementById("tt").value;
-	    if(tt.length<1){
-	      tt="-";
-	    }
-	    var fuchiaID = document.getElementById("fid").value;
-	    if(fuchiaID.length<1){
-	      fuchiaID = "-";
+        if (response[0] == null) {
+          document.getElementById('responseText').innerHTML = "";
+          document.getElementById('responseText').innerHTML = "Wrong ID";
+          document.getElementById('updateBton').disabled = true;
+          document.getElementById('regbutton').disabled = false;
+          //location.reload(true);
+        }
 
-	    }
-
-	    var prepCode = document.getElementById("prepCode").value;
-	    if(prepCode.length<1){
-	      prepCode="-";
-	    }
+      }
+    });
 
 
-	    var main_risk =document.getElementById("main_risk").value;
-	    var sub_risk =document.getElementById("sub_risk").value;
-	    if(gid.length == 10){ //Mode 0= Walk in , 1= Peer with 11,12 code.length;
-	      var mode =0;
-	      console.log("mode is"+mode);
-	    }else{
-	      var mode = 1;
-	      console.log("mode is"+mode);
-	    }
-      var unplan=0;
+  }
+  // function location ( 3 ) Add new patient
+  function send() {
+    let gtReg = 1;
+    var functionLoco = 3;
+    var created_by = document.getElementById("navbarDropdown").innerHTML;
+    var gid = document.getElementById("gid").value;
+    let qrok = $("#qrcode_print").val();
+    var clinic_code = document.getElementById("clinic_code").value;
+    var name = document.getElementById("name").value;
+    if (name.length < 1) {
+      name = "-";
+    }
+    var father = document.getElementById("father").value;
+    if (father.length < 1) {
+      father = "-";
+    }
+    var agey = document.getElementById("agey").value;
+    if (agey.length < 1) {
+      agey = 0;
+    }
+    var agem = document.getElementById("agem").value;
+    if (agem.length < 1) {
+      agem = 0;
+    }
+    var gender = document.getElementById("gender").value;
+    if (gender.length < 1) {
+      gender = "-";
+    }
+    var vdate = document.getElementById("vDate").value;
+    vdate = formatDate(vdate); // Date formatChange function
+    console.log(vdate + "visit date")
 
-      
-      var pre_register = $("#pre_reg").val();
-      var register_age=$("#agey_register").val();
-      var register_agem=$("#agem_register").val();
-      var height = document.getElementById("heigth").value;
-      var weight = document.getElementById("weight").value;
-      var muac = document.getElementById("muac").value;
-     
-	    var  pati={
-            register_date:register_date,
-            register_age:register_age,
-            register_agem:register_agem,
-						functionLoco:functionLoco,
-	           gtReg:gtReg,
-	           clinic_code:clinic_code,
-	           gid:gid,
-	           mode:mode,
-	           fuchiaID:fuchiaID,
-	           prepCode:prepCode,
-	           name:name,
-	           father:father,
-	           agey:agey,
-	           agem:agem,
-	           gender:gender,
-	           vdate:vdate,
-	           dobdate:dobdate,
-	           state:state,
-             height:height,
-             muac:muac,
-             weight:weight,
-	           tt:tt,
-	           main_risk:main_risk,
-	           sub_risk:sub_risk,
-             unplan:unplan,
-             created_by:created_by,
-             pre_register:pre_register,
-             current_md:$("#current_md").val(),
-             online:$("#online_follow").val(),
-             
-	    };
-      console.log(pati);
-          
-    if(gid.length > 0&&((register_age>0 && register_age<150 && register_agem==0)||
-    (register_agem>0&&register_agem<12&&register_age==0))&&gender.length>2&&register_date.length>5){
-	    $.ajaxSetup({
-	       headers: {
-	           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-	       }
-	     });
-	        $.ajax({
-	             type:'POST',
-	             url:"{{route('reception_road')}}",
-	             dataType:'json',
-	           //  processData:false,
-	             contentType:'application/json',
-	             data: JSON.stringify(pati),
-	             success:function(response){
-                
-	               if(response[0]=="duplicate"){
-	                 alert("Duplicate Entry");
-	                 location.reload(true);// to refresh the page
-	               }else{
-	                 alert("အချက်အလက်များကို သိမ်းပြီးပါပြီ။");
-	                 $("#hider0").hide();
-	                 var idBarcode ="<div style='margin:auto'>"+"<img id='barcodePaper' />"+"</div>";
-	                 var Reg_title= "<h1>"+"New Patient Registration"+"</h1>"+"<br>";
+    dateOfBirth();
+    var dobdate = ddDate;
 
-	                 var regDate="<span>"+"Register Date::"+vdate+"</span>"+"<br>";
 
-	                  $("#toshowResult").append(Reg_title+idBarcode+regDate);
-	                  //JsBarcode("#barcodePaper", gid);
-	                  //window.print();
-	                  //$("#toshowResult").hide();
-	                  //$("#hider0").show();
-	                  location.reload(true);// to refresh the page
-	               }
-	             }
-	            });
-	          
-	  }else{
+
+
+    var state = document.getElementById("state").value;
+    if (state.length < 1) {
+      state = "-";
+    }
+    var tt = document.getElementById("tt").value;
+    if (tt.length < 1) {
+      tt = "-";
+    }
+    var fuchiaID = document.getElementById("fid").value;
+    if (fuchiaID.length < 1) {
+      fuchiaID = "-";
+
+    }
+
+    var prepCode = document.getElementById("prepCode").value;
+    if (prepCode.length < 1) {
+      prepCode = "-";
+    }
+
+
+    var main_risk = document.getElementById("main_risk").value;
+    var sub_risk = document.getElementById("sub_risk").value;
+    if (gid.length == 10) { //Mode 0= Walk in , 1= Peer with 11,12 code.length;
+      var mode = 0;
+      console.log("mode is" + mode);
+    } else {
+      var mode = 1;
+      console.log("mode is" + mode);
+    }
+    var unplan = 0;
+
+
+    var pre_register = $("#pre_reg").val();
+    var register_age = $("#agey_register").val();
+    var register_agem = $("#agem_register").val();
+    var height = document.getElementById("heigth").value;
+    var weight = document.getElementById("weight").value;
+    var muac = document.getElementById("muac").value;
+
+    var pati = {
+      register_date: register_date,
+      register_age: register_age,
+      register_agem: register_agem,
+      functionLoco: functionLoco,
+      gtReg: gtReg,
+      clinic_code: clinic_code,
+      gid: gid,
+      mode: mode,
+      fuchiaID: fuchiaID,
+      prepCode: prepCode,
+      name: name,
+      father: father,
+      agey: agey,
+      agem: agem,
+      gender: gender,
+      vdate: vdate,
+      dobdate: dobdate,
+      state: state,
+      height: height,
+      muac: muac,
+      weight: weight,
+      tt: tt,
+      quarter: $("#quarter").val(),
+      main_risk: main_risk,
+      sub_risk: sub_risk,
+      unplan: unplan,
+      created_by: created_by,
+      pre_register: pre_register,
+      current_md: $("#current_md").val(),
+      eyes_code: $("#eyes_code").val(),
+      online: $("#online_follow").val(),
+
+    };
+    console.log(pati);
+
+    if (gid.length > 0 && ((register_age > 0 && register_age < 150 && register_agem == 0) ||
+        (register_agem > 0 && register_agem < 12 && register_age == 0)) && gender.length > 2 && register_date.length > 5) {
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+        }
+      });
+      $.ajax({
+        type: 'POST',
+        url: "{{ route('reception_road') }}",
+        dataType: 'json',
+        //  processData:false,
+        contentType: 'application/json',
+        data: JSON.stringify(pati),
+        success: function(response) {
+
+          if (response[0] == "duplicate") {
+            alert("Duplicate Entry");
+            location.reload(true); // to refresh the page
+          } else {
+            alert("အချက်အလက်များကို သိမ်းပြီးပါပြီ။");
+            console.log(response);
+
+            if (qrok=="Yes") {
+              $('.barcode').html(response.barcode1DHtml);
+              $('#qrcode').html(response.barcode2DHtml);
+              
+              $('.barcode').append(
+              $("<label>")
+                .attr({
+                "class": "",
+                "style": "color:black"
+                })
+              
+                .text($("#qr_Pid").val())
+                );
+                $('#qrcode').append(
+                $("<label>")
+                  .attr({
+                  "class": "",
+                  "style": "color:black;position:absolute;left:-50%"
+                  })
+              
+                  .text($("#qr_Pid").val())
+                  );
+                  $(".container").hide();
+                  window.print();
+              }
+
+            location.reload(true); // to refresh the page
+          }
+        },
+        error: function(response) {
+          console.log(response)
+          alert(response["responseJSON"]["error"]);
+        }
+      });
+
+    } else {
       alert("အချက်အလက်များမပြည့်စုံသေးပါ။");
     }
-}
-// function location (4) add follow up
+  }
+  // function location (4) add follow up
 
-function send_fup(){
+  function send_fup() {
 
-	  let ptFollowup =1;
-		var functionLoco=4;
-	  var clinic_code = document.getElementById("clinic_code").value;
-    
-	  var gid = document.getElementById("gid").value;
+    let ptFollowup = 1;
+    var functionLoco = 4;
+    var clinic_code = document.getElementById("clinic_code").value;
+    let qrok = $("#qrcode_print").val();
+    var gid = document.getElementById("gid").value;
     var created_by = document.getElementById("navbarDropdown").innerHTML;
-	  var agey = document.getElementById("agey").value;
-	  var agem = document.getElementById("agem").value;
-	  var gender = document.getElementById("gender").value;
-	  var vdate = document.getElementById("vDate").value;
+    var agey = document.getElementById("agey").value;
+    var agem = document.getElementById("agem").value;
+    var gender = document.getElementById("gender").value;
+    var vdate = document.getElementById("vDate").value;
     var height = document.getElementById("heigth").value;
     var weight = document.getElementById("weight").value;
     var muac = document.getElementById("muac").value;
     vdate = formatDate(vdate);
-	  dateOfBirth();
-	  var dobdate = ddDate;
-
-	  var fuchiaID = document.getElementById("fid").value;
-	  var prepCode = document.getElementById("prepCode").value;
-
-	  if(!dobdate){
-	    dobdate="";
-	  }
-
-	  
-	  if(!agey){
-	    agey=0;
-	  }
-	  var agem = document.getElementById("agem").value;
-	  if(!agem){
-	    agem=0;
-	  }
-	  var gender = document.getElementById("gender").value;
-	  if(!gender){
-	    gender="-";
-	  }
-	
-    vdate=formatDate($("#vDate").val());
-    console.log(vdate+"test");
-	  dateOfBirth();
-	  var dobdate = ddDate;
-
-
-	  var state = document.getElementById("state").value;
-	  if(!state){
-	    state="-";
-	  }
-	  var tt = document.getElementById("tt").value;
-	  if(!tt){
-	    tt="-";
-	  }
-	  var fuchiaID = document.getElementById("fid").value;
-	  if(!fuchiaID){
-	    fuchiaID = "-";
-	  }
-	  var prepCode = document.getElementById("prepCode").value;
-	  if(!prepCode){
-	    prepCode="-";
-	  }
-
-
-	  var main_risk =$("#main_risk").val();
-	  var sub_risk =$("#sub_risk").val();
-    var quarter =$("#quarter").val();
-
-
-	  if(gid.length == 10){ //Mode 1= Walk in , 2= Peer with 11,12 code.length;
-	    var mode =0;
-	  }else{
-	    var mode = 1;
-	  }
-	  if(fuchiaID.length<1){
-	    fuchiaID="-";
-	  }
-    var unplan=0;
-    var register_age=$("#agey_register").val();
-    var register_agem=$("#agem_register").val();
-	  var  pati={
-            register_date:register_date,
-            functionLoco:functionLoco,
-            ptFollowup:ptFollowup,
-            clinic_code:clinic_code,
-            gid:gid,
-            mode:mode,
-            fuchiaID:fuchiaID,
-            prepCode:prepCode,
-            agey:agey,
-            agem:agem,
-            gender:gender,
-            vdate:vdate,
-            dobdate:dobdate,
-            register_age:register_age,
-            register_agem:register_agem,
-            quarter:quarter,
-
-            main_risk:main_risk,
-            sub_risk:sub_risk,
-            preCode:preCode,
-	          unplan:unplan,
-            created_by:created_by,
-            height:height,
-            muac:muac,
-            weight:weight,
-            name:$("#name").val(),
-            father_name:$("#father").val(),
-            state:$("#state").val(),
-            township:$("#tt").val(),
-            remark:$("#reception_remark").val(),
-            current_md:$("#current_md").val(),
-            online:$("#online_follow").val(),
-	  };
-         console.log(pati)
-	  
-	  if(gid.length > 0&&((register_age>0 && register_age<150 && register_agem==0)||
-    (register_agem>0&&register_agem<12&&register_age==0))&&gender.length>2&&register_date.length>5){
-	    $.ajaxSetup({
-	       headers: {
-	           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-	       }
-	     });
-	        $.ajax({
-	             type:'POST',
-	             url:"{{route('reception_road')}}",
-	             dataType:'json',
-	           //  processData:false,
-	             contentType:'application/json',
-	             data: JSON.stringify(pati),
-	             success:function(response){
-                console.log(response);
-	                if(response[0]== true){
-	                  alert("Duplicate Entry");
-	                }else{
-	                  alert("အချက်အလက်များကို သိမ်းပြီးပါပြီ။");
-	                }
-	                  location.reload(true);// to refresh the page
-	                  
-	             }
-	          });
-	  }else{
-      alert("အချက်အလက်များ မပြည့်စုံသေးပါ။");
-	  }
-
-	}
-// function location ( 5 ) finding data with General ID of Fuchia ID to Edit or Update data
-function searchID(){
-  // For Date
-  let search_par =1;
-	var functionLoco=5;
-  let Pt_ID = document.getElementById("search_id").value;
-  var  pati={
-        search_par:search_par,
-				functionLoco:functionLoco,
-        Pt_ID:Pt_ID,
-       };
-       $.ajaxSetup({
-          headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-          }
-        });
-      $.ajax({
-            type:'POST',
-            url:"{{route('reception_road')}}",
-            dataType:'json',
-          //  processData:false,
-            contentType:'application/json',
-            data: JSON.stringify(pati),
-            success:function(response){
-              clearFacts();
-                console.log(response);
-                $("#weight,#muac,#heigth").val("")
-                $("#weight,#muac,#heigth,#current_md").parent().hide();
-
-                if(response[0]==null){
-                 alert("This ID do not have in this clinic")
-                }else{
-                    $("#name").val(response[0]["Name"]);
-                    $("#father").val(response[0]["Father"]);
-                    $("#main_risk").val(response[0]["Main Risk"]);
-                    PatientType();
-                    $("#sub_risk").val(response[0]["Sub Risk"]);
-                    $("#fid").val(response[0]["FuchiaID"]);
-                    $("#gender").val(response[0]["Gender"])
-                    $("#gid").val(response[0]["Pid"])
-                    $("#register_date").val(response[0]["Reg Date"])
-                    $("#agey_register").val(response[0]["Agey"])
-                    $("#agem_register").val(response[0]["Agem"])
-                    $("#agey").val(response[0]["current_age"])
-                    $("#agem").val(response[0]["current_month"])
-                    $("#state").val(response[0]["Region"])
-                    region();
-                    $("#tt").val(response[0]["Township"])
-
-                    $("#main_risk,#sub_risk,#regbutton,#followBton").prop("disabled",true);
-                    $("#updateBton,#register_date,#prepCode,#name,#father,#gender,#state,#tt,#dob").prop("disabled",false);
-                    register_date="";// for register date change;
-                    dob_input="";
-                  }
-            }
-          });
-}
-// function locatjion ( 6 ) to update data to config table and patient table
-function update_reg(){
-  let update_reg =1;
-	var functionLoco=6;
-  var clinic_code = document.getElementById("clinic_code").value;
-  var gid = document.getElementById("gid").value;
-  var created_by = document.getElementById("navbarDropdown").innerHTML;
-  var gid_len = gid.length;
-  if(gid_len== 10 || gid_len==11 || gid_len==12 ){
-
-
-    if(gid_len == 10){ //Mode 1= Walk in , 2= Peer with 11,12 code.length;
-      var mode =0;
-    }else{
-      var mode = 1;
-    }
-    var fuchiaID = document.getElementById("fid").value;
-    var prepCode = document.getElementById("prepCode").value;
-    var name = document.getElementById("name").value;
-    var father = document.getElementById("father").value;
-    var agey = document.getElementById("agey_register").value;
-    var agem = document.getElementById("agem_register").value;
-    var gender = document.getElementById("gender").value;
-    var vdate = document.getElementById("register_date").value;
-    vdate = formatDate(vdate); // Date formatChange function
-    var original_ID=$("#search_id").val();
-    
     dateOfBirth();
     var dobdate = ddDate;
-    //var dobdate = document.getElementById("dob").value;
-    console.log("date of birth"+ dobdate);
+
+    var fuchiaID = document.getElementById("fid").value;
+    var prepCode = document.getElementById("prepCode").value;
+
+    if (!dobdate) {
+      dobdate = "";
+    }
+
+
+    if (!agey) {
+      agey = 0;
+    }
+    var agem = document.getElementById("agem").value;
+    if (!agem) {
+      agem = 0;
+    }
+    var gender = document.getElementById("gender").value;
+    if (!gender) {
+      gender = "-";
+    }
+
+    vdate = formatDate($("#vDate").val());
+    console.log(vdate + "test");
+    dateOfBirth();
+    var dobdate = ddDate;
+
+
     var state = document.getElementById("state").value;
+    if (!state) {
+      state = "-";
+    }
     var tt = document.getElementById("tt").value;
+    if (!tt) {
+      tt = "-";
+    }
+    var fuchiaID = document.getElementById("fid").value;
+    if (!fuchiaID) {
+      fuchiaID = "-";
+    }
+    var prepCode = document.getElementById("prepCode").value;
+    if (!prepCode) {
+      prepCode = "-";
+    }
 
 
-    var  pati={
-          update_reg:update_reg,
-          functionLoco:functionLoco,
-          clinic_code:clinic_code,
-          original_ID:original_ID,
-          gid:gid,
-          mode:mode,
-          fuchiaID:fuchiaID,
-          prepCode:prepCode,
+    var main_risk = $("#main_risk").val();
+    var sub_risk = $("#sub_risk").val();
+    var quarter = $("#quarter").val();
 
-          generatedID:generatedID,
-          generatedID1:generatedID1,
-          genID:genID,
 
-          name:name,
-          father:father,
-          agey:agey,
-          agem:agem,
-          gender:gender,
-          vdate:vdate,
-          dobdate:dobdate,
-          state:state,
-          tt:tt,
-          created_by:created_by,
+    if (gid.length == 10) { //Mode 1= Walk in , 2= Peer with 11,12 code.length;
+      var mode = 0;
+    } else {
+      var mode = 1;
+    }
+    if (fuchiaID.length < 1) {
+      fuchiaID = "-";
+    }
+    var unplan = 0;
+    var register_age = $("#agey_register").val();
+    var register_agem = $("#agem_register").val();
+    var pati = {
+      register_date: register_date,
+      functionLoco: functionLoco,
+      ptFollowup: ptFollowup,
+      clinic_code: clinic_code,
+      gid: gid,
+      mode: mode,
+      fuchiaID: fuchiaID,
+      prepCode: prepCode,
+      agey: agey,
+      agem: agem,
+      gender: gender,
+      vdate: vdate,
+      dobdate: dobdate,
+      register_age: register_age,
+      register_agem: register_agem,
+      quarter: quarter,
 
-        };
+      main_risk: main_risk,
+      sub_risk: sub_risk,
+      preCode: preCode,
+      unplan: unplan,
+      created_by: created_by,
+      height: height,
+      muac: muac,
+      weight: weight,
+      name: $("#name").val(),
+      father_name: $("#father").val(),
+      state: $("#state").val(),
+      township: $("#tt").val(),
+      remark: $("#reception_remark").val(),
+      current_md: $("#current_md").val(),
+      online: $("#online_follow").val(),
+    };
     console.log(pati)
-    if(((agey>0 && agey<150 && agem==0)||
-    (agem>0&&agem<12&&agey==0))&&gender.length>2&&vdate.length>5){
+
+    if (gid.length > 0 && ((register_age > 0 && register_age < 150 && register_agem == 0) ||
+        (register_agem > 0 && register_agem < 12 && register_age == 0)) && gender.length > 2 && register_date.length > 5) {
       $.ajaxSetup({
-      headers: {
+        headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-      }
+        }
       });
       $.ajax({
-              type:'POST',
-              url:"{{route('reception_road')}}",
-              dataType:'json',
-            //  processData:false,
-              contentType:'application/json',
-              data: JSON.stringify(pati),
-              success:function(response){
-                $('#agey').css("background", "red");
-                  console.log(response);
-                  console.log("This is I Wanted "+ response[1]);
-                  alert("အချက်အလက်များကို သိမ်းပြီးပါပြီ။");
+        type: 'POST',
+        url: "{{ route('reception_road') }}",
+        dataType: 'json',
+        //  processData:false,
+        contentType: 'application/json',
+        data: JSON.stringify(pati),
+        success: function(response) {
+          console.log(response);
+          if (response[0] == true) {
+            alert("Duplicate Entry");
+          } else {
+            alert("အချက်အလက်များကို သိမ်းပြီးပါပြီ။");
+            if (qrok == "Yes") {
+              $('.barcode').html(response.barcode1DHtml);
+              $('#qrcode').html(response.barcode2DHtml);
 
-                    location.reload(true);// to refresh the page
-                    document.getElementById('regbutton').disabled=false;
-              }
+              $('.barcode').append(
+                $("<label>")
+                .attr({
+                  "class": "",
+                  "style": "color:black"
+                })
+
+                .text($("#qr_Pid").val())
+              );
+              $('#qrcode').append(
+                $("<label>")
+                .attr({
+                  "class": "",
+                  "style": "color:black;position:absolute;left:-50%"
+                })
+
+                .text($("#qr_Pid").val())
+              );
+              $(".container").hide();
+              window.print();
+            }
+          }
+          location.reload(true); // to refresh the page
+
+        }
       });
-    }else{
+    } else {
       alert("အချက်အလက်များ မပြည့်စုံသေးပါ။");
     }
-   
-  }else{
-    alert("General ID ထည့်သွင်းပေးပါ။");
+
   }
-  
-}
-///****////****///****///****////****///****///****////****///****///****////****///****///****////****///****
-// Return Section
-// function location ( 7 ) to find pt data with General ID  in return section
-function ptData_return(){
-  var gid_return =document.getElementById('gid_return').value;
-  var fid_return=$("#fid_return").val();
-  //var c_code = document.getElementById("clinic_code").innerHTML;
-  var gidLength = gid_return.length;
-  if(gidLength>9||fid_return.length>6){
-    //document.getElementById('responseText').innerHTML="";
-  let ckID_return = 1;
-  var checkPatient = 1;
-	var functionLoco=7;
-  var ckdata = {
-                  gid_return:gid_return,
-                  fid_return:fid_return,
-									functionLoco:functionLoco,
-                  ckID_return:ckID_return,
-                };
-  console.log(ckdata);
-  $.ajaxSetup({
+  // function location ( 5 ) finding data with General ID of Fuchia ID to Edit or Update data
+  function searchID() {
+    // For Date
+    let search_par = 1;
+    var functionLoco = 5;
+    let Pt_ID = document.getElementById("search_id").value;
+    var pati = {
+      search_par: search_par,
+      functionLoco: functionLoco,
+      Pt_ID: Pt_ID,
+    };
+    $.ajaxSetup({
       headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-       }
-     });
-  $.ajax({
-      type:'POST',
-      url:"{{route('reception_road')}}",
-      dataType:'json',
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+      }
+    });
+    $.ajax({
+      type: 'POST',
+      url: "{{ route('reception_road') }}",
+      dataType: 'json',
+      //  processData:false,
       contentType: 'application/json',
-      data: JSON.stringify(ckdata),
-      success:function(response){
+      data: JSON.stringify(pati),
+      success: function(response) {
         clearFacts();
         console.log(response);
+        $("#qrcode_print").val("No");
+        $("#weight,#muac,#heigth").val("")
+        $("#weight,#muac,#heigth,#current_md").parent().hide();
 
-         age=response[0]["Current Agey"];
-         agem=response[0]["Current Agem"];
-          if(response[0] != null){
-            document.getElementById("fid_return").value=response[0]["FuchiaID"];
-            document.getElementById("gid_return").value=response[0]["Pid"];
-            document.getElementById("fup_date").value=response[0]["Visit Date"];
-            document.getElementById("nDate").value=response[0]["Next Appointment Date"];
+        if (response[0] == null) {
+          alert("This ID do not have in this clinic")
+        } else {
+          $("#name").val(response[0]["Name"]);
+          $("#father").val(response[0]["Father"]);
+          $("#main_risk").val(response[0]["Main Risk"]);
+          PatientType();
+          $("#sub_risk").val(response[0]["Sub Risk"]);
+          $("#fid").val(response[0]["FuchiaID"]);
+          $("#gender").val(response[0]["Gender"])
+          $("#gid").val(response[0]["Pid"])
+          $("#register_date").val(response[0]["Reg Date"])
+          $("#agey_register").val(response[0]["Agey"])
+          $("#agem_register").val(response[0]["Agem"])
+          $("#agey").val(response[0]["current_age"])
+          $("#agem").val(response[0]["current_month"])
+          $("#state").val(response[0]["Region"])
+          region();
+          $("#tt").val(response[0]["Township"])
+          $("#quarter").val(response[0]["Quarter"])
+          $("#clinic_code").val(response[0]["Clinic Code"])
+          $("#eyes_code").val(response[0]["Eyes_code"])
+          $("#search_id").val(response[0]["Pid"]).prop("disabled", true)
+
+          $("#main_risk,#sub_risk,#regbutton,#followBton").prop("disabled", true);
+          $("#updateBton,#register_date,#prepCode,#name,#father,#gender,#state,#tt,#dob").prop("disabled", false);
+          register_date = ""; // for register date change;
+          dob_input = "";
+          DateTo_text()
+          $('#barcode').html(response.barcode1DHtml);
+          $('#qrcode').html(response.barcode2DHtml);
+        }
+      }
+    });
+  }
+  // function locatjion ( 6 ) to update data to config table and patient table
+  function update_reg() {
+    let update_reg = 1;
+    var functionLoco = 6;
+    var clinic_code = document.getElementById("clinic_code").value;
+    var gid = document.getElementById("gid").value;
+    var created_by = document.getElementById("navbarDropdown").innerHTML;
+    let qrok = $("#qrcode_print").val();
+    var gid_len = gid.length;
+    if (gid_len == 10 || gid_len == 11 || gid_len == 12) {
+
+
+      if (gid_len == 10) { //Mode 1= Walk in , 2= Peer with 11,12 code.length;
+        var mode = 0;
+      } else {
+        var mode = 1;
+      }
+      var fuchiaID = document.getElementById("fid").value;
+      var prepCode = document.getElementById("prepCode").value;
+      var name = document.getElementById("name").value;
+      var father = document.getElementById("father").value;
+      var agey = document.getElementById("agey_register").value;
+      var agem = document.getElementById("agem_register").value;
+      var gender = document.getElementById("gender").value;
+      var vdate = document.getElementById("register_date").value;
+      vdate = formatDate(vdate); // Date formatChange function
+      var original_ID = $("#search_id").val();
+
+      dateOfBirth();
+      var dobdate = ddDate;
+      //var dobdate = document.getElementById("dob").value;
+      console.log("date of birth" + dobdate);
+      var state = document.getElementById("state").value;
+      var quarter = document.getElementById("quarter").value;
+      var tt = document.getElementById("tt").value;
+
+
+      var pati = {
+        update_reg: update_reg,
+        functionLoco: functionLoco,
+        clinic_code: clinic_code,
+        original_ID: original_ID,
+        gid: gid,
+        mode: mode,
+        fuchiaID: fuchiaID,
+        prepCode: prepCode,
+
+        generatedID: generatedID,
+        generatedID1: generatedID1,
+        genID: genID,
+
+        name: name,
+        father: father,
+        agey: agey,
+        agem: agem,
+        gender: gender,
+        vdate: vdate,
+        quarter: quarter,
+        dobdate: dobdate,
+        state: state,
+        tt: tt,
+        eyes_code: $("#eyes_code").val(),
+        created_by: created_by,
+
+      };
+      console.log(pati)
+      if (((agey > 0 && agey < 150 && agem == 0) ||
+          (agem > 0 && agem < 12 && agey == 0)) && gender.length > 2 && vdate.length > 5) {
+        $.ajaxSetup({
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+          }
+        });
+        $.ajax({
+          type: 'POST',
+          url: "{{ route('reception_road') }}",
+          dataType: 'json',
+          //  processData:false,
+          contentType: 'application/json',
+          data: JSON.stringify(pati),
+          success: function(response) {
+            $('#agey').css("background", "red");
+            console.log(response);
+            if (qrok == "Yes") {
+              $('.barcode').html(response.barcode1DHtml);
+              $('#qrcode').html(response.barcode2DHtml);
+
+              $('.barcode').append(
+                $("<label>")
+                .attr({
+                  "class": "",
+                  "style": "color:black"
+                })
+
+                .text($("#qr_Pid").val())
+              );
+              $('#qrcode').append(
+                $("<label>")
+                .attr({
+                  "class": "",
+                  "style": "color:black;position:absolute;left:-50%"
+                })
+
+                .text($("#qr_Pid").val())
+              );
+              $(".container").hide();
+              window.print();
+            }
+
+            alert("အချက်အလက်များကို သိမ်းပြီးပါပြီ။");
+
+            location.reload(true); // to refresh the page
+            document.getElementById('regbutton').disabled = false;
+          }
+        });
+      } else {
+        alert("အချက်အလက်များ မပြည့်စုံသေးပါ။");
+      }
+
+    } else {
+      alert("General ID ထည့်သွင်းပေးပါ။");
+    }
+
+  }
+  ///****////****///****///****////****///****///****////****///****///****////****///****///****////****///****
+  // Return Section
+  // function location ( 7 ) to find pt data with General ID  in return section
+  function ptData_return() {
+    var gid_return = document.getElementById('gid_return').value;
+    var fid_return = $("#fid_return").val();
+    //var c_code = document.getElementById("clinic_code").innerHTML;
+    var gidLength = gid_return.length;
+    if (gidLength > 9 || fid_return.length > 6) {
+      //document.getElementById('responseText').innerHTML="";
+      let ckID_return = 1;
+      var checkPatient = 1;
+      var functionLoco = 7;
+      var ckdata = {
+        gid_return: gid_return,
+        fid_return: fid_return,
+        functionLoco: functionLoco,
+        ckID_return: ckID_return,
+      };
+      console.log(ckdata);
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+        }
+      });
+      $.ajax({
+        type: 'POST',
+        url: "{{ route('reception_road') }}",
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify(ckdata),
+        success: function(response) {
+          clearFacts();
+          console.log(response);
+
+          age = response[0]["Current Agey"];
+          agem = response[0]["Current Agem"];
+          if (response[0] != null) {
+            document.getElementById("fid_return").value = response[0]["FuchiaID"];
+            document.getElementById("gid_return").value = response[0]["Pid"];
+            document.getElementById("fup_date").value = response[0]["Visit Date"];
+            document.getElementById("nDate").value = response[0]["Next Appointment Date"];
             var id = response[0]["Pid"];
-             $("#responseText").append("General ID =>"+ "" +id);
-             $("#responseText").css("color", "red");
-          }else{
-            document.getElementById("fid_return").value='';
-            document.getElementById("fup_date").value='';
-            document.getElementById("nDate").value='';
-            document.getElementById("responseText").innerHTML='';
-             $("#responseText").append("There is no data.");
-             $("#responseText").css("color", "red");
+            $("#responseText").append("General ID =>" + "" + id);
+            $("#responseText").css("color", "red");
+          } else {
+            document.getElementById("fid_return").value = '';
+            document.getElementById("fup_date").value = '';
+            document.getElementById("nDate").value = '';
+            document.getElementById("responseText").innerHTML = '';
+            $("#responseText").append("There is no data.");
+            $("#responseText").css("color", "red");
           }
-          if(age >12){
-            $("#fcentercheck").prop("disabled",true);
+          if (age > 12) {
+            $("#fcentercheck").prop("disabled", true);
           }
-          if(age < 13) {
-            $("#fmaplancheck").prop("disabled",true);
+          if (age < 13) {
+            $("#fmaplancheck").prop("disabled", true);
           }
-          if(response[0]['Gender'] =="195997324"){
-            $("#fmaplancheck").prop("disabled",true);
-            $("#anccheck").prop("disabled",true);
-          
-            $("#pmtctcheck").prop("disabled",true);
+          if (response[0]['Gender'] == "195997324") {
+            $("#fmaplancheck").prop("disabled", true);
+            $("#anccheck").prop("disabled", true);
+
+            $("#pmtctcheck").prop("disabled", true);
           }
           DateTo_text();
 
         }
       });
 
-    }else{
-        clearFacts();
-        document.getElementById('responseText').innerHTML="ID'length is  < 10";
+    } else {
+      clearFacts();
+      document.getElementById('responseText').innerHTML = "ID'length is  < 10";
 
-      }
+    }
   }
 
-function getAge(bd_date) {
+  function getAge(bd_date) {
 
-      var dates = bd_date.split("-");
-      var d = new Date();
+    var dates = bd_date.split("-");
+    var d = new Date();
 
-      var useryear = dates[0];
-      var usermonth = dates[1];
-      var userday = dates[2];
+    var useryear = dates[0];
+    var usermonth = dates[1];
+    var userday = dates[2];
 
-      var curday = d.getDate();
-      var realMonth = d.getMonth();
-      var curmonth = d.getMonth()+1;
-      var curyear = d.getFullYear();
+    var curday = d.getDate();
+    var realMonth = d.getMonth();
+    var curmonth = d.getMonth() + 1;
+    var curyear = d.getFullYear();
 
-      if(curyear == useryear){
-        var age = realMonth - usermonth;
-        console.log("month"+ age);
-      }else{
-        var age = curyear - useryear;
-        console.log("age"+ age);
-      }
-      if((curmonth < usermonth) || ( (curmonth == usermonth) && curday < userday   )){
-          age--;
-      }
+    if (curyear == useryear) {
+      var age = realMonth - usermonth;
+      console.log("month" + age);
+    } else {
+      var age = curyear - useryear;
+      console.log("age" + age);
+    }
+    if ((curmonth < usermonth) || ((curmonth == usermonth) && curday < userday)) {
+      age--;
+    }
 
-      return age;
-}
+    return age;
+  }
 
-// function location ( 9 ) to save next appointment date and diagnosis data
-function save(){
-    let next =1;
-		var functionLoco=9;
+  // function location ( 9 ) to save next appointment date and diagnosis data
+  function save() {
+    let next = 1;
+    var functionLoco = 9;
     var gid = document.getElementById("gid_return").value;
     var fid = document.getElementById("fid_return").value;
     var fvDate = document.getElementById("fup_date").value;
     var follow_up_md = document.getElementById("follow_up_md").value;
     var nDate = document.getElementById("nDate").value;
     nDate = formatDate(nDate); // Date formatChange function
-    fvDate=formatDate(fvDate);
-   
-    
+    fvDate = formatDate(fvDate);
 
-    var  Diagnosis_Data={
-           next:next,
-					 functionLoco:functionLoco,
-           gid:gid,
-           nDate:nDate,
-           follow_up_md:follow_up_md,
-           fvDate:fvDate,
-           fid :fid ,
-           
+
+
+    var Diagnosis_Data = {
+      next: next,
+      functionLoco: functionLoco,
+      gid: gid,
+      nDate: nDate,
+      follow_up_md: follow_up_md,
+      fvDate: fvDate,
+      fid: fid,
+
     }
-        
-    var diag_check=[
-      'phacheck','artcheck','prepcheck','pmtctcheck','anccheck',
-      'fmaplancheck','gneralcheck','ncdcheck','hivTBcheck','fcentercheck','labInvestcheck',
+
+    var diag_check = [
+      'phacheck', 'artcheck', 'prepcheck', 'pmtctcheck', 'anccheck',
+      'fmaplancheck', 'gneralcheck', 'ncdcheck', 'hivTBcheck', 'fcentercheck', 'labInvestcheck',
     ]
-    var diag_select=['pha_new_old','pha_cohort','prep_new_old',
-          'anc_new_old','art_new_old','art_cohort','pmtct_new_old','famaplan_new_old','general_new_old',
-          'general_diagnosis','OPD','feedcentre_new_old','ncd_new_old','ncd_diagnosis','ncd_drugSupply','hivTB_new_old',
-          'labInvest_new_old','refer_fever',
+    var diag_select = ['pha_new_old', 'pha_cohort', 'prep_new_old',
+      'anc_new_old', 'art_new_old', 'art_cohort', 'pmtct_new_old', 'famaplan_new_old', 'general_new_old',
+      'general_diagnosis', 'OPD', 'feedcentre_new_old', 'ncd_new_old', 'ncd_diagnosis', 'ncd_drugSupply', 'hivTB_new_old',
+      'labInvest_new_old', 'refer_fever',
     ]
-    console.log(diag_select.length+"select")
-    for(var i=0;i<diag_check.length;i++){
-      if($("#"+diag_check[i]).prop('checked')){
-        Diagnosis_Data[diag_check[i]]=diag_check[i];
-        
-      }else{
-        Diagnosis_Data[diag_check[i]]=""
-      }   
+    console.log(diag_select.length + "select")
+    for (var i = 0; i < diag_check.length; i++) {
+      if ($("#" + diag_check[i]).prop('checked')) {
+        Diagnosis_Data[diag_check[i]] = diag_check[i];
+
+      } else {
+        Diagnosis_Data[diag_check[i]] = ""
+      }
     } //checkbox input collecting 
-    for(var j=0;j<diag_select.length;j++){
-      Diagnosis_Data[diag_select[j]]=$("#"+diag_select[j]).val();
+    for (var j = 0; j < diag_select.length; j++) {
+      Diagnosis_Data[diag_select[j]] = $("#" + diag_select[j]).val();
     } //selectbox data collecting
-    if(Diagnosis_Data["OPD"]==null){
-      Diagnosis_Data["OPD"]="No";
+    if (Diagnosis_Data["OPD"] == null) {
+      Diagnosis_Data["OPD"] = "No";
     }
-   
-    
-        
+
+
+
     console.log(Diagnosis_Data);
-    if(gid.length>0&&diagnosis_validation("resDiaSecton")){
+    if (gid.length > 0 && diagnosis_validation("resDiaSecton")) {
       $.ajaxSetup({
-         headers: {
-             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-         }
-       });
-          $.ajax({
-               type:'POST',
-               url:"{{route('reception_road')}}",
-               dataType:'json',
-             //  processData:false,
-               contentType:'application/json',
-               data: JSON.stringify(Diagnosis_Data),
-               success:function(response){
-                console.log(response);
-                if(!nDate){
-                  alert("Diagnosis Data များကို သိမ်းပြီးပါပြီ။");
-                }else{
-                  alert("Next-appointment Date နှင့် Diagnosis Data များကို သိမ်းပြီးပါပြီ။");
-                }
-
-                location.reload(true);// to refresh the page
-               }
-              });
-
-    }else{  
-      alert("အချက်အလက်များ ပြည့်စုံအောင် ဖြည့်သွင်းပါ။");
-          }
-}
-// functjion location ( 10 ) to find data next appointment with category in nextappointment section
-function search_nextAppointment(){
-      var ndate =document.getElementById('nextSerachDate').value;
-			ndate = formatDate(ndate); // Date formatChange function
-			console.log(ndate);
-
-      var visit_type =document.getElementById('visit_type').value;
-			console.log(visit_type);
-			var functionLoco=10;
-      var ckdata = {
-                      ndate:ndate,
-											functionLoco:functionLoco,
-                      visit_type:visit_type,
-                    };
-      $.ajaxSetup({
-          headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-          }
-        });
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+        }
+      });
       $.ajax({
-          type:'POST',
-          url:"{{route('reception_road')}}",
-          dataType:'json',
-          contentType: 'application/json',
-          data: JSON.stringify(ckdata),
-          success:function(response){
-            console.log(response);
-            var serialNo=0;
-            var next_diagnosis=Object.keys(response[0]).length
-            var next_type=Object.keys(response[1]).length
-
-            var total_ID =next_diagnosis+next_type;
-
-            // var show_list=response;
-              if(total_ID >0){
-               
-                document.getElementById("total_len").innerHTML='';
-                document.getElementById("list").innerHTML='';
-                $("#total_len").append("Total Patient for ("+ndate+") is "+total_ID+".");
-                if(next_diagnosis>0){
-                  for(var diag=1;diag<=next_diagnosis;diag++){
-                    console.log("hello diag")
-                    var gen_id_null = response[0][diag][0]["Pid"];
-                    console.log(gen_id_null+"fine");
-                    if(gen_id_null == null){
-                      gen_id_null = '-';
-                    }
-                    var fuchia_null = response[0][diag][0]["FuchiaID"];
-                    if(fuchia_null == null){
-                      fuchia_null = "-";
-                    }
-                    var prep_null = response[0][diag][0]["PrEPCode"];
-                    if(prep_null == null){
-                      prep_null = "-";
-                    }
-                    serialNo=serialNo+1;
-
-                    var unplan_alert = response[0][diag][0]["Unplan"];
-                    var rows =("<tr class=reception_nextList"+unplan_alert+">"+
-                                "<td >"+ serialNo +"</td>"+
-                                "<td>"+ gen_id_null+"</td>"+
-                                "<td>"+ fuchia_null+"</td>"+
-                                "<td>"+ prep_null+"</td>"+
-                                //"<td>"+ response[0][i]["Patient Type"]+"</td>"+
-                                "<td>"+response[0][diag][0]["Next Appointment Date"]+"</td>"+
-
-                              "</tr>");
-                              
-                    $("#list").append(rows);
-                    if(unplan_alert==2){
-                                console.log("hello unplan is 2");
-                                $(".reception_nextList2").css({
-                                  'background-color': 'green'
-                                });
-                                // $("#reception_nextList").css('background-color': 'yellow');
-                    }
-                    if(unplan_alert==1){
-                                console.log("hello unplan is 1");
-                                $(".reception_nextList1").css({
-                                  'background-color': 'red'
-                                });
-                                // $("#reception_nextList").css('background-color': 'yellow');
-                      }
-
-                  }
-                }
-                if(next_type>0){
-                  for(var diag=0;diag<next_type;diag++){
-                    console.log("hello type diag")
-                    var gen_id_null = response[1][diag]["Pid"];
-                    console.log(gen_id_null+"fine");
-                    if(gen_id_null == null){
-                      gen_id_null = '-';
-                    }
-                    var fuchia_null = response[1][diag]["FuchiaID"];
-                    if(fuchia_null == null){
-                      fuchia_null = "-";
-                    }
-                    var prep_null = response[1][diag]["PrEPCode"];
-                    if(prep_null == null){
-                      prep_null = "-";
-                    }
-                    serialNo =serialNo+1;
-                    var unplan_alert = response[1][diag]["Unplan"];
-                    var rows =("<tr class=reception_nextList"+unplan_alert+">"+
-                                "<td >"+ serialNo +"</td>"+
-                                "<td>"+ gen_id_null+"</td>"+
-                                "<td>"+ fuchia_null+"</td>"+
-                                "<td>"+ prep_null+"</td>"+
-                                //"<td>"+ response[0][i]["Patient Type"]+"</td>"+
-                                "<td>"+response[1][diag]["Next Appointment Date"]+"</td>"+
-
-                              "</tr>");
-                              
-                    $("#list").append(rows);
-                    if(unplan_alert==2){
-                                console.log("hello unplan is 2");
-                                $(".reception_nextList2").css({
-                                  'background-color': 'green'
-                                });
-                                // $("#reception_nextList").css('background-color': 'yellow');
-                    }
-                    if(unplan_alert==1){
-                                console.log("hello unplan is 1");
-                                $(".reception_nextList1").css({
-                                  'background-color': 'red'
-                                });
-                                // $("#reception_nextList").css('background-color': 'yellow');
-                      }
-
-                  }
-                } 
-            }else{
-                document.getElementById("total_len").innerHTML='';
-                document.getElementById("total_len").innerHTML='There is no data.';
-                document.getElementById("list").innerHTML='';
-              }
-            }
-          });
-}
-// function location ( 11 ) to show  history
-
-function PatientType(){
-        var type= document.getElementById('main_risk').value;
-        if(sub_risk.innerHTML!=null){
-          sub_risk.innerHTML="";
-        }
-        $("#sub_risk").empty();
-        if(type == "Pregnant Mother"){
-            var sel = document.getElementById('sub_risk');
-            // create new option element
-            var opt0 = document.createElement("option");
-            var opt1 = document.createElement("option");
-            var opt2 = document.createElement("option");
-            // create text node to add to option element (opt)
-          //  opt0.appendChild( document.createTextNode(""));
-          //  opt1.appendChild( document.createTextNode("PP"));
-          //  opt2.appendChild( document.createTextNode("MP"));
-            // set value property of opt
-            opt1.setAttribute('id','opt_ext_pp');
-            opt2.setAttribute('id','opt_ext_mp');
-
-            opt1.value = "PP";
-            opt2.value = "MP";
-            opt0.text = "";
-            opt1.text = "PP";
-            opt2.text = "MP";
-            pregMum = 1;
-            sel.addEventListener("click", sub_risk);
-
-            // add opt to end of select box (sel)
-            sel.add(opt0);
-            sel.add(opt1);
-            sel.add(opt2);
-
-        }
-        if(type == "Spouse of pregnant mother"){
-
-          var sel = document.getElementById('sub_risk');
-          // create new option element
-          var opt0 = document.createElement("option");
-          var opt1 = document.createElement("option");
-          var opt2 = document.createElement("option");
-          // create text node to add to option element (opt)
-          opt0.appendChild( document.createTextNode(""));
-          opt1.appendChild( document.createTextNode("HIV(Pos)"));
-          opt2.appendChild( document.createTextNode("HIV(Neg)Woman"));
-          // set value property of opt
-          opt0.value ="";
-          opt1.value ="HIV(Pos)";
-          opt2.value ="HIV(Neg)Woman";
-          // add opt to end of select box (sel)
-          opt1.setAttribute('id','opt_ext_hivPos');
-          opt2.setAttribute('id','opt_ext_hivNeg');
-
-          sel.addEventListener("click", sub_risk);
-          ////
-          sel.appendChild(opt0);
-          sel.appendChild(opt1);
-          sel.appendChild(opt2);
-          spm =1;
-
-        }
-        if(type == "Exposed Children"){
-
-          var sel = document.getElementById('sub_risk');
-          // create new option element
-          var opt0 = document.createElement("option");
-          var opt1 = document.createElement("option");
-          var opt2 = document.createElement("option");
-          var opt3 = document.createElement("option");
-          var opt4 = document.createElement("option");
-          // create text node to add to option element (opt)
-          opt0.appendChild( document.createTextNode(""));
-          opt1.appendChild( document.createTextNode("1"));
-          opt2.appendChild( document.createTextNode("2"));
-          opt3.appendChild( document.createTextNode("3"));
-          opt4.appendChild( document.createTextNode("4"));
-
-          // set value property of opt
-          opt0.value = 0;
-          opt1.value = 1;
-          opt2.value = 2;
-          opt3.value = 3;
-          opt4.value = 4;
-          ///////
-          opt0.setAttribute('id','opt_ext_ec_0');
-          opt1.setAttribute('id','opt_ext_ec_1');
-          opt2.setAttribute('id','opt_ext_ec_2');
-          opt3.setAttribute('id','opt_ext_ec_3');
-          opt4.setAttribute('id','opt_ext_ec_4');
-
-          sel.addEventListener("click", sub_risk);
-          // add opt to end of select box (sel)
-          sel.appendChild(opt0);
-          sel.appendChild(opt1);
-          sel.appendChild(opt2);
-          sel.appendChild(opt3);
-          sel.appendChild(opt4);
-          epc = 1;
-        }
-        if(type == "Low Risk"){
-          var sel = document.getElementById('sub_risk');
-          // create new option element
-          var opt0 = document.createElement("option");
-          //var opt1 = document.createElement("option");
-          var opt2 = document.createElement("option");
-          var opt3 = document.createElement("option");
-          // create text node to add to option element (opt)
-          opt0.appendChild( document.createTextNode(""));
-          //opt1.appendChild( document.createTextNode("PWUD"));
-          opt2.appendChild( document.createTextNode("Youth (15-24)"));
-          opt3.appendChild( document.createTextNode("Other Low Risk"));
-
-          opt0.setAttribute('id','opt_lr_0');
-          //opt1.setAttribute('id','opt_lr_pwud');
-          opt2.setAttribute('id','opt_lr_youth');
-          opt3.setAttribute('id','opt_lr_other');
-          // set value property of opt
-          opt0.value = "";
-          //opt1.value = "pwud";
-          opt2.value = "Youth(15-24)";
-          opt3.value = "Other Low Risk";
-
-          sel.addEventListener("click", sub_risk);
-          // add opt to end of select box (sel)
-          sel.appendChild(opt0);
-          //sel.appendChild(opt1);
-          sel.appendChild(opt2);
-          sel.appendChild(opt3);
-          lr = 1;
-        }
-        // PWUD
-        if(type == "FSW"){
-          var sel = document.getElementById('sub_risk');
-          // create new option element
-          var opt0 = document.createElement("option");
-          var opt1 = document.createElement("option");
-          var opt2 = document.createElement("option");
-          // create text node to add to option element (opt)
-          opt0.appendChild( document.createTextNode(""));
-          opt1.appendChild( document.createTextNode("FSW PWID"));
-          opt2.appendChild( document.createTextNode("FSW PWUD"));
-          // set value property of opt
-          opt0.value = "";
-          opt1.value = "FSW_PWID";
-          opt2.value = "FSW_PWUD";
-
-          opt0.setAttribute('id','opt_fsw_0');
-          opt1.setAttribute('id','opt_fsw_pwid');
-          opt2.setAttribute('id','opt_fsw_pwud');
-
-          sel.addEventListener("click", sub_risk);
-          // add opt to end of select box (sel)
-          sel.appendChild(opt0);
-          sel.appendChild(opt1);
-          sel.appendChild(opt2);
-          fsw = 1;
-        }
-        if(type == "Client of FSW"){
-         
-        }
-        if(type == "MSM"){
-          msm =1;
-          var sel = document.getElementById('sub_risk');
-          // create new option element
-          var opt0 = document.createElement("option");
-          var opt1 = document.createElement("option");
-          var opt2 = document.createElement("option");
-          // create text node to add to option element (opt)
-          opt0.appendChild( document.createTextNode(""));
-          opt1.appendChild( document.createTextNode("MSM PWID"));
-          opt2.appendChild( document.createTextNode("MSM PWUD"));
-          // set value property of opt
-          opt0.value = "";
-          opt1.value = "MSM_PWID";
-          opt2.value = "MSM_PWUD";
-
-          opt0.setAttribute('id','opt_msm_0');
-          opt1.setAttribute('id','opt_msm_pwid');
-          opt2.setAttribute('id','opt_msm_pwud');
-
-          sel.addEventListener("click", sub_risk);
-
-          // add opt to end of select box (sel)
-          sel.appendChild(opt0);
-          sel.appendChild(opt1);
-          sel.appendChild(opt2);
-
-        }
-        if(type == "IDU"){
-          var sel = document.getElementById('sub_risk');
-          // create new option element
-          var opt0 = document.createElement("option");
-          var opt1 = document.createElement("option");
-          var opt2 = document.createElement("option");
-
-          // create text node to add to option element (opt)
-          opt0.appendChild( document.createTextNode(""));
-          opt1.appendChild( document.createTextNode("PWID/FSW"));
-          opt2.appendChild( document.createTextNode("PWID/MSM"));
-          // set value property of opt
-          opt0.value = "";
-          opt1.value = "PWID_FSW";
-          opt2.value = "PWID_MSM";
-
-          opt0.setAttribute('id','opt_idu_0');
-          opt1.setAttribute('id','opt_idu_fsw');
-          opt2.setAttribute('id','opt_idu_msm');
-
-          sel.addEventListener("click", sub_risk);
-
-          // add opt to end of select box (sel)
-          sel.appendChild(opt0);
-          sel.appendChild(opt1);
-          sel.appendChild(opt2);
-          idu = 1;
-
-        }
-        if(type == "TG"){
-          var sel = document.getElementById('sub_risk');
-          // create new option element
-          var opt0 = document.createElement("option");
-          var opt1 = document.createElement("option");
-          var opt2 = document.createElement("option");
-          var opt3 = document.createElement("option");
-          // create text node to add to option element (opt)
-          opt0.appendChild( document.createTextNode(""));
-          opt1.appendChild( document.createTextNode("TG/PWID"));
-          opt2.appendChild( document.createTextNode("TG/PWUD"));
-          opt3.appendChild( document.createTextNode("TG/SW"));
-          // set value property of opt
-          opt0.value = "";
-          opt1.value = "TG_PWID";
-          opt2.value = "TG_PWUD";
-          opt3.value = "TG_SW";
-
-          opt0.setAttribute('id','opt_tg_0');
-          opt1.setAttribute('id','opt_tg_pwid');
-          opt2.setAttribute('id','opt_tg_pwud');
-          opt3.setAttribute('id','opt_tg_sw');
-
-          sel.addEventListener("click", sub_risk);
-
-          // add opt to end of select box (sel)
-          sel.appendChild(opt0);
-          sel.appendChild(opt1);
-          sel.appendChild(opt2);
-          sel.appendChild(opt3);
-          tg=1;
-        }
-        if(type == "Partner of KP"){
-          var sel = document.getElementById('sub_risk');
-          // create new option element
-          var opt0 = document.createElement("option");
-          var opt1 = document.createElement("option");
-          var opt2 = document.createElement("option");
-          var opt3 = document.createElement("option");
-          var opt4 = document.createElement("option");
-          // create text node to add to option element (opt)
-          opt0.appendChild( document.createTextNode(""));
-          opt1.appendChild( document.createTextNode("Partner of PWID"));
-          opt2.appendChild( document.createTextNode("Partner of FSW"));
-          opt3.appendChild( document.createTextNode("Female of MSM"));
-          opt4.appendChild( document.createTextNode("Partner of TG"));
-          // set value property of opt
-
-          opt0.value = "";
-          opt1.value = "Partner of PWID";
-          opt2.value = "Partner of FSW";
-          opt3.value = "Female of MSM";
-          opt4.value = "Partner of TG";
-
-          opt0.setAttribute('id','opt_pkp_0');
-          opt1.setAttribute('id','opt_pkp_pwid');
-          opt2.setAttribute('id','opt_pkp_fsw');
-          opt3.setAttribute('id','opt_pkp_msm');
-          opt4.setAttribute('id','opt_pkp_tg');
-
-          sel.addEventListener("click", sub_risk);
-            // add opt to end of select box (sel)
-            sel.appendChild(opt0);
-            sel.appendChild(opt1);
-            sel.appendChild(opt2);
-            sel.appendChild(opt3);
-            sel.appendChild(opt4);
-            pkp = 1;
+        type: 'POST',
+        url: "{{ route('reception_road') }}",
+        dataType: 'json',
+        //  processData:false,
+        contentType: 'application/json',
+        data: JSON.stringify(Diagnosis_Data),
+        success: function(response) {
+          console.log(response);
+          if (!nDate) {
+            alert("Diagnosis Data များကို သိမ်းပြီးပါပြီ။");
+          } else {
+            alert("Next-appointment Date နှင့် Diagnosis Data များကို သိမ်းပြီးပါပြီ။");
           }
-          // partner of PLHIV
-        if(type == "Special Groups"){
-          var sel = document.getElementById('sub_risk');
-          // create new option element
-          var opt0 = document.createElement("option");
-          var opt1 = document.createElement("option");
-          var opt2 = document.createElement("option");
-          var opt3 = document.createElement("option");
 
-          // create text node to add to option element (opt)
-          opt0.appendChild( document.createTextNode(""));
-          opt1.appendChild( document.createTextNode("TB Patient"));
-          opt2.appendChild( document.createTextNode("Institutionalize"));
-          opt3.appendChild( document.createTextNode("Uniformed Services Personnel"));
-
-          // set value property of opt
-
-          opt0.value = "";
-          opt1.value = "TB Patient";
-          opt2.value = "Institutionalize";
-          opt3.value = "Uniformed Services Personnel";
-
-          opt0.setAttribute('id','opt_sg_0');
-          opt1.setAttribute('id','opt_sg_TB');
-          opt2.setAttribute('id','opt_sg_insti');
-          opt3.setAttribute('id','opt_sg_uni');
-
-          sel.addEventListener("click", sub_risk);
-          // add opt to end of select box (sel)
-          sel.appendChild(opt0);
-          sel.appendChild(opt1);
-          sel.appendChild(opt2);
-          sel.appendChild(opt3);
-
-          sg=1;
+          location.reload(true); // to refresh the page
         }
-        // migrant
-    } //Risk
-function getAge(bd_date) {
+      });
 
-      var dates = bd_date.split("-");
-      var d = new Date();
-
-      var useryear = dates[0];
-      var usermonth = dates[1];
-      var userday = dates[2];
-
-      var curday = d.getDate();
-      var realMonth = d.getMonth();
-      var curmonth = d.getMonth()+1;
-      var curyear = d.getFullYear();
-
-      if(curyear == useryear){
-        var age = realMonth - usermonth;
-        console.log("month"+ age);
-      }else{
-        var age = curyear - useryear;
-        console.log("age"+ age);
-      }
-      if((curmonth < usermonth) || ( (curmonth == usermonth) && curday < userday   )){
-          age--;
-      }
-
-      return age;
+    } else {
+      alert("အချက်အလက်များ ပြည့်စုံအောင် ဖြည့်သွင်းပါ။");
+    }
   }
+  // functjion location ( 10 ) to find data next appointment with category in nextappointment section
+  function search_nextAppointment() {
+    var ndate = document.getElementById('nextSerachDate').value;
+    ndate = formatDate(ndate); // Date formatChange function
+    console.log(ndate);
 
-
-
-// Search
-
-function ncdCheck(){ 
-        if(updateCheck=="click"||updateCheck=="fromUpdate"){
-            console.log("hello ncd");
-            var heperten=$("<option></option").text("Hypertension only").val("Hypertension");
-            var diabetes=$("<option></option").text("Diabetes only").val("Diabetes");
-            var hdcommo=$("<option></option").text("H/T & DM commodities").val("HT-DM-commodities");
-            
-            
-            if(updateCheck=="click"){
-              $("#ncd_ul li:nth-child(4)").show();
-              $("#ncd_diagnosis").append(heperten,diabetes,hdcommo);
-            }else if(updateCheck=="fromUpdate"){
-                $("#ncd_ulupdate li:nth-child(4)").show();
-                $("#ncd_diagnosisupdate").append(heperten,diabetes,hdcommo);
-            }
-
-        }else if(updateCheck=="noclick"){
-            $("#ncd_diagnosis option:not(:first)").remove();
-            $("#ncd_drugSupply").val("-");
-            $("#ncd_ul li:nth-child(4)").hide();
-
-        }else if(updateCheck=="noupdate"){
-            $("#ncd_diagnosisupdate option:not(:first)").remove();
-            $("#ncd_drugSupplyupdate").val("-");
-            $("ncd_ulupdate li:nth-child(4)").hide();
-
-        }
-
-}
-function generalCheck() {
-      var patientAge=age;
-        if(updateCheck=="click"||updateCheck=="fromUpdate"){
-            if(patientAge>14){
-                for(var diag=0;diag<diagnosis.length;diag++){
-                    var diagnosis_tag=$("<option></option>").text(diagnosis[diag]).val(diagnosis_value[diag]);
-                    if(updateCheck=="click"){
-                        $("#general_diagnosis").append(diagnosis_tag);
-                    }else if(updateCheck=="fromUpdate"){
-                        $("#general_diagnosisupdate").append(diagnosis_tag);
-                    }
-                    
-                }
-            }else if(patientAge<15){
-                for(var diag=0;diag<diagnosisUn15.length;diag++){
-                    var diagnosis_tag=$("<option></option>").text(diagnosisUn15[diag]).val(diagnosis_valueUn15[diag]);
-                    if(updateCheck=="click"){
-                        $("#general_diagnosis").append(diagnosis_tag);
-                    }else if(updateCheck=="fromUpdate"){
-                        $("#general_diagnosisupdate").append(diagnosis_tag);
-                    }
-                }
-
-            }
-            
-        }else if(updateCheck=="noclick"){
-            $("#general_diagnosis option:not(:first)").remove();
-            
-        }else if(updateCheck=="noupdate"){
-          $("#general_diagnosisupdate option:not(:first)").remove();
-
-        }
-}
-function followupHistory(){
-	  var gid =document.getElementById('id_hist').value;
-	  ptID = gid;
-	  var ck_followUpHistory =1;
-		var functionLoco=11;
-	  var ckdata = {
-	                  gid:gid,
-										functionLoco:functionLoco,
-	                  ck_followUpHistory:ck_followUpHistory
-	                };
-    
-	  $.ajaxSetup({
-	      headers: {
-	          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-	       }
-	     });
-	  $.ajax({
-	      type:'POST',
-	      url:"{{route('reception_road')}}",
-	      dataType:'json',
-	      contentType: 'application/json',
-	      data: JSON.stringify(ckdata),
-	      success:function(response){
-	        console.log(response);
-          $("#followupHistory").empty();
-	        for (var i = 0; i < response[0].length; i++) {
-            
-	          var rowName = "tr_"+i;
-	          var btnName = "btn_"+i;
-	          var srNum = i + 1;
-	          var but_ton1 = "<a  data-toggle='tab' href='#rpr' onclick='rpr_row_0(resp)' class='nav-link btn btn-warning'>"+"Update Data"+"</a>" ;
-	           var result_body1 =
-	           "<tr style='background-color:#A7DBD8;'"+ "id='"+rowName+"'>"
-	             +"<td id='updateSerial1'>"+srNum+"</td>"
-	             +"<td >"+response[0][i]['Visit Date']+"</td>"
-	             +"<td id='col_3'>"+response[0][i]['Pid']+"</td>"
-	             +"<td>"+response[0][i]['FuchiaID']+"</td>"
-	             +"<td>"+response[0][i]['PrEPCode']+"</td>"
-	             +"<td >"+response[0][i]['Current Agey']+"</td>"
-	             +"<td>"+response[0][i]["Gender"]+"</td>"
-	             +"<td  id='"+btnName+"'>"+"<button class='btn btn-info'style=';margin-right:10%' onclick='row_num()'"+"id="+"rec_Fup_"+response[0][i]['id']+">Update"+
-                "</button>"+"<button class='btn btn-danger' id=rec_Rev_"+response[0][i]['id']+" onclick='row_num()'>Delete Row"+
-                "</button>"+"</td>"
-	           +"</tr>";
-	           $("#followupHistory").append(result_body1);
-	        }
-	        
-	          
-	         
-	  if ($(window).width() < 1161 && $(window).width()>599.9 ) {
-      $("#followupHistory-tablet").empty();
-	    console.log ("hello tablet cc");
-	    var result_body_tablet="<ul class='clearfix'>"+"<li>"+'General ID.- '+"<b id='tablet_updateID'>"+response[0][0]['Pid']+"</b>"+"</li>"+"<li>"+'Fuchia ID- '+response[0][0]['FuchiaID']+"</li>"+"<li>"+'PrEPCode- '+response[0][0]['PrEPCode']+"</li>"+"<li>"+'Age- '+response[0][0]['Agey']+"</li>"+"<li>"+'sex- '+response[1]+"</li>"+"</ul>";
-	    $("#followupHistory-tablet").append(result_body_tablet);
-	    // result_body_tablet="<ul class='clearfix'>"+"<li>"+response[0][0]['Pid']+"</li>"+"<li>"+response[0][0]['FuchiaID']+"</li>"+"<li>"+response[0][0]['PrEPCode']+"</li>"+"<li>"+response[0][0]['Agey']+"</li>"+"<li>"+response[0][0]['Gender']+"</li>"+"</ul>";
-	    // $("#followupHistory-tablet").append(result_body_tablet);
-	    result_body_tablet="<ul class='clearfix'>"+"<li>"+'NO.'+"</li>"+"<li>"+'Row ID'+"</li>"+"<li>"+'Visit Date'+"</li>"+"<li>"+''+"</li>"+"</ul>";
-	    $("#followupHistory-tablet").append(result_body_tablet);
-	    for (var i = 0; i < response[0].length; i++) {
-	          var srNum = i + 1;
-	          var btnName = "btn_"+i;
-	          var rowName = "ul_"+i;
-
-	            var result_body_tablet = "<ul class='clearfix'"+ "id='"+rowName+"'>"+"<li>"+srNum+"</li>"+"<li>"+response[0][i]['id']+"</li>"
-	            +"<li>"+response[0][i]['Visit Date']+"</li>"
-	            +"<li id='"+btnName+"'>"+"<button onclick='row_num()' >"+ "Update"+"</button>"+"</li>"+"</ul>";
-	           $("#followupHistory-tablet").append(result_body_tablet);
-	        }
-
-
-	  } else if($(window).width()<600 ) {
-      $("#followupHistory-mobile").empty();
-
-	    var result_body_mobile="<h5 style='display:inline-block;margin-right:4%;color:#b0d991'>"+"General Id-"+"</h5>"+"<b id='mobile_updateID'>"+response[0][0]['Pid']+"</>"
-	        $("#followupHistory-mobile").append(result_body_mobile);
-	        result_body_mobile="<ul class='clearfix'>"+"<li>"+'NO.'+"</li>"+"<li>"+'Visit Date'+"</li>"+"<li>"+'Fuchia ID'+"</li>"+"</ul>";
-	        $("#followupHistory-mobile").append(result_body_mobile);
-
-
-	        for (var i = 0; i < response[0].length; i++) {
-	          var srNum = i + 1;
-
-	            var result_body_mobile = "<ul class='clearfix'>"+"<li>"+srNum+"</li>"+"<li>"
-	            +response[0][i]['Visit Date']+"</li>"
-	            +"<li>"+response[0][i]['FuchiaID']+"</li>"+"</ul>";
-	           $("#followupHistory-mobile").append(result_body_mobile);
-	        }
-
-	    }
-	  
-
-	   }
-	    });
-
-}
-function removeRow(id,Pid){
-  let remove_seq={
-    id:id,
-    Pid:Pid,
-    pointer:"followup_generals",
-    notice:"Remove Patient Follow_up",
-  }
-  console.log(remove_seq)
-  if (confirm("Are you sure you want to Delete?")) {
+    var visit_type = document.getElementById('visit_type').value;
+    console.log(visit_type);
+    var functionLoco = 10;
+    var ckdata = {
+      ndate: ndate,
+      functionLoco: functionLoco,
+      visit_type: visit_type,
+    };
     $.ajaxSetup({
-	      headers: {
-	          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-	       }
-	     });
-	  $.ajax({
-          type:'POST',
-          url:"{{route('reception_road')}}",
-          dataType:'json',
-          contentType: 'application/json',
-          data: JSON.stringify(remove_seq),
-          success:function(response){
-           
-            if(response=="1"){
-              alert("Successfull Delete")
-              followupHistory();
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+      }
+    });
+    $.ajax({
+      type: 'POST',
+      url: "{{ route('reception_road') }}",
+      dataType: 'json',
+      contentType: 'application/json',
+      data: JSON.stringify(ckdata),
+      success: function(response) {
+        console.log(response);
+        var serialNo = 0;
+        var next_diagnosis = Object.keys(response[0]).length
+        var next_type = Object.keys(response[1]).length
+
+        var total_ID = next_diagnosis + next_type;
+
+        // var show_list=response;
+        if (total_ID > 0) {
+
+          document.getElementById("total_len").innerHTML = '';
+          document.getElementById("list").innerHTML = '';
+          $("#total_len").append("Total Patient for (" + ndate + ") is " + total_ID + ".");
+          if (next_diagnosis > 0) {
+            for (var diag = 1; diag <= next_diagnosis; diag++) {
+              console.log("hello diag")
+              var gen_id_null = response[0][diag][0]["Pid"];
+              console.log(gen_id_null + "fine");
+              if (gen_id_null == null) {
+                gen_id_null = '-';
+              }
+              var fuchia_null = response[0][diag][0]["FuchiaID"];
+              if (fuchia_null == null) {
+                fuchia_null = "-";
+              }
+              var prep_null = response[0][diag][0]["PrEPCode"];
+              if (prep_null == null) {
+                prep_null = "-";
+              }
+              serialNo = serialNo + 1;
+
+              var unplan_alert = response[0][diag][0]["Unplan"];
+              var rows = ("<tr class=reception_nextList" + unplan_alert + ">" +
+                "<td >" + serialNo + "</td>" +
+                "<td>" + gen_id_null + "</td>" +
+                "<td>" + fuchia_null + "</td>" +
+                "<td>" + prep_null + "</td>" +
+                //"<td>"+ response[0][i]["Patient Type"]+"</td>"+
+                "<td>" + response[0][diag][0]["Next Appointment Date"] + "</td>" +
+
+                "</tr>");
+
+              $("#list").append(rows);
+              if (unplan_alert == 2) {
+                console.log("hello unplan is 2");
+                $(".reception_nextList2").css({
+                  'background-color': 'green'
+                });
+                // $("#reception_nextList").css('background-color': 'yellow');
+              }
+              if (unplan_alert == 1) {
+                console.log("hello unplan is 1");
+                $(".reception_nextList1").css({
+                  'background-color': 'red'
+                });
+                // $("#reception_nextList").css('background-color': 'yellow');
+              }
+
             }
           }
-    })
-  }
-  
-}
+          if (next_type > 0) {
+            for (var diag = 0; diag < next_type; diag++) {
+              console.log("hello type diag")
+              var gen_id_null = response[1][diag]["Pid"];
+              console.log(gen_id_null + "fine");
+              if (gen_id_null == null) {
+                gen_id_null = '-';
+              }
+              var fuchia_null = response[1][diag]["FuchiaID"];
+              if (fuchia_null == null) {
+                fuchia_null = "-";
+              }
+              var prep_null = response[1][diag]["PrEPCode"];
+              if (prep_null == null) {
+                prep_null = "-";
+              }
+              serialNo = serialNo + 1;
+              var unplan_alert = response[1][diag]["Unplan"];
+              var rows = ("<tr class=reception_nextList" + unplan_alert + ">" +
+                "<td >" + serialNo + "</td>" +
+                "<td>" + gen_id_null + "</td>" +
+                "<td>" + fuchia_null + "</td>" +
+                "<td>" + prep_null + "</td>" +
+                //"<td>"+ response[0][i]["Patient Type"]+"</td>"+
+                "<td>" + response[1][diag]["Next Appointment Date"] + "</td>" +
 
-function row_num(){// to get row ID from follow up History
-	  var parent = event.target.parentElement.id;// collecting id of the targeted parent
-	  var coparent = document.getElementById(parent).parentElement.id;// collecti
-	  text =event.target.id.match(/\d+/)[0];
-		ptID = document.getElementById(coparent).childNodes[2].innerHTML;
-    
-    if ($(window).width()<1161 &&$(window).width()>599.9 ) {
+                "</tr>");
+
+              $("#list").append(rows);
+              if (unplan_alert == 2) {
+                console.log("hello unplan is 2");
+                $(".reception_nextList2").css({
+                  'background-color': 'green'
+                });
+                // $("#reception_nextList").css('background-color': 'yellow');
+              }
+              if (unplan_alert == 1) {
+                console.log("hello unplan is 1");
+                $(".reception_nextList1").css({
+                  'background-color': 'red'
+                });
+                // $("#reception_nextList").css('background-color': 'yellow');
+              }
+
+            }
+          }
+        } else {
+          document.getElementById("total_len").innerHTML = '';
+          document.getElementById("total_len").innerHTML = 'There is no data.';
+          document.getElementById("list").innerHTML = '';
+        }
+      }
+    });
+  }
+  // function location ( 11 ) to show  history
+
+  function PatientType() {
+    var type = document.getElementById('main_risk').value;
+    if (sub_risk.innerHTML != null) {
+      sub_risk.innerHTML = "";
+    }
+    $("#sub_risk").empty();
+    if (type == "Pregnant Mother") {
+      var sel = document.getElementById('sub_risk');
+      // create new option element
+      var opt0 = document.createElement("option");
+      var opt1 = document.createElement("option");
+      var opt2 = document.createElement("option");
+      // create text node to add to option element (opt)
+      //  opt0.appendChild( document.createTextNode(""));
+      //  opt1.appendChild( document.createTextNode("PP"));
+      //  opt2.appendChild( document.createTextNode("MP"));
+      // set value property of opt
+      opt1.setAttribute('id', 'opt_ext_pp');
+      opt2.setAttribute('id', 'opt_ext_mp');
+
+      opt1.value = "PP";
+      opt2.value = "MP";
+      opt0.text = "";
+      opt1.text = "PP";
+      opt2.text = "MP";
+      pregMum = 1;
+      sel.addEventListener("click", sub_risk);
+
+      // add opt to end of select box (sel)
+      sel.add(opt0);
+      sel.add(opt1);
+      sel.add(opt2);
+
+    }
+    if (type == "Spouse of pregnant mother") {
+
+      var sel = document.getElementById('sub_risk');
+      // create new option element
+      var opt0 = document.createElement("option");
+      var opt1 = document.createElement("option");
+      var opt2 = document.createElement("option");
+      // create text node to add to option element (opt)
+      opt0.appendChild(document.createTextNode(""));
+      opt1.appendChild(document.createTextNode("HIV(Pos)"));
+      opt2.appendChild(document.createTextNode("HIV(Neg)Woman"));
+      // set value property of opt
+      opt0.value = "";
+      opt1.value = "HIV(Pos)";
+      opt2.value = "HIV(Neg)Woman";
+      // add opt to end of select box (sel)
+      opt1.setAttribute('id', 'opt_ext_hivPos');
+      opt2.setAttribute('id', 'opt_ext_hivNeg');
+
+      sel.addEventListener("click", sub_risk);
+      ////
+      sel.appendChild(opt0);
+      sel.appendChild(opt1);
+      sel.appendChild(opt2);
+      spm = 1;
+
+    }
+    if (type == "Exposed Children") {
+
+      var sel = document.getElementById('sub_risk');
+      // create new option element
+      var opt0 = document.createElement("option");
+      var opt1 = document.createElement("option");
+      var opt2 = document.createElement("option");
+      var opt3 = document.createElement("option");
+      var opt4 = document.createElement("option");
+      // create text node to add to option element (opt)
+      opt0.appendChild(document.createTextNode(""));
+      opt1.appendChild(document.createTextNode("1"));
+      opt2.appendChild(document.createTextNode("2"));
+      opt3.appendChild(document.createTextNode("3"));
+      opt4.appendChild(document.createTextNode("4"));
+
+      // set value property of opt
+      opt0.value = 0;
+      opt1.value = 1;
+      opt2.value = 2;
+      opt3.value = 3;
+      opt4.value = 4;
+      ///////
+      opt0.setAttribute('id', 'opt_ext_ec_0');
+      opt1.setAttribute('id', 'opt_ext_ec_1');
+      opt2.setAttribute('id', 'opt_ext_ec_2');
+      opt3.setAttribute('id', 'opt_ext_ec_3');
+      opt4.setAttribute('id', 'opt_ext_ec_4');
+
+      sel.addEventListener("click", sub_risk);
+      // add opt to end of select box (sel)
+      sel.appendChild(opt0);
+      sel.appendChild(opt1);
+      sel.appendChild(opt2);
+      sel.appendChild(opt3);
+      sel.appendChild(opt4);
+      epc = 1;
+    }
+    if (type == "Low Risk") {
+      var sel = document.getElementById('sub_risk');
+      // create new option element
+      var opt0 = document.createElement("option");
+      //var opt1 = document.createElement("option");
+      var opt2 = document.createElement("option");
+      var opt3 = document.createElement("option");
+      // create text node to add to option element (opt)
+      opt0.appendChild(document.createTextNode(""));
+      //opt1.appendChild( document.createTextNode("PWUD"));
+      opt2.appendChild(document.createTextNode("Youth (15-24)"));
+      opt3.appendChild(document.createTextNode("Other Low Risk"));
+
+      opt0.setAttribute('id', 'opt_lr_0');
+      //opt1.setAttribute('id','opt_lr_pwud');
+      opt2.setAttribute('id', 'opt_lr_youth');
+      opt3.setAttribute('id', 'opt_lr_other');
+      // set value property of opt
+      opt0.value = "";
+      //opt1.value = "pwud";
+      opt2.value = "Youth(15-24)";
+      opt3.value = "Other Low Risk";
+
+      sel.addEventListener("click", sub_risk);
+      // add opt to end of select box (sel)
+      sel.appendChild(opt0);
+      //sel.appendChild(opt1);
+      sel.appendChild(opt2);
+      sel.appendChild(opt3);
+      lr = 1;
+    }
+    // PWUD
+    if (type == "FSW") {
+      var sel = document.getElementById('sub_risk');
+      // create new option element
+      var opt0 = document.createElement("option");
+      var opt1 = document.createElement("option");
+      var opt2 = document.createElement("option");
+      // create text node to add to option element (opt)
+      opt0.appendChild(document.createTextNode(""));
+      opt1.appendChild(document.createTextNode("FSW PWID"));
+      opt2.appendChild(document.createTextNode("FSW PWUD"));
+      // set value property of opt
+      opt0.value = "";
+      opt1.value = "FSW_PWID";
+      opt2.value = "FSW_PWUD";
+
+      opt0.setAttribute('id', 'opt_fsw_0');
+      opt1.setAttribute('id', 'opt_fsw_pwid');
+      opt2.setAttribute('id', 'opt_fsw_pwud');
+
+      sel.addEventListener("click", sub_risk);
+      // add opt to end of select box (sel)
+      sel.appendChild(opt0);
+      sel.appendChild(opt1);
+      sel.appendChild(opt2);
+      fsw = 1;
+    }
+    if (type == "Client of FSW") {
+
+    }
+    if (type == "MSM") {
+      msm = 1;
+      var sel = document.getElementById('sub_risk');
+      // create new option element
+      var opt0 = document.createElement("option");
+      var opt1 = document.createElement("option");
+      var opt2 = document.createElement("option");
+      // create text node to add to option element (opt)
+      opt0.appendChild(document.createTextNode(""));
+      opt1.appendChild(document.createTextNode("MSM PWID"));
+      opt2.appendChild(document.createTextNode("MSM PWUD"));
+      // set value property of opt
+      opt0.value = "";
+      opt1.value = "MSM_PWID";
+      opt2.value = "MSM_PWUD";
+
+      opt0.setAttribute('id', 'opt_msm_0');
+      opt1.setAttribute('id', 'opt_msm_pwid');
+      opt2.setAttribute('id', 'opt_msm_pwud');
+
+      sel.addEventListener("click", sub_risk);
+
+      // add opt to end of select box (sel)
+      sel.appendChild(opt0);
+      sel.appendChild(opt1);
+      sel.appendChild(opt2);
+
+    }
+    if (type == "IDU") {
+      var sel = document.getElementById('sub_risk');
+      // create new option element
+      var opt0 = document.createElement("option");
+      var opt1 = document.createElement("option");
+      var opt2 = document.createElement("option");
+
+      // create text node to add to option element (opt)
+      opt0.appendChild(document.createTextNode(""));
+      opt1.appendChild(document.createTextNode("PWID/FSW"));
+      opt2.appendChild(document.createTextNode("PWID/MSM"));
+      // set value property of opt
+      opt0.value = "";
+      opt1.value = "PWID_FSW";
+      opt2.value = "PWID_MSM";
+
+      opt0.setAttribute('id', 'opt_idu_0');
+      opt1.setAttribute('id', 'opt_idu_fsw');
+      opt2.setAttribute('id', 'opt_idu_msm');
+
+      sel.addEventListener("click", sub_risk);
+
+      // add opt to end of select box (sel)
+      sel.appendChild(opt0);
+      sel.appendChild(opt1);
+      sel.appendChild(opt2);
+      idu = 1;
+
+    }
+    if (type == "TG") {
+      var sel = document.getElementById('sub_risk');
+      // create new option element
+      var opt0 = document.createElement("option");
+      var opt1 = document.createElement("option");
+      var opt2 = document.createElement("option");
+      var opt3 = document.createElement("option");
+      // create text node to add to option element (opt)
+      opt0.appendChild(document.createTextNode(""));
+      opt1.appendChild(document.createTextNode("TG/PWID"));
+      opt2.appendChild(document.createTextNode("TG/PWUD"));
+      opt3.appendChild(document.createTextNode("TG/SW"));
+      // set value property of opt
+      opt0.value = "";
+      opt1.value = "TG_PWID";
+      opt2.value = "TG_PWUD";
+      opt3.value = "TG_SW";
+
+      opt0.setAttribute('id', 'opt_tg_0');
+      opt1.setAttribute('id', 'opt_tg_pwid');
+      opt2.setAttribute('id', 'opt_tg_pwud');
+      opt3.setAttribute('id', 'opt_tg_sw');
+
+      sel.addEventListener("click", sub_risk);
+
+      // add opt to end of select box (sel)
+      sel.appendChild(opt0);
+      sel.appendChild(opt1);
+      sel.appendChild(opt2);
+      sel.appendChild(opt3);
+      tg = 1;
+    }
+    if (type == "Partner of KP") {
+      var sel = document.getElementById('sub_risk');
+      // create new option element
+      var opt0 = document.createElement("option");
+      var opt1 = document.createElement("option");
+      var opt2 = document.createElement("option");
+      var opt3 = document.createElement("option");
+      var opt4 = document.createElement("option");
+      // create text node to add to option element (opt)
+      opt0.appendChild(document.createTextNode(""));
+      opt1.appendChild(document.createTextNode("Partner of PWID"));
+      opt2.appendChild(document.createTextNode("Partner of FSW"));
+      opt3.appendChild(document.createTextNode("Female of MSM"));
+      opt4.appendChild(document.createTextNode("Partner of TG"));
+      // set value property of opt
+
+      opt0.value = "";
+      opt1.value = "Partner of PWID";
+      opt2.value = "Partner of FSW";
+      opt3.value = "Female of MSM";
+      opt4.value = "Partner of TG";
+
+      opt0.setAttribute('id', 'opt_pkp_0');
+      opt1.setAttribute('id', 'opt_pkp_pwid');
+      opt2.setAttribute('id', 'opt_pkp_fsw');
+      opt3.setAttribute('id', 'opt_pkp_msm');
+      opt4.setAttribute('id', 'opt_pkp_tg');
+
+      sel.addEventListener("click", sub_risk);
+      // add opt to end of select box (sel)
+      sel.appendChild(opt0);
+      sel.appendChild(opt1);
+      sel.appendChild(opt2);
+      sel.appendChild(opt3);
+      sel.appendChild(opt4);
+      pkp = 1;
+    }
+    // partner of PLHIV
+    if (type == "Special Groups") {
+      var sel = document.getElementById('sub_risk');
+      // create new option element
+      var opt0 = document.createElement("option");
+      var opt1 = document.createElement("option");
+      var opt2 = document.createElement("option");
+      var opt3 = document.createElement("option");
+
+      // create text node to add to option element (opt)
+      opt0.appendChild(document.createTextNode(""));
+      opt1.appendChild(document.createTextNode("TB Patient"));
+      opt2.appendChild(document.createTextNode("Institutionalize"));
+      opt3.appendChild(document.createTextNode("Uniformed Services Personnel"));
+
+      // set value property of opt
+
+      opt0.value = "";
+      opt1.value = "TB Patient";
+      opt2.value = "Institutionalize";
+      opt3.value = "Uniformed Services Personnel";
+
+      opt0.setAttribute('id', 'opt_sg_0');
+      opt1.setAttribute('id', 'opt_sg_TB');
+      opt2.setAttribute('id', 'opt_sg_insti');
+      opt3.setAttribute('id', 'opt_sg_uni');
+
+      sel.addEventListener("click", sub_risk);
+      // add opt to end of select box (sel)
+      sel.appendChild(opt0);
+      sel.appendChild(opt1);
+      sel.appendChild(opt2);
+      sel.appendChild(opt3);
+
+      sg = 1;
+    }
+    // migrant
+  } //Risk
+  function getAge(bd_date) {
+
+    var dates = bd_date.split("-");
+    var d = new Date();
+
+    var useryear = dates[0];
+    var usermonth = dates[1];
+    var userday = dates[2];
+
+    var curday = d.getDate();
+    var realMonth = d.getMonth();
+    var curmonth = d.getMonth() + 1;
+    var curyear = d.getFullYear();
+
+    if (curyear == useryear) {
+      var age = realMonth - usermonth;
+      console.log("month" + age);
+    } else {
+      var age = curyear - useryear;
+      console.log("age" + age);
+    }
+    if ((curmonth < usermonth) || ((curmonth == usermonth) && curday < userday)) {
+      age--;
+    }
+
+    return age;
+  }
+
+
+
+  // Search
+
+  function ncdCheck() {
+    if (updateCheck == "click" || updateCheck == "fromUpdate") {
+      console.log("hello ncd");
+      var heperten = $("<option></option").text("Hypertension only").val("Hypertension");
+      var diabetes = $("<option></option").text("Diabetes only").val("Diabetes");
+      var hdcommo = $("<option></option").text("H/T & DM commodities").val("HT-DM-commodities");
+
+
+      if (updateCheck == "click") {
+        $("#ncd_ul li:nth-child(4)").show();
+        $("#ncd_diagnosis").append(heperten, diabetes, hdcommo);
+      } else if (updateCheck == "fromUpdate") {
+        $("#ncd_ulupdate li:nth-child(4)").show();
+        $("#ncd_diagnosisupdate").append(heperten, diabetes, hdcommo);
+      }
+
+    } else if (updateCheck == "noclick") {
+      $("#ncd_diagnosis option:not(:first)").remove();
+      $("#ncd_drugSupply").val("-");
+      $("#ncd_ul li:nth-child(4)").hide();
+
+    } else if (updateCheck == "noupdate") {
+      $("#ncd_diagnosisupdate option:not(:first)").remove();
+      $("#ncd_drugSupplyupdate").val("-");
+      $("ncd_ulupdate li:nth-child(4)").hide();
+
+    }
+
+  }
+
+  function generalCheck() {
+    var patientAge = age;
+    if (updateCheck == "click" || updateCheck == "fromUpdate") {
+      if (patientAge > 14) {
+        for (var diag = 0; diag < diagnosis.length; diag++) {
+          var diagnosis_tag = $("<option></option>").text(diagnosis[diag]).val(diagnosis_value[diag]);
+          if (updateCheck == "click") {
+            $("#general_diagnosis").append(diagnosis_tag);
+          } else if (updateCheck == "fromUpdate") {
+            $("#general_diagnosisupdate").append(diagnosis_tag);
+          }
+
+        }
+      } else if (patientAge < 15) {
+        for (var diag = 0; diag < diagnosisUn15.length; diag++) {
+          var diagnosis_tag = $("<option></option>").text(diagnosisUn15[diag]).val(diagnosis_valueUn15[diag]);
+          if (updateCheck == "click") {
+            $("#general_diagnosis").append(diagnosis_tag);
+          } else if (updateCheck == "fromUpdate") {
+            $("#general_diagnosisupdate").append(diagnosis_tag);
+          }
+        }
+
+      }
+
+    } else if (updateCheck == "noclick") {
+      $("#general_diagnosis option:not(:first)").remove();
+
+    } else if (updateCheck == "noupdate") {
+      $("#general_diagnosisupdate option:not(:first)").remove();
+
+    }
+  }
+
+  function followupHistory() {
+    var gid = document.getElementById('id_hist').value;
+    ptID = gid;
+    var ck_followUpHistory = 1;
+    var functionLoco = 11;
+    var ckdata = {
+      gid: gid,
+      functionLoco: functionLoco,
+      ck_followUpHistory: ck_followUpHistory
+    };
+
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+      }
+    });
+    $.ajax({
+      type: 'POST',
+      url: "{{ route('reception_road') }}",
+      dataType: 'json',
+      contentType: 'application/json',
+      data: JSON.stringify(ckdata),
+      success: function(response) {
+        console.log(response);
+        $("#followupHistory").empty();
+        for (var i = 0; i < response[0].length; i++) {
+
+          var rowName = "tr_" + i;
+          var btnName = "btn_" + i;
+          var srNum = i + 1;
+          var but_ton1 = "<a  data-toggle='tab' href='#rpr' onclick='rpr_row_0(resp)' class='nav-link btn btn-warning'>" + "Update Data" + "</a>";
+          var result_body1 =
+            "<tr style='background-color:#A7DBD8;'" + "id='" + rowName + "'>" +
+            "<td id='updateSerial1'>" + srNum + "</td>" +
+            "<td >" + response[0][i]['Visit Date'] + "</td>" +
+            "<td id='col_3'>" + response[0][i]['Pid'] + "</td>" +
+            "<td>" + response[0][i]['FuchiaID'] + "</td>" +
+            "<td>" + response[0][i]['PrEPCode'] + "</td>" +
+            "<td >" + response[0][i]['Current Agey'] + "</td>" +
+            "<td>" + response[0][i]["Gender"] + "</td>" +
+            "<td  id='" + btnName + "'>" + "<button class='btn btn-info'style=';margin-right:10%' onclick='row_num()'" + "id=" + "rec_Fup_" + response[
+              0][i]['id'] + ">Update" +
+            "</button>" + "<button class='btn btn-danger' id=rec_Rev_" + response[0][i]['id'] + " onclick='row_num()'>Delete Row" +
+            "</button>" + "</td>" +
+            "</tr>";
+          $("#followupHistory").append(result_body1);
+        }
+
+
+
+        if ($(window).width() < 1161 && $(window).width() > 599.9) {
+          $("#followupHistory-tablet").empty();
+          console.log("hello tablet cc");
+          var result_body_tablet = "<ul class='clearfix'>" + "<li>" + 'General ID.- ' + "<b id='tablet_updateID'>" + response[0][0]['Pid'] + "</b>" +
+            "</li>" + "<li>" + 'Fuchia ID- ' + response[0][0]['FuchiaID'] + "</li>" + "<li>" + 'PrEPCode- ' + response[0][0]['PrEPCode'] + "</li>" +
+            "<li>" + 'Age- ' + response[0][0]['Agey'] + "</li>" + "<li>" + 'sex- ' + response[1] + "</li>" + "</ul>";
+          $("#followupHistory-tablet").append(result_body_tablet);
+          // result_body_tablet="<ul class='clearfix'>"+"<li>"+response[0][0]['Pid']+"</li>"+"<li>"+response[0][0]['FuchiaID']+"</li>"+"<li>"+response[0][0]['PrEPCode']+"</li>"+"<li>"+response[0][0]['Agey']+"</li>"+"<li>"+response[0][0]['Gender']+"</li>"+"</ul>";
+          // $("#followupHistory-tablet").append(result_body_tablet);
+          result_body_tablet = "<ul class='clearfix'>" + "<li>" + 'NO.' + "</li>" + "<li>" + 'Row ID' + "</li>" + "<li>" + 'Visit Date' + "</li>" +
+            "<li>" + '' + "</li>" + "</ul>";
+          $("#followupHistory-tablet").append(result_body_tablet);
+          for (var i = 0; i < response[0].length; i++) {
+            var srNum = i + 1;
+            var btnName = "btn_" + i;
+            var rowName = "ul_" + i;
+
+            var result_body_tablet = "<ul class='clearfix'" + "id='" + rowName + "'>" + "<li>" + srNum + "</li>" + "<li>" + response[0][i]['id'] +
+              "</li>" +
+              "<li>" + response[0][i]['Visit Date'] + "</li>" +
+              "<li id='" + btnName + "'>" + "<button onclick='row_num()' >" + "Update" + "</button>" + "</li>" + "</ul>";
+            $("#followupHistory-tablet").append(result_body_tablet);
+          }
+
+
+        } else if ($(window).width() < 600) {
+          $("#followupHistory-mobile").empty();
+
+          var result_body_mobile = "<h5 style='display:inline-block;margin-right:4%;color:#b0d991'>" + "General Id-" + "</h5>" +
+            "<b id='mobile_updateID'>" + response[0][0]['Pid'] + "</>"
+          $("#followupHistory-mobile").append(result_body_mobile);
+          result_body_mobile = "<ul class='clearfix'>" + "<li>" + 'NO.' + "</li>" + "<li>" + 'Visit Date' + "</li>" + "<li>" + 'Fuchia ID' + "</li>" +
+            "</ul>";
+          $("#followupHistory-mobile").append(result_body_mobile);
+
+
+          for (var i = 0; i < response[0].length; i++) {
+            var srNum = i + 1;
+
+            var result_body_mobile = "<ul class='clearfix'>" + "<li>" + srNum + "</li>" + "<li>" +
+              response[0][i]['Visit Date'] + "</li>" +
+              "<li>" + response[0][i]['FuchiaID'] + "</li>" + "</ul>";
+            $("#followupHistory-mobile").append(result_body_mobile);
+          }
+
+        }
+
+
+      }
+    });
+
+  }
+
+  function removeRow(id, Pid) {
+    let remove_seq = {
+      id: id,
+      Pid: Pid,
+      pointer: "followup_generals",
+      notice: "Remove Patient Follow_up",
+    }
+    console.log(remove_seq)
+    if (confirm("Are you sure you want to Delete?")) {
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+        }
+      });
+      $.ajax({
+        type: 'POST',
+        url: "{{ route('reception_road') }}",
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify(remove_seq),
+        success: function(response) {
+
+          if (response == "1") {
+            alert("Successfull Delete")
+            followupHistory();
+          }
+        }
+      })
+    }
+
+  }
+
+  function row_num() { // to get row ID from follow up History
+    var parent = event.target.parentElement.id; // collecting id of the targeted parent
+    var coparent = document.getElementById(parent).parentElement.id; // collecti
+    text = event.target.id.match(/\d+/)[0];
+    ptID = document.getElementById(coparent).childNodes[2].innerHTML;
+
+    if ($(window).width() < 1161 && $(window).width() > 599.9) {
       ptID = document.getElementById("tablet_updateID").innerHTML;
-    }else if ($(window).width()<600){
+    } else if ($(window).width() < 600) {
       ptID = document.getElementById("mobile_updateID").innerHTML;
 
     }
-    if(event.target.textContent=="Update"){
-      updateFiller(text,ptID);
-    }else{
-      removeRow(text,ptID)
+    if (event.target.textContent == "Update") {
+      updateFiller(text, ptID);
+    } else {
+      removeRow(text, ptID)
     }
 
-	  
-}
 
-	// function location ( 12 ) to fill data in new form
-function updateFiller(text,ptID){
+  }
 
-	    rowNumber = text;
-     
-	  var toUpdateFollowup = 1;
-		var functionLoco=12;
-	  var ckdata = {  ptID:ptID,
-	                  rowID:rowNumber,
-										functionLoco:functionLoco,
-	                  toUpdateFollowup:toUpdateFollowup
-	                };
-		console.log(ckdata);
-	  $.ajaxSetup({
-	      headers: {
-	          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-	       }
-	     });
-	  $.ajax({
-	      type:'POST',
-	      url:"{{route('reception_road')}}",
-	      dataType:'json',
-	      contentType: 'application/json',
-	      data: JSON.stringify(ckdata),
-	      success:function(response){
-	        console.log(response);
-					console.log("Filled");
-	        $("#updatePageView").show();
+  // function location ( 12 ) to fill data in new form
+  function updateFiller(text, ptID) {
 
-	        document.getElementById("gid_toupdate").value      = response[0][0]["Pid"];
-          document.getElementById("clinic_code").value       = response[0][0]["Clinic Code"];
-	        document.getElementById("fid_toupdate").value      = response[0][0]["FuchiaID"];
-	        document.getElementById("prepCode_toupdate").value = response[0][0]["PrEPCode"];
-	        document.getElementById("vDate_toupdate").value    = response[0][0]["Visit Date"];
-	        document.getElementById("agey_toupdate").value     = response[0][0]["Current Agey"];
-	        document.getElementById("agem_toupdate").value     = response[0][0]["Current Agem"];
-          document.getElementById("gender_toupdate").value     = response[1]["gender"];
-          document.getElementById("follow_up_md_toupdate").value= response[0][0]["Follow_up_md"];
-          document.getElementById("nDate_toupdate").value    = response[0][0]["Next Appointment Date"];
-          document.getElementById("remark_update").value    = response[0][0]["Remark"];
-          document.getElementById("current_md_update").value    = response[0][0]["Current_MD"];
-          document.getElementById("refer_feverupdate").value    = response[1]["refer_fever"];
-          if(response[0][0]["Online"]!=null){
-            document.getElementById("online_followupdate").value    = response[0][0]["Online"];
+    rowNumber = text;
+
+    var toUpdateFollowup = 1;
+    var functionLoco = 12;
+    var ckdata = {
+      ptID: ptID,
+      rowID: rowNumber,
+      functionLoco: functionLoco,
+      toUpdateFollowup: toUpdateFollowup
+    };
+    console.log(ckdata);
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+      }
+    });
+    $.ajax({
+      type: 'POST',
+      url: "{{ route('reception_road') }}",
+      dataType: 'json',
+      contentType: 'application/json',
+      data: JSON.stringify(ckdata),
+      success: function(response) {
+        console.log(response);
+        console.log("Filled");
+        $("#updatePageView").show();
+
+        document.getElementById("gid_toupdate").value = response[0][0]["Pid"];
+        document.getElementById("clinic_code").value = response[0][0]["Clinic Code"];
+        document.getElementById("fid_toupdate").value = response[0][0]["FuchiaID"];
+        document.getElementById("prepCode_toupdate").value = response[0][0]["PrEPCode"];
+        document.getElementById("vDate_toupdate").value = response[0][0]["Visit Date"];
+        document.getElementById("agey_toupdate").value = response[0][0]["Current Agey"];
+        document.getElementById("agem_toupdate").value = response[0][0]["Current Agem"];
+        document.getElementById("gender_toupdate").value = response[1]["gender"];
+        document.getElementById("follow_up_md_toupdate").value = response[0][0]["Follow_up_md"];
+        document.getElementById("nDate_toupdate").value = response[0][0]["Next Appointment Date"];
+        document.getElementById("remark_update").value = response[0][0]["Remark"];
+        document.getElementById("current_md_update").value = response[0][0]["Current_MD"];
+        document.getElementById("refer_feverupdate").value = response[1]["refer_fever"];
+
+        $("#resDiaSecton2 div ul li select").prop("disabled", true);
+        if (response[0][0]["Online"] != null) {
+          document.getElementById("online_followupdate").value = response[0][0]["Online"];
+        }
+
+        var diag_check = [
+          'phacheck', 'artcheck', 'prepcheck', 'pmtctcheck', 'anccheck',
+          'fmaplancheck', 'gneralcheck', 'ncdcheck', 'hivTBcheck', 'fcentercheck', 'labInvestcheck',
+        ]
+        var diag_select = ['pha_new_old', 'pha_cohort', 'prep_new_old',
+          'anc_new_old', 'art_new_old', 'art_cohort', 'pmtct_new_old', 'famaplan_new_old', 'general_new_old',
+          'general_diagnosis', 'OPD', 'feedcentre_new_old', 'ncd_new_old', 'ncd_diagnosis', 'ncd_drugSupply', 'hivTB_new_old',
+          'labInvest_new_old',
+        ]
+        age = $("#agey_toupdate").val();
+        for (var i = 0; i < diag_check.length; i++) {
+          $("#" + diag_check[i] + "update").prop('checked', false);
+          if (response[2][diag_check[i]] == diag_check[i]) {
+            $("#" + diag_check[i] + "update").prop('checked', true)
+            var updat_checkID = $("#" + diag_check[i] + "update").parent().parent().attr('id')
+            console.log(updat_checkID + "ok");
+            $("#" + updat_checkID + " li select").prop("disabled", false);
           }
-          
-          var diag_check=[
-            'phacheck','artcheck','prepcheck','pmtctcheck','anccheck',
-            'fmaplancheck','gneralcheck','ncdcheck','hivTBcheck','fcentercheck','labInvestcheck',
-          ]
-          var diag_select=['pha_new_old','pha_cohort','prep_new_old',
-                'anc_new_old','art_new_old','art_cohort','pmtct_new_old','famaplan_new_old','general_new_old',
-                'general_diagnosis','OPD','feedcentre_new_old','ncd_new_old','ncd_diagnosis','ncd_drugSupply','hivTB_new_old',
-                'labInvest_new_old',
-          ]
-          age=$("#agey_toupdate").val();
-          for(var i=0;i<diag_check.length;i++){
-            if(response[2][diag_check[i]]==diag_check[i]){
-              $("#"+diag_check[i]+"update").prop('checked',true)
-              var updat_checkID=$("#"+diag_check[i]+"update").parent().parent().attr('id')
-              console.log(updat_checkID);
-              $("#"+updat_checkID+" li select").prop("disabled",false);
-            }
-          }
-          if($("#gneralcheckupdate").is(":checked")){
-            updateCheck="fromUpdate"
-            generalCheck(); 
-          }else{
-            updateCheck="noupdate"
-            generalCheck(); 
-          };
-          if($("#ncdcheckupdate").is(":checked")){
-            updateCheck="fromUpdate"
-            ncdCheck(); 
-          }else{
-            updateCheck="noupdate"
-            ncdCheck(); 
-          }
-          for(var diag_sel=0;diag_sel<diag_select.length;diag_sel++){
-            $("#"+diag_select[diag_sel]+"update").val(response[2][diag_select[diag_sel]]);
-          }
-          $("#weight_update").val(response[1]["weight"]);
-          $("#heigth_update").val(response[1]["height"]);    
-          $("#muac_update").val(response[1]["muac"]);
-          //update check validation 
-          pha_art_prepUPdateCheck();
-          if(response[0][0]['Agey'] >5 ||(response[0][0]['Agey']<5 && response[0][0]['Agem']<6)){
-            $("#fcentercheckupdate").prop("disabled",true);
-          }
-          /*if(response[0][0]['Agey']< 13) {
-            $("#fmaplancheckupdate").prop("disabled",true);
-          }*/
-          if(response[0][0]['Gender'] =="195997324"){
-            $("#fmaplancheckupdate").prop("disabled",true);
-            $("#anccheckupdate").prop("disabled",true);
-          
-            $("#pmtctcheckupdate").prop("disabled",true);
-          }
-          DateTo_text();
-	        
-	      }
-	  });
+        }
+        if ($("#gneralcheckupdate").is(":checked")) {
+          updateCheck = "fromUpdate"
+          generalCheck();
+        } else {
+          updateCheck = "noupdate"
+          generalCheck();
+        };
+        if ($("#ncdcheckupdate").is(":checked")) {
+          updateCheck = "fromUpdate"
+          ncdCheck();
+        } else {
+          updateCheck = "noupdate"
+          ncdCheck();
+        }
+        for (var diag_sel = 0; diag_sel < diag_select.length; diag_sel++) {
+          $("#" + diag_select[diag_sel] + "update").val(response[2][diag_select[diag_sel]]);
+        }
+        $("#weight_update").val(response[1]["weight"]);
+        $("#heigth_update").val(response[1]["height"]);
+        $("#muac_update").val(response[1]["muac"]);
+        //update check validation 
+        pha_art_prepUPdateCheck();
+        if (response[0][0]['Agey'] > 5 || (response[0][0]['Agey'] < 5 && response[0][0]['Agem'] < 6)) {
+          $("#fcentercheckupdate").prop("disabled", true);
+        }
+        /*if(response[0][0]['Agey']< 13) {
+          $("#fmaplancheckupdate").prop("disabled",true);
+        }*/
+        if (response[0][0]['Gender'] == "195997324") {
+          $("#fmaplancheckupdate").prop("disabled", true);
+          $("#anccheckupdate").prop("disabled", true);
+
+          $("#pmtctcheckupdate").prop("disabled", true);
+        }
+        DateTo_text();
+
+      }
+    });
 
 
 
 
-	}
-	// function location ( 13 ) to save update data
-function update(){
-	  var f_up_update = 1;
-		var functionLoco= 13;
+  }
+  // function location ( 13 ) to save update data
+  function update() {
+    var f_up_update = 1;
+    var functionLoco = 13;
     var clinic_code = document.getElementById("clinic_code").value;
     var updated_by = document.getElementById("navbarDropdown").innerHTML;
-	  var pid = document.getElementById("gid_toupdate").value;
-	  var fid = document.getElementById("fid_toupdate").value;
-	  var prepCode = document.getElementById("prepCode_toupdate").value;
-	  var vDate = document.getElementById("vDate_toupdate").value;
-	  vDate = formatDate(vDate); // Date formatChange function
-	  var agey = document.getElementById("agey_toupdate").value;
-	  var agem = document.getElementById("agem_toupdate").value;
+    var pid = document.getElementById("gid_toupdate").value;
+    var fid = document.getElementById("fid_toupdate").value;
+    var prepCode = document.getElementById("prepCode_toupdate").value;
+    var vDate = document.getElementById("vDate_toupdate").value;
+    vDate = formatDate(vDate); // Date formatChange function
+    var agey = document.getElementById("agey_toupdate").value;
+    var agem = document.getElementById("agem_toupdate").value;
     var follow_up_md = document.getElementById("follow_up_md_toupdate").value;
-		var nDate = document.getElementById("nDate_toupdate").value;
-	  nDate = formatDate(nDate); // Date formatChange function
-	  var gender = document.getElementById("gender_toupdate").value;
-    var weight=$("#weight_update").val();
-    var height=$("#heigth_update").val();
-    var muac=$("#muac_update").val();
-   
-    
-	  
+    var nDate = document.getElementById("nDate_toupdate").value;
+    nDate = formatDate(nDate); // Date formatChange function
+    var gender = document.getElementById("gender_toupdate").value;
+    var weight = $("#weight_update").val();
+    var height = $("#heigth_update").val();
+    var muac = $("#muac_update").val();
 
-	  var f_up_data = {
-										functionLoco:functionLoco,
-	                  rowNumber:rowNumber,
-	                  f_up_update:f_up_update,
-	                  pid:pid,
-	                  fid:fid,
-                    clinic_code:clinic_code,
-	                  prepCode:prepCode,
-	                  vDate:vDate,
-	                  agey:agey,
-	                  agem:agem,
-                    follow_up_md:follow_up_md,
-	                  nDate:nDate,
-	                  gender:gender,
-                    updated_by:updated_by,
-                    weight:weight,
-                    height:height,
-                    muac:muac,
-                    remark:$("#remark_update").val(),
-                    current_md:$("#current_md_update").val(),
-                    online:$("#online_followupdate").val(),
 
-	                };
-    var diag_check=[
-      'phacheck','artcheck','prepcheck','pmtctcheck','anccheck',
-      'fmaplancheck','gneralcheck','ncdcheck','hivTBcheck','fcentercheck','labInvestcheck',
+
+
+    var f_up_data = {
+      functionLoco: functionLoco,
+      rowNumber: rowNumber,
+      f_up_update: f_up_update,
+      pid: pid,
+      fid: fid,
+      clinic_code: clinic_code,
+      prepCode: prepCode,
+      vDate: vDate,
+      agey: agey,
+      agem: agem,
+      follow_up_md: follow_up_md,
+      nDate: nDate,
+      gender: gender,
+      updated_by: updated_by,
+      weight: weight,
+      height: height,
+      muac: muac,
+      remark: $("#remark_update").val(),
+      current_md: $("#current_md_update").val(),
+      online: $("#online_followupdate").val(),
+
+    };
+    var diag_check = [
+      'phacheck', 'artcheck', 'prepcheck', 'pmtctcheck', 'anccheck',
+      'fmaplancheck', 'gneralcheck', 'ncdcheck', 'hivTBcheck', 'fcentercheck', 'labInvestcheck',
     ]
-    var diag_select=['pha_new_old','pha_cohort','prep_new_old',
-          'anc_new_old','art_new_old','art_cohort','pmtct_new_old','famaplan_new_old','general_new_old',
-          'general_diagnosis','OPD','feedcentre_new_old','ncd_new_old','ncd_diagnosis','ncd_drugSupply','hivTB_new_old',
-          'labInvest_new_old','refer_fever',
+    var diag_select = ['pha_new_old', 'pha_cohort', 'prep_new_old',
+      'anc_new_old', 'art_new_old', 'art_cohort', 'pmtct_new_old', 'famaplan_new_old', 'general_new_old',
+      'general_diagnosis', 'OPD', 'feedcentre_new_old', 'ncd_new_old', 'ncd_diagnosis', 'ncd_drugSupply', 'hivTB_new_old',
+      'labInvest_new_old', 'refer_fever',
     ]
-    console.log(diag_select.length+"select")
-    for(var i=0;i<diag_check.length;i++){
-      if($("#"+diag_check[i]+"update").prop('checked')){
-        f_up_data[diag_check[i]]=diag_check[i];
-        
-      }else{
-        f_up_data[diag_check[i]]=""
-      }   
+    console.log(diag_select.length + "select")
+    for (var i = 0; i < diag_check.length; i++) {
+      if ($("#" + diag_check[i] + "update").prop('checked')) {
+        f_up_data[diag_check[i]] = diag_check[i];
+
+      } else {
+        f_up_data[diag_check[i]] = ""
+      }
     } //checkbox input collecting 
-    for(var j=0;j<diag_select.length;j++){
-      f_up_data[diag_select[j]]=$("#"+diag_select[j]+"update").val();
+    for (var j = 0; j < diag_select.length; j++) {
+      f_up_data[diag_select[j]] = $("#" + diag_select[j] + "update").val();
     } //selectbox data collecting
 
     console.log(f_up_data);
-    if(pid.length>8 &&((agey>0&& agey<150 && agem==0)||(agem>0 && agem<12 && agey==0))&&vDate.length>5 && gender.length>2){
+    if (pid.length > 8 && ((agey > 0 && agey < 150 && agem == 0) || (agem > 0 && agem < 12 && agey == 0)) && vDate.length > 5 && gender.length > 2 &&
+      diagnosis_validation("resDiaSecton2")) {
       $.ajaxSetup({
-	      headers: {
-	          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-	       }
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+        }
       });
       $.ajax({
-          type:'POST',
-          url:"{{route('reception_road')}}",
-          dataType:'json',
-          contentType: 'application/json',
-          data: JSON.stringify(f_up_data),
-          success:function(response){
-            alert("အချက်အလက်များ ပြင်ဆင်ဖြည့်သွင်းပြီးပါပြီ။");
-            location.reload(true);// to refresh the page
-            $("#updatePageView").hide();
-            
-            console.log(response);
-            }
+        type: 'POST',
+        url: "{{ route('reception_road') }}",
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify(f_up_data),
+        success: function(response) {
+          alert("အချက်အလက်များ ပြင်ဆင်ဖြည့်သွင်းပြီးပါပြီ။");
+          location.reload(true); // to refresh the page
+          $("#updatePageView").hide();
+
+          console.log(response);
+        }
 
       });
-    }else{
+    } else {
       alert("အချက်အလက်များ မပြည့်စုံသေးပါ။");
     }
-    
-    
-	 
-	}
+  }
 
 
 
-function pha_art_prepUPdateCheck(){
-        if($("#phacheckupdate").is(":checked")){
-            $("#artcheckupdate,#prepcheckupdate").prop("disabled",true)
-           
-        }else if($("#artcheckupdate").is(":checked")){
-            $("#phacheckupdate,#prepcheckupdate").prop("disabled",true)
-        }else if($("#prepcheckupdate").is(":checked")){
-            $("#phacheckupdate,#artcheckupdate").prop("disabled",true)
-        }else{
-            $("#phacheckupdate,#prepcheckupdate,#artcheckupdate").prop("disabled",false)
-        }
+  function pha_art_prepUPdateCheck() {
+    if ($("#phacheckupdate").is(":checked")) {
+      $("#artcheckupdate,#prepcheckupdate").prop("disabled", true)
+
+    } else if ($("#artcheckupdate").is(":checked")) {
+      $("#phacheckupdate,#prepcheckupdate").prop("disabled", true)
+    } else if ($("#prepcheckupdate").is(":checked")) {
+      $("#phacheckupdate,#artcheckupdate").prop("disabled", true)
+    } else {
+      $("#phacheckupdate,#prepcheckupdate,#artcheckupdate").prop("disabled", false)
     }
-function peerCode()
-{    clearFacts()
-     var peercode= document.getElementById("he_code").value;
-     var he_code= document.getElementById("he_code").value;
-     var cliniccode=document.getElementById("clinic_code").value;
-     var yearcode = document.getElementById("year_code").value;
-     var ptcode=  document.getElementById("pt_code").value;
-     
-     var lenCode = 0;
+  }
+
+  function peerCode() {
+    clearFacts()
+    var peercode = document.getElementById("he_code").value;
+    var he_code = document.getElementById("he_code").value;
+    var cliniccode = document.getElementById("clinic_code").value;
+    var yearcode = document.getElementById("year_code").value;
+    var ptcode = document.getElementById("pt_code").value;
+    let eyes_code = $("#eyes_code").val();
+    var lenCode = 0;
 
     console.log(ptcode);
-     if(ptcode.length==6){
-      if (peercode == "0"){
-        peercode = cliniccode+yearcode+ptcode;
-      }else{
-        peercode = peercode+cliniccode+yearcode+ptcode;
-      }
-      document.getElementById("gid").value=peercode;
-     }
-     else if(ptcode.length==5){
-      ptcode= "0"+ptcode;
-      if (peercode == "0"){
-        peercode = cliniccode+yearcode+ptcode;
-      }else{
-        peercode = peercode+cliniccode+yearcode+ptcode;
-      }
-      document.getElementById("gid").value=peercode;
-     }
-     else if(ptcode.length==4){
-      ptcode= "00"+ptcode;
-      if (peercode == "0"){
-        peercode = cliniccode+yearcode+ptcode;
-      }else{
-        peercode = peercode+cliniccode+yearcode+ptcode;
-      }
-      document.getElementById("gid").value=peercode;
-     }
-     else if(ptcode.length==3){
-      ptcode= "000"+ptcode;
-      if (peercode == "0"){
-        peercode = cliniccode+yearcode+ptcode;
-      }else{
-        peercode = peercode+cliniccode+yearcode+ptcode;
-      }
-      document.getElementById("gid").value=peercode;
-      
-     }
-     else if(ptcode.length==2){
-      ptcode= "0000"+ptcode;
-      if (peercode == "0"){
-        peercode = cliniccode+yearcode+ptcode;
-      }else{
-        peercode = peercode+cliniccode+yearcode+ptcode;
-      }
-      document.getElementById("gid").value=peercode;
-      
-     }
-     else if(ptcode.length==1){
-      ptcode= "00000"+ptcode;
-      if (peercode == "0"){
-        peercode = cliniccode+yearcode+ptcode;
-      }else{
-        peercode = peercode+cliniccode+yearcode+ptcode;
-      }
-      document.getElementById("gid").value=peercode;
 
-     
-     }
-     else{
-      alert("General ID မှားနေပါသည်။");
-        document.getElementById("pt_code").value="";
-        document.getElementById("gid").value="";
-        document.getElementById("pt_code").focus();
-     }
-     
-    /*if(cliniccode == mam_clinicID && he_code=="0"){
-      var nextID = $("#nextID").text();
-      if(peercode < (nextID + 1) ){
-        document.getElementById("gid").value=peercode;
-      }else{
+    if (ptcode.length == 6) {
+      if (peercode == "0") {
+        peercode = cliniccode + yearcode + ptcode;
+      } else {
+        peercode = peercode + cliniccode + yearcode + ptcode;
+      }
+      document.getElementById("gid").value = peercode;
+    } else if (ptcode.length == 5) {
+      ptcode = "0" + ptcode;
+      if (peercode == "0") {
+        peercode = cliniccode + yearcode + ptcode;
+      } else {
+        peercode = peercode + cliniccode + yearcode + ptcode;
+      }
+      document.getElementById("gid").value = peercode;
+    } else if (ptcode.length == 4) {
+      ptcode = "00" + ptcode;
+      if (peercode == "0") {
+        peercode = cliniccode + yearcode + ptcode;
+      } else {
+        peercode = peercode + cliniccode + yearcode + ptcode;
+      }
+      document.getElementById("gid").value = peercode;
+    } else if (ptcode.length == 3) {
+      ptcode = "000" + ptcode;
+      if (peercode == "0") {
+        peercode = cliniccode + yearcode + ptcode;
+      } else {
+        peercode = peercode + cliniccode + yearcode + ptcode;
+      }
+      document.getElementById("gid").value = peercode;
+
+    } else if (ptcode.length == 2) {
+      ptcode = "0000" + ptcode;
+      if (peercode == "0") {
+        peercode = cliniccode + yearcode + ptcode;
+      } else {
+        peercode = peercode + cliniccode + yearcode + ptcode;
+      }
+      document.getElementById("gid").value = peercode;
+
+    } else if (ptcode.length == 1) {
+      ptcode = "00000" + ptcode;
+      if (peercode == "0") {
+        peercode = cliniccode + yearcode + ptcode;
+      } else {
+        peercode = peercode + cliniccode + yearcode + ptcode;
+      }
+      document.getElementById("gid").value = peercode;
+
+
+    } else {
+      if (eyes_code.length == 0) {
         alert("General ID မှားနေပါသည်။");
-        //$("#gid).val()="";
-        location.reload();
-      }  
-    }*/ 
-    ptData();
-    
-}
+      }
+      console.log(eyes_code.length + "eye length");
+      document.getElementById("pt_code").value = "";
+      document.getElementById("gid").value = "";
+      document.getElementById("pt_code").focus();
+    }
 
+    if (cliniccode == mam_clinicID && he_code == "0") {
+      var nextID = $("#nextID").text();
+      if (peercode.length == 10 && peercode > nextID) {
+        alert("The new ID is greater than Next ID of the reception");
+        location.reload();
+      } else if (peercode < nextID || peercode == nextID) {
+        if (peercode != 0) {
+          document.getElementById("gid").value = peercode;
+        }
+
+      } else {
+        alert("Wrong ID");
+        //$("#gid).val()="" ;
+        location.reload();
+      }
+    }
+    ptData();
+
+  }
 </script>

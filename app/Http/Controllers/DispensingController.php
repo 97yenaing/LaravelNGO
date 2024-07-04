@@ -186,21 +186,29 @@ class DispensingController extends Controller
       ]);
     }
     else if($notice=="Stock_Add"){
-      Dispensing::where('Sr_Num','=',$request_data["id"])
-      ->update([
-        'Stock'=>$request_data["total_stock"]
-      ]);
-     $sir_num=$request_data["id"][0];
-      MedicalitemsEntry::create([
-        "Serial Number"=>$sir_num,
-        "Exp_date"=>$request_data["exp_date"],
-        "Amount"=>$request_data["stockQty"],
-        "Arrival_Date"=>$request_data["arival_date"],
-      ]);
-     
+      $instock=Dispensing::where('Sr_Num','=',$request_data["id"])->select("Stock")->first();
+      if($instock["Stock"]!=null||$instock["Stock"]==0){
+        $stock_update=Dispensing::where('Sr_Num','=',$request_data["id"])
+        ->update([
+        'Stock'=>$request_data["stockQty"]+(int)$instock["Stock"],
+        ]);
+        if ($stock_update) {
+          $sir_num=$request_data["id"][0];
+          MedicalitemsEntry::create([
+          "Serial Number"=>$sir_num,
+          "Exp_date"=>$request_data["exp_date"],
+          "Amount"=>$request_data["stockQty"],
+          "Arrival_Date"=>$request_data["arival_date"],
+          ]);
+          return response()->json([
+          $stock_update
+          ]);
 
+        }
+
+      };
       return response()->json([
-        $request_data["id"],$request_data["total_stock"]
+        $instock
       ]);
 
     }
@@ -365,9 +373,9 @@ class DispensingController extends Controller
               $recordmedic[$cutmedi[$j]][$i]["Main Risk"]=Crypt::decrypt_light($consumption_amount[$i]["Main Risk"],$table);
               $recordmedic[$cutmedi[$j]][$i]["Use"]=$cutmedi[$j+1];
               if(array_key_exists($cutmedi[$j],$usemediOne)){
-                $usemediOne[$cutmedi[$j]]+=$cutmedi[$j+1];
+                $usemediOne[$cutmedi[$j]]+=(int)$cutmedi[$j+1];
               }else{
-                $usemediOne[$cutmedi[$j]]=$cutmedi[$j+1];
+                $usemediOne[$cutmedi[$j]]=(int)$cutmedi[$j+1];
               }
             }
           }

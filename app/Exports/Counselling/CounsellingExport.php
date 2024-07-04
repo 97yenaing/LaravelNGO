@@ -29,44 +29,50 @@ use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 class CounsellingExport implements FromView, WithColumnFormatting
 {
 
-  private $users;private $users1; private $hts_coul;
+  private $users;
+  private $users1;
+  private $hts_coul;
 
-   public function __construct($users1,$hts_coul)
-   {
-        $this->users1 = $users1;
-        $this -> hts_coul = $hts_coul;
-   }
-   public function view(): View
-   {
-     if($this-> hts_coul == "counsel_data"){
-      
-       return view('Counsellor.export', [
-          'users1'=> $this->users1,
-       ]);
-     }
+  public function __construct($users1, $hts_coul)
+  {
+    $this->users1 = $users1;
+    $this->hts_coul = $hts_coul;
+  }
+  public function view(): View
+  {
+    if ($this->hts_coul == "counsel_data") {
 
-     else if($this-> hts_coul == "hts_data"){
+      return view('Counsellor.export', [
+        'users1' => $this->users1,
+      ]);
+    } else if ($this->hts_coul == "hts_data") {
       return view('Counsellor.export1', [
-          'users1'=>$this->users1,
+        'users1' => $this->users1,
+      ]);
+    } else {
+      return view('Counsellor.teleCounselling', [
+        'users' => $this->users1,
       ]);
     }
-   }
-   public function columnFormats(): array
-   {  if($this-> hts_coul == "counsel_data"){
-       return [
-           "M"=>"d-m-yyyy",
-       ];
-      }else{
-        return [
-          "J"=>"d-m-yyyy",
-          "T"=>"d-m-yyyy",
-          "Y"=>"d-m-yyyy",
-          "AC"=>"d-m-yyyy",
-          
+  }
+  public function columnFormats(): array
+  {
+    if ($this->hts_coul == "counsel_data") {
+      return [
+        "M" => "d-m-yyyy",
       ];
-      }
-   }
+    } else if ($this->hts_coul == "hts_data") {
+      return [
+        "J" => "d-m-yyyy",
+        "T" => "d-m-yyyy",
+        "Y" => "d-m-yyyy",
+        "AC" => "d-m-yyyy",
 
-
-
+      ];
+    } else {
+      return [
+        'E' => "d-m-yyyy",
+      ];
+    }
+  }
 }// class end

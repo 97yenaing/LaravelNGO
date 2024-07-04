@@ -32,5 +32,6 @@ class Patients extends Model
       'updated_by',
       'preCode',
       'Risk Log',
+      'Eyes_code',
     ];
 }

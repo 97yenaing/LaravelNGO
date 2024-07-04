@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\PtConfig_log;
 use App\Models\Patient_log;
+use Validator;
 
 
 
@@ -17,6 +18,15 @@ class IdFixController extends Controller
 	}
 	public function idFix_control(Request $request)
 	{
+		if ($request["notice"] == "View Detail") {
+			$validator = Validator::make($request->all(), [
+				"idInput" => "required",
+			]);
+			if ($validator->fails()) {
+				return redirect()->back()->withErrors($validator)->withInput();
+			}
+		}
+
 		$allTable = [
 			'PtConfig', 'Patients', 'Followup_general', 'Lab', 'LabHbcTest', 'Urine',  'Labstitest', 'Lab_oi', 'LabGeneralTest', 'LabStoolTest', 'LabAfbTest',
 			'LabCovidTest', 'Viralload', 'Rprtest', 'Coulselling', 'CounsellorRecords', 'Stifemale', 'Stimale', 'PreventionLogsheet', 'PreventionCBS', 'Cervicalcancer', 'cmv',
@@ -85,11 +95,11 @@ class IdFixController extends Controller
 						}
 						$modelClass::where($matchID[$key], $request['orgin_id'])->delete();
 					} else {
-						$modelClass::create([
-							$matchID[$key] => $request['orgin_id'],
-							"Marge_ID" => $request['marge_id'],
-							"Reason" => "Only marge",
-						]);
+						$destinationRow = ($table == "PtConfig") ? new PtConfig_log() : new Patient_log();
+						$destinationRow->Pid .= $request['orgin_id'];
+						$destinationRow->Reason .= 'Only marge';
+						$destinationRow->Marge_ID .= $request['marge_id'];
+						$destinationRow->save();
 					}
 				}
 				$modelClass::where($matchID[$key], $request['orgin_id'])->update([
@@ -100,9 +110,9 @@ class IdFixController extends Controller
 		if ($request["notice"] == "View Detail") {
 			return view('Id_Fix.Id_Delete', ['allCount' => $allCount, 'Pid' => $request['idInput']]);
 		} elseif ($request["notice"] == "Delete all") {
-			# code...
+			return response()->json("Delete all success");
 		} else {
-			# code...
+			return response()->json("All ID Changes Success");
 		}
 	}
 }

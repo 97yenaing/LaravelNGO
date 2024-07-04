@@ -33,11 +33,14 @@
 
                     <th style="width:100px;height:40px;text-align:center;">Visit_date</th>
                     <th style="width:100px;height:40px;text-align:center;">Types of patients</th>
+                    
                     <th style="width:150px;height:40px;text-align:center;">ART status(Yes/No)</th>
                     <th style="width:250px;height:40px;text-align:center;">Current ART Regime(Please circle)<br>1st or 2nd line</th>
                     <th style="width:200px;height:40px;text-align:center;">Current ART(1st or 2nd line)<br>started date</th>
+                    
                     <th style="width:100px;height:40px;text-align:center;">Most recent CD4</th>
                     <th style="width:150px;height:40px;text-align:center;">Most recent CD4 date</th>
+                    
                     <th style="width:100px;height:40px;text-align:center;background-color:#e9ec5d;">Right Eye</th>
                     <th style="width:100px;height:40px;text-align:center;background-color:#e9ec5d;">Left Eye</th>
                     <th style="width:100px;height:40px;text-align:center;background-color:#e9ec5d;">Right eye Diagnosis</th>
@@ -48,6 +51,7 @@
                     <th style="width:100px;height:40px;text-align:center;background-color:#e9ec5d;">Left eye</th>
                     <th style="width:100px;height:40px;text-align:center;">Eye Doctor</th>
                     <th style="width:100px;height:40px;text-align:center;">Organization</th>
+                    <th style="width:100px;height:40px;text-align:center;">Follow up Date</th>
                     <th style="width:200px;height:40px;text-align:center;">Remark</th>
                 </tr>
             </thead>
@@ -68,14 +72,18 @@
 
                     <td style="text-align:left">{{$cmv_exdata['Visit_date']}}</td>
                     <td style="text-align:left">{{$cmv_exdata['Patient_Type']}}</td>
+                    
                     <td style="text-align:left">{{$cmv_exdata['Art_Status']}}</td>
                     <td style="text-align:left">{{$cmv_exdata['Symptom']}}</td>
 
                     <td style="text-align:left">{{$cmv_exdata['Currnt_Art_Regime']}}</td>
                     <td style="text-align:left">{{$cmv_exdata['Art_StartDate']}}</td>
+                    
                     <td style="text-align:left">{{$cmv_exdata['Most_CD4']}}</td>
                     <td style="text-align:left">{{$cmv_exdata['Recent_CD4Date']}}</td>
-                    <td style="text-align:left">{{$cmv_exdata['Symptom']}}</td>
+                
+                
+                    
                     <td style="text-align:left">{{$cmv_exdata['Vision_Right']}}</td>
                     <td style="text-align:left">{{$cmv_exdata['Vision_Left']}}</td>
                     <td style="text-align:left">{{$cmv_exdata['Finding_Right']}}</td>
@@ -86,6 +94,7 @@
                     <td style="text-align:left">{{$cmv_exdata['Treatment_Left']}}</td>
                     <td style="text-align:left">{{$cmv_exdata['Doctor_name']}}</td>
                     <td style="text-align:left">{{$cmv_exdata['Org']}}</td>
+                    <td style="text-align:left">{{$cmv_exdata['Follow_Date']}}</td>
                     <td style="text-align:left">{{$cmv_exdata['Remark']}}</td>
                 </tr>
                 @endforeach

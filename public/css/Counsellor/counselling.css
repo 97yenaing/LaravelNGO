@@ -8,6 +8,19 @@
   margin-top: 35px;
 }
 
+#tele-search,
+#tele-collect {
+  margin-top: 35px;
+  width: 100%;
+}
+
+#test_do {
+  width: 20%;
+  position: absolute;
+  top: 10px;
+  left: 3%;
+}
+
 .custom-alert,
 .hts-warning {
   position: fixed;
@@ -204,7 +217,7 @@
 }
 
 .counsel-delete {
-  margin-left: 4%;
+  margin-left: 3%;
 }
 
 .counsel-update-list thead tr th {
@@ -255,6 +268,14 @@
   #list tr td:last-of-type {
     padding-left: 1px;
     padding-right: 1px;
+  }
+
+  .tele-btn-block {
+    width: 30%;
+  }
+
+  #hts_report_do option:nth-child(2) {
+    display: none;
   }
 
   .counselling-type .col-sm-2 {

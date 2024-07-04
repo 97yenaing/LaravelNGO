@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use App\Models\Followup_general;
 use App\Models\PtConfig;
 use App\Models\Patients;
@@ -29,10 +30,13 @@ use App\Models\cmv;
 use App\Models\ncd_pt_register;
 use App\Models\ncdFollowup;
 use App\Models\tb_registerO3;
+
+use App\Models\OutsideTeleNoID;
 use App\Models\Tbipt;
 use App\Models\preTB;
 use App\Models\Consumption;
 use Carbon\Carbon;
+use Exception;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 use Illuminate\Support\Facades\Crypt;
@@ -40,6 +44,8 @@ use Maatwebsite\Excel\Facades\Excel;
 // Exports
 use App\Exports\Counselling\CounsellingExport;
 use Illuminate\Database\Eloquent\Builder;
+
+use App\Models\TeleCounselling;
 use DateTime;
 use App\Exports\Export_age;
 
@@ -117,6 +123,33 @@ class CounsellingController extends Controller
 			}
 
 			return response()->json([$hts_final_reaming]);
+		}
+		if ($notice == "TeleCollection") {
+
+			$tele_name = !$request->tele_id ? Crypt::encryptString($request->ph_name) : null;
+			if ($request["task_do"] != "Tele update") {
+				$tele_save = TeleCounselling::create([
+					'Pid' => $request->tele_id,
+					'Age' => $request->ph_age,
+					'Enamal' => $tele_name,
+					'Gender' => Crypt::encrypt_light($request->ph_sex, $table),
+					'Call_Date' => $request->teleDate,
+					'Counsellor' => $request->ph_counsellor,
+					'Remark' => $request->ph_remark,
+				]);
+				return response()->json("Save လုပ်ဆောင်မှု့ အောင်မြင်ပါသည်");
+			} else {
+				$tele_save = TeleCounselling::where("id", $request["id"])->update([
+					'Pid' => $request->tele_id,
+					'Age' => $request->ph_age,
+					'Enamal' => $tele_name,
+					'Gender' => Crypt::encrypt_light($request->ph_sex, $table),
+					'Call_Date' => $request->teleDate,
+					'Counsellor' => $request->ph_counsellor,
+					'Remark' => $request->ph_remark,
+				]);
+				return response()->json("Save လုပ်ဆောင်မှု့ အောင်မြင်ပါသည်");
+			}
 		}
 		if ($hts_counselling == 1 || $counsellingOnly == 1 || $pt_data_update == 'Only Patient Info_Update' || $pt_data_update == 'Update') {
 			// to save data in  table (config and counselling table and HTS)
@@ -218,7 +251,7 @@ class CounsellingController extends Controller
 
 			$follow_lastDate = Followup_general::where('Pid', $gid)->where('Visit Date', $cdate)->exists();
 
-			if ($follow_lastDate) {
+			if ($follow_lastDate || $pt_data_update == 'Only Patient Info_Update') {
 				$test_locate = Crypt::encrypt_light($test_locate, $table);
 
 				$urine_res = Urine::where('CID', '=', $gid)
@@ -478,7 +511,7 @@ class CounsellingController extends Controller
 					]);
 				}
 				if ($patient && $change_risk_rason == 'Yes') {
-					$ptconfig = Patients::where('Pid', $gid)->update([
+					$patient = Patients::where('Pid', $gid)->update([
 						'Risk Change_Date' => $risk_change_date,
 						'Former Risk' => $old_risk,
 						'Risk Changed' => $change_risk_rason,
@@ -629,10 +662,11 @@ class CounsellingController extends Controller
 					elseif ($hts_counselling == 1) {
 						$hts_exists = Coulselling::where('Pid', '=', $gid)->where('Counselling_Date', $cdate)->exists();
 						$cbs_hts_exist = Coulselling::where('Pid', '=', $gid)->where('Counselling_Date', $cdate)->where('CBS_HTS', 1)->exists();
+
 						$counsellor_hts_exist = Coulselling::where('Pid', '=', $gid)->where('Counselling_Date', $cdate)->where('CBS_HTS', 2)->exists();
 						if (!$hts_exists || ($hts_exists && $cbs_hts_exist && !$counsellor_hts_exist)) {
 							if (!$counselling_exists) {
-								if ($hiv_res || $test_locate == 'private') {
+								if ($hiv_res || $test_locate == '699886825970327') {
 									Coulselling::create([ // HTS Create row input
 										'Clinic code' => $request->clinic_code,
 										'Pid' => $request->Pid,
@@ -737,7 +771,7 @@ class CounsellingController extends Controller
 									$success = 2.1; //This Patient do not test Any HTS Test on
 								}
 							} else {
-								if ($hiv_res || $test_locate == 'private') {
+								if ($hiv_res || $test_locate == '699886825970327') {
 									Coulselling::create([ // HTS Create row input
 										'Clinic code' => $request->clinic_code,
 										'Pid' => $request->Pid,
@@ -1058,7 +1092,7 @@ class CounsellingController extends Controller
 			} else {
 				$success = 2; //This Patient do not Pass Reception Center
 			} // HTS and counselling close
-			return response()->json([$success]);
+			return response()->json([$success, $pt_data_update]);
 		}
 
 		if ($ckID == 1) {
@@ -1066,29 +1100,30 @@ class CounsellingController extends Controller
 			$year = $request->input('year');
 			$vdate = $request->input('vdate');
 			$type_counselling = [];
+			$searchType = $request->input('searchType');
 
-			$new_old = Coulselling::whereYear('Counselling_Date', $year)->exists();
+			$new_old = Coulselling::whereYear('Counselling_Date', $year)->where("Pid",$gid)->exists();
+			$patientData = PtConfig::where('Pid', '=', $gid)
+				->select('pt_configs.*')
+				->get()
+				->map(function ($ptConfig) use ($gid) {
+					$rprtest = Rprtest::where('pid', $gid)
+						->latest('vdate')
+						->select('Titre(current)', 'vdate')
+						->first();
 
-			// $id_in_a_year = []; // collecting id in a year
-			// for ($i = 0; $i < count($data_in_a_year); $i++) {
-			// 	$id_in_a_year[] = $data_in_a_year[$i]['Pid'];
-			// }
-			// $new_old = in_array($gid, $id_in_a_year);
+					$ptConfig["Titre(current)"] = $rprtest["Titre(current)"] ?? null;
+					$ptConfig->vdate = $rprtest->vdate ?? null;
 
-			$patientData = PtConfig::where('Pid', '=', $gid)->first();
+					return $ptConfig;
+				})
+				->first();
 			$follow = Followup_general::where('Pid', '=', $gid)->where('Visit Date', $vdate)->exists();
-			if ($patientData && $follow) {
-				$last_rpr_row = Rprtest::where('Pid', '=', $gid)->latest()->limit(1)->get();
-
-				if (count($last_rpr_row) > 1) {
-					$last_rpr = Crypt::decrypt_light($last_rpr_row[0]['Titre(current)'], 'General');
-					$last_rpr_date = $last_rpr_row[0]['visit_date'];
-				} else {
-					$last_rpr = 'No dilution';
-					$last_rpr_date = '';
-				}
+			if (($patientData && $follow) || ($patientData && $searchType == "pat_record") || ($patientData && $searchType == "TeleCounselling")) {
 				$ptNameDecrypt = $patientData['Name'];
 				$ptNameDecrypt = Crypt::decryptString($ptNameDecrypt);
+
+				$patientData["Titre(current)"] = Crypt::decrypt_light($patientData["Titre(current)"], $table);
 
 				$ptRegion = $patientData['Region'];
 				$ptRegion = Crypt::decryptString($ptRegion);
@@ -1120,6 +1155,26 @@ class CounsellingController extends Controller
 
 				$sub_risk = $patientData['Sub Risk'];
 				$sub_risk = Crypt::decrypt_light($sub_risk, $table);
+				if ($searchType == "TeleCounselling") {
+					return response()->json([
+						$patientData,
+						$ptNameDecrypt,
+						$ptRegion,
+						$ptTownship,
+						$ptQuarter,
+						$phone,
+						$phone2,
+						$phone3,
+						$new_old,
+						$dob,
+						$gender,
+						$main_risk,
+						$sub_risk,
+						$type_counselling,
+						// $last_rpr,
+						// $last_rpr_date,
+					]);
+				}
 				$coun_record_exist = CounsellorRecords::where('Pid', $gid)->exists();
 				$coun_alredy_exist = CounsellorRecords::where('Pid', $gid)->where('Counselling_Date', $vdate)->exists();
 				if (!$coun_record_exist) {
@@ -1155,8 +1210,8 @@ class CounsellingController extends Controller
 					$patient,
 					$type_counselling,
 					$coun_alredy_exist,
-					$last_rpr,
-					$last_rpr_date,
+					// $last_rpr,
+					// $last_rpr_date,
 				]);
 				$ckID = 0;
 			} else {
@@ -1219,32 +1274,92 @@ class CounsellingController extends Controller
 					$pt_age_risk = PtConfig::select('Main Risk', 'Agey', 'Agem')
 						->where('Pid', $value['Pid'])
 						->first();
-					$counselling_data[$key]['Main Risk'] = Crypt::decrypt_light($pt_age_risk['Main Risk'], $table);
-					$counselling_data[$key]['Register Age'] = $pt_age_risk['Agey'];
-					$counselling_data[$key]['Register Agem'] = $pt_age_risk['Agem'];
+					if ($pt_age_risk) {
+						$counselling_data[$key]['Main Risk'] = Crypt::decrypt_light($pt_age_risk['Main Risk'], $table);
+						$counselling_data[$key]['Register Age'] = $pt_age_risk['Agey'];
+						$counselling_data[$key]['Register Agem'] = $pt_age_risk['Agem'];
+					}
 				}
 				$updated_data = $counselling_data;
 			} elseif ($updatedType == 0) {
 				//HTS
-				$hts_data = Coulselling::select('id', 'Pid', 'FuchiaID', 'Counselling_Date', 'HIV_Final_Result', 'New_Old')
-					->whereBetween('Counselling_Date', [$date_from, $date_to])
-					->orwhere('Pid', $search_ID)
+				$hts_data = Coulselling::where(function ($query) use ($date_from, $date_to, $search_ID) {
+					$query->whereBetween('Counselling_Date', [$date_from, $date_to])
+						->orWhere('Pid', $search_ID);
+				})
+					->leftJoin('labs', 'coulsellings.Pid', '=', 'labs.CID')
+					->whereColumn('labs.vdate', 'coulsellings.Counselling_Date')
+					->select('labs.Req_Doctor', 'coulsellings.id', 'Pid', 'coulsellings.FuchiaID', 'Counselling_Date', 'HIV_Final_Result', 'New_Old')
 					->get();
+
 				foreach ($hts_data as $key => $value) {
 					$pt_age_risk = PtConfig::select('Main Risk', 'Agey', 'Agem')
 						->where('Pid', $value['Pid'])
 						->first();
-					$hts_data[$key]['Main Risk'] = Crypt::decrypt_light($pt_age_risk['Main Risk'], $table);
-					$hts_data[$key]['Register Age'] = $pt_age_risk['Agey'];
-					$hts_data[$key]['Register Agem'] = $pt_age_risk['Agem'];
+					if ($pt_age_risk) {
+						$hts_data[$key]['Main Risk'] = Crypt::decrypt_light($pt_age_risk['Main Risk'], $table);
+						$hts_data[$key]['Register Age'] = $pt_age_risk['Agey'];
+						$hts_data[$key]['Register Agem'] = $pt_age_risk['Agem'];
+					}
+
 					$hts_data[$key]['HIV_Final_Result'] = Crypt::decrypt_light($hts_data[$key]['HIV_Final_Result'], $table);
+					$hts_data[$key]['Req_Doctor'] = Crypt::decrypt_light($hts_data[$key]['Req_Doctor'], $table);
 					$hts_data[$key]['New_Old'] = Crypt::decrypt_light($hts_data[$key]['New_Old'], $table);
 					if ($hts_data[$key]['New_Old'] == null) {
 						$hts_data[$key]['New_Old'] = '';
 					}
 				}
 				$updated_data = $hts_data;
+			} elseif ($updatedType == 2) {
+				$confidential_data = PtConfig::where('Pid', $search_ID)
+					->first();
+				if ($confidential_data) {
+					$confid_encrypt = [
+						'Region', 'Township', 'Quarter', 'Phone', 'Phone2', 'Phone3', 'Date of Birth'
+					];
+					// $confid_date = [
+					// 	'Date of Birth', 'Reg Date'
+					// ];
+
+					foreach ($confid_encrypt as $encypt) {
+						$confidential_data[$encypt] = Crypt::decryptString($confidential_data[$encypt]);
+					}
+
+					// foreach ($confid_date as $encypt_date) {
+					// 	if (!empty($confidential_data[$encypt_date])) {
+					// 		$confidential_data[$encypt_date] = date('d-m-Y', strtotime($confidential_data[$encypt_date]));
+					// 		if ($confidential_data[$encypt_date] == '01-01-1970') {
+					// 			$confidential_data[$encypt_date] = '';
+					// 		}
+					// 	} else {
+					// 		$confidential_data[$encypt_date] = '';
+					// 	}
+					// }
+					$confidential_data["Main Risk"] = Crypt::decrypt_light($confidential_data["Main Risk"], $table);
+					$confidential_data["Sub Risk"] = Crypt::decrypt_light($confidential_data["Sub Risk"], $table);
+					return response()->json([$confidential_data, $updatedType]);
+				}
+			} elseif ($updatedType == 3) {
+				$tele_data = TeleCounselling::whereBetween('Call_Date', [$date_from, $date_to])->leftjoin("confid.pt_configs", "pt_configs.Pid", "tele_counsellings.Pid")
+					->select("tele_counsellings.*", "Name")->get();
+				if ($tele_data) {
+					foreach ($tele_data as $tele_each) {
+						$tele_each["Enamal"] = ($tele_each["Enamal"] != null) ? Crypt::decryptString($tele_each["Enamal"]) : "";
+						$tele_each["Enamal"] = ($tele_each["Name"] != null && $tele_each["Pid"] != null) ? Crypt::decryptString($tele_each["Name"]) : $tele_each["Enamal"];
+						$tele_each["Gender"] = Crypt::decrypt_light($tele_each["Gender"], $table);
+						if (!$tele_each["Pid"]) {
+							$tele_each["Pid"] = "";
+						}
+
+						$tele_each["Call_Date"] = date('d-m-Y', strtotime($tele_each["Call_Date"]));
+						if ($tele_each["Call_Date"] == '01-01-1970') {
+							$tele_each["Call_Date"] = '';
+						};
+					}
+				}
+				return response()->json([$tele_data, $updatedType]);
 			}
+
 			if (count($updated_data) > 0) {
 				foreach ($updated_data as $key => $up_data) {
 					if (!empty($up_data)) {
@@ -1259,39 +1374,58 @@ class CounsellingController extends Controller
 						$updated_data[$key]['FuchiaID'] = '-';
 					}
 				}
+
 				return response()->json([$updated_data, $updatedType]);
 			} else {
 				return response()->json(['no data']);
 			}
 		} // HTS data show
 		if ($decryptFetch == 1) {
-			confid_encrypt=[
-				'Region', 'Township', 'Quarter', 'Phone', 'Phone2', 'Phone3','Date of Birth'
-			]
-			confid_samll=[
-				'Main Risk', 'Sub Risk','Gender',
-			]
-			counselling_only_encypt=[
-				'Counsellor','HTSdone','Reason','Status','PrEP Status'
-			]
-			hts_encrypt=[
-				'New_Old','Counsellor','Service_Modality','Mode of Entry','HIV_Test_Determine','HIV_Test_UNI','HIV_Test_STAT','HIV_Final_Result',
-				'Syphillis_RDT','Syphillis_RPR','Syphillis_VDRL','Hepatitis_B','Hepatitis_C','Test_Location'
-			]
+			$confid_encrypt = [
+				'Region', 'Township', 'Quarter', 'Phone', 'Phone2', 'Phone3', 'Date of Birth'
+			];
+			$confid_samll = [
+				'Main Risk', 'Sub Risk', 'Gender',
+			];
+			$counselling_only_encypt = [
+				'Counsellor', 'HTSdone', 'Reason', 'Status', 'PrEP Status'
+			];
+			$hts_encrypt = [
+				'New_Old', 'Counsellor', 'Service_Modality', 'Mode of Entry', 'HIV_Test_Determine', 'HIV_Test_UNI', 'HIV_Test_STAT', 'HIV_Final_Result',
+				'Syphillis_RDT', 'Syphillis_RPR', 'Syphillis_VDRL', 'Hepatitis_B', 'Hepatitis_C', 'Test_Location'
+			];
+			$hts_data_next = [];
 			// return data from view to encrypt the row
 			$address = $request->input('address');
 			$res_date = $request->input('res_date');
 			$id = $request->input('id');
-			$search_ID = $request->input('search_ID');
 			$updatedType = $request->input('updatedType');
-			$patientData = PtConfig::select('Region', 'Township', 'Quarter', 'Phone', 'Phone2', 'Phone3', 'Reg Date', 'Agey', 'PrEPCode', 'Clinic Code', 'Main Risk', 'Sub Risk', 'Agem', 'Date of Birth','Gender')->where('Pid', '=', $id)->first();
+			$patientData = PtConfig::select('Pid', 'FuchiaID', 'PrEPCode', 'Region', 'Township', 'Quarter', 'Phone', 'Phone2', 'Phone3', 'Reg Date', 'Agey', 'PrEPCode', 'Clinic Code', 'Main Risk', 'Sub Risk', 'Agem', 'Date of Birth', 'Gender')->where('Pid', '=', $id)->first();
 			$coun_row_data = CounsellorRecords::where('Pid', '=', $id)->where('Counselling_Date', $res_date)->first();
-			$table = 'General';
-			if ($updatedType == 0) {
-				$hts_data_next = Coulselling::where('Pid', $id)->where('Counselling_Date', $res_date)->first();
-			} 
-			return response()->json([
-			]);
+			if ($patientData) {
+				foreach ($confid_encrypt as $value) {
+					$patientData[$value] = Crypt::decryptString($patientData[$value]);
+				}
+				foreach ($confid_samll as $value) {
+					$patientData[$value] = Crypt::decrypt_light($patientData[$value], $table);
+				}
+				if ($coun_row_data) {
+					foreach ($counselling_only_encypt as $value) {
+						$coun_row_data[$value] = Crypt::decrypt_light($coun_row_data[$value], $table);
+					}
+				}
+				if ($updatedType == 0) {
+					$hts_data_next = Coulselling::where('Pid', $id)->where('Counselling_Date', $res_date)->first();
+					if ($hts_data_next) {
+						foreach ($hts_encrypt as $value) {
+							$hts_data_next[$value] = Crypt::decrypt_light($hts_data_next[$value], $table);
+						}
+					}
+				}
+				return response()->json([$patientData, $coun_row_data, $hts_data_next]);
+			} else {
+				return response()->json("No confidential");
+			}
 		}
 		if ($htsUpdate == 'remove_row') {
 			$id = $request['id'];
@@ -1318,7 +1452,13 @@ class CounsellingController extends Controller
 				}
 			}
 			//Counselling Only
-			else {
+			elseif ($updated_type == 3) {
+				$tele_dele = TeleCounselling::where('id', $id)->where('Pid', $Pid)->where('Call_Date', $counselling_date)->delete();
+				$remove_mesg = 'Delete TeleCounselling  Data';
+				if (!$tele_dele) {
+					$remove_mesg = 'Your Wrong Credential contant to Admin';
+				}
+			} else {
 				$remove_mesg = "You don't have permission to delete this record";
 			}
 
@@ -1405,6 +1545,25 @@ class CounsellingController extends Controller
 				}
 
 				return Excel::download(new CounsellingExport($users1, $hts_coul), 'HTS Export-' . date('d-m-Y') . '.xlsx');
+			} else {
+				$users = TeleCounselling::whereBetween('Call_Date', [$from, $to])
+					->leftjoin('confid.pt_configs', 'pt_configs.Pid', '=', 'tele_counsellings.Pid')
+					->select('tele_counsellings.*', 'Date of Birth', 'Name', 'Agey', 'Agem', 'pt_configs.Gender as Sex')
+					->get();
+				foreach ($users as $key => $user) {
+					if ($user["Pid"] != null) {
+						$user = Export_age::Export_general($user, $user['Call_Date'], $user['Date of Birth'], $user);
+						$user["Name"] = Crypt::decryptString($user["Name"]);
+						$user["Gender"] = Crypt::decrypt_light($user["Sex"], $table);
+					} else {
+						$user["Name"] = Crypt::decryptString($user["Enamal"]);
+						$user["Gender"] = Crypt::decrypt_light($user["Gender"], $table);
+					}
+					$carbonDate = Carbon::createFromFormat('Y-m-d', $user["Call_Date"]);
+					$carbonDate = Carbon::createFromFormat('d-m-Y', $carbonDate->format('d-m-Y'));
+					$user["Call_Date"] = Date::dateTimeToExcel($carbonDate->startOfDay());
+				}
+				return Excel::download(new CounsellingExport($users, $hts_coul), 'TeleCounselling-' . date('d-m-Y') . '.xlsx');
 			}
 		} else {
 			return view('Counsellor.counselling');

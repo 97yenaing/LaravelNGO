@@ -5,20 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\PtConfig;
 use App\Models\Patients;
-
-use App\Models\Lab;
-use App\Models\LabHbcTest;
-use App\Models\Urine;
-use App\Models\Rprtest;
-use App\Models\Labstitest;
-use App\Models\Lab_oi;
-use App\Models\LabGeneralTest;
-use App\Models\Consumption;
-
-use App\Models\CounsellorRecords;
-
 use App\Models\Followup_general;
-
 use App\Models\cmv;
 use App\Exports\CMV\CMV_Export;
 use Maatwebsite\Excel\Facades\Excel;
@@ -105,6 +92,7 @@ class CmvController extends Controller
           "Doctor_name"=>$request["eye_doctor"],
           "Remark"=>$request["cmv_remark"],
           "Org"=>$request["cmv_org"],
+          "Follow_Date"=>$request["cmv_FollowDate"],
          
         ]);
         return response()->json([
@@ -143,6 +131,7 @@ class CmvController extends Controller
           "Treatment_Left"=>$request["cmv_TreLeye"],
           "Doctor_name"=>$request["eye_doctor"],
           "Remark"=>$request["cmv_remark"],
+          "Follow_Date"=>$request["cmv_FollowDate"],
       ]);
       return response()->json([
         "Successfully",
@@ -160,14 +149,15 @@ class CmvController extends Controller
             
       $cmv_export = cmv::whereBetween("Visit_date", [$disForm, $disTo])
       ->with([
-      'ptconfig' => function ($query) {
-      $query->select("Pid",'Date of Birth','Agey','Agem','Gender','FuchiaID');
-      }
+        'ptconfig' => function ($query) {
+            $query->select("Pid",'Date of Birth','Agey','Agem','Gender','FuchiaID');
+        }
       ])
       ->get()->makeHidden(['created_at', 'updated_at']);
+      
       if(count($cmv_export)!=0){
         $date_type=[
-          "Visit_date","Art_StartDate","Recent_CD4Date"
+          "Visit_date","Art_StartDate","Recent_CD4Date","Follow_Date"
         ];
         $encrypt_small=[
           "Art_Status","Currnt_Art_Regime","Most_CD4","Sex"
@@ -215,49 +205,91 @@ class CmvController extends Controller
       return response()->json($delete);
       
     }
+     // $pid=[
+      //   '118122000565',
+      //   '118123000606',
+      //   '118123000607',
+      //   '118123000608',
+      //   '118123000609',
+      //   '17123000556',
+      //   '178123000251',
+      //   '178123000253',
+      //   '178123000259',
+      //   '178123000260',
+      //   '178123000261',
+      //   '188123000130',
+      //   '188123000140',
+      //   '188123000142',
+      //   '188123000150',
+      //   '198122000068',
+      //   '67123000805',
+      //   '78123000533',
+      //   '8123000225',
+      //   '8123000227',
+      //   '8123000228',
+      //   '8123000229',
+      //   '8123000230',
+      //   '8123000231',
+      //   '8123000232',
+      //   '8123000234',
+      //   '8123000235',
+      //   '8123000236',
+      //   '8123000237',
+      //   '8123000238',
+      //   '8123000240',
+      //   '8123000241',
+      //   '8123000243',
+      //   '8123000244',
+      //   '8123000245',
+      //   '8123000577',
+      //   '97123000645',
+      //   '97123000665',
+      //   '97123000697',
 
-    //  $pid=[
-    //   '7224000833',
-    //   '7219000206',
-    //   '7224001888',
-    //   '7224001774',
-    //   '7224000812',
-    //   '7223001145',
-    //   '7224001885',
-    //   '7218000743',
-    //   '7224001890',
-    //   '7222003323',
-    //   '7222003261',
-    //   '7221002921',
-    //   '7224001736',
-    //   '7224001882',
-    //   '7219003221',
-
-    //   ];
-    //   $data=[
-    //     '-160-7-138-7-149-6'
-    //     ,'-149-6-160-7'
-    //     ,'-176-7-189-15-113-7-111-7-120-6-145-6'
-    //     ,'-84-28-90-9-138-14-113-14-191-14'
-    //     ,'-83-22-160-22'
-    //     ,'-149-15-146-7-23-1'
-    //     ,'-138-84-113-84-111-14'
-    //     ,'-179-56-72-56-105-56'
-    //     ,'-120-6-70-6-138-7-113-7-146-3-69-1'
-    //     ,'-179-58'
-    //     ,'-179-58-138-56-160-56'
-    //     ,'-179-42'
-    //     ,'-37-1-59-1-40-1-160-7-96-7'
-    //     ,'-40-1-88-10-69-1-113-7-138-7'
-    //     ,'-189-112-134-224-96-56'
-    //   ];
-    //   foreach ($pid as $key => $value) {
-    //   Consumption::where("Pid",$value)->where("Given_Date","2024-04-03")->update([
-    //   'Medical_Data'=>$data[$key],
-    //   ]);
-      
-    //   }
-       //RiskChange::risk_Change($pid,$data);
+      // ];
+      // $sex=[
+      //   'Male',
+      //   'Male',
+      //   'Male',
+      //   'Male',
+      //   'Male',
+      //   'Male',
+      //   'Male',
+      //   'Male',
+      //   'Male',
+      //   'Male',
+      //   'Male',
+      //   'Male',
+      //   'Male',
+      //   'Male',
+      //   'Male',
+      //   'Male',
+      //   'Male',
+      //   'Male',
+      //   'Male',
+      //   'Male',
+      //   'Male',
+      //   'Male',
+      //   'Male',
+      //   'Male',
+      //   'Male',
+      //   'Male',
+      //   'Male',
+      //   'Male',
+      //   'Male',
+      //   'Male',
+      //   'Male',
+      //   'Male',
+      //   'Male',
+      //   'Male',
+      //   'Male',
+      //   'Male',
+      //   'Male',
+      //   'Male',
+      //   'Male',
+          
+      // ];
+      // RiskChange::risk_Change();
     
   }
 }

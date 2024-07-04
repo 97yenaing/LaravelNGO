@@ -248,7 +248,14 @@
                         <label for="" class="form-label">Organization</label>
                         <input type="text" name="" class="form-control" id="cmv_org">
                     </div>
-                    <div class="col-sm-8">
+                    <div class="col-sm-2">
+                        <label for="" class="form-label">Follow Date</label>
+                        <div class="date-holder">
+                            <input type="text" class="form-control Gdate" id="cmv_FollowDate" placeholder="dd-mm-yyyy">
+                            <img src="../img/calendar3.svg" class="dateimg" alt="date">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
                         <label class="form-label">Remark</label>
                         <input class="form-control" id="cmv_remark">
                   </div>
@@ -335,6 +342,7 @@
           "Treatment_Left","cmv_TreLeye",
           "Doctor_name","eye_doctor",
           "Remark","cmv_remark",
+          "Follow_Date","cmv_FollowDate",
           "Org","cmv_org"
     ]
     function findcmv_patient(){

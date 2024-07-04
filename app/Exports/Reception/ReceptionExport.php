@@ -77,9 +77,8 @@ class ReceptionExport implements FromView,WithColumnFormatting
     public function columnFormats(): array
        {
            return [
-               "K"=>"d-m-yyyy",
-               "AP"=>"d-m-yyyy",
-               "AQ"=>"d-m-yyyy",
+               "L"=>"d-m-yyyy",
+               "AR"=>"d-m-yyyy",
            ];
        }
 

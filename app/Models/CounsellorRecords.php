@@ -72,7 +72,7 @@ class CounsellorRecords extends Model
                             'Only_TB_Define',
                             'gad7_Define',
                           ];
-                          protected $connection ='mysql';
+                          //protected $connection ='mysql';
                           public function ptconfig(){
                               return $this->belongsTo(PtConfig::class,"Pid","Pid");
                           }

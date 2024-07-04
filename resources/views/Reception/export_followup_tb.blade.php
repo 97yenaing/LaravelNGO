@@ -30,6 +30,8 @@
                 <tr>
                   <th style="background-color:#a6a6a6;">Clinic Code</th>
                   <th style="background-color:#a6a6a6;">Pid</th>
+                  <th style="background-color:#a6a6a6;">Eyes scan code</th>
+                  
                   <th style="background-color:#a6a6a6;">Register Year</th>
                     <th style="background-color:#a6a6a6;">Register Agey</th>
                     <th style="background-color:#a6a6a6;">Register Agem(Month)</th>
@@ -99,6 +101,7 @@
                 <tr> 
                    <td style="width:80px;">{{ $users1[$index]['Clinic Code'] }}</td>
                    <td style="width:80px;">{{ $users1[$index]['Pid'] }}</td>
+                    <td style="width:80px;">{{ $users1[$index]['Eyes_code'] }}</td>
                    
                    <td style="width:80px;">{{ $users1[$index]['Reg year'] }}</td>
                     <td style="width:80px;">{{ $users1[$index]['Register Agey'] }}</td>

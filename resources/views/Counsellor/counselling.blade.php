@@ -25,6 +25,10 @@
         and HTS data entry</a>
     </li>
     <li class="nav-item">
+      <a class="nav-link toggle-link " data-toggle="tab" href="#tecounselling" id="Tecounselling_tab">Tele
+        Counselling</a>
+    </li>
+    <li class="nav-item">
       <a class="nav-link toggle-link " data-toggle="tab" href="#second" id="secondPage" onclick="">HTS
         Data/Update</a>
     </li>
@@ -45,9 +49,13 @@
         <br>
         <!--   <form class="" id="reg" method="post" > -->
         @csrf
-        <div class="row justify-content-center">
+        <div class="row justify-content-center" style="position: relative">
           <div class="col-md-12 ">
             <h3 class='header-text' style="text-align: center;">Counselling Room</h3>
+            <select class="form-control" id="test_do" onchange="testDo()">
+              <option selected value="counsel_info">Counselling</option>
+              <option value="pat_record">Patient_record</option>
+            </select>
           </div>
         </div>
 
@@ -69,7 +77,7 @@
           </div>
           <!-- <div class="col-sm-2">
 
-                            </div> -->
+                                            </div> -->
           <div class="col-md-1 consulor-refresh ">
             <button class="btn btn-success refresh-follow consulor-rfr-btn" onclick="refresh()">Refresh</button>
           </div>
@@ -85,13 +93,13 @@
         <br>
         <div class="row">
           <div class="row">
-            <div class="col-sm-3 do-test">
+            {{-- <div class="col-sm-3 do-test">
               <label for="">Counselling / Patient_record</label>
               <select class="form-control" id="test_do" onchange="testDo()">
                 <option selected value="counsel_info">Counselling</option>
                 <option value="pat_record">Patient_record</option>
               </select>
-            </div>
+            </div> --}}
             <div class="col-sm-3 conunselling_type">
               <label>HTS Entry / Counselling Only</label>
               <select class="form-control" id="coun_count" onchange="Counselling_Count()">
@@ -157,6 +165,10 @@
               <option value="col_33">Counsellor 33</option>
               <option value="col_34">Counsellor 34</option>
               <option value="col_35">Counsellor 35</option>
+              <option value="col_34">Counsellor 34</option>
+              <option value="col_35">Counsellor 35</option>
+              <option value="MAM (Bahan)">MAM (Bahan)</option>
+              <option value="CPDP">CPDP</option>
             </select>
           </div>
           <div class="col-sm-2 change-risk">
@@ -374,24 +386,27 @@
           </div>
 
 
-          <div class="col-md-3">
+          <div class="col-md-12">
             <button type="button" id="riskUpdate" onclick="Save_and_Update()" class="btn btn-warning update-batton "
               style="display:none">Only Patient
               Info_Update</button>
           </div>
 
         </div>
+
+
+
         <br>
         <div class="counselling_test">
           <!-- <div class="row">
-                                <div class="col-md-3" id="hts-onOff">
-                                  <label class="switch" style="float:left;">
-                                    <input type="checkbox" checked id="switch_toggle" onchange="switchToggle()">
-                                    <span class="slider round"></span>
-                                  </label>
-                                  <label>HTS Entry On/Off</label>
-                                </div>
-                              </div> -->
+                                                <div class="col-md-3" id="hts-onOff">
+                                                  <label class="switch" style="float:left;">
+                                                    <input type="checkbox" checked id="switch_toggle" onchange="switchToggle()">
+                                                    <span class="slider round"></span>
+                                                  </label>
+                                                  <label>HTS Entry On/Off</label>
+                                                </div>
+                                              </div> -->
           <div class="row hts-entry">
             <!--service -->
             <div class="col-md-2 consulor-srt consulor-switch">
@@ -720,7 +735,7 @@
               </label>
               <select name="phq9_def" id="phq9_sub" class="form-select sub-select">
                 <option value=""></option>
-                <option value="Partial">Partial</option>
+                <option value="New">New</option>
                 <option value="Follow up">Follow up</option>
               </select>
             </div>
@@ -808,7 +823,7 @@
               </label>
               <select name="gad7_def" id="gad7_sub" class="form-select sub-select">
                 <option value=""></option>
-                <option value="Partial">Partial</option>
+                <option value="New">New</option>
                 <option value="Follow up">Follow up</option>
               </select>
             </div>
@@ -870,6 +885,104 @@
 
       </div><br>
     </div>
+    <div class="tab-pane container containers cosulor-parent-div" id="tecounselling">
+      <div class="row ">
+        <div class="col-sm-2 coun_searchID">
+          <label for="" class="form-label">Clinic/Outside</label>
+          <select name="patient_type" id="pateint_type" class="form-select" onchange="teleType()">
+            <option value="clinic">Clinic Patient</option>
+            <option value="outside">Outside Patient</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 coun_searchID">
+          <label for="" class="form-label">Search ID</label>
+          <input type="text" class="form-control" name="tele_id" autofocus="" id="tele_id"
+            placeholder="General ID or Fuchia ID">
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-warning update-batton" id="tele-search" onclick="tele_ptData()">Search</button>
+        </div>
+        <div class="col-md-2 consulor-date">
+          <label for="">PH call Date</label>
+          <div class="date-holder">
+            <input type="text" id="teleDate" class="form-control Gdate" name="teleDate" placeholder="dd-mm-yyyy">
+            <img src="../img/calendar3.svg" class="dateimg" alt="date">
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <label for="" class="form-label">sex</label>
+          <select name="ph_sex" id="ph_sex" disabled class="form-select">
+            <option value=""></option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
+        </div>
+        <div class="col-sm-2 coun_searchID">
+          <label for="" class="form-label">Age</label>
+          <input type="text" class="form-control" name="ph_age" disabled id="ph_age">
+        </div>
+        <div class="col-md-2 coun_searchID">
+          <label for="" class="form-label">Name</label>
+          <input type="text" class="form-control" name="ph_name" disabled id="ph_name">
+        </div>
+        <div class="col-md-2 coun_searchID">
+          <label for="">Counselor</label>
+          <select class="form-select" name="ph_counsellor" id="ph_counsellor">
+            <option value=""></option>
+            <option value="col_1">Counsellor 1</option>
+            <option value="col_2">Counsellor 2</option>
+            <option value="col_3">Counsellor 3</option>
+            <option value="col_4">Counsellor 4</option>
+            <option value="col_5">Counsellor 5</option>
+            <option value="col_6">Counsellor 6</option>
+            <option value="col_7">Counsellor 7</option>
+            <option value="col_8">Counsellor 8</option>
+            <option value="col_9">Counsellor 9</option>
+            <option value="col_10">Counsellor 10</option>
+            <option value="col_11">Counsellor 11</option>
+            <option value="col_12">Counsellor 12</option>
+            <option value="col_13">Counsellor 13</option>
+            <option value="col_14">Counsellor 14</option>
+            <option value="col_15">Counsellor 15</option>
+            <option value="col_16">Counsellor 16</option>
+            <option value="col_17">Counsellor 17</option>
+            <option value="col_18">Counsellor 18</option>
+            <option value="col_19">Counsellor 19</option>
+            <option value="col_20">Counsellor 20</option>
+            <option value="col_21">Counsellor 21</option>
+            <option value="col_22">Counsellor 22</option>
+            <option value="col_23">Counsellor 23</option>
+            <option value="col_24">Counsellor 24</option>
+            <option value="col_25">Counsellor 25</option>
+            <option value="col_26">Counsellor 26</option>
+            <option value="col_27">Counsellor 27</option>
+            <option value="col_28">Counsellor 28</option>
+            <option value="col_29">Counsellor 29</option>
+            <option value="col_30">Counsellor 30</option>
+            <option value="col_31">Counsellor 31</option>
+            <option value="col_32">Counsellor 32</option>
+            <option value="col_33">Counsellor 33</option>
+            <option value="col_34">Counsellor 34</option>
+            <option value="col_35">Counsellor 35</option>
+            <option value="col_34">Counsellor 34</option>
+            <option value="col_35">Counsellor 35</option>
+            <option value="MAM (Bahan)">MAM (Bahan)</option>
+            <option value="CPDP">CPDP</option>
+          </select>
+        </div>
+        <div class="col-md-8">
+          <label for="" class="form-label">Remark</label>
+          <input type="text" class="form-control" name="ph_remark" id="ph_remark">
+        </div>
+        <div class="col-md-2 tele-btn-block">
+          <button class="btn btn-warning update-batton " id="tele-collect" onclick="PH_Collect()" disabled>Save</button>
+        </div>
+      </div>
+
+
+    </div>
     <div class="tab-pane container containers cosulor-parent-div" id="second">
       <div>
         <div>
@@ -890,6 +1003,8 @@
           <select class="form-control" id="update_type">
             <option selected value="upd_counsel">Counselling Updated</option>
             <option value="upd_HTS">HTS_Updated</option>
+            <option value="TeleCounselling">Tele Updated</option>
+            <option value="Confidential" style="display: none">Confidential</option>
           </select>
         </div>
         <div class="col-sm-2 counHTS-date">
@@ -919,9 +1034,9 @@
 
 
       <!-- <div class="row date_typeRow">
-                            
-                            
-                          </div> -->
+                                            
+                                            
+                                          </div> -->
       <div class="row justify-content-center counselHTS-table">
         <table class="table  counsel-update-list">
           <thead>
@@ -992,6 +1107,7 @@
             <select class="form-select" name="hts_coul" required>
               <option value="hts_data">HTS Data</option>
               <option value="counsel_data">Counselling Data</option>
+              <option value="TeleCounselling">Tele Updated</option>
             </select>
           </div>
 
@@ -1049,54 +1165,140 @@
   let address = 0;
   let updatedType = 1; //updated list show counselling Only
   let old_risk;
-  let counselling_type_array=[
-    "Pre","pre",   // db,id
-    "Post","post",
-    "HTSdone","hts_test_done",
-    "Reason","hts_test_no_reason",
-    "Status","status",
-    "PrEP","prep",
-    "PrEP Status","prep_status",
-    "C1","c1",
-    "C2","c2",
-    "C3","c3",
-    "ADH","adh",
-    "Child under15 Adoles","child_adoles",
-    "Child under15 Dis","child_dis",
-    "Child under15 ADH","child_adh",
-    "MMT","mmt",//now OSt
-    "IPT","ipt",
-    "TB","tb",
-    "NCD","ncd",
-    "ANC","anc",
-    "PFA","pfa",
-    "PHQ9","phq9",
-    "Other","other",
-    "EAC","eac",
-    "HMT","hmt",
-    "C P case","c_p_case",
-    "PMTCT","pmtct",
-    "c2_done","c2_done",
-    "stable","stable",
-    "phq4","phq4",
-    "gad7","gad7",
-    "brest_cancer","brest_cancer",
-    "hepC","hepC",
-    "art_ost","art_ost",
-    "d1","d1",
-    "d2","d2",
-    "d3","d3",
-    "d4","d4",
-    "cage","cage",
-    "Disclosure_Define","child_dis_sub",
-    "Case_Presention","presention",
-    "PHQ9_Define","phq9_sub",
-    "PHATB_Define","ipt_sub",
-    "Only_IPT","onlyIpt",
-    "Only_TB_Define","tb_sub",
-    "gad7_Define","gad7_sub",
+  let tele_click_id;
+  let counselling_type_array = [
+    "Pre", "pre", // db,id
+    "Post", "post",
+    "HTSdone", "hts_test_done",
+    "Reason", "hts_test_no_reason",
+    "Status", "status",
+    "PrEP", "prep",
+    "PrEP Status", "prep_status",
+    "C1", "c1",
+    "C2", "c2",
+    "C3", "c3",
+    "ADH", "adh",
+    "Child under15 Adoles", "child_adoles",
+    "Child under15 Dis", "child_dis",
+    "Child under15 ADH", "child_adh",
+    "MMT", "mmt", //now OSt
+    "IPT", "ipt",
+    "TB", "tb",
+    "NCD", "ncd",
+    "ANC", "anc",
+    "PFA", "pfa",
+    "PHQ9", "phq9",
+    "Other", "other",
+    "EAC", "eac",
+    "HMT", "hmt",
+    "C P case", "c_p_case",
+    "PMTCT", "pmtct",
+    "c2_done", "c2_done",
+    "stable", "stable",
+    "phq4", "phq4",
+    "gad7", "gad7",
+    "brest_cancer", "brest_cancer",
+    "hepC", "hepC",
+    "art_ost", "art_ost",
+    "d1", "d1",
+    "d2", "d2",
+    "d3", "d3",
+    "d4", "d4",
+    "cage", "cage",
+    "Disclosure_Define", "child_dis_sub",
+    "Case_Presention", "presention",
+    "PHQ9_Define", "phq9_sub",
+    "PHATB_Define", "ipt_sub",
+    "Only_IPT", "onlyIpt",
+    "Only_TB_Define", "tb_sub",
+    "gad7_Define", "gad7_sub",
   ]
+  let tele_collect_array = [
+    'Pid', 'tele_id',
+    'Age', 'ph_age',
+    'Enamal', 'ph_name',
+    'Gender', 'ph_sex',
+    'Call_Date', 'teleDate',
+    'Counsellor', 'ph_counsellor',
+    'Remark', 'ph_remark'
+  ];
 
+  function tele_ptData() {
+    ckdata = {
+      gid: $("#tele_id").val(),
+      ckID: 1,
+      searchType: "TeleCounselling"
+    }
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+      }
+    });
+    $.ajax({
+      type: 'POST',
+      url: "{{ route('counsellor_room') }}",
+      dataType: 'json',
+      contentType: 'application/json',
+      data: JSON.stringify(ckdata),
+      success: function(response) {
+        console.log(response);
+        $("#ph_sex").val(response[10]);
+        $("#ph_age").val(response[0]["Agey"]);
+        $("#ph_name").val(response[1]);
+        $("#tele-collect").prop("disabled", false)
+
+      }
+    })
+  }
+
+  function PH_Collect() {
+    let teleColletData = {};
+    let valid_data = true;
+    $("#tecounselling input,#tecounselling select").each(function(index) {
+      var tele_name = $(this).attr('name');
+      if ($(this).is('input,select')) {
+
+        if ($(this).hasClass("Gdate")) {
+          teleColletData[tele_name] = formatDate($(this).val());
+        } else {
+          teleColletData[tele_name] = $(this).val();
+        }
+      }
+      if (tele_name !== 'tele_id' && tele_name !== 'ph_remark' && teleColletData[tele_name] === '') {
+        valid_data = false; // Exit the loop
+        return false;
+      }
+    })
+    teleColletData["notice"] = "TeleCollection";
+    if($(event.target).text()=="Tele update"){
+      teleColletData["task_do"] = $(event.target).text();
+      teleColletData["id"] =resp[0][tele_click_id]["id"] ;
+    }
+    
+    console.log(teleColletData)
+    if (valid_data) {
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+        }
+      });
+      $.ajax({
+        type: 'POST',
+        url: "{{ route('counsellor_room') }}",
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify(teleColletData),
+        success: function(response) {
+          alert(response);
+          location.reload(true);
+        }
+      })
+    } else {
+      alert("အချက်အလက်များ မပြည့်စုံသေးပါ");
+    }
+
+
+  }
 
   function HTS_remaining() {
     var datefrom = formatDate($("#date_HTS_From").val());
@@ -1109,7 +1311,10 @@
       dateto: dateto,
       notice: "HTS Remaining"
     }
-    console.log(hts_remain)
+    console.log(hts_remain);
+    // spinClick()
+
+    //oneClick();
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
@@ -1154,6 +1359,19 @@
         }
       }
     })
+  }
+
+  function teleType() {
+    let ph_patient = $("#pateint_type").val();
+    if (ph_patient == "outside") {
+      $("#tele_id,#tele-search").prop("disabled", true);
+      $("#ph_sex,#ph_age,#ph_name,#tele-collect").prop("disabled", false);
+
+    } else {
+      $("#ph_sex,#ph_age,#ph_name,#tele-collect").prop("disabled", true);
+      $("#tele_id,#tele-search").prop("disabled", false);
+    }
+
   }
 
   function counsellingDo(targetid) {
@@ -1239,10 +1457,14 @@
       $(".id_searchType").show();
       $("#dateFrom").val("");
       $("#dateTo").val("");
+      $("#update_type option:nth-child(4)").show();
+      $("#update_type option:nth-child(3)").hide();
     } else {
       $(".counHTS-Formtext,.counHTS-date,.counHTS-Totext,.counHTS-date").show();
       $(".id_searchType").hide();
       $(".id_searchType").val("");
+      $("#update_type option:nth-child(4)").hide();
+      $("#update_type option:nth-child(3)").show();
     }
   }
 
@@ -1256,8 +1478,12 @@
 
     if ($("#update_type").val() == "upd_counsel") {
       updatedType = 1;
-    } else {
+    } else if ($("#update_type").val() == "upd_HTS") {
       updatedType = 0;
+    } else if ($("#update_type").val() == "Confidential") {
+      updatedType = 2; //Confidential
+    } else {
+      updatedType = 3; //TeleCounselling
     }
     var ckdata = {
       dateFrom: dateFrom,
@@ -1267,6 +1493,7 @@
       updatedType: updatedType,
 
     };
+    console.log(ckdata);
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
@@ -1279,10 +1506,11 @@
       contentType: 'application/json',
       data: JSON.stringify(ckdata),
       success: function(response) {
+        console.log(response);
         $("#list").empty();
         $(".counsel-update-list thead tr").remove();
         $(".appointment-table p").empty();
-        console.log(response);
+
         resp = response;
 
         if (response != "no data") {
@@ -1296,10 +1524,12 @@
               .append($("<td>").text("Risk"))
               .append($("<td>").text("HIV Result"))
               .append($("<td>").text("New/Old"))
+              .append($("<td class='pc'>").text("MD"))
               .append($("<td>").text("To Updated"))
             $(".counsel-update-list thead").append(couns_update_thead);
 
-          } else {
+          } //HTS
+          else if (response[1] == 1) {
             var couns_update_thead = $("<tr>").append($("<td>").text("No."))
               .append($("<td>").text("General_ID"))
               .append($("<td>").text("Fuchia_ID"))
@@ -1310,56 +1540,88 @@
               .append($("<td>").text("To Updated"))
             $(".counsel-update-list thead").append(couns_update_thead);
 
-          }
-          for (var i = 0; i < response[0].length; i++) {
-            var rowName = "tr_" + i;
-            var btnName = "btn_" + i;
-            var srNum = i + 1;
-
-            if (response[1] == 0) {
-              var result_body1 =
-                "<tr style='background-color:#A7DBD8; color:#000000;'" + "id='" + rowName +
-                "'>" +
-                "<td id='updateSerial1'>" + srNum + "</td>" +
-                "<td id='col_3'>" + response[0][i]['Pid'] + "</td>" +
-                "<td>" + response[0][i]['FuchiaID'] + "</td>" +
-                "<td >" + (response[0][i]['Counselling_Date']) + "</td>" +
-                "<td>" + response[0][i]['Register Age'] + "</td>" +
-                "<td>" + response[0][i]['Register Agem'] + "</td>" +
-                "<td>" + response[0][i]['Main Risk'] + "</td>" +
-                "<td>" + response[0][i]['HIV_Final_Result'] + "</td>" +
-                "<td>" + response[0][i]['New_Old'] + "</td>" +
-                "<td class= tablet-pc id='" + btnName + "'>" +
-                "<button class='btn btn-info btn-warning' id='counselling_update_" +
-                response[0][i]['id'] + "'  onclick='updateFiller()'  >" + "Update" +
-                "</button>" +
-                "<button class='btn btn-info btn-danger counsel-delete' id='counselling_remove_" +
-                response[0][i]['id'] + "' onclick='remove_row()'  >" + "Delete" +
-                "</button>" + "</td>" +
-                "</tr>";
-            } else {
-              var result_body1 =
-                "<tr style='background-color:#A7DBD8; color:#000000;'" + "id='" + rowName +
-                "'>" +
-                "<td id='updateSerial1'>" + srNum + "</td>" +
-                "<td id='col_3'>" + response[0][i]['Pid'] + "</td>" +
-                "<td>" + response[0][i]['FuchiaID'] + "</td>" +
-                "<td >" + (response[0][i]['Counselling_Date']) + "</td>" +
-                "<td>" + response[0][i]['Register Age'] + "</td>" +
-                "<td>" + response[0][i]['Register Agem'] + "</td>" +
-                "<td>" + response[0][i]['Main Risk'] + "</td>" +
-                "<td class= tablet-pc id='" + btnName + "'>" +
-                "<button class='btn btn-info btn-warning' id='counselling_update_" +
-                response[0][i]['id'] + "'  onclick='updateFiller()'  >" + "Update" +
-                "</button>" +
-                "<button class='btn btn-info btn-danger counsel-delete' id='counselling_remove_" +
-                response[0][i]['id'] + "' onclick='remove_row()'  >" + "Delete" +
-                "</button>" + "</td>" +
-                "</tr>";
-
-            }
-
+          } //Counselling Only
+          else if (response[1] == 2) {
+            var couns_update_thead = $("<tr>").append($("<td>").text("No."))
+              .append($("<td>").text("General_ID"))
+              .append($("<td>").text("Fuchia_ID"))
+              .append($("<td>").text("Register Date"))
+              .append($("<td>").text("Age"))
+              .append($("<td>").text("Age(M)"))
+              .append($("<td>").text("Risk"))
+              .append($("<td>").text("To Updated"))
+            $(".counsel-update-list thead").append(couns_update_thead);
+          } //Confidential
+          else {
+            var couns_update_thead = $("<tr>").append($("<td>").text("No."))
+              .append($("<td>").text("General_ID"))
+              .append($("<td>").text("Tele Call Date"))
+              .append($("<td>").text("Name"))
+              .append($("<td>").text("Age"))
+              .append($("<td>").text("Sex"))
+              .append($("<td>").text("To Updated"))
+            $(".counsel-update-list thead").append(couns_update_thead);
+          }//TeleCounselling
+          //Table Body
+          if (response[1] == 2) {
+            var result_body1 =
+              "<tr style='background-color:#A7DBD8; color:#000000;'>" +
+              "<td id='updateSerial1'>" + 1 + "</td>" +
+              "<td id='col_3'>" + response[0]['Pid'] + "</td>" +
+              "<td>" + response[0]['FuchiaID'] + "</td>" +
+              "<td>" + (response[0]['Reg Date']) + "</td>" +
+              "<td>" + response[0]['Agey'] + "</td>" +
+              "<td>" + response[0]['Agem'] + "</td>" +
+              "<td>" + response[0]['Main Risk'] + "</td>" +
+              "<td class=tablet-pc id='" + btnName + "'>" +
+              "<button class='btn btn-info btn-warning' onclick='confid_fill()'> Update</button></td></tr>";
             $("#list").append(result_body1);
+          } else {
+            for (var i = 0; i < response[0].length; i++) {
+              var rowName = "tr_" + i;
+              var btnName = "btn_" + i;
+              var srNum = i + 1;
+              if (response[1] == 0) {
+                var result_body1 = "<tr style='background-color:#A7DBD8; color:#000000;'" + "id='" + rowName + "'>" +
+                  "<td id='updateSerial1'>" + srNum + "</td>" + "<td id='col_3'>" + response[0][i]['Pid'] + "</td>" + "<td>" +
+                  response[0][i]['FuchiaID'] + "</td>" + "<td >" + (response[0][i]['Counselling_Date']) + "</td>" + "<td>" +
+                  response[0][i]['Register Age'] + "</td>" + "<td>" + response[0][i]['Register Agem'] + "</td>" + "<td>" +
+                  response[0][i]['Main Risk'] + "</td>" + "<td>" + response[0][i]['HIV_Final_Result'] + "</td>" + "<td>" +
+                  response[0][i]['New_Old'] + "</td>" + "<td class='pc'>" + response[0][i]['Req_Doctor']+
+                  "</td>" + "<td class= tablet-pc id='" + btnName + "'>" +
+                  "<button class='btn btn-info btn-warning' id='counselling_update_" + response[0][i]['id'] +
+                  "'  onclick='updateFiller()'  >" + "Update" + "</button>" +
+                  "<button class='btn btn-info btn-danger counsel-delete' id='counselling_remove_" + response[0][i]['id'] +
+                  "' onclick='remove_row()'  >" + "Delete" + "</button>" + "</td>" + "</tr>";
+              } else if (response[1] == 1) {
+                var
+                  result_body1 = "<tr style='background-color:#A7DBD8; color:#000000;'" + "id='" + rowName + "'>" +
+                  "<td id='updateSerial1'>" + srNum + "</td>" + "<td id='col_3'>" + response[0][i]['Pid'] + "</td>" + "<td>" +
+                  response[0][i]['FuchiaID'] + "</td>" + "<td >" + (response[0][i]['Counselling_Date']) + "</td>" + "<td>" +
+                  response[0][i]['Register Age'] + "</td>" + "<td>" + response[0][i]['Register Agem'] + "</td>" + "<td>" +
+                  response[0][i]['Main Risk'] + "</td>" + "<td class= tablet-pc id='" + btnName + "'>" +
+                  "<button class='btn btn-info btn-warning' id='counselling_update_" + response[0][i]['id'] +
+                  "'  onclick='updateFiller()'  >" + "Update" + "</button>" +
+                  "<button class='btn btn-info btn-danger counsel-delete' id='counselling_remove_" + response[0][i]['id'] +
+                  "' onclick='remove_row()'  >" + "Delete" + "</button>" + "</td>" + "</tr>";
+                 
+              }
+              else if(response[1] == 3){
+                var result_body1 =
+                "<tr style='background-color:#A7DBD8; color:#000000;'>" +
+                  "<td>" + (i+1) + "</td>" +
+                  "<td>" + response[0][i]['Pid'] + "</td>" +
+                  "<td>" + response[0][i]['Call_Date'] + "</td>" +
+                  "<td>" + (response[0][i]['Enamal']) + "</td>" +
+                  "<td>" + response[0][i]['Age'] + "</td>" +
+                  "<td>" + response[0][i]['Gender'] + "</td>" +
+                  "<td class=tablet-pc id='tele"+i + "'>" +
+                    "<button class='btn btn-info btn-warning' onclick='tele_fill()' id='tele_update_" +i+"'> Update</button>"+
+                    "<button class='btn btn-info btn-danger counsel-delete' id='tele_remove_" +i
+                      + "' onclick='remove_row()'  >" + "Delete" + "</button>" + "</td>" + "</tr>" ;;
+              }
+              $("#list").append(result_body1);
+            }
           }
         } else {
           var result_body1 =
@@ -1381,7 +1643,6 @@
     var id = $(event.target).parent().parent().children().eq(1).text();
     var res_date = formatDate($(event.target).parent().parent().children().eq(3).text());
     var decryptFetch = 1;
-    var search_ID = $("#sid").val();
     var dateFrom = document.getElementById('dateFrom').value;
     dateFrom = formatDate(dateFrom); // date FormatChange YYYY/MM/DD
     var dateTo = document.getElementById('dateTo').value;
@@ -1407,6 +1668,7 @@
       contentType: 'application/json',
       data: JSON.stringify(data),
       success: function(response) {
+        console.log(response);
         $("#first input,#first select").val("");
         $("#first span").text("");
         $("#riskChangeLab").val("No");
@@ -1415,21 +1677,21 @@
         $("#firstPage,#first").addClass("active");
         $("#secondPage,#second").removeClass("active");
         $('.consulor-switch').hide();
-        console.log(response);
-        register_date = response[31]['Reg Date']
-        console.log(register_date + "reg date");
-        patient_generalInfo["Pid"] = response[0]; // Global
-        patient_generalInfo["Fuchia_ID"] = response[1]; //Global
-        patient_generalInfo["Gender"] = response[10]; //Global
-        patient_generalInfo["PrEPCode"] = response[31]["PrEPCode"]; //Global
-        patient_generalInfo["Clinic Code"] = response[31]["Clinic Code"]
-        date_origin = response[31]["Agey"] // golbal variable in app blade;
 
-        var Pid = response[0];
+        register_date = response[0]['Reg Date']
 
-        var FuchiaID = response[1];
+        patient_generalInfo["Pid"] = response[0]["Pid"]; // Global
+        patient_generalInfo["Fuchia_ID"] = response[0]["FuchiaID"]; //Global
+        patient_generalInfo["Gender"] = response[0]["Gender"]; //Global
+        patient_generalInfo["PrEPCode"] = response[0]["PrEPCode"]; //Global
+        patient_generalInfo["Clinic Code"] = response[0]["Clinic Code"]
+        date_origin = response[0]["Agey"] // golbal variable in app blade;
 
-        var Sex = response[10];
+        var Pid = response[0]["Pid"];
+
+        var FuchiaID = response[0]["FuchiaID"];;
+
+        var Sex = response[0]["Gender"];
 
 
         document.getElementById("gen_data").innerHTML =
@@ -1437,85 +1699,73 @@
           "Fuchia ID :" + FuchiaID + ",&nbsp;&nbsp;&nbsp;&nbsp;" +
           "Sex :" + Sex + ",&nbsp;&nbsp;&nbsp;&nbsp;";
 
-        $("#gid").val(response[0]);
+        $("#gid").val(Pid);
         $("#gid").prop("disabled", true);
 
         // $("#agey").val(response[2]);
 
-        Age = response[2]; // to global varriable
-        $("#vDate").val(response[6]);
-        $("#counsellor").val(response[11]);
-        $("#state").val(response[29]);
+        // Age = response[2]; // to global varriable
+        $("#vDate").val(response[1]["Counselling_Date"]);
+        $("#counsellor").val(response[1]["Counsellor"]);
+        $("#state").val(response[0]["Region"]);
         region();
-        $("#township").val(response[30]);
-        $("#quarter").val(response[28]);
-        $("#phone").val(response[25]);
-        $("#phone2").val(response[26]);
-        $("#phone3").val(response[27]);
+        $("#township").val(response[0]["Township"]);
+        $("#quarter").val(response[0]["Quarter"]);
+        $("#phone").val(response[0]["Phone"]);
+        $("#phone2").val(response[0]["Phone2"]);
+        $("#phone3").val(response[0]["Phone3"]);
 
-
-        if (response[3] == 1) {
-          document.getElementById("pre").checked = "true";
-        }
-        if (response[4] == 1) {
-          document.getElementById("post").checked = "true";
-        }
-
-
-
-        $("#main_risk").val(response[14]);
-        $("#sub_risk").val(response[15]);
+        $("#main_risk").val(response[0]["Main Risk"]);
+        $("#sub_risk").val(response[0]["Sub Risk"]);
         $("#coun_reg_date").val(register_date);
-        if (updatedType == 0) {
+        if (response[2] != "") {
           $('.consulor-switch').show();
 
-          $("#new_old").val(response[5]);
+          $("#new_old").val(response[2]["New_Old"]);
 
 
-          $("#lab_location").val(response[56])
-          $("#hiv_test_date").val(response[7]);
-          $('#d_result').val(response[16]);
-          $('#uni_result').val(response[17]);
-          $('#stat_result').val(response[18]);
-          $('#final_result').val(response[19]);
+          $("#lab_location").val(response[2]["Test_Location"])
+          $("#hiv_test_date").val(response[2]["HIV_Test_Date"]);
+          $('#d_result').val(response[2]["HIV_Test_Determine"]);
+          $('#uni_result').val(response[2]["HIV_Test_UNI"]);
+          $('#stat_result').val(response[2]["HIV_Test_STAT"]);
+          $('#final_result').val(response[2]["HIV_Final_Result"]);
 
 
-          $("#syp_date").val(response[8]);
-          $('#Sy_rdt_result').val(response[20]);
-          $('#qualitative').val(response[21]);
+          $("#syp_date").val(response[2]["Syp_Test_Date"]);
+          $('#Sy_rdt_result').val(response[2]["Syphillis_RDT"]);
+          $('#qualitative').val(response[2]["Syphillis_RPR"]);
+          $("#syp_vdrl").val(response[2]["Syphillis_VDRL"])
 
-          $("#hep_date").val(response[9]);
-          $('#B_result').val(response[23]);
-          $('#C_result').val(response[24]);
+          $("#hep_date").val(response[2]["Hep_Test_Date"]);
+          $('#B_result').val(response[2]["Hepatitis_B"]);
+          $('#C_result').val(response[2]["Hepatitis_C"]);
 
-          $("#service").val(response[12]);
-          $("#m_o_entry").val(response[13]);
+          $("#service").val(response[2]["Service_Modality"]);
+          $("#m_o_entry").val(response[2]["Mode of Entry"]);
         }
-
-
-
         if ($('#d_result').val != "" && $('#final_result').val != "") {
           $("#hts_test_done").val("Yes").prop("selected", true);
         }
+        for (let check_select = 0; check_select < counselling_type_array.length; check_select += 2) {
+          if ($("#" + counselling_type_array[check_select + 1]).is("select")) {
+            $("#" + counselling_type_array[check_select + 1]).val(response[1][counselling_type_array[check_select]])
+          } else {
+            response[1][counselling_type_array[check_select]] == 1 ?
+              ($("#" + counselling_type_array[check_select + 1]).prop("checked", true), $("#" + counselling_type_array[check_select + 1]).parent()
+                .parent().find("select").show()) : ($("#" + counselling_type_array[check_select + 1]).prop(
+                "checked", false), $("#" + counselling_type_array[check_select + 1]).parent().parent().find("select").hide());
+
+          }
+        }
+        reason();
         $("#hts-search").prop("disabled", true);
         $("#updateBton").prop("disabled", false);
 
-        var data_fillNO = 1;
-        for (var check = 37; check < response.length - 1; check++) {
-          if (response[check] == 1) {
-            $(".chk" + data_fillNO).prop("checked", true);
-          }
-          data_fillNO++;
 
-        } //fill type of counselling
-        if (response[36] == 1) {
-          $("#prep").prop("checked", true);
-        }
-        $("#hts_test_no_reason").val(response[34]);
-        $("#status").val(response[35]);
-        $("#prep_status").val(response[33]);
+
         $("#agey_register").val(date_origin)
-        $("#agem_register").val(response[31]["Agem"])
+        $("#agem_register").val(response[0]["Agem"])
         $(".change-risk,#labTestDate").show();
 
         DateTo_text();
@@ -1525,11 +1775,79 @@
 
   } // filling data to HTS register
 
+  function confid_fill() {
+    $("#firstPage,#first").addClass("active");
+    $("#secondPage,#second").removeClass("active");
+    $("#test_do").val("pat_record");
+    testDo();
+    register_date = resp[0]['Reg Date']
+
+    patient_generalInfo["Pid"] = resp[0]["Pid"]; // Global
+    patient_generalInfo["Fuchia_ID"] = resp[0]["FuchiaID"]; //Global
+    patient_generalInfo["Gender"] = resp[0]["Gender"]; //Global
+    patient_generalInfo["PrEPCode"] = resp[0]["PrEPCode"]; //Global
+    patient_generalInfo["Clinic Code"] = resp[0]["Clinic Code"]
+    date_origin = resp[0]["Agey"] // golbal variable in app blade;
+
+    $("#gid").val(resp[0]["Pid"]);
+    $("#gid").prop("disabled", true);
+
+    // $("#agey").val(resp[2]);
+
+    // Age = resp[2]; // to global varriable
+    $("#state").val(resp[0]["Region"]);
+    region();
+    $("#coun_reg_date").val(register_date);
+    $("#agey_register").val(date_origin);
+    $("#agem_register").val(resp[0]["Agem"]);
+
+    $("#township").val(resp[0]["Township"]);
+    $("#quarter").val(resp[0]["Quarter"]);
+    $("#phone").val(resp[0]["Phone"]);
+    $("#phone2").val(resp[0]["Phone2"]);
+    $("#phone3").val(resp[0]["Phone3"]);
+
+    $("#main_risk").val(resp[0]["Main Risk"]);
+    $("#sub_risk").val(resp[0]["Sub Risk"]);
+
+    DateTo_text();
+    reg_age_change();
+
+  }
+
+  function tele_fill(){
+    $("#Tecounselling_tab,#tecounselling").addClass("active");
+    $("#secondPage,#second").removeClass("active");
+    tele_click_id = event.target.id.match(/\d+/)[0];
+    $("#pateint_type").val(resp[0][tele_click_id]);
+    
+    if(resp[0][tele_click_id]["Pid"]==""){
+      $("#pateint_type").val("outside");
+    }else{
+      $("#pateint_type").val("clinic");
+    }
+    teleType();
+    for (let index = 0; index < tele_collect_array.length; index=index+2) {
+      $("#"+tele_collect_array[index+1]).val(resp[0][tele_click_id][tele_collect_array[index]]);
+      console.log(resp[0][tele_click_id][tele_collect_array[index]]);
+    }
+    $("#tele-collect").text("Tele update").prop("disabled",false);
+    $("#tele-search").prop("disabled",true);
+
+  }
+
 
   function remove_row() {
     var id = event.target.id.match(/\d+/)[0];
     var Pid = $(event.target).parent().parent().children().eq(1).text();
-    var counselling_date = formatDate($(event.target).parent().parent().children().eq(3).text());
+    if(resp[1]==3){
+      id=resp[0][id]["id"];
+      counselling_date = formatDate($(event.target).parent().parent().children().eq(2).text());
+    }// Tele Counselling
+    else{
+      counselling_date = formatDate($(event.target).parent().parent().children().eq(3).text());
+    }
+    
     var htsUpdate = "remove_row";
     let remove_data = {
       id: id,
@@ -1792,7 +2110,7 @@
           hep_b: hep_b,
           hep_c: hep_c,
 
-          PrEP_Status:PrEP_Status,
+          PrEP_Status: PrEP_Status,
           HTSdone: HTSdone,
           Reason: Reason,
           Status: Status,
@@ -1818,19 +2136,21 @@
 
         col_data["register_age"] = $("#agey_register").val();
         $("#first input[type='checkbox']").each(function(index) {
-          col_data[$(this).attr("name")] =$(this).prop("checked")? 1:0 ;
+          col_data[$(this).attr("name")] = $(this).prop("checked") ? 1 : 0;
           $(this).addClass("chk" + (index + 1));
         })
         $(".counselling-type select").each(function(index) {
-          if($(this).parent().find("input").prop("checked")){
-            $(this).val() == "" ? (alert("Counselling အမျိုးအစား ကို သတ်မှတ် ပေးပါ၊၊"),$(this).focus(),$(this).css("border-color","red")) : col_data[$(this).attr("name")] = $(this).val();
-            
-          }else{
+          if ($(this).parent().find("input").prop("checked")) {
+            $(this).val() == "" ? (alert("Counselling အမျိုးအစား ကို သတ်မှတ် ပေးပါ၊၊"), $(this).focus(), $(this).css("border-color", "red")) : col_data[$(
+              this).attr("name")] = $(this).val();
+
+          } else {
             col_data[$(this).attr("name")] = $(this).val()
           }
         })
-        
+
         console.log(col_data);
+
         $.ajaxSetup({
           headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
@@ -1859,10 +2179,6 @@
                 }, 'fast');
                 $("#customAlertBox").show();
                 $(".cosulor-parent-div").addClass('freeze-body');
-
-
-
-
                 break;
               case 1.5:
                 $('html, body').animate({
@@ -2150,7 +2466,9 @@
       ckID: ckID,
       year: year,
       vdate: formatDate(vdate),
+      searchType: $("#test_do").val(),
     };
+    console.log(ckdata);
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
@@ -2164,160 +2482,128 @@
       data: JSON.stringify(ckdata),
       success: function(response) {
         console.log(response);
-          if (response[0] != null) {
-            register_date = response[0]["Reg Date"]
-            old_risk = response[11];
-            resp = response;
-            if (register_date != null && register_date != "") {
-              document.getElementById('responseText').innerHtML = "";
-              generatedID = response[0]['id'];
-              if (response[13] == "new") {
-                $("#dob").prop("disabled", false);
-              }
+        if (response[0] != null) {
+          register_date = response[0]["Reg Date"]
+          old_risk = response[11];
+          resp = response;
+          if (register_date != null && register_date != "") {
+            document.getElementById('responseText').innerHtML = "";
+            generatedID = response[0]['id'];
+            if (response[13] == "new") {
+              $("#dob").prop("disabled", false);
+            }
 
-              patient_generalInfo["Pid"] = response[0]["Pid"]; // Global
-              patient_generalInfo["Fuchia_ID"] = response[0]["FuchiaID"]; //Global
-              patient_generalInfo["PrEPCode"] = response[0]["PrEPCode"]; //Global
-              patient_generalInfo["Gender"] = response[10]; //Global
-              patient_generalInfo["Clinic Code"] = response[0]["Clinic Code"]
-              $("#agey_register").val(response[0]['Agey'])
-              $("#agem_register").val(response[0]['Agem'])
-              $("#coun_reg_date").val(register_date);
-              Agem = response[0]['Agem']
-              var Name = response[1];
-              var Region = response[2];
-              var Township = response[3];
-              var qut = response[4];
-              if (qut == '') {
-                document.getElementById("quarter").value = '';
-              } else {
-                console.log("qut" + qut);
-                document.getElementById("quarter").value = qut;
-              }
+            patient_generalInfo["Pid"] = response[0]["Pid"]; // Global
+            patient_generalInfo["Fuchia_ID"] = response[0]["FuchiaID"]; //Global
+            patient_generalInfo["PrEPCode"] = response[0]["PrEPCode"]; //Global
+            patient_generalInfo["Gender"] = response[10]; //Global
+            patient_generalInfo["Clinic Code"] = response[0]["Clinic Code"]
+            $("#agey_register").val(response[0]['Agey'])
+            $("#agem_register").val(response[0]['Agem'])
+            $("#coun_reg_date").val(register_date);
+            Agem = response[0]['Agem']
+            var Name = response[1];
+            var Region = response[2];
+            var Township = response[3];
+            var qut = response[4];
+            if (qut == '') {
+              document.getElementById("quarter").value = '';
+            } else {
+              console.log("qut" + qut);
+              document.getElementById("quarter").value = qut;
+            }
 
-              if (patient_generalInfo["Pid"] == null) {
-                patient_generalInfo["Pid"] = "____";
-              }
-              if (patient_generalInfo["Gender"] == null) {
-                patient_generalInfo["Gender"] == "____";
-              }
-              if (Age == null) {
-                Age = "____";
-              }
-              if (Agem == null) {
-                Agem = "_";
-              }
-              if (Region == null) {
-                Region = '____';
-              }
-              if (Township == null) {
-                Township = '____';
-              }
-              dilution = response[16];
-              if (dilution == null) {
-                dilution = '____';
-              }
-              var dil_date = response[17];
-
+            if (patient_generalInfo["Pid"] == null) {
+              patient_generalInfo["Pid"] = "____";
+            }
+            if (patient_generalInfo["Gender"] == null) {
+              patient_generalInfo["Gender"] == "____";
+            }
+            if (Age == null) {
+              Age = "____";
+            }
+            if (Agem == null) {
+              Agem = "_";
+            }
+            if (Region == null) {
+              Region = '____';
+            }
+            if (Township == null) {
+              Township = '____';
+            }
+            dilution = response[0]["Titre(current)"];
+            if (dilution == null) {
+              dilution = '____';
+            }
+            var dil_date = response[0]["vdate"];
+            if (dil_date != null) {
               var dil_date = dil_date.split("-");
               var dilYear = dil_date[0];
               var dilMonth = dil_date[1];
               var dilDay = dil_date[2];
               dil_date = dilDay + "-" + dilMonth + "-" + dilYear;
-
-              if (dil_date == null) {
-                dil_date = "_";
-              }
-              document.getElementById("gen_data").innerHTML =
-                "General ID :" + patient_generalInfo["Pid"] + ",&nbsp;&nbsp;&nbsp;&nbsp;" +
-                "Fuchia ID :" + patient_generalInfo["Fuchia_ID"] +
-                ",&nbsp;&nbsp;&nbsp;&nbsp;" +
-                "Name :" + response[1] + ",&nbsp;&nbsp;&nbsp;&nbsp;" +
-                "Sex :" + patient_generalInfo["Gender"] + ",&nbsp;&nbsp;&nbsp;&nbsp;" +
-                "Township :" + Township + ",&nbsp;&nbsp;&nbsp;&nbsp;" +
-                "Last RPR Dilution :" + dilution + "(" + dil_date + ")"
-
-              ;
-
-
-
-              //document.getElementById("vDate").value=today;
-              document.getElementById("state").value = response[2];
-              document.getElementById("township").value = response[3];
-              document.getElementById("phone").value = response[5];
-              document.getElementById("phone2").value = response[6];
-              document.getElementById("phone3").value = response[7];
-              // document.getElementById("dob").value=response[9];
-
-              document.getElementById("main_risk").value = response[11];
-              PatientType();
-              document.getElementById("sub_risk").value = response[12];
-              var new_old_ck = response[8];
-              if (new_old_ck == true) {
-                document.getElementById("new_old").value = "Old";
-              } else {
-                document.getElementById("new_old").value = "New";
-                document.getElementById("new_old").style = "color:red";
-              }
-              if (response[15] == true) {
-                // $.each(counselling_type_array, function( index, value ) {
-                //   if($("#"+counselling_type_array[index+1]).is("select")){
-                //     $("#"+counselling_type_array[index+1]).is("select").val(response[14][index])
-                //   }
-                //   $("#"+counselling_type_array[index+1])
-                // });
-                for (let check_select = 0; check_select < counselling_type_array.length; check_select+=2) {
-                  if($("#"+counselling_type_array[check_select+1]).is("select")){
-                    $("#"+counselling_type_array[check_select+1]).val(response[14][counselling_type_array[check_select]])
-                  }else{
-                    response[14][counselling_type_array[check_select]] == 1 ? ($("#"+counselling_type_array[check_select+1]).prop("checked",true)):$("#"+counselling_type_array[check_select+1]).prop("checked",false);
-                  }
-                }
-
-                // if (response[14][0] == "1") {
-                //   $("#pre").prop("checked", true);
-                // }
-                // if (response[14][1] == "1") {
-                //   $("#post").prop("checked", true);
-                // }
-
-                // $(".counselling-type input[type='checkbox']").each(function(index) {
-                //   $(this).addClass("chk" + (index + 1));
-                // }) // adding Class to fill already have  data
-
-                // $("#hts_test_done").val(response[14][2]);
-                // $("#hts_test_no_reason").val(response[14][3]);
-                // $("#status").val(response[14][4]);
-                // if (response[14][5] == "1") {
-                //   $("#prep").prop("checked", true);
-                // }
-                // $("#prep_status").val(response[14][6]);
-                // var data_fillNO = 1; // to fill the class type of counseling data
-                // for (var check = 7; check < response[14].length; check++) {
-                //   if (response[14][check] == 1) {
-                //     $(".chk" + data_fillNO).prop("checked", true);
-                //   }
-                //   data_fillNO++;
-                // }
-              }
-
-              $("#ls_rpr_dilution").text(response[16]);
-
-              $("#hts-search").prop("disabled", true);
-
-              date_origin = response[0]["Agey"]
-
-              DateTo_text();
-              dateOfBirth();
-
-
             } else {
-              alert("This Patient do not include Register Date Fill at Reception")
+              dil_date = "_";
             }
-          }else {
-            alert("This Patient do not pass reception")
+            document.getElementById("gen_data").innerHTML =
+              "General ID :" + patient_generalInfo["Pid"] + ",&nbsp;&nbsp;&nbsp;&nbsp;" +
+              "Fuchia ID :" + patient_generalInfo["Fuchia_ID"] +
+              ",&nbsp;&nbsp;&nbsp;&nbsp;" +
+              "Name :" + response[1] + ",&nbsp;&nbsp;&nbsp;&nbsp;" +
+              "Sex :" + patient_generalInfo["Gender"] + ",&nbsp;&nbsp;&nbsp;&nbsp;" +
+              "Township :" + Township + ",&nbsp;&nbsp;&nbsp;&nbsp;" +
+              "Last RPR Dilution :" + dilution + "(" + dil_date + ")"
+
+            ;
+
+
+
+            //document.getElementById("vDate").value=today;
+            document.getElementById("state").value = response[2];
+            document.getElementById("township").value = response[3];
+            document.getElementById("phone").value = response[5];
+            document.getElementById("phone2").value = response[6];
+            document.getElementById("phone3").value = response[7];
+            // document.getElementById("dob").value=response[9];
+
+            document.getElementById("main_risk").value = response[11];
+            PatientType();
+            document.getElementById("sub_risk").value = response[12];
+            var new_old_ck = response[8];
+            if (new_old_ck == true) {
+              document.getElementById("new_old").value = "Old";
+            } else {
+              document.getElementById("new_old").value = "New";
+              document.getElementById("new_old").style = "color:red";
+            }
+            if (response[15] == true) {
+              for (let check_select = 0; check_select < counselling_type_array.length; check_select += 2) {
+                if ($("#" + counselling_type_array[check_select + 1]).is("select")) {
+                  $("#" + counselling_type_array[check_select + 1]).val(response[14][counselling_type_array[check_select]])
+                } else {
+                  response[14][counselling_type_array[check_select]] == 1 ? ($("#" + counselling_type_array[check_select + 1]).prop("checked", true)) : $(
+                    "#" + counselling_type_array[check_select + 1]).prop("checked", false);
+                }
+              }
+            }
+
+            $("#ls_rpr_dilution").text(response[16]);
+
+            $("#hts-search").prop("disabled", true);
+
+            date_origin = response[0]["Agey"]
+
+            DateTo_text();
+            dateOfBirth();
+
+
+          } else {
+            alert("This Patient do not include Register Date Fill at Reception")
           }
-        
+        } else {
+          alert("This Patient do not pass reception")
+        }
+
 
       }
     });

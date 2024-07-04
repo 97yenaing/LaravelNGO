@@ -33,6 +33,7 @@ class cmv extends Model
         "Doctor_name",
         'Remark',
         'Org',
+        'Follow_Date',
         'updated_by'
     ];
     protected $connection ='mysql';

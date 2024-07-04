@@ -28,7 +28,8 @@ class CMV_Export implements FromView, WithColumnFormatting
         return [
             "J"=>"d-m-yyyy",
             "O"=>"d-m-yyyy",
-            "Q"=>"d-m-yyyy"
+            "Q"=>"d-m-yyyy",
+            "AB"=>"d-m-yyyy"
 
         ];
     }
