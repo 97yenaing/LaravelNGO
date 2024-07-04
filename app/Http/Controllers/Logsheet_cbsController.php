@@ -597,16 +597,16 @@ class Logsheet_cbsController extends Controller
 
     $HE_section = "";
 
-    $he_section_arr = [$hiv_1, $sti_2, $self_inject_3, $safe_sex_4, $mmt_5, $tb, $family_plan, $overdose, $hbvhcv];
-    foreach ($he_section_arr as $key => $value) {
-      switch (true) {
-        case $value != "":
-          $HE_section = $HE_section . $value . ",";
-          break;
-      }
-    }
+    // $he_section_arr = [$hiv_1, $sti_2, $self_inject_3, $safe_sex_4, $mmt_5, $tb, $family_plan, $overdose, $hbvhcv];
+    // foreach ($he_section_arr as $key => $value) {
+    //   switch (true) {
+    //     case $value != "":
+    //       $HE_section = $HE_section . $value . ",";
+    //       break;
+    //   }
+    // }
     $Pid = $request->input('Pid');
-    $vDate = $request->input('vDate');
+    $vDate = $request->input('vdate');
 
     $Present_row_logsheet = PreventionLogsheet::where('Pid', $Pid)
       ->whereDate('Visit_Date', $vDate)
@@ -673,11 +673,11 @@ class Logsheet_cbsController extends Controller
       if ($preVentdata instanceof PreventionLogsheet) {
         $HE_section = "He section";
         $reqData = PreventionLogsheet::where('Pid', $Pid)
-          ->whereDate('Visit_Date', $vDate)
+          ->where('Visit_Date', $vDate)
           ->first();
         $reqData["Visit_Date"] = date("d-m-Y", strtotime($reqData["Visit_Date"]));
         return response()->json([
-          $HE_section, $reqData
+          $HE_section, $reqData, $Pid, $vDate
         ]);
       }
     } else {
@@ -735,14 +735,14 @@ class Logsheet_cbsController extends Controller
 
     $HE_section = "";
 
-    $he_section_arr = [$hiv_1, $sti_2, $self_inject_3, $safe_sex_4, $mmt_5, $tb, $family_plan, $overdose, $hbvhcv];
-    foreach ($he_section_arr as $key => $value) {
-      switch (true) {
-        case $value != "":
-          $HE_section = $HE_section . $value . ",";
-          break;
-      }
-    }
+    // $he_section_arr = [$hiv_1, $sti_2, $self_inject_3, $safe_sex_4, $mmt_5, $tb, $family_plan, $overdose, $hbvhcv];
+    // foreach ($he_section_arr as $key => $value) {
+    //   switch (true) {
+    //     case $value != "":
+    //       $HE_section = $HE_section . $value . ",";
+    //       break;
+    //   }
+    // }
 
     $Pid = $request->input('Pid');
     $vDate = $request->input('vDate');
@@ -1127,10 +1127,22 @@ class Logsheet_cbsController extends Controller
       ])->whereBetween('Visit_Date', [$from, $to])->get();
 
       foreach ($data as $key => $per_data) {
-        $data[$key]["Main_Risk"] = $per_data["ptconfig"]["Main Risk"];
-        $data[$key]["Sub_Risk"] = $per_data["ptconfig"]["Sub Risk"];
-        $data[$key]["Sex"] = $per_data["ptconfig"]["Gender"];
-        $data[$key]["Reg_Date"] = $per_data["ptconfig"]["Reg Date"];
+        if ($per_data["ptconfig"] != null) {
+          $data[$key]["Main_Risk"] = $per_data["ptconfig"]["Main Risk"];
+          $data[$key]["Sub_Risk"] = $per_data["ptconfig"]["Sub Risk"];
+          $data[$key]["Sex"] = $per_data["ptconfig"]["Gender"];
+          $data[$key]["Reg_Date"] = $per_data["ptconfig"]["Reg Date"];
+        }
+        $visit_year = explode('-', $per_data["Visit_Date"])[0];
+
+        $final_new_old = PreventionLogsheet::whereYear('Visit_Date', $visit_year)
+          ->where("Pid", $per_data["Pid"])
+          ->where('Visit_Date', '<', $per_data["Visit_Date"])->exists();
+        if ($final_new_old) {
+          $data[$key]["Final_new_old"] = "Old";
+        } else {
+          $data[$key]["Final_new_old"] = "New";
+        }
       }
       return Excel::download(new PreventionExport($data, $tableName), 'log_sheet_export-' . date("d-m-Y") . '-.xlsx');
     }
@@ -1252,17 +1264,10 @@ class Logsheet_cbsController extends Controller
 
   public function new_old($request)
   {
+    $new_old["logCBS_reach"] = PreventionLogsheet::whereYear('Visit_Date', $request["visit_year"])
+      ->where("Pid", $request["general_ID"])
+      ->where('Visit_Date', '<', $request["vdate"])->exists();
 
-    if ($request["LS_updateSignal"] == "222") {
-      $new_old["logCBS_reach"] = PreventionLogsheet::whereYear('Visit_Date', $request["visit_year"])
-        ->where("Pid", $request["general_ID"])
-        ->whereDate('Visit_Date', '<', $request["vdate"])
-        ->exists();
-    } else {
-      $new_old["logCBS_reach"] = PreventionLogsheet::whereYear('Visit_Date', $request["visit_year"])
-        ->whereDate('Visit_Date', '<', $request["vdate"])
-        ->where("Pid", $request["general_ID"])->exists();
-    }
     $new_old["lob_result"] = Lab::select("Final_Result")->where('Visit_Date', $request["vdate"])
       ->where("CID", $request["general_ID"])->first();
     if ($new_old["lob_result"]) {

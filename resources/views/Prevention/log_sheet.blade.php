@@ -276,7 +276,7 @@ use Carbon\Carbon;
 
           <div class="col-md-2 consulor-mainrisk">
             <label for="">Change Risk</label>
-            <select class="form-control" id="main_riskChange" disabled>
+            <select class="form-control" id="main_riskChange" onchange="main_riskChange(this)" disabled>
               <option selected value="-"></option>
               <option id="preg_mom" value="Pregnant Mother">Pregnant Mother</option>
               <option id="sp_preg_mom" value="Spouse of pregnant mother">Spouse of pregnant mother
@@ -447,23 +447,6 @@ use Carbon\Carbon;
                 </div>
               </div>
               <div class="col-md-2">
-                <label for="">Substantial Risk</label>
-              </div>
-              <div class="col-md-1">
-                <select class="form-control" id="substan_risk">
-                  <option value="Yes">Yes</option>
-                  <option value="No">No</option>
-                </select>
-              </div>
-              <div class="col-md-2">
-                <label for="">Meeting Point</label>
-              </div>
-              <div class="col-md-3">
-                <input type="text" id="meeting_point" class="form-control">
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-2">
                 <label for="">Services Provision 1</label>
               </div>
               <div class="col-md-2">
@@ -475,29 +458,54 @@ use Carbon\Carbon;
               <div class="col-md-2">
                 <label for="">Services Provision 2</label>
               </div>
-              <div class="col-md-1">
+              <div class="col-md-2">
                 <select class="form-control" id="serve_pro_2">
                   <option value="Yes">Yes</option>
                   <option value="No">No</option>
                 </select>
               </div>
+              {{-- <div class="col-md-2">
+                <label for="">Substantial Risk</label>
+              </div>
+              <div class="col-md-1">
+                <select class="form-control" id="substan_risk">
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+              </div> --}}
+              {{-- <div class="col-md-2">
+                <label for="">Meeting Point</label>
+              </div>
+              <div class="col-md-3">
+                <input type="text" id="meeting_point" class="form-control">
+              </div> --}}
+            </div>
+            <div class="row">
+
+
               <div class="col-md-2">
                 <label for="">Services Provision 3</label>
               </div>
-              <div class="col-md-1">
+              <div class="col-md-2">
                 <select class="form-control" id="serve_pro_3">
                   <option value="Yes">Yes</option>
                   <option value="No">No</option>
                 </select>
               </div>
-              <div class="col-md-1">
+              <div class="col-md-2">
                 <label class="">Reach New/Old</label>
               </div>
-              <div class="col-md-1">
+              <div class="col-md-2">
                 <span style="background-color:orange;" class="form-control" id="new_old"></span>
               </div>
+              <div class="col-md-2">
+                <label for="">NS distribution </label>
+              </div>
+              <div class="col-md-2">
+                <input type="number" id="ns_distribution" class="form-control">
+              </div>
             </div>
-            <div class="row">
+            {{-- <div class="row">
               <div class="dropdown col-md-2 he-checkbox" id="he_check">
                 <button class="btn btn-secondary dropdown-toggle he-sesion" type="button" id="dropdownMenuButton"
                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -543,18 +551,13 @@ use Carbon\Carbon;
               <div class="col-md-5">
                 <span class="He-span form-control"></span>
               </div>
-              <div class="col-md-2">
-                <label for="">NS distribution </label>
-              </div>
-              <div class="col-md-2">
-                <input type="number" id="ns_distribution" class="form-control">
-              </div>
-            </div>
+
+            </div> --}}
             <div class="row">
               <div class="col-md-2">
                 <label for="">Condom(Male)</label>
               </div>
-              <div class="col-md-1">
+              <div class="col-md-2">
                 <input type="number" id="condom_male" class="form-control">
               </div>
               <div class="col-md-2">
@@ -564,19 +567,20 @@ use Carbon\Carbon;
                 <input type="number" id="condom_female" class="form-control">
               </div>
               <div class="col-md-2">
+                <label for="">NS returned</label>
+              </div>
+              <div class="col-md-2">
+                <input type="number" id="ns_return" class="form-control">
+              </div>
+              {{-- <div class="col-md-2">
                 <label for="">Test New/Old </label>
               </div>
               <div class="col-md-2">
                 <span id="lab_new_old" style="background-color:#ff9900;" class="form-control">
-              </div>
+              </div> --}}
             </div>
             <div class="row">
-              <div class="col-md-2">
-                <label for="">NS returned</label>
-              </div>
-              <div class="col-md-1">
-                <input type="number" id="ns_return" class="form-control">
-              </div>
+
               <div class="col-md-2">
                 <label for="">HIV Status </label>
               </div>
@@ -621,7 +625,7 @@ use Carbon\Carbon;
                   <option value="-"></option>
                   <option value="Positive">Positive</option>
                   <option value="Negative">Negative</option>
-                  <option value="Inconslusive">Inconslusive</option>
+                  <option value="Inconclusive">Inconclusive</option>
                 </select>
               </div>
               <div class="col-md-2">
@@ -636,7 +640,8 @@ use Carbon\Carbon;
               </div>
             </div>
             <div class="row">
-              <div class="col-md-2">
+
+              {{-- <div class="col-md-2">
                 <label class="form-label">Tested Clinic</label>
               </div>
               <div class="col-md-2">
@@ -657,9 +662,9 @@ use Carbon\Carbon;
                   <option value="HTY-C1">HTY-C1</option>
                   <option value="SDG">SDG</option>
                 </select>
-              </div>
+              </div> --}}
 
-              <div class="col-md-2">
+              {{-- <div class="col-md-2">
                 <label for="">Reach by whom </label>
               </div>
               <div class="col-md-2">
@@ -717,7 +722,7 @@ use Carbon\Carbon;
                   <option value="OAS-SDG">OAS-SDG</option>
                   <option value="BKK">BKK</option>
                 </select>
-              </div>
+              </div> --}}
               <div class="col-md-2">
                 <label for="">Source Document </label>
               </div>
@@ -728,7 +733,7 @@ use Carbon\Carbon;
                   <option value="CBS">CBS</option>
                 </select>
               </div>
-              <div class="col-md-3">
+              {{-- <div class="col-md-3">
                 <label for="" class="form-label">Mental Health Assessment Done</label>
               </div>
               <div class="col-md-1">
@@ -737,8 +742,8 @@ use Carbon\Carbon;
                   <option value="Yes">Yes</option>
                   <option value="No">No</option>
                 </select>
-              </div>
-              <div class="col-md-2">
+              </div> --}}
+              {{-- <div class="col-md-2">
                 <label for="" class="form-label">PHQ4_Scoring(Q1&Q2)</label>
               </div>
               <div class="col-md-2">
@@ -757,7 +762,7 @@ use Carbon\Carbon;
                   <option value="<3">&#60;3</option>
                   <option value=">=3">>=3</option>
                 </select>
-              </div>
+              </div> --}}
               {{-- <div class="col-md-2">
                 <label for="" class="form-label">OST Offered Done</label>
               </div>
@@ -773,7 +778,7 @@ use Carbon\Carbon;
                 <label for="" class="form-label">Eligible for OST</label>
               </div>
               <div class="col-md-2">
-                <select name="" id="OST_Eligible" class="form-select">
+                <select name="" id="OST_Eligible" class="form-select" disabled>
                   <option value=""></option>
                   <option value="Yes">Yes</option>
                   <option value="No">No</option>
@@ -783,12 +788,27 @@ use Carbon\Carbon;
                 <label for="" class="form-label">OST Offered Accepted</label>
               </div>
               <div class="col-md-2">
-                <select name="" id="OST_Offer_Accepted" class="form-select">
+                <select name="" id="OST_Offer_Accepted" class="form-select" disabled>
                   <option value=""></option>
                   <option value="Yes">Yes</option>
                   <option value="No">No</option>
                 </select>
               </div>
+
+
+              {{-- <div class="col-md-2">
+                <label for="" class="form-label">OST initiated Date</label>
+              </div>
+              <div class="col-md-2">
+                <div class="date-holder">
+                  <input type="text" id="OST_Intial_Date" required="" class="form-control Gdate date-verify "
+                    placeholder="dd-mm-yyyy">
+                  <img src="../img/calendar3.svg" class="dateimg" alt="date">
+                </div>
+              </div> --}}
+
+            </div>
+            <div class="row">
               <div class="col-md-2">
                 <label for="" class="form-label">Referral Coupon no.</label>
               </div>
@@ -808,32 +828,23 @@ use Carbon\Carbon;
                   <option value="5">5</option>
                 </select>
               </div>
-              {{-- <div class="col-md-2">
-                <label for="" class="form-label">OST initiated Date</label>
-              </div>
-              <div class="col-md-2">
-                <div class="date-holder">
-                  <input type="text" id="OST_Intial_Date" required="" class="form-control Gdate date-verify "
-                    placeholder="dd-mm-yyyy">
-                  <img src="../img/calendar3.svg" class="dateimg" alt="date">
-                </div>
-              </div> --}}
-
-
+            </div>
+            <div class="row">
               <div class="col-md-2">
                 <label for="">Remark </label>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-10">
                 <input type="text" id="remark" class="form-control">
               </div>
             </div>
-          </div>
-          <div class="row log-button">
-            <div class="col-sm-2 ">
-              <button type="button" id="logsheet_save" onclick="logSheetSave()"
-                class="btn btn-primary log-save">Log-Sheet_Save</button>
+            <div class="row log-button">
+              <div class="col-sm-2 ">
+                <button type="button" id="logsheet_save" onclick="logSheetSave()"
+                  class="btn btn-primary log-save">Log-Sheet_Save</button>
+              </div>
             </div>
           </div>
+
         </div>
         <div class="cbs-Section" id="cbs-section" style="display:none;">
           <div class="row">
@@ -1105,13 +1116,16 @@ use Carbon\Carbon;
     let Ls_ID_change = 0;
     let hts_date = 0;
     let log_seleName = [
-        'substainRisk',
+        // 'substainRisk',
         'serProvi_1', 'serProvi_2', 'serProvi_3', 'hiv_status1', 'hiv_status2',
-        'Hts_done', 'final_result', 'test_clinic', 'reach_whom', 'source_doc', 'Mental_Health', 'PHQ4_1_2',
-        'PHQ4_3_4', 'OST_eligible', 'OST_accept', 'decline_reason'
+        'Hts_done', 'final_result', //'test_clinic', 'reach_whom', 
+        'source_doc',
+        //'Mental_Health', 'PHQ4_1_2','PHQ4_3_4',
+        'OST_eligible', 'OST_accept', 'decline_reason'
     ];
     let log_inputName = [
-        'updateIDchange', 'vdate', 'meet_point', 'ns_distru',
+        'updateIDchange', 'vdate', //'meet_point', 
+        'ns_distru',
         'comdome_male', 'comdome_female', 'ns_return',
         'date_comfirm', 'referral_coupon', 'log_remark',
     ];
@@ -1148,6 +1162,14 @@ use Carbon\Carbon;
             $("#risk_really_change select").val("");
             $("#risk_really_change").hide();
         }
+    }
+
+    function  main_riskChange(select) {
+      if($(select).val()=="IDU"){
+      $("#OST_Eligible, #OST_Offer_Accepted").prop("disabled", false);
+      }else{
+      $("#OST_Eligible, #OST_Offer_Accepted").prop("disabled",true).val("");
+      }
     }
 
     function ptData() { // to find patient data
@@ -1203,7 +1225,6 @@ use Carbon\Carbon;
                 console.log(response);
                 resp = response;
                 if (response[0] != null)
-
                 {
                     $("#confi-newOld").text("Old patient")
                     generatedID = response[0]['id'];
@@ -1280,7 +1301,7 @@ use Carbon\Carbon;
                     //    document.getElementById("new_old").value="New";
                     //    document.getElementById("new_old").style="color:red";
                     //  }
-
+                  
                     if (response[13].length > 0) {
 
                     }
@@ -1360,8 +1381,6 @@ use Carbon\Carbon;
 
 
                 }
-
-
                 // follow up history For Log sheet
                 $(".log_sheet_hisData").remove();
                 //$(".appointment-table p").empty();
@@ -1431,7 +1450,11 @@ use Carbon\Carbon;
                     //var result_body1 = "<p class='no-updateData'>Patient Does Not Have In This Date Please Choice Correct Date</p>"
                     // $(".appointment-table").append(result_body1);
                 }
-
+                if($("#main_risk").val()=="IDU"){
+                $("#OST_Eligible, #OST_Offer_Accepted").prop("disabled",false);
+                }else{
+                $("#OST_Eligible, #OST_Offer_Accepted").prop("disabled",true).val("");
+                }
 
             }
 
@@ -1567,11 +1590,10 @@ use Carbon\Carbon;
         if (LS_updateSignal == 222) {
             update();
         } else {
-
-
             var logSheet_data = {}; // Nga Sarrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
             $(".log-sheetSection select").each(function(index) {
                 logSheet_data[log_seleName[index]] = $(this).val();
+                console.log($(this).attr("id"));
             });
             $(".log-sheetSection input[type!='checkbox']").each(function(index) {
                 if ($(this).hasClass("Gdate")) {
@@ -1607,11 +1629,11 @@ use Carbon\Carbon;
             logSheet_data["Township"] = resp[5];
             // logSheet_data["Reg_Date"]=resp[0]["Reg Date"];// Registration date
 
-            logSheet_data["New_old"] = $("#new_old").text();
+            logSheet_data["New_old"] = $("#new_old").text();//Reach New Old
             logSheet_data["Lab_New_old"] = $("#lab_new_old").text();
 
 
-            logSheet_data["vDate"] = formatDate($("#vDate").val());
+            // logSheet_data["vDate"] = formatDate($("#vDate").val());
             logSheet_data["functionLoco"] = "5";
 
             logSheet_data["He_code"] = $("#he_code").val();
@@ -1677,8 +1699,11 @@ use Carbon\Carbon;
 
     function define_new_old() {
         LS_updateSignal
-        var vdate = $("#vDate").val();
-        var visit_year = vdate.split("-")[2];
+        let vdate = $("#vDate").val();
+        if (vdate>todayIn) {
+          vdate=todayIn
+        }
+        let visit_year = vdate.split("-")[2];
         var gid = $("#gid").text();
         var new_old = {
             general_ID: gid,
@@ -1705,10 +1730,10 @@ use Carbon\Carbon;
             success: function(response) {
                 console.log(response);
                 if (response[0]["logCBS_reach"] == true) {
-                    $("#lab_new_old").text("Old");
+                    // $("#lab_new_old").text("Old");
                     $("#new_old").text("Old");
                 } else {
-                    $("#lab_new_old").text("New");
+                    // $("#lab_new_old").text("New");
                     $("#new_old").text("New");
                 }
                 if (response[0]["lob_result"] != null) {
@@ -2403,6 +2428,7 @@ use Carbon\Carbon;
 
             sg = 1;
         }
+        //main_riskChange();
         // migrant
     } //Risk
     function getAge(bd_date) {
@@ -2659,52 +2685,52 @@ use Carbon\Carbon;
                 // Log Sheet
                 if (response[2] == 1) {
                     $("#vDate").val(response[0]["Visit_Date"]);
-                    $("#substan_risk").val(response[0]["Substantial Risk"]);
-                    $("#meeting_point").val(response[0]["Meeting Point"]);
+                    // $("#substan_risk").val(response[0]["Substantial Risk"]);
+                    // $("#meeting_point").val(response[0]["Meeting Point"]);
                     $("#serve_pro_1").val(response[0]["Service Provision1"]);
                     $("#serve_pro_2").val(response[0]["Service Provision2"]);
                     $("#serve_pro_3").val(response[0]["Service Provision3"]);
 
                     // HE Section ...
-                    if (response[0]["HE_Section"] !== null) {
-                        $(".He-span").text("");
-                        var He_Section = response[0]["HE_Section"].split(",");
-                        $("#he_check input[type='checkbox']").prop("checked", false);
-                        for (let index = 0; index < He_Section.length; index++) {
-                            if (He_Section[index] == "HIV(1)") {
-                                $("#he_hiv").prop("checked", true);
-                            }
-                            if (He_Section[index] == "STI(2)") {
-                                $("#he_sti").prop("checked", true);
-                            }
-                            if (He_Section[index] == "Safe injection(3)") {
-                                $("#he_safe_inj").prop("checked", true);
-                            }
-                            if (He_Section[index] == "Safe sex(4)") {
-                                $("#he_safe_sex").prop("checked", true);
-                            }
-                            if (He_Section[index] == "MMT(5)") {
-                                $("#he_mmt").prop("checked", true);
-                            }
-                            if (He_Section[index] == "TB") {
-                                $("#he_tb").prop("checked", true);
-                            }
-                            if (He_Section[index] == "Family Planning") {
-                                $("#he_family_planning").prop("checked", true);
-                            }
-                            if (He_Section[index] == "Overdose") {
-                                $("#he_overdose").prop("checked", true);
-                            }
-                            if (He_Section[index] == "HBV HCV") {
-                                $("#he_hcv").prop("checked", true);
-                            }
-                        }
-                        for (var i = 0; i < He_Section.length; i++) {
-                            var he_text = $(".He-span").text();
-                            $(".He-span").text(he_text + "\t" + He_Section[i] + "/");
-                        }
+                    // if (response[0]["HE_Section"] !== null) {
+                    //     $(".He-span").text("");
+                    //     var He_Section = response[0]["HE_Section"].split(",");
+                    //     $("#he_check input[type='checkbox']").prop("checked", false);
+                    //     for (let index = 0; index < He_Section.length; index++) {
+                    //         if (He_Section[index] == "HIV(1)") {
+                    //             $("#he_hiv").prop("checked", true);
+                    //         }
+                    //         if (He_Section[index] == "STI(2)") {
+                    //             $("#he_sti").prop("checked", true);
+                    //         }
+                    //         if (He_Section[index] == "Safe injection(3)") {
+                    //             $("#he_safe_inj").prop("checked", true);
+                    //         }
+                    //         if (He_Section[index] == "Safe sex(4)") {
+                    //             $("#he_safe_sex").prop("checked", true);
+                    //         }
+                    //         if (He_Section[index] == "MMT(5)") {
+                    //             $("#he_mmt").prop("checked", true);
+                    //         }
+                    //         if (He_Section[index] == "TB") {
+                    //             $("#he_tb").prop("checked", true);
+                    //         }
+                    //         if (He_Section[index] == "Family Planning") {
+                    //             $("#he_family_planning").prop("checked", true);
+                    //         }
+                    //         if (He_Section[index] == "Overdose") {
+                    //             $("#he_overdose").prop("checked", true);
+                    //         }
+                    //         if (He_Section[index] == "HBV HCV") {
+                    //             $("#he_hcv").prop("checked", true);
+                    //         }
+                    //     }
+                    //     for (var i = 0; i < He_Section.length; i++) {
+                    //         var he_text = $(".He-span").text();
+                    //         $(".He-span").text(he_text + "\t" + He_Section[i] + "/");
+                    //     }
 
-                    }
+                    // }
 
 
                     $("#ns_distribution").val(response[0]["Ns_distribute"]);
@@ -2823,7 +2849,7 @@ use Carbon\Carbon;
                 }
                 DateTo_text();
                 define_new_old();
-                mental_validation()
+                //mental_validation();
                 hiv_test_determine();
 
             }
@@ -2840,16 +2866,17 @@ use Carbon\Carbon;
         if (LS_updateSignal == 222) {
             var f_up_update = 1;
             var functionLoco = 9;
-            var logSheet_data = {}; // Nga Sarrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
+            var logSheet_data = {}; // 
             console.log(resp);
             $(".log-sheetSection select").each(function(index) {
                 logSheet_data[log_seleName[index]] = $(this).val();
+                console.log($(this).attr("id"));
             });
             $(".log-sheetSection input[type!='checkbox']").each(function(index) {
-                if (index != 1 && index != 7) {
-                    logSheet_data[log_inputName[index]] = $(this).val();
-                } else {
+                if ($(this).hasClass("Gdate")) {
                     logSheet_data[log_inputName[index]] = formatDate($(this).val());
+                } else {
+                    logSheet_data[log_inputName[index]] = $(this).val();
                 }
             });
             $(".log-sheetSection input[type='checkbox']").each(function(index) {
@@ -3102,8 +3129,6 @@ use Carbon\Carbon;
     }
 
     function oneOrtwo() {
-
-        console.log("one or two");
         var source = $("#source_doc").val();
         if (source == "CBS") {
             // show CBS
