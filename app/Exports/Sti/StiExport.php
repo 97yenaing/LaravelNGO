@@ -161,6 +161,7 @@ class StiExport implements FromView, WithColumnFormatting
                     'episode',
                     'rea_for_visit',
                     'Main Risk',
+                    'Sub Risk',
                     'abn_vaginal_disc',
                     'abn_vaginal_disc_long',
                     'linked_menstru',

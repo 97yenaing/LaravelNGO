@@ -8,11 +8,7 @@
 <body > <!--onload="findRegisterData()" onlod function change form gender//yenaing -->
   <div class="container containers assist-sti ">
     <!-- Nav pills -->
-    <h2 class="header-text ">
-      <button class="btn btn-info" style="float: left" id="sti_follow">View History</button>
-      STI Entry</h2>
-    
-    
+    <h2 class="header-text ">STI Entry</h2>
     <p class="btn-gnavi">
 				<span></span>
 				<span></span>
@@ -56,510 +52,514 @@
         <!-- Tab panes -->
       <div class="tab-content assist-parent-div">
           <div class="tab-pane  active" id="home">
-            <div id="home_view">
-              <div class="row">
-                <div class="col-sm-1">
-                  <button type="button" id="btn_refresh" onclick="wd_reload()">Refresh</button>
-                </div>
-                <div class="col-sm-3" id="idchange_section" style="display:none" >
-                  <input type="checkbox" id="sti_id_change"><label for="" style="display: inline-block">General ID Change?</label>
-                </div>
+            <div class="row">
+              <div class="col-sm-1">
+                <button type="button" id="btn_refresh" onclick="wd_reload()">Refresh</button>
               </div>
-              <div id="registerForm" >
-                  <div class="register-first-section"> <!-- register-first-section  -->
-                      <br>
-                      <div class="row sti-Id">
-                        <div class="col-sm-5">
-                          <label for="validationCustom01" class="form-label">General ID and Registration/Follow-Up Date</label>
-                          <div class="input-group mb-4">
-                              <input type="number" id="pid" class="form-control input-group-append no-margin" placeholder="General ID" >
-                              <div class="date-holder input-group-append no-margin">
-                                <input type="text" id="regdate" class="form-control Gdate date-verify" placeholder="dd-mm-yyyy">
-                                <img src="../img/calendar3.svg" class="dateimg" alt="date">
-                              </div>
-                              <div class="input-group-append no-margin">
-                                <button class="btn btn-primary" onclick="findRegisterData()" type="button" id="pid-search">Search</button>
-                              </div>
-                          </div>
-                          <!-- onclick="findRegisterData()" -->
-                        </div>
-                        <div class="col-sm-2">
-                            <label for="validationCustom01" class="form-label">Fuchia ID</label>
-                            <input id="fuchia" class="form-control" id="validationCustom01" >
-                            <div class="valid-feedback">
-                              Plz put number
+              <div class="col-sm-3" id="idchange_section" style="display:none" >
+                <input type="checkbox" id="sti_id_change"><label for="" style="display: inline-block">General ID Change?</label>
+              </div>
+            </div>
+            <div id="registerForm" >
+                <div class="register-first-section"> <!-- register-first-section  -->
+                    <br>
+                    <div class="row sti-Id">
+                      <div class="col-sm-5">
+                        <label for="validationCustom01" class="form-label">General ID and Registration/Follow-Up Date</label>
+                        <div class="input-group mb-4">
+                            <input type="number" id="pid" class="form-control input-group-append no-margin" placeholder="General ID" >
+                            <div class="date-holder input-group-append no-margin">
+                              <input type="text" id="regdate" class="form-control Gdate date-verify" placeholder="dd-mm-yyyy">
+                              <img src="../img/calendar3.svg" class="dateimg" alt="date">
+                            </div>
+                            <div class="input-group-append no-margin">
+                              <button class="btn btn-primary" onclick="findRegisterData()" type="button" id="pid-search">Search</button>
                             </div>
                         </div>
-                        <div class="col-sm-2">
-                          <label  class="form-label">Clinic</label>
-                          <select class="form-control" id="clinic_code" >
-                            <option value="81">HTY-C2 / 81 </option>
-                            <option value="71">HTY-A / 71 </option>
-                            <option value="72">HTY-B / 72 </option>
-                            <option value="73">SPT / 73 </option>
-                            <option value="75">Winka / 75 </option>
-                            <option value="76">TBZY / 76 </option>
-                            <option value="77">PTO-DT / 77 </option>
-                            <option value="78">PTO-MCB / 78 </option>
-                            <option value="80">Hpakant / 80 </option>    
-                            <option value="82">Taze / 82 </option>
-                            <option value="83">HTY-C1 / 83 </option>
-                          </select>
-                        </div>
-                        <div class="col-sm-1">
-                              <label for="validationCustom01" class="form-label">Age</label>
-                              <span id="age"   class="form-control" ></span>
-                        </div>
-                        <div class="col-sm-2">
-                                <label for="validationCustom01" class="form-label">Gender</label>
-                                <span id="gender" class="form-control" id="validationCustom01" ></span> 
-                                                              
-                        </div>
+                        <!-- onclick="findRegisterData()" -->
                       </div>
-                        <!-- <div class="col-sm-3">
-                          <label for="validationCustom01" class="form-label">Select Male or Female Form</label>
-                          <select class="form-control" id="genderbtn"  onchange="gender()" name="" >
-                            <option value="NA"></option>
-                            <option value="male">Male Form</option>
-                            <option value="female">Female Form</option>
-                          </select>
-                        </div> -->
+                      <div class="col-sm-2">
+                          <label for="validationCustom01" class="form-label">Fuchia ID</label>
+                          <input id="fuchia" class="form-control" id="validationCustom01" >
+                          <div class="valid-feedback">
+                            Plz put number
+                          </div>
                       </div>
-                      <div class="row sti-firstSecond">
-  
-                        <div class="col-sm-3">
-                            <label for="validationCustom01" class="form-label">First Visit</label>
-                            <select class="form-control" id="firstVisit" onchange="firstVisit()" name="" >
-                              <option value="0"></option>
-                              <option value="1">Yes</option>
-                              <option value="2">No</option>
-                              <option value="9">Missing</option>
-                            </select>
-                          </div>
-                          <div class="col-sm-3">
-                              <label for="validationCustom01" class="form-label">If Last Visit</label>
-                              <select class="form-control" id="lastVisit"  name="" >
-                                <option value="0"></option>
-                                <option value="1">Within 3 months</option>
-                                <option  value="2"> > 3 months ago</option>
-                                <option value="9">Missing</option>
-                              </select>
-                            </div>
-                            <div class="col-md-3">
-                                <label  class="form-label">Heard about clinic</label>
-                                <select class="form-control" id="aboutclinic" required>
-                                  <option value="0"></option>
-                                  <option value="1">From HE Team</option>
-                                  <option value="2">From Partner</option>
-                                  <option value="3">From Others</option>
-                                  <option value="4">Missing</option>
-  
-                                </select>
-                            </div>
-                      </div>
-                      <br>
-              </div>  
-              <div class="register-second-section row">
-                    <h2 class="sti-diagnosis">STI diagnosis</h2>
-                    <div class="col-sm-6 sti-check hide " id="lastVisit_Check">
-                        <span id="lastVisit_Date" class="badge badge-dark"> Check </span>
-                    </div>           
-                    <div class="row sti-risk">
-                          <div class="col-sm-3">
-                             <label for="validationCustom01" class="form-label">Episode</label>
-                              <select class="form-select"  id="episode" name="" >
-                                <option value="0"></option>
-                                <option value="1">Yes</option>
-                                <option value="2">No</option>
-                                <option value="9">Missing</option>
-                              </select>
-                          </div>
-                          <div class="col-sm-3">
-                            <label for="validationCustom01" class="form-label">Reasons For Visit</label>
-                            <select onchange="visit()" class="form-select" id="reason" name="" >
-                              <option value="0"></option>
-                              <option value="1">Symptomatic</option>
-                              <option value="2">Asymptomatic</option>
-                              <option value="9">Missing</option>
-                            </select>
-                          </div>
-                          <div class="col-sm-3" id="m1">
-                              <label for="validationCustom01" class="form-label">Risk Factor_Male</label>
-                         
-                                <span class="form-control"id="ptype"></span>
-                          </div>
-                            <div  id="f1" class="col-sm-3">
-                                  <label for="validationCustom01" class="form-label">Risk Factor_Female</label>
-                                  <span class="form-control"id="fe_ptype"></span>
-                                 
-                            </div>
-                                  
-                    </div>
-                   
-                    <div class="row sti-male sti-registerMale" id="sti-maleID"> <!-- male -->
-                      <h2>Test For Male</h2>
-                     <div class="col-sm-3"id="m2">
-                        <label for="validationCustom01" class="form-label">Urethral discharge</label>
-                        <select class="form-select" id="urethral_discharge" name="" >
-                          <option value="0"></option>
-                          <option value="1">Yes</option>
-                          <option value="2">No</option>
-                          <option value="9">Missing</option>
+                      <div class="col-sm-2">
+                        <label  class="form-label">Clinic</label>
+                        <select class="form-control" id="clinic_code" >
+                          <option value="81">HTY-C2 / 81 </option>
+                          <option value="71">HTY-A / 71 </option>
+                          <option value="72">HTY-B / 72 </option>
+                          <option value="73">SPT / 73 </option>
+                          <option value="75">Winka / 75 </option>
+                          <option value="76">TBZY / 76 </option>
+                          <option value="77">PTO-DT / 77 </option>
+                          <option value="78">PTO-MCB / 78 </option>
+                          <option value="80">Hpakant / 80 </option>    
+                          <option value="82">Taze / 82 </option>
+                          <option value="83">HTY-C1 / 83 </option>
                         </select>
                       </div>
-                      <div class="col-sm-3" id="m3">
-                        <label for="validationCustom01" class="form-label">How long days</label>
-                        <input id="howlong_days" type="number" class="form-control" id="validationCustom01">
-                        <div class="valid-feedback">
-                          Plz put number
-                        </div>
+                      <div class="col-sm-1">
+                            <label for="validationCustom01" class="form-label">Age</label>
+                            <span id="age"   class="form-control" ></span>
                       </div>
-                      <div class="row">
-                         <div class="col-sm-3" id="m4">
-                           <label for="validationCustom01" class="form-label">Scrotal Swelling</label>
-                           <select id="scrotal_swelling"class="form-select" name="" >
-                             <option value="0"></option>
-                             <option value="1">Yes</option>
-                             <option value="2">No</option>
-                             <option value="9">Missing</option>
-                           </select>
-                         </div>
-                        
-                         <div class="col-sm-3" id="m5">
-                           <label for="validationCustom01" class="form-label">How Long</label>
-                           <input id="hl_scrotal_swelling" type="text" class="form-control" id="validationCustom01">
-                         </div>
-                         <div class="col-sm-3"id="m6">
-                           <label for="validationCustom01" class="form-label">Tender/ Non-Tender</label>
-                           <select id="tender"class="form-select" name="" >
-                             <option value="0"></option>
-                             <option value="1">tender</option>
-                             <option value="2">Non-tender</option>
-                             <option value="9">Missing</option>
-                           </select>
-                         </div>
-                     </div>
+                      <div class="col-sm-2">
+                              <label for="validationCustom01" class="form-label">Gender</label>
+                              <span id="gender" class="form-control" id="validationCustom01" ></span> 
+                                                            
+                      </div>
                     </div>
-                  
+                      <!-- <div class="col-sm-3">
+                        <label for="validationCustom01" class="form-label">Select Male or Female Form</label>
+                        <select class="form-control" id="genderbtn"  onchange="gender()" name="" >
+                          <option value="NA"></option>
+                          <option value="male">Male Form</option>
+                          <option value="female">Female Form</option>
+                        </select>
+                      </div> -->
+                    </div>
+                    <div class="row sti-firstSecond">
+
+                      <div class="col-sm-3">
+                          <label for="validationCustom01" class="form-label">First Visit</label>
+                          <select class="form-control" id="firstVisit" onchange="firstVisit()" name="" >
+                            <option value="0"></option>
+                            <option value="1">Yes</option>
+                            <option value="2">No</option>
+                            <option value="9">Missing</option>
+                          </select>
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="validationCustom01" class="form-label">If Last Visit</label>
+                            <select class="form-control" id="lastVisit"  name="" >
+                              <option value="0"></option>
+                              <option value="1">Within 3 months</option>
+                              <option  value="2"> > 3 months ago</option>
+                              <option value="9">Missing</option>
+                            </select>
+                          </div>
+                          <div class="col-md-3">
+                              <label  class="form-label">Heard about clinic</label>
+                              <select class="form-control" id="aboutclinic" required>
+                                <option value="0"></option>
+                                <option value="1">From HE Team</option>
+                                <option value="2">From Partner</option>
+                                <option value="3">From Others</option>
+                                <option value="4">Missing</option>
+
+                              </select>
+                          </div>
+                    </div>
+                    <br>
+                </div>  
+               <div class="register-second-section row">
+                  <h2 class="sti-diagnosis">STI diagnosis</h2>
+                  <div class="col-sm-6 sti-check hide " id="lastVisit_Check">
+                      <span id="lastVisit_Date" class="badge badge-dark"> Check </span>
+                  </div>           
+                  <div class="row sti-risk">
+                        <div class="col-sm-3">
+                           <label for="validationCustom01" class="form-label">Episode</label>
+                            <select class="form-select"  id="episode" name="" >
+                              <option value="0"></option>
+                              <option value="1">Yes</option>
+                              <option value="2">No</option>
+                              <option value="9">Missing</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-3">
+                          <label for="validationCustom01" class="form-label">Reasons For Visit</label>
+                          <select onchange="visit()" class="form-select" id="reason" name="" >
+                            <option value="0"></option>
+                            <option value="1">Symptomatic</option>
+                            <option value="2">Asymptomatic</option>
+                            <option value="9">Missing</option>
+                          </select>
+                        </div>
+                        <div class="col-sm-3" id="m1">
+                            <label for="validationCustom01" class="form-label">Risk Factor_Male</label>
+                            <!-- <select class="form-select"id="ptype"  >
+                                <option value="0"></option>
+                                <option value="MSM">MSM </option>
+                                <option value="TGW">TGW</option>
+                                <option value="CFSW">Client of FSW</option>
+                                <option value="PWID">PWID</option>
+                                <option value="PWUD">PWUD</option>
+                                <option value="P_of_KP">Partner of KP</option>
+                                <option value="Other">Other</option>
+                              </select> -->
+                              <span class="form-control"id="ptype"></span>
+                            </div>
+                            <div  id="f1" class="col-sm-3">
+                                <label for="validationCustom01" class="form-label">Risk Factor_Female</label>
+                                <span class="form-control"id="fe_ptype"></span>
+                                <!-- <select class="form-select"id="fe_ptype">
+                                  <option value=""></option>
+                                  <option id="preg_mom" value="Pregnant Mother">Pregnant Mother</option>
+                                  <option id="sp_preg_mom" value="Spouse of pregnant mother">Spouse of pregnant mother</option>
+                                  <option id="" value="Exposed Children">Exposed Children</option>
+                                  <option id="" value="Low risk">Low risk</option>
+                                  <option id="" value="PWUD">PWUD</option>
+                                  <option id="fsw" value="FSW">FSW</option>
+                                  <option id="cl_fsw" value="Client of FSW">Client of FSW</option>
+                                  <option id="msm" value="MSM">MSM</option>
+                                  <option id="" value="IDU">IDU</option>
+                                  <option id="tg" value="TG">TG</option>
+                                  <option id="pt_kp" value="Partner of KP">Partner of KP</option>
+                                  <option id="pt_kp_plhiv" value="Partner of PLHIV">Partner of PLHIV</option>
+                                  <option id="" value="Special Groups">Special Groups</option>
+                                  <option value="Migrant Population">Migrant Population</option>
+                                  </select> -->
+                                </div>
+                                
+                  </div>
+                  <div>
+                  <div class="row sti-male sti-registerMale" id="sti-maleID"> <!-- male -->
+                    <h2>Test For Male</h2>
+                   <div class="col-sm-3"id="m2">
+                      <label for="validationCustom01" class="form-label">Urethral discharge</label>
+                      <select class="form-select" id="urethral_discharge" name="" >
+                        <option value="0"></option>
+                        <option value="1">Yes</option>
+                        <option value="2">No</option>
+                        <option value="9">Missing</option>
+                      </select>
+                    </div>
+                    <div class="col-sm-3" id="m3">
+                      <label for="validationCustom01" class="form-label">How long days</label>
+                      <input id="howlong_days" type="number" class="form-control" id="validationCustom01">
+                      <div class="valid-feedback">
+                        Plz put number
+                      </div>
+                    </div>
+                    <div class="row">
+                       <div class="col-sm-3" id="m4">
+                         <label for="validationCustom01" class="form-label">Scrotal Swelling</label>
+                         <select id="scrotal_swelling"class="form-select" name="" >
+                           <option value="0"></option>
+                           <option value="1">Yes</option>
+                           <option value="2">No</option>
+                           <option value="9">Missing</option>
+                         </select>
+                       </div>
+                      
+                       <div class="col-sm-3" id="m5">
+                         <label for="validationCustom01" class="form-label">How Long</label>
+                         <input id="hl_scrotal_swelling" type="text" class="form-control" id="validationCustom01">
+                       </div>
+                       <div class="col-sm-3"id="m6">
+                         <label for="validationCustom01" class="form-label">Tender/ Non-Tender</label>
+                         <select id="tender"class="form-select" name="" >
+                           <option value="0"></option>
+                           <option value="1">tender</option>
+                           <option value="2">Non-tender</option>
+                           <option value="9">Missing</option>
+                         </select>
+                       </div>
+                   </div>
+                  </div>
                 
-                    <div id="sti-femaleID" class="sti-female sti-registerFemale"><!-- femmale div--> 
-                      <h2>Test For female</h2> 
-                      <div class="row">  <!-- femmale -->
-                        <div class="col-sm-3" id="f2">
-                            <label for="validationCustom01" class="form-label">Abnormal vaginal discharge</label>
-                            <select class="form-select" id="abVagdischarge"  >
-                              <option value="0"></option>
-                              <option value="1">Yes</option>
-                              <option value="2">No</option>
-                              <option value="9">Missing</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-2" id="f3">
-                            <label for="validationCustom01" class="form-label">How Long</label>
-                            <input type="number"class="form-control" id="hl_ab_va_dis"name="" value="0">
-                        </div>
+              
+                <div id="sti-femaleID" class="sti-female sti-registerFemale"><!-- femmale div--> 
+                    <h2>Test For female</h2> 
+                    <div class="row">  <!-- femmale -->
+                      <div class="col-sm-3" id="f2">
+                          <label for="validationCustom01" class="form-label">Abnormal vaginal discharge</label>
+                          <select class="form-select" id="abVagdischarge"  >
+                            <option value="0"></option>
+                            <option value="1">Yes</option>
+                            <option value="2">No</option>
+                            <option value="9">Missing</option>
+                          </select>
                       </div>
-                      <div class="row"><!-- femmale -->
-                        <div class="col-sm-3" id="f4">
-                            <label for="validationCustom01" class="form-label">Linked with menstruation</label>
-                            <select class="form-select" id="Link_menstra"  >
-                              <option value="0"></option>
-                              <option value="1">Yes</option>
-                              <option value="2">No</option>
-                              <option value="9">Missing</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-2" id="f5">
-                            <label for="validationCustom01" class="form-label">Amount</label>
-                            <select class="form-select" id="Amount"  >
-                              <option value="0"></option>
-                              <option value="1">Abundant</option>
-                              <option value="2">Normal</option>
-                              <option value="2">NA</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-2" id="f6">
-                            <label for="validationCustom01" class="form-label">Colour</label>
-                            <select class="form-select" id="colour" onchange="col()" >
-                              <option value="0"></option>
-                              <option value="1">Clear</option>
-                              <option value="2">White</option>
-                              <option value="3">Yellow</option>
-                              <option value="4">Bloody</option>
-                              <option value="5">Other</option>
-                              <option value="9">Missing</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-3" id="f14">
-                            <label for="validationCustom01" class="form-label">Other(Specify)</label>
-                            <input type="text"class="form-control" id="other_specify"name="" value="0">
-                        </div>
+                      <div class="col-sm-2" id="f3">
+                          <label for="validationCustom01" class="form-label">How Long</label>
+                          <input type="number"class="form-control" id="hl_ab_va_dis"name="" value="0">
                       </div>
-                      <div class="row"><!-- femmale -->
-                        <div class="col-sm-3" id="f7">
-                            <label for="validationCustom01" class="form-label">Abnormal vaginal odour</label>
-                            <select class="form-select" id="odour"  >
-                              <option value="0"></option>
-                              <option value="1">Yes</option>
-                              <option value="2">No</option>
-                              <option value="9">Missing</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-3" id="f8">
-                            <label for="validationCustom01" class="form-label">Lower abdominal pain </label>
-                            <select class="form-select" id="lower_abd_pain"  >
-                              <option value="0"></option>
-                              <option value="1">Yes</option>
-                              <option value="2">No</option>
-                              <option value="9">Missing</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-2" id="f9">
-                            <label for="validationCustom01" class="form-label">How Long</label>
-                            <input class="form-control" type="number" id="hl_abd_pain"name="" value="0">
-                        </div>
+                    </div>
+                    <div class="row"><!-- femmale -->
+                      <div class="col-sm-3" id="f4">
+                          <label for="validationCustom01" class="form-label">Linked with menstruation</label>
+                          <select class="form-select" id="Link_menstra"  >
+                            <option value="0"></option>
+                            <option value="1">Yes</option>
+                            <option value="2">No</option>
+                            <option value="9">Missing</option>
+                          </select>
                       </div>
-                      <div class="row"><!-- femmale -->
-                        <div class="col-sm-2" id="f10">
-                            <label for="validationCustom01" class="form-label">Fever </label>
-                            <select class="form-select" id="fever"  >
-                              <option value="0"></option>
-                              <option value="1">Yes</option>
-                              <option value="2">No</option>
-                              <option value="9">Missing</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-4" id="f11">
-                            <label for="validationCustom01" class="form-label">Recent Termination Pregnancy </label>
-                            <select class="form-select" id="terminate_preg"  >
-                              <option value="0"></option>
-                              <option value="1">Yes</option>
-                              <option value="2">No</option>
-                              <option value="9">Missing</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-2" id="f12">
-                            <label for="validationCustom01" class="form-label">Dyspareunia</label>
-                            <select class="form-select" id="dyspareunia"  >
-                              <option value="0"></option>
-                              <option value="1">Yes</option>
-                              <option value="2">No</option>
-                              <option value="9">Missing</option>
-                            </select>
-                        </div>
+                      <div class="col-sm-2" id="f5">
+                          <label for="validationCustom01" class="form-label">Amount</label>
+                          <select class="form-select" id="Amount"  >
+                            <option value="0"></option>
+                            <option value="1">Abundant</option>
+                            <option value="2">Normal</option>
+                            <option value="2">NA</option>
+                          </select>
                       </div>
-                      <div class="row"><!-- femmale -->
-                        <div class="col-sm-12" id="f13">
-                            <label for="validationCustom01" class="form-label">Other GI Symptoms</label>
-                            <input type="text"class="form-control" id="oth_gi_sym"name="" value="0">
-                        </div>
+                      <div class="col-sm-2" id="f6">
+                          <label for="validationCustom01" class="form-label">Colour</label>
+                          <select class="form-select" id="colour" onchange="col()" >
+                            <option value="0"></option>
+                            <option value="1">Clear</option>
+                            <option value="2">White</option>
+                            <option value="3">Yellow</option>
+                            <option value="4">Bloody</option>
+                            <option value="5">Other</option>
+                            <option value="9">Missing</option>
+                          </select>
                       </div>
+                      <div class="col-sm-3" id="f14">
+                          <label for="validationCustom01" class="form-label">Other(Specify)</label>
+                          <input type="text"class="form-control" id="other_specify"name="" value="0">
+                      </div>
+                    </div>
+                    <div class="row"><!-- femmale -->
+                      <div class="col-sm-3" id="f7">
+                          <label for="validationCustom01" class="form-label">Abnormal vaginal odour</label>
+                          <select class="form-select" id="odour"  >
+                            <option value="0"></option>
+                            <option value="1">Yes</option>
+                            <option value="2">No</option>
+                            <option value="9">Missing</option>
+                          </select>
+                      </div>
+                      <div class="col-sm-3" id="f8">
+                          <label for="validationCustom01" class="form-label">Lower abdominal pain </label>
+                          <select class="form-select" id="lower_abd_pain"  >
+                            <option value="0"></option>
+                            <option value="1">Yes</option>
+                            <option value="2">No</option>
+                            <option value="9">Missing</option>
+                          </select>
+                      </div>
+                      <div class="col-sm-2" id="f9">
+                          <label for="validationCustom01" class="form-label">How Long</label>
+                          <input class="form-control" type="number" id="hl_abd_pain"name="" value="0">
+                      </div>
+                    </div>
+                    <div class="row"><!-- femmale -->
+                      <div class="col-sm-2" id="f10">
+                          <label for="validationCustom01" class="form-label">Fever </label>
+                          <select class="form-select" id="fever"  >
+                            <option value="0"></option>
+                            <option value="1">Yes</option>
+                            <option value="2">No</option>
+                            <option value="9">Missing</option>
+                          </select>
+                      </div>
+                      <div class="col-sm-4" id="f11">
+                          <label for="validationCustom01" class="form-label">Recent Termination Pregnancy </label>
+                          <select class="form-select" id="terminate_preg"  >
+                            <option value="0"></option>
+                            <option value="1">Yes</option>
+                            <option value="2">No</option>
+                            <option value="9">Missing</option>
+                          </select>
+                      </div>
+                      <div class="col-sm-2" id="f12">
+                          <label for="validationCustom01" class="form-label">Dyspareunia</label>
+                          <select class="form-select" id="dyspareunia"  >
+                            <option value="0"></option>
+                            <option value="1">Yes</option>
+                            <option value="2">No</option>
+                            <option value="9">Missing</option>
+                          </select>
+                      </div>
+                    </div>
+                    <div class="row"><!-- femmale -->
+                      <div class="col-sm-12" id="f13">
+                          <label for="validationCustom01" class="form-label">Other GI Symptoms</label>
+                          <input type="text"class="form-control" id="oth_gi_sym"name="" value="0">
+                      </div>
+                    </div>
                     </div> 
                     <div class="sti-common sti-registerCommon" id="sti-commonID">  <!-- common div -->   
-                        <h2>Test For Any Sex</h2> 
-                      <div class="row"><!-- common -->
-                            <div class="col-sm-3" id="g1">
-                                  <label for="validationCustom01" class="form-label">Dysuria</label>
-                                  <select class="form-select" id="dysuria" name="" >
-                                    <option value="0"></option>
-                                    <option value="1">Yes</option>
-                                    <option value="2">No</option>
-                                    <option value="9">Missing</option>
-                                  </select>
-                              </div>
-                            <div class="col-sm-3"id="g2">
-                                  <label for="validationCustom01" class="form-label">How long</label>
-                                  <input id="howlong_dysuria" type="number" max="250" class="form-control" id="validationCustom01">
-                                  <div class="valid-feedback">
-                                    Plz put number
-                                  </div>
-                              </div>
-                            <div class="col-sm-3"id="g3">
-                                        <label for="validationCustom01" class="form-label">Genital Prutitus</label>
-                                        <select class="form-select" id="genital_prutitus" name="" >
-                                          <option value="0"></option>
-                                          <option value="1">Yes</option>
-                                          <option value="2">No</option>
-                                          <option value="9">Missing</option>
-                                        </select>
-                              </div>
-                            <div class="col-sm-3"id="g4">
-                                  <label for="validationCustom01" class="form-label">How long</label>
-                                  <input id="howlong_genital_pruti" type="number" max="250" class="form-control" id="validationCustom01">
-                                  <div class="valid-feedback">
-                                    Plz put number
-                                  </div>
-                              </div>
-                      </div>
-                      <div class="row"><!-- common -->
-                            <div class="col-sm-4"id="g5">
-                                      <label for="validationCustom01" class="form-label">Genital burnig or Pain</label>
-                                      <select class="form-select" id="genital_burn" name="" >
-                                        <option value="0"></option>
-                                        <option value="1">Yes</option>
-                                        <option value="2">No</option>
-                                        <option value="9">Missing</option>
-                                      </select>
-                                    </div>
-                            <div class="col-sm-3"id="g6">
-                                      <label for="validationCustom01" class="form-label">How Long</label>
-                                      <input id="howlong_genital_burn" type="number" class="form-control" id="validationCustom01">
-                                      <div class="valid-feedback">
-                                        Plz put number
-                                      </div>
-                                    </div>
-                      </div>
-                      <div class="row"><!-- common -->
-                            <div class="col-sm-2"id="g7">
-                                      <label for="validationCustom01" class="form-label">Genital ulcer</label>
-                                      <select id="genital_ulcer"class="form-select" name="" >
-                                        <option value="0"></option>
-                                        <option value="1">Yes</option>
-                                        <option value="2">No</option>
-                                        <option value="9">Missing</option>
-                                      </select>
-                                    </div>
-                            <div class="col-sm-2"id="g8">
-                                      <label for="validationCustom01" class="form-label">How Long</label>
-                                      <input id="howlong_genital_ulcer" type="text" class="form-control" id="validationCustom01">
-  
-                                    </div>
-                            <div class="col-sm-2"id="g9">
-                                      <label for="validationCustom01" class="form-label">Pain</label>
-                                      <select id="pain"class="form-select" name="" >
-                                        <option value="0"></option>
-                                        <option value="1">Painful</option>
-                                        <option value="2">Painless</option>
-                                        <option value="9">Missing</option>
-                                      </select>
-                                    </div>
-                            <div class="col-sm-2"id="g10">
-                                      <label for="validationCustom01" class="form-label">Ulcer</label>
-                                      <select id="ulcer"class="form-select" name="" >
-                                        <option value="0"></option>
-                                        <option value="1">Single</option>
-                                        <option value="2">Multiple</option>
-                                        <option value="9">Missing</option>
-                                      </select>
-                                    </div>
-                            <div class="col-sm-4"id="g11">
-                                      <label for="validationCustom01" class="form-label">Prodormal itch/buring</label>
-                                      <select id="prodormal_itch"class="form-select" name="" >
-                                        <option value="0"></option>
-                                        <option value="1">Yes</option>
-                                        <option value="2">No</option>
-                                        <option value="9">Missing</option>
-                                      </select>
-                                    </div>
-                            <div class="col-sm-4"id="g12">
-                                      <label for="validationCustom01" class="form-label">Started as vesicles /blisters</label>
-                                      <select id="start_vesicles"class="form-select" name="" >
-                                        <option value="0"></option>
-                                        <option value="1">Yes</option>
-                                        <option value="2">No</option>
-                                        <option value="9">Missing</option>
-                                      </select>
-                                    </div>
-                            <div class="col-sm-2"id="g13">
-                                      <label for="validationCustom01" class="form-label">Recurrent</label>
-                                      <select id="recurrent"class="form-select" name="" >
-                                        <option value="0"></option>
-                                        <option value="1">Yes</option>
-                                        <option value="2">No</option>
-                                        <option value="9">Missing</option>
-                                      </select>
-                                    </div>
-                            <div class="col-sm-2"id="g14">
-                                      <label for="validationCustom01" class="form-label">Last Episode</label>
-                                      <select id="last_episode"class="form-select" name="" >
-                                        <option value="0"></option>
-                                        <option value="1">Yes</option>
-                                        <option value="2">No</option>
-                                        <option value="9">Missing</option>
-                                      </select>
-                                    </div>
-                            <div class="col-sm-4"id="g15">
-                                      <label for="validationCustom01" class="form-label">Patient Suspects Herpes</label>
-                                      <select id="patient_suspect_herpes"class="form-select" name="" >
-                                        <option value="0"></option>
-                                        <option value="1">Yes</option>
-                                        <option value="2">No</option>
-                                        <option value="9">Missing</option>
-                                      </select>
-                                    </div>
-                        </div>
-                      <div class="row"><!-- common -->
-                            <div class="col-sm-3" id="g16">
-                              <label for="validationCustom01" class="form-label">Inguinal lymph node</label>
-                              <select id="inguinal_lymph_node"class="form-select" name="" >
-                                <option value="0"></option>
-                                <option value="1">Yes</option>
-                                <option value="2">No</option>
-                                <option value="9">Missing</option>
-                              </select>
+                      <h2>Test For Any Sex</h2> 
+                    <div class="row"><!-- common -->
+                          <div class="col-sm-3" id="g1">
+                                <label for="validationCustom01" class="form-label">Dysuria</label>
+                                <select class="form-select" id="dysuria" name="" >
+                                  <option value="0"></option>
+                                  <option value="1">Yes</option>
+                                  <option value="2">No</option>
+                                  <option value="9">Missing</option>
+                                </select>
                             </div>
-                            <div class="col-sm-2" id="g17" >
-                              <label for="validationCustom01" class="form-label">How Long</label>
-                              <input id="hl_inguinal_lymph_node" type="text" class="form-control" id="validationCustom01">
+                          <div class="col-sm-3"id="g2">
+                                <label for="validationCustom01" class="form-label">How long</label>
+                                <input id="howlong_dysuria" type="number" max="250" class="form-control" id="validationCustom01">
+                                <div class="valid-feedback">
+                                  Plz put number
+                                </div>
                             </div>
-                            <div class="col-sm-3" id="g18">
-                              <label for="validationCustom01" class="form-label">Unilateal/Bilateral</label>
-                              <select id="unilateal"class="form-select" name="" >
-                                <option value="0"></option>
-                                <option value="1">Unilateal</option>
-                                <option value="2">Bilateral</option>
-                                <option value="9">Missing</option>
-                              </select>
+                          <div class="col-sm-3"id="g3">
+                                      <label for="validationCustom01" class="form-label">Genital Prutitus</label>
+                                      <select class="form-select" id="genital_prutitus" name="" >
+                                        <option value="0"></option>
+                                        <option value="1">Yes</option>
+                                        <option value="2">No</option>
+                                        <option value="9">Missing</option>
+                                      </select>
                             </div>
-                            <div class="col-sm-4" id="g19" >
-                              <label for="validationCustom01" class="form-label">Leg ulcer/other infection</label>
-                              <select id="leg_ulcer_inf"class="form-select" name="" >
-                                <option value="0"></option>
-                                <option value="1">Yes</option>
-                                <option value="2">No</option>
-                                <option value="9">Missing</option>
-                              </select>
+                          <div class="col-sm-3"id="g4">
+                                <label for="validationCustom01" class="form-label">How long</label>
+                                <input id="howlong_genital_pruti" type="number" max="250" class="form-control" id="validationCustom01">
+                                <div class="valid-feedback">
+                                  Plz put number
+                                </div>
                             </div>
-                        </div>
-                        <div class="row"><!-- common -->
-                            <div class="col-sm-3"id="g20">
-                              <label for="validationCustom01" class="form-label">Genital Warts</label>
-                              <select id="genital_wart"class="form-select" name="" >
-                                <option value="0"></option>
-                                <option value="1">Yes</option>
-                                <option value="2">No</option>
-                                <option value="9">Missing</option>
-                              </select>
-                            </div>
-                            <div class="col-sm-2"id="g21">
-                              <label for="validationCustom01" class="form-label">How Long</label>
-                              <input id="hl_genital_wart" type="text" class="form-control" id="validationCustom01">
-                            </div>
-                        </div>
                     </div>
-              </div>
-            </div>
-            <div id="visit_view" style="display:none">
-              <h3 class="header-text ">Follow UP History</h3>
-              <table class="table table-bordered">
-                <thead>
-                  <tr>
-                    <td>No.</td>
-                    <td>GeneralID</td>
-                    <td>Visit Date</td>
-                    <td>Gender</td>
-                    <td></td>
-                  </tr>
-                </thead>
-                <tbody>
+                    <div class="row"><!-- common -->
+                          <div class="col-sm-4"id="g5">
+                                    <label for="validationCustom01" class="form-label">Genital burnig or Pain</label>
+                                    <select class="form-select" id="genital_burn" name="" >
+                                      <option value="0"></option>
+                                      <option value="1">Yes</option>
+                                      <option value="2">No</option>
+                                      <option value="9">Missing</option>
+                                    </select>
+                                  </div>
+                          <div class="col-sm-3"id="g6">
+                                    <label for="validationCustom01" class="form-label">How Long</label>
+                                    <input id="howlong_genital_burn" type="number" class="form-control" id="validationCustom01">
+                                    <div class="valid-feedback">
+                                      Plz put number
+                                    </div>
+                                  </div>
+                    </div>
+                    <div class="row"><!-- common -->
+                          <div class="col-sm-2"id="g7">
+                                    <label for="validationCustom01" class="form-label">Genital ulcer</label>
+                                    <select id="genital_ulcer"class="form-select" name="" >
+                                      <option value="0"></option>
+                                      <option value="1">Yes</option>
+                                      <option value="2">No</option>
+                                      <option value="9">Missing</option>
+                                    </select>
+                                  </div>
+                          <div class="col-sm-2"id="g8">
+                                    <label for="validationCustom01" class="form-label">How Long</label>
+                                    <input id="howlong_genital_ulcer" type="text" class="form-control" id="validationCustom01">
 
-                </tbody>
-              </table>
+                                  </div>
+                          <div class="col-sm-2"id="g9">
+                                    <label for="validationCustom01" class="form-label">Pain</label>
+                                    <select id="pain"class="form-select" name="" >
+                                      <option value="0"></option>
+                                      <option value="1">Painful</option>
+                                      <option value="2">Painless</option>
+                                      <option value="9">Missing</option>
+                                    </select>
+                                  </div>
+                          <div class="col-sm-2"id="g10">
+                                    <label for="validationCustom01" class="form-label">Ulcer</label>
+                                    <select id="ulcer"class="form-select" name="" >
+                                      <option value="0"></option>
+                                      <option value="1">Single</option>
+                                      <option value="2">Multiple</option>
+                                      <option value="9">Missing</option>
+                                    </select>
+                                  </div>
+                          <div class="col-sm-4"id="g11">
+                                    <label for="validationCustom01" class="form-label">Prodormal itch/buring</label>
+                                    <select id="prodormal_itch"class="form-select" name="" >
+                                      <option value="0"></option>
+                                      <option value="1">Yes</option>
+                                      <option value="2">No</option>
+                                      <option value="9">Missing</option>
+                                    </select>
+                                  </div>
+                          <div class="col-sm-4"id="g12">
+                                    <label for="validationCustom01" class="form-label">Started as vesicles /blisters</label>
+                                    <select id="start_vesicles"class="form-select" name="" >
+                                      <option value="0"></option>
+                                      <option value="1">Yes</option>
+                                      <option value="2">No</option>
+                                      <option value="9">Missing</option>
+                                    </select>
+                                  </div>
+                          <div class="col-sm-2"id="g13">
+                                    <label for="validationCustom01" class="form-label">Recurrent</label>
+                                    <select id="recurrent"class="form-select" name="" >
+                                      <option value="0"></option>
+                                      <option value="1">Yes</option>
+                                      <option value="2">No</option>
+                                      <option value="9">Missing</option>
+                                    </select>
+                                  </div>
+                          <div class="col-sm-2"id="g14">
+                                    <label for="validationCustom01" class="form-label">Last Episode</label>
+                                    <select id="last_episode"class="form-select" name="" >
+                                      <option value="0"></option>
+                                      <option value="1">Yes</option>
+                                      <option value="2">No</option>
+                                      <option value="9">Missing</option>
+                                    </select>
+                                  </div>
+                          <div class="col-sm-4"id="g15">
+                                    <label for="validationCustom01" class="form-label">Patient Suspects Herpes</label>
+                                    <select id="patient_suspect_herpes"class="form-select" name="" >
+                                      <option value="0"></option>
+                                      <option value="1">Yes</option>
+                                      <option value="2">No</option>
+                                      <option value="9">Missing</option>
+                                    </select>
+                                  </div>
+                      </div>
+                    <div class="row"><!-- common -->
+                          <div class="col-sm-3" id="g16">
+                            <label for="validationCustom01" class="form-label">Inguinal lymph node</label>
+                            <select id="inguinal_lymph_node"class="form-select" name="" >
+                              <option value="0"></option>
+                              <option value="1">Yes</option>
+                              <option value="2">No</option>
+                              <option value="9">Missing</option>
+                            </select>
+                          </div>
+                          <div class="col-sm-2" id="g17" >
+                            <label for="validationCustom01" class="form-label">How Long</label>
+                            <input id="hl_inguinal_lymph_node" type="text" class="form-control" id="validationCustom01">
+                          </div>
+                          <div class="col-sm-3" id="g18">
+                            <label for="validationCustom01" class="form-label">Unilateal/Bilateral</label>
+                            <select id="unilateal"class="form-select" name="" >
+                              <option value="0"></option>
+                              <option value="1">Unilateal</option>
+                              <option value="2">Bilateral</option>
+                              <option value="9">Missing</option>
+                            </select>
+                          </div>
+                          <div class="col-sm-4" id="g19" >
+                            <label for="validationCustom01" class="form-label">Leg ulcer/other infection</label>
+                            <select id="leg_ulcer_inf"class="form-select" name="" >
+                              <option value="0"></option>
+                              <option value="1">Yes</option>
+                              <option value="2">No</option>
+                              <option value="9">Missing</option>
+                            </select>
+                          </div>
+                      </div>
+                      <div class="row"><!-- common -->
+                          <div class="col-sm-3"id="g20">
+                            <label for="validationCustom01" class="form-label">Genital Warts</label>
+                            <select id="genital_wart"class="form-select" name="" >
+                              <option value="0"></option>
+                              <option value="1">Yes</option>
+                              <option value="2">No</option>
+                              <option value="9">Missing</option>
+                            </select>
+                          </div>
+                          <div class="col-sm-2"id="g21">
+                            <label for="validationCustom01" class="form-label">How Long</label>
+                            <input id="hl_genital_wart" type="text" class="form-control" id="validationCustom01">
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+               </div>  
             </div>
-            
-          </div>
-
-            
           
           <div class="tab-pane  fade sti-phySection"  id="menu1">
             <div class="followup phyExam-section" id="followup" >
@@ -1857,32 +1857,30 @@ function findRegisterData(){
                           // Follow Up Histroy block
                           if(r1>0){
                               for (var i = 0; i < response[1].length; i++) {
-                                var fup_history ="<tr>"+
-                                                        "<td>"+(i+1) +"</td>"+
-                                                        "<td>"+response[0]["Pid"]+"</td>"+
+                                var fup_history ="<tr style='background-color:#69D2E7;'>"+
+                                                        "<td style='padding-left:20px;' >"+ i +"</td>"+
+                                                        "<td>"+response[1][i]['clinic']+"</td>"+
+                                                        "<td>"+response[1][i]['male_sex']+"</td>"+
+                                                        "<td>"+response[1][i]['age']+"</td>"+
+                                                        "<td>"+response[1][i]['male_risk']+"</td>"+
                                                         "<td >"+response[1][i]['Visit_date']+
-                                                        "<td>"+response[4]+"</td>"+
-                                                        "<td><button onclick='stiupdated()' class='sti-update-button btn btn-warning' id='sti_maleUp_'"+response[1][i]['id']+">GO-Updated</button>"+
-                                                          "<button onclick='stiremove()' class='sti-removeBtn-male btn btn-danger' id='sti_maleDel_'"+response[1][i]['id']+">Delete Row</button></td>"+
                                                 "</tr>";
-                                  $("#visit_view table tbody").append(fup_history);
-                                  $("#visit_view").hide();
+                                  $("#testHistory").append(fup_history);
+
                               }
-                          }
+                        }
                           if(r2>0){
                             for (var i = 0; i < response[2].length; i++) {
-                              var fup_history ="<tr>"+
-                                                        "<td>"+(i+1) +"</td>"+
-                                                        "<td>"+response[0]["Pid"]+"</td>"+
+                              var fup_history ="<tr style='background-color:#69D2E7;'>"+
+                                                        "<td style='padding-left:20px;' >"+ i +"</td>"+
+                                                        "<td>"+response[2][i]['clinic']+"</td>"+
+                                                        "<td>"+response[2][i]['female_sex']+"</td>"+
+                                                        "<td>"+response[2][i]['age']+"</td>"+
+                                                        "<td>"+response[2][i]['female_risk']+"</td>"+
                                                         "<td >"+response[2][i]['Visit_date']+
-                                                        "<td>"+response[4]+"</td>"+
-                                                        "<td><button onclick='stiupdated()' class='sti-update-button btn btn-warning' id='sti_femaleUp_'"+response[2][i]['id']+">GO-Updated</button>"+
-                                                          "<button onclick='stiremove()' class='sti-removeBtn-male btn btn-danger' id='sti_femaleDel_'"+response[2][i]['id']+">Delete Row</button></td>"+
                                                 "</tr>";
-                                  $("#visit_view table tbody").append(fup_history);
-                                  $("#visit_view").hide();
+                                $("#testHistory").append(fup_history);
 
-                               
                             }
                         }
                           //// end of Follow Up History history block

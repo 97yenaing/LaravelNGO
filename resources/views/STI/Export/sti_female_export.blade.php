@@ -49,6 +49,8 @@
                   <th style="background-color:#a6a6a6;">episode</th>
                   <th style="background-color:#a6a6a6;">Reason for Visit</th>
                   <th style="background-color:#a6a6a6;">risk_factor</th>
+                  <th style="background-color:#a6a6a6;">Sub Risk</th>
+                  
                   <th style="background-color:#a6a6a6;">urethral_disc</th>
                   <th style="background-color:#a6a6a6;">urethral_disc_hl</th>
                   <th style="background-color:#a6a6a6;">dysuria</th>
@@ -114,7 +116,7 @@
                   <th style="background-color:#a6a6a6;">other(please specify)</th>
                   <th style="background-color:#a6a6a6;">Gonorhoea</th>
                   <th style="background-color:#a6a6a6;">non_gono_urethritis</th>
-                  <th style="background-color:#a6a6a6;">non_gono_procti</th>
+                  <th style="background-color:#a6a6a6;">non_gono_cervities</th>
                   <th style="background-color:#a6a6a6;">trichomonas</th>
                   <th style="background-color:#a6a6a6;">genital_candidiosis</th>
                   <th style="background-color:#a6a6a6;">beterial_vaginosis</th>
@@ -150,7 +152,7 @@
                 <tr>
                 
                     
-                    @dd($users);
+                    
                     <td style="width:100px;">{{ $value["Clinic Code"] }}</td>
                     <td style="width:100px;">{{ $value["CID"] }}</td>
                     <td style="width:100px;">{{ $value["FuchiaID"] }}</td>
@@ -170,6 +172,7 @@
                     <td style="width:100px;">{{ $value["episode"] }}</td>
                     <td style="width:100px;">{{ $value["Reason for Visit"] }}</td>
                     <td style="width:100px;">{{ $value["Main Risk"] }}</td>
+                    <td style="width:100px;">{{ $value["Sub Risk"] }}</td>
                     <td style="width:100px;">{{ $value["urethral_disc"] }}</td>
                     <td style="width:100px;">{{ $value["urethral_disc_hl"] }}</td>
                     <td style="width:100px;">{{ $value["dysuria"] }}</td>
@@ -231,11 +234,11 @@
                     <td style="width:100px;">{{ $value["chancroid"] }}</td>
                     <td style="width:100px;">{{ $value["gen_herpes"] }}</td>
                     <td style="width:100px;">{{ $value["gen_scabies"] }}</td>
-                    <td style="width:100px;">{{ $value["gud_other"] }}</td>
+                    <td style="width:100px;">{{ $value["ostd_other"] }}</td>
                     <td style="width:100px;">{{ $value["other(please specify)"] }}</td>
                     <td style="width:100px;">{{ $value["Gonorhoea"] }}</td>
                     <td style="width:100px;">{{ $value["non_gono_urethritis"] }}</td>
-                    <td style="width:100px;">{{ $value["non_gono_procti"] }}</td>
+                    <td style="width:100px;">{{ $value["non_gono_cervities"] }}</td>
                     <td style="width:100px;">{{ $value["trichomonas"] }}</td>
                     <td style="width:100px;">{{ $value["genital_candidiosis"] }}</td>
                     <td style="width:100px;">{{ $value["beterial_vaginosis"] }}</td>
@@ -245,7 +248,7 @@
                     <td style="width:100px;">{{ $value["molluscum_contag"] }}</td>
                     <td style="width:100px;">{{ $value["bubos"] }}</td>
                     <td style="width:100px;">{{ $value["othstd_genital_warts"] }}</td>
-                    <td style="width:100px;">{{ $value["ostd_other"] }}</td>
+                    <td style="width:100px;">{{ $value["other_STD"] }}</td>
                     <td style="width:100px;">{{ $value["tre_azythro"] }}</td>
                     <td style="width:100px;">{{ $value["tre_cefixim"] }}</td>
                     <td style="width:100px;">{{ $value["tre_ciprofloxacin"] }}</td>
@@ -254,7 +257,7 @@
                     <td style="width:100px;">{{ $value["tre_doxycycline"] }}</td>
                     <td style="width:100px;">{{ $value["tre_ceftriaxone"] }}</td>
                     <td style="width:100px;">{{ $value["tre_benz_pen"] }}</td>
-                    <td style="width:100px;">{{ $value["no_treat"] }}</td>
+                    <td style="width:100px;">{{ $value["tre_Other"] }}</td>
                     <td style="width:100px;">{{ $value["al_Penicillin"] }}</td>
                     <td style="width:100px;">{{ $value["al_sulfa"] }}</td>
                     <td style="width:100px;">{{ $value["part_treat"] }}</td>

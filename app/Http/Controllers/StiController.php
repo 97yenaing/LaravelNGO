@@ -10,7 +10,6 @@ use App\Models\PtConfig;
 
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Facades\Excel;
-use Carbon\Carbon;
 //Exports
 use Illuminate\Database\Eloquent\Builder;
 use App\Exports\Sti\StiExport;
@@ -141,8 +140,6 @@ class StiController extends Controller
               for($i=0;$i<count($patientMale);$i++){
                 $male_fupSex=Crypt::decrypt_light($patientMale[$i]['gender'],$table);
                 $male_fupRisk=Crypt::decrypt_light($patientMale[$i]['risk_factor'],$table);
-                $patientMale[$i]["Visit_date"] = Carbon::createFromFormat('Y-m-d',  $patientMale[$i]["Visit_date"]);
-                $patientMale[$i]["Visit_date"] = $patientMale[$i]["Visit_date"]->format('d-m-Y');
                 $male_sex_risk = [
                   'male_sex' => $male_fupSex,
                   'male_risk' => $male_fupRisk
@@ -602,6 +599,7 @@ class StiController extends Controller
                   'gud_other'                    =>Crypt::encrypt_light( $request -> others3,$table),
                   'beterial_vaginosis'           =>Crypt::encrypt_light( $request -> baterial_vaginosis,$table),
                   'ostd_other'        =>Crypt::encrypt_light( $request -> others33,$table),
+                   //'other_STD'               => Crypt::encrypt_light($request  ->  fe_others33,$table),
                   'tre_azythro'                  =>Crypt::encrypt_light( $request -> tre_azythro,$table),
                   'tre_cefixim'                  =>Crypt::encrypt_light( $request -> tre_cefixim,$table),
                   'tre_ciprofloxacin'            =>Crypt::encrypt_light( $request -> tre_ciprofloxacin,$table),
@@ -751,6 +749,8 @@ class StiController extends Controller
             'bubos'                   => Crypt::encrypt_light( $request -> fe_bubos,$table),
             'othstd_genital_warts'    => Crypt::encrypt_light( $request -> fe_genital_warts3,$table),
             'ostd_other'              => Crypt::encrypt_light( $request -> fe_others3,$table),
+             'other_STD'               => Crypt::encrypt_light($request  ->  fe_others33,$table),
+            
             'tre_azythro'             => Crypt::encrypt_light($request -> fe_tre_azythro,$table),
              'tre_cefixim'             => Crypt::encrypt_light( $request -> fe_tre_cefixim,$table),
             'tre_ciprofloxacin'       => Crypt::encrypt_light( $request -> fe_tre_ciprofloxacin,$table),
@@ -3216,8 +3216,7 @@ class StiController extends Controller
                 $query->select("Pid",'Date of Birth','Agey','Agem',"Main Risk","Sub Risk","Gender","FuchiaID");
               }
           ])
-          ->get();
-                     
+          ->get();           
             
           
           return Excel::download(new StiExport($users,$sex,$sti_data), 'sti_data(Female)-'.date("d-m-Y").'.xlsx');

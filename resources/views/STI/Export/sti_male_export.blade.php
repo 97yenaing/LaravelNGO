@@ -49,6 +49,7 @@
                   <th style="background-color:#a6a6a6;">episode</th>
                   <th style="background-color:#a6a6a6;">Reason for Visit</th>
                   <th style="background-color:#a6a6a6;">risk_factor</th>
+                  <th style="background-color:#a6a6a6;">Sub Risk</th>
                   <th style="background-color:#a6a6a6;">urethral_disc</th>
                   <th style="background-color:#a6a6a6;">urethral_disc_hl</th>
                   <th style="background-color:#a6a6a6;">dysuria</th>
@@ -170,6 +171,7 @@
                     <td style="width:100px;">{{ $value["episode"] }}</td>
                     <td style="width:100px;">{{ $value["Reason for Visit"] }}</td>
                     <td style="width:100px;">{{ $value["Main Risk"] }}</td>
+                    <td style="width:100px;">{{ $value["Sub Risk"] }}</td>
                     <td style="width:100px;">{{ $value["urethral_disc"] }}</td>
                     <td style="width:100px;">{{ $value["urethral_disc_hl"] }}</td>
                     <td style="width:100px;">{{ $value["dysuria"] }}</td>
@@ -244,7 +246,7 @@
                     <td style="width:100px;">{{ $value["molluscum_contag"] }}</td>
                     <td style="width:100px;">{{ $value["bubos"] }}</td>
                     <td style="width:100px;">{{ $value["othstd_genital_warts"] }}</td>
-                    <td style="width:100px;">{{ $value["ostd_other"] }}</td>
+                    <td style="width:100px;">{{ $value["ostd_other"]}}</td>
                     <td style="width:100px;">{{ $value["tre_azythro"] }}</td>
                     <td style="width:100px;">{{ $value["tre_cefixim"] }}</td>
                     <td style="width:100px;">{{ $value["tre_ciprofloxacin"] }}</td>
