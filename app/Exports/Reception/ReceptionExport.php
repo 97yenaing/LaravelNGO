@@ -26,63 +26,61 @@ use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 
 
 
-class ReceptionExport implements FromView,WithColumnFormatting
+class ReceptionExport implements FromView, WithColumnFormatting
 {
 
-  private $users;private $users1;private $users2;
-  
-   public function __construct($users,$users1,$users2)
-   {
+    private $users;
+    private $users1;
+    private $users2;
+
+    public function __construct($users, $users1, $users2)
+    {
         $this->users = $users;
         $this->users1 = $users1;
         $this->users2 = $users2;
-   }
-   public function view(): View
-   {
+    }
+    public function view(): View
+    {
 
-       $encrypted_columns = [
-         "Gender",
-         "Main Risk",
-         "Sub Risk",
-         "Fever",
-         "MUAC"
-       ];
+        $encrypted_columns = [
+            "Gender",
+            "Main Risk",
+            "Sub Risk",
+            "Fever",
+            "MUAC"
+        ];
 
-       $encrypted_columns1 = [
-        "Pateint_Diagnosis",
-      ];
+        $encrypted_columns1 = [
+            "Pateint_Diagnosis",
+        ];
 
-    
-      //$diagnosis_encrypt=$followupData[0]["Pateint_Diagnosis"];
 
-       $users_treated = $this->users->map(function($user) use ($encrypted_columns) {
-           foreach($encrypted_columns as $column) {
-               if($user->{$column}=="731"){
-                $user->{$column} ="";
-               }else{
-                $user->{$column} = Crypt::decrypt_light($user->{$column},"General");
-               }
-           }
-           return $user;
-       });
-       $users1 = $this->users1;
-       $users2 = $this->users2;
-       return view('Reception.export_followup_tb', [
-           'users' => $users_treated,
-           'users1'=> $users1,
-           'users2'=> $users2,
-       ]);
+        //$diagnosis_encrypt=$followupData[0]["Pateint_Diagnosis"];
+
+        $users_treated = $this->users->map(function ($user) use ($encrypted_columns) {
+            foreach ($encrypted_columns as $column) {
+                if ($user->{$column} == "731") {
+                    $user->{$column} = "";
+                } else {
+                    $user->{$column} = Crypt::decrypt_light($user->{$column}, "General");
+                }
+            }
+            return $user;
+        });
+        $users1 = $this->users1;
+        $users2 = $this->users2;
+        return view('Reception.export_followup_tb', [
+            'users' => $users_treated,
+            'users1' => $users1,
+            'users2' => $users2,
+        ]);
     }
 
     public function columnFormats(): array
-       {
-           return [
-               "L"=>"d-m-yyyy",
-               "AR"=>"d-m-yyyy",
-           ];
-       }
-
-
-
-
+    {
+        return [
+            "L" => "d-m-yyyy",
+            "AR" => "d-m-yyyy",
+        ];
+    }
 }// class end

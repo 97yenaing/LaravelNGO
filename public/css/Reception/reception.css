@@ -29,6 +29,17 @@
   padding-top: 10px;
 }
 
+.vertical-barcode {
+  transform: rotate(90deg);
+  position: absolute;
+  display: inline-block;
+  /* Ensure the element is inline-block for proper rotation */
+}
+
+.qr-top {
+  top: 200px;
+}
+
 .predefine-section li:nth-child(1) {
   width: 50%;
 }

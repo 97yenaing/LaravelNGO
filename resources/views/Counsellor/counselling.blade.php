@@ -388,8 +388,8 @@
 
           <div class="col-md-12">
             <button type="button" id="riskUpdate" onclick="Save_and_Update()" class="btn btn-warning update-batton "
-              style="display:none">Only Patient
-              Info_Update</button>
+              style="display:none">Only Patient Info_Update</button>
+
           </div>
 
         </div>

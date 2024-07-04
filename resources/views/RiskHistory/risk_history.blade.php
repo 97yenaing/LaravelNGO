@@ -93,6 +93,7 @@
       </div>
     </div>
     @foreach ($final_log as $key=> $item)
+
     <div class="row">
       <div class="col-sm-2">
         <label for="" class="form-label">{{$key}}</label>

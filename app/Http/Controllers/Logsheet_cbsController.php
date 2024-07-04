@@ -460,8 +460,8 @@ class Logsheet_cbsController extends Controller
 
 
       $Pid   = $request->input('gid');
-      $old_risk_log = PtConfig::where('Pid', $Pid)->select("Risk Log")->first();
-      $risk_history = $old_risk_log["Risk Log"] . $request->changeriskDate . ':' . $formerRisk . ':' . $main_risk . ':' . $request["risk_really_change"] . ':' . $request->created_by . '/';
+      $old_risk_log = PtConfig::where('Pid', $Pid)->select("Risk Log","Main Risk","Sub Risk")->first();
+      $risk_history = $old_risk_log["Risk Log"] . $request->changeriskDate . ':' . $formerRisk . ':' . $main_risk . ':' . $request["risk_really_change"] . ':' . $request->created_by .':'.$old_risk_log["Sub Risk"].':'."".'/';
       PtConfig::where('Pid', $Pid)->where('Main Risk', "!=", $main_risk)->where('Main Risk', "!=", null)
         ->where('Main Risk', "!=", "731")
         ->update([

@@ -467,9 +467,9 @@ class CounsellingController extends Controller
 				if ($risk_change_date == null) {
 					$risk_change_date = Carbon::now()->format('Y-m-d');
 				}
-				$old_risk_log = PtConfig::where('Pid', $gid)->select('Risk Log')->first();
+				$old_risk_log = PtConfig::where('Pid', $gid)->select('Risk Log', 'Main Risk', 'Sub Risk')->first();
 
-				$risk_history = $old_risk_log['Risk Log'] . $risk_change_date . ':' . $old_risk . ':' . $main_risk . ':' . $change_risk_rason . ':' . $request->created_by . '/';
+				$risk_history = $old_risk_log['Risk Log'] . $risk_change_date . ':' . $old_risk_log['Main Risk'] . ':' . $main_risk . ':' . $change_risk_rason . ':' . $request->created_by . ':' . $old_risk_log['Sub Risk'] . ':' . $sub_risk . '/';
 				PtConfig::where('Pid', $gid)
 					->where('Main Risk', '!=', $main_risk)
 					->where('Main Risk', '!=', null)
@@ -503,14 +503,14 @@ class CounsellingController extends Controller
 
 					'updated_by' => $request->created_by,
 				]);
-				if ($ptconfig && $change_risk_rason == 'Yes') {
+				if ($ptconfig && $change_risk_rason == 'Yes' && $main_risk != $old_risk_log['Main Risk']) {
 					$ptconfig = PtConfig::where('Pid', $gid)->update([
 						'Risk Change_Date' => $risk_change_date,
 						'Former Risk' => $old_risk,
 						'Risk Changed' => $change_risk_rason,
 					]);
 				}
-				if ($patient && $change_risk_rason == 'Yes') {
+				if ($patient && $change_risk_rason == 'Yes' && $main_risk != $old_risk_log['Main Risk']) {
 					$patient = Patients::where('Pid', $gid)->update([
 						'Risk Change_Date' => $risk_change_date,
 						'Former Risk' => $old_risk,
@@ -1102,7 +1102,7 @@ class CounsellingController extends Controller
 			$type_counselling = [];
 			$searchType = $request->input('searchType');
 
-			$new_old = Coulselling::whereYear('Counselling_Date', $year)->where("Pid",$gid)->exists();
+			$new_old = Coulselling::whereYear('Counselling_Date', $year)->where("Pid", $gid)->exists();
 			$patientData = PtConfig::where('Pid', '=', $gid)
 				->select('pt_configs.*')
 				->get()
