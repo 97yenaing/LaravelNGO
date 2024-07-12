@@ -589,6 +589,13 @@ class CounsellingController extends Controller
 									'd3' => $request->d3,
 									'd4' => $request->d4,
 									'cage' => $request->cage,
+									'Disclosure_Define' => $request->disclosure_def,
+									'Case_Presention' => $request->case_presention,
+									'PHQ9_Define' => $request->phq9_def,
+									'PHATB_Define' => $request->ipt_artTB_def,
+									'Only_IPT' => $request->only_ipt,
+									'Only_TB_Define' => $request->tb_def,
+									'gad7_Define' => $request->gad7_def,
 
 									'updated_by' => $request->created_by,
 								]);
@@ -1222,7 +1229,7 @@ class CounsellingController extends Controller
 		}
 		if ($hiv_test == 1) {
 			$table = 'General';
-			$hiv_test_data = Lab::select('Detmine_Result', 'Unigold_Result', 'STAT_PAK_Result', 'Final_Result')->where('CID', '=', $gid)->where('Visit_date', '=', $hiv_test_date)->first();
+			$hiv_test_data = Lab::select('Detmine_Result', 'Unigold_Result', 'STAT_PAK_Result', 'Final_Result')->where('CID', '=', $gid)->where('vdate', '=', $hiv_test_date)->first();
 
 			$determine_result = Crypt::decrypt_light($hiv_test_data['Detmine_Result'], $table);
 
@@ -1234,7 +1241,7 @@ class CounsellingController extends Controller
 		}
 		if ($rpr_test == 1) {
 			$table = 'General';
-			$rpr_test_data = Rprtest::select('RDT Result', 'RPR Qualitative')->where('pid', '=', $gid)->where('visit_date', '=', $rpr_test_date)->latest('created_at')->first();
+			$rpr_test_data = Rprtest::select('RDT Result', 'RPR Qualitative')->where('pid', '=', $gid)->where('vdate', '=', $rpr_test_date)->latest('created_at')->first();
 
 			$rdt = Crypt::decrypt_light($rpr_test_data['RDT Result'], $table);
 			$rpr = Crypt::decrypt_light($rpr_test_data['RPR Qualitative'], $table);
@@ -1248,7 +1255,7 @@ class CounsellingController extends Controller
 		}
 		if ($hepB_test == 1) {
 			$table = 'General';
-			$hepB_test_data = LabHbcTest::select('HepB Result', 'HepC Result')->where('CID', '=', $gid)->where('Visit_date', '=', $hepB_test_date)->latest('created_at')->first();
+			$hepB_test_data = LabHbcTest::select('HepB Result', 'HepC Result')->where('CID', '=', $gid)->where('vdate', '=', $hepB_test_date)->latest('created_at')->first();
 
 			$hbsag = Crypt::decrypt_light($hepB_test_data['HepB Result'], $table);
 			$hcv_ab = Crypt::decrypt_light($hepB_test_data['HepC Result'], $table);

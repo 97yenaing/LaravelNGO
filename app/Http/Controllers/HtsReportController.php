@@ -17,6 +17,6 @@ class HtsReportController extends Controller
 {
   //new Ncd view
   public function hts_reportView(){
-    return view ('Counsellor.hts_report',);
+    return view ('Counsellor.hts_report',['hts_result'=>null]);
   }
 }

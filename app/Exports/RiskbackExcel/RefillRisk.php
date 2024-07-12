@@ -12,18 +12,20 @@ class RefillRisk
 		$define_name = ["RiskChangeDate", "Old Risk", "Current Risk", "Due_to_patient", "change_user", "Old Sub Risk", "Current Sub Risk"];
 		$final_log = [];
 		foreach ($export_viewData as $key => $value) {
-
-			if (!array_key_exists($value["Pid"], $final_log)) {
+			if ((!array_key_exists($value["Pid"], $final_log)) && $value["Risk Log"] != null) {
 				$log_counts = explode("/", $value["Risk Log"]);
 				$final_log[$value["Pid"]] = [];
 				foreach ($log_counts as $log_count) {
 					$same_index = 0;
+
 					$risklog_detail = explode(":", $log_count);
+
 					foreach ($risklog_detail as $index => $log) {
-						//dd($risklog_detail[1]);
-						if (isset($risklog_detail[1]) && $risklog_detail[1] != null && isset($risklog_detail[2]) && $risklog_detail[2] != null) {
+
+						if (isset($risklog_detail[2]) && $risklog_detail[2] != null && $risklog_detail[2] != "731") {
 
 							if ($index == 0) {
+
 								$change_date = Carbon::parse($log)->format('d-m-Y');
 								if (array_key_exists($change_date, $final_log[$value["Pid"]])) {
 									$change_date = $change_date . '-' . ++$same_index;
@@ -33,11 +35,19 @@ class RefillRisk
 							} else {
 								$final_log[$value["Pid"]][$change_date][$define_name[$index]] = $log;
 							}
+							if ($index == 4 && count($risklog_detail) == 5) {
+								$final_log[$value["Pid"]][$change_date]["Old Sub Risk"] = "";
+								$final_log[$value["Pid"]][$change_date]["Current Sub Risk"] = "";
+							}
 						}
 					}
 				}
 			}
+			// if ($value["Risk Log"] != null) {
+			// 	$final_log[$value["Pid"]] = $value["Pid"];
+			// }
 		}
+
 		return $final_log;
 	}
 }

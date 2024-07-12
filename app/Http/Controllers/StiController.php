@@ -3203,7 +3203,7 @@ class StiController extends Controller
           whereBetween('Visit_date', [$from, $to])
           ->with([
               'ptconfig' => function ($query) {
-                $query->select("Pid",'Date of Birth','Agey','Agem',"Main Risk","Sub Risk","Gender","FuchiaID");
+                $query->select("Pid",'Date of Birth','Agey','Agem',"Main Risk","Sub Risk","Gender","FuchiaID","Risk Log");
               }
           ])
           ->get();                      
@@ -3224,6 +3224,3 @@ class StiController extends Controller
   }
 
 }
-
-
-    
