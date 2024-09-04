@@ -185,8 +185,14 @@ class Logsheet_cbsController extends Controller
         $ptFather = $patientData["Father"];
         $ptFather = Crypt::decryptString($ptFather);
 
-        $dob = $patientData["Date of Birth"];
-        $dob = Crypt::decryptString($dob);
+        // $dob = $patientData["Date of Birth"];
+        // $dob = Crypt::decryptString($dob);
+        $dob = "";
+        $patientData = Export_age::Export_general($patientData, "", $patientData["Date of Birth"], $patientData);
+        $acutal_reg_date = explode("-", $patientData["Reg Date"]);
+        if ($acutal_reg_date[0] != $patientData["Reg year"]) {
+          $patientData["Reg Date"] = $patientData["Reg year"] . "-" . $acutal_reg_date[1] . '-' . $acutal_reg_date[2];
+        }
 
         $region = $patientData["Region"];
         $region = Crypt::decryptString($region);
@@ -366,10 +372,10 @@ class Logsheet_cbsController extends Controller
 
         'Main Risk' => $main_risk,
         'Sub Risk' => $sub_risk,
-        // 'Risk Changed'=>$request ->risk_really_change,
+        //'Risk Changed'=>$request ->risk_really_change,
 
-        //'Former Risk',
-        //'Risk Change_Date' ,
+        'Former Risk' => $main_risk,
+        'Risk Change_Date' => $request->regDate,
         'Phone' => $phone,
         'Phone2' => $phone2,
         'Phone3' => $phone3,
@@ -387,6 +393,7 @@ class Logsheet_cbsController extends Controller
         "Gender"                => $gender,
         'Reg Date'              => $request->regDate,
         'Date Of Birth'         => $dob,
+        'Former Risk' => $main_risk,
 
         'Main Risk'             => $main_risk,
         'Sub Risk'              => $sub_risk,
@@ -460,8 +467,8 @@ class Logsheet_cbsController extends Controller
 
 
       $Pid   = $request->input('gid');
-      $old_risk_log = PtConfig::where('Pid', $Pid)->select("Risk Log","Main Risk","Sub Risk")->first();
-      $risk_history = $old_risk_log["Risk Log"] . $request->changeriskDate . ':' . $formerRisk . ':' . $main_risk . ':' . $request["risk_really_change"] . ':' . $request->created_by .':'.$old_risk_log["Sub Risk"].':'."".'/';
+      $old_risk_log = PtConfig::where('Pid', $Pid)->select("Risk Log", "Main Risk", "Sub Risk")->first();
+      $risk_history = $old_risk_log["Risk Log"] . $request->changeriskDate . ':' . $formerRisk . ':' . $main_risk . ':' . $request["risk_really_change"] . ':' . $request->created_by . ':' . $old_risk_log["Sub Risk"] . ':' . "" . '/';
       PtConfig::where('Pid', $Pid)->where('Main Risk', "!=", $main_risk)->where('Main Risk', "!=", null)
         ->where('Main Risk', "!=", "731")
         ->update([
@@ -498,7 +505,7 @@ class Logsheet_cbsController extends Controller
           'Sub Risk' => $sub_risk,
           'mode' => 0,
 
-          // 'Risk Change_Date' =>$request["risk_really_change"] == 'Yes' ? $request -> changeriskDate : null,
+          //'Risk Change_Date' =>$request["risk_really_change"] == 'Yes' ? $request -> changeriskDate : null,
           // 'Former Risk' => $request["risk_really_change"] == 'Yes' ? $formerRisk : null,
           'Phone' => $phone,
           'Phone2' => $phone2,
@@ -522,7 +529,7 @@ class Logsheet_cbsController extends Controller
           'updated_by' => $request->created_by,
 
         ]);
-      if ($request["risk_really_change"] == "Yes") {
+      if ($request["risk_really_change"] == "Yes" && $old_risk_log["Main Risk"] != $main_risk) {
         PtConfig::where('Pid', $Pid)
           ->update([
             "Risk changed" => "Yes",
@@ -566,7 +573,8 @@ class Logsheet_cbsController extends Controller
           ]);
       }
       return response()->json([
-        $goal, $cofid_updated_data,
+        $goal,
+        $cofid_updated_data,
       ]);
     }
 
@@ -677,7 +685,10 @@ class Logsheet_cbsController extends Controller
           ->first();
         $reqData["Visit_Date"] = date("d-m-Y", strtotime($reqData["Visit_Date"]));
         return response()->json([
-          $HE_section, $reqData, $Pid, $vDate
+          $HE_section,
+          $reqData,
+          $Pid,
+          $vDate
         ]);
       }
     } else {
@@ -947,7 +958,8 @@ class Logsheet_cbsController extends Controller
           ->first();
         $reqData["Visit_Date"] = date("d-m-Y", strtotime($reqData["Visit_Date"]));
         return response()->json([
-          $success, [$reqData],
+          $success,
+          [$reqData],
         ]);
       }
     } else {
@@ -1102,7 +1114,8 @@ class Logsheet_cbsController extends Controller
     }
 
     return response()->json([
-      $diffInMonths, $labData
+      $diffInMonths,
+      $labData
     ]);
   }
   // function 15
@@ -1122,14 +1135,14 @@ class Logsheet_cbsController extends Controller
 
       $data = PreventionLogsheet::with([
         'ptconfig' => function ($query) {
-          $query->select('Pid', 'Name', 'Township', 'Date of Birth', 'Agey', 'Agem', 'Main Risk', 'Sub Risk', 'Former Risk', 'Risk Change_Date', 'Gender', 'Reg Date');
+          $query->select('Pid', 'Name', 'Township', 'Date of Birth', 'Agey', 'Agem', 'Main Risk', 'Sub Risk', 'Former Risk', 'Risk Change_Date', 'Gender', 'Reg Date', 'Risk Log');
         }
       ])->whereBetween('Visit_Date', [$from, $to])->get();
 
       foreach ($data as $key => $per_data) {
         if ($per_data["ptconfig"] != null) {
-          $data[$key]["Main_Risk"] = $per_data["ptconfig"]["Main Risk"];
-          $data[$key]["Sub_Risk"] = $per_data["ptconfig"]["Sub Risk"];
+          $data[$key]["Main Risk"] = $per_data["ptconfig"]["Main Risk"];
+          $data[$key]["Sub Risk"] = $per_data["ptconfig"]["Sub Risk"];
           $data[$key]["Sex"] = $per_data["ptconfig"]["Gender"];
           $data[$key]["Reg_Date"] = $per_data["ptconfig"]["Reg Date"];
         }
@@ -1268,14 +1281,15 @@ class Logsheet_cbsController extends Controller
       ->where("Pid", $request["general_ID"])
       ->where('Visit_Date', '<', $request["vdate"])->exists();
 
-    $new_old["lob_result"] = Lab::select("Final_Result")->where('Visit_Date', $request["vdate"])
+    $new_old["lob_result"] = Lab::select("Final_Result")->where('vdate', $request["vdate"])
       ->where("CID", $request["general_ID"])->first();
     if ($new_old["lob_result"]) {
       $new_old["lob_result"] = Crypt::decrypt_light($new_old["lob_result"]["Final_Result"], "General");
     }
 
     return response()->json([
-      $new_old
+      $new_old,
+      $request["vdate"]
     ]);
   }
 }// class End

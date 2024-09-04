@@ -7,14 +7,23 @@ use Illuminate\Support\Facades\Crypt;
 
 class RefillRisk
 {
+	public static function convertDate($date)
+	{
+		$dateParts = explode("-", $date);
+		return $dateParts[2] . '-' . $dateParts[1] . '-' . $dateParts[0];
+	}
+
 	public static function FillRisk($export_viewData)
 	{
 		$define_name = ["RiskChangeDate", "Old Risk", "Current Risk", "Due_to_patient", "change_user", "Old Sub Risk", "Current Sub Risk"];
 		$final_log = [];
+		$change_date = null;
+
 		foreach ($export_viewData as $key => $value) {
 			if ((!array_key_exists($value["Pid"], $final_log)) && $value["Risk Log"] != null) {
 				$log_counts = explode("/", $value["Risk Log"]);
 				$final_log[$value["Pid"]] = [];
+
 				foreach ($log_counts as $log_count) {
 					$same_index = 0;
 
@@ -23,7 +32,7 @@ class RefillRisk
 					foreach ($risklog_detail as $index => $log) {
 
 						if (isset($risklog_detail[2]) && $risklog_detail[2] != null && $risklog_detail[2] != "731") {
-
+							//dd($risklog_detail);
 							if ($index == 0) {
 
 								$change_date = Carbon::parse($log)->format('d-m-Y');
@@ -39,15 +48,17 @@ class RefillRisk
 								$final_log[$value["Pid"]][$change_date]["Old Sub Risk"] = "";
 								$final_log[$value["Pid"]][$change_date]["Current Sub Risk"] = "";
 							}
+							uksort($final_log[$value["Pid"]], function ($a, $b) {
+								$dateA = self::convertDate($a);
+								$dateB = self::convertDate($b);
+								return strtotime($dateA) - strtotime($dateB);
+							});
 						}
 					}
 				}
 			}
-			// if ($value["Risk Log"] != null) {
-			// 	$final_log[$value["Pid"]] = $value["Pid"];
-			// }
 		}
-
+		//dd($final_log);
 		return $final_log;
 	}
 }

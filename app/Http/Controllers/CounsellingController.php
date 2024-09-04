@@ -3,38 +3,28 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
+
 use App\Models\Followup_general;
 use App\Models\PtConfig;
 use App\Models\Patients;
 use App\Models\Lab;
 use App\Models\LabHbcTest;
-use App\Models\Urine;
+
 use App\Models\Rprtest;
-use App\Models\Labstitest;
-use App\Models\Lab_oi;
-use App\Models\LabGeneralTest;
-use App\Models\LabStoolTest;
-use App\Models\LabAfbTest;
-use App\Models\LabCovidTest;
-use App\Models\Viralload;
+
 use App\Models\Coulselling;
 use App\Models\CounsellorRecords;
-use App\Models\Stifemale;
-use App\Models\Stimale;
-use App\Models\PreventionLogsheet;
-use App\Models\PreventionCBS;
+
 use App\Models\Cervicalcancer;
-use App\Models\cmv;
+
 use App\Models\ncd_pt_register;
 use App\Models\ncdFollowup;
 use App\Models\tb_registerO3;
 
-use App\Models\OutsideTeleNoID;
+
 use App\Models\Tbipt;
 use App\Models\preTB;
-use App\Models\Consumption;
+
 use Carbon\Carbon;
 use Exception;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
@@ -48,6 +38,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Models\TeleCounselling;
 use DateTime;
 use App\Exports\Export_age;
+use App\Exports\RiskbackExcel\RefillRisk;
 
 class CounsellingController extends Controller
 {
@@ -153,6 +144,7 @@ class CounsellingController extends Controller
 		}
 		if ($hts_counselling == 1 || $counsellingOnly == 1 || $pt_data_update == 'Only Patient Info_Update' || $pt_data_update == 'Update') {
 			// to save data in  table (config and counselling table and HTS)
+			$current_date = Carbon::now()->format('Y-m-d');
 			$region = $request->input('state');
 			$region = Crypt::encryptString($region);
 
@@ -235,11 +227,11 @@ class CounsellingController extends Controller
 			$Status = $request->input('Status');
 			$Status = Crypt::encrypt_light($Status, $table);
 
-			$old_risk = Crypt::encrypt_light($request['old_risk'], $table);
 			$change_risk_rason = $request['change_risk_rason'];
 			$labTestDate = $request->input('labTestDate');
 
 			$risk_change_date = $request->input('risk_change_date');
+
 
 			$cdate = $request->input('Counselling_Date');
 
@@ -250,160 +242,11 @@ class CounsellingController extends Controller
 			$edit = $request->input('edit');
 
 			$follow_lastDate = Followup_general::where('Pid', $gid)->where('Visit Date', $cdate)->exists();
+			$patient_lastDate = CounsellorRecords::where('Pid', $gid)->where("Counselling_Date", $risk_change_date)->exists();
 
-			if ($follow_lastDate || $pt_data_update == 'Only Patient Info_Update') {
+
+			if ($follow_lastDate || ($pt_data_update == 'Only Patient Info_Update')) {
 				$test_locate = Crypt::encrypt_light($test_locate, $table);
-
-				$urine_res = Urine::where('CID', '=', $gid)
-					->where('vdate', $cdate)
-					->update([
-						'Main Risk' => $main_risk,
-						'Sub Risk' => $sub_risk,
-						'updated_by' => $request->created_by,
-						'agey' => $request->Agey,
-					]);
-
-				$sti_lab_res = Labstitest::where('CID', '=', $gid)
-					->where('vdate', $cdate)
-					->update([
-						'Type Of Patient' => $main_risk,
-						'Patient Type Sub' => $sub_risk,
-						'updated_by' => $request->created_by,
-						'agey' => $request->Agey,
-					]);
-
-				$oi_res = Lab_oi::where('CID', '=', $gid)
-					->where('vdate', $cdate)
-					->update([
-						'Main Risk' => $main_risk,
-						'Sub Risk' => $sub_risk,
-						'updated_by' => $request->created_by,
-						'agey' => $request->Agey,
-					]);
-
-				$general_res = LabGeneralTest::where('CID', '=', $gid)
-					->where('vdate', $cdate)
-					->update([
-						'Patient_Type' => $main_risk,
-						'Patient Type Sub' => $sub_risk,
-						'updated_by' => $request->created_by,
-						'agey' => $request->Agey,
-					]);
-
-				//ok
-
-				$afb_res = LabAfbTest::where('CID', '=', $gid)
-					->where('vdate', $cdate)
-					->update([
-						'Patient Type' => $main_risk,
-						'Patient Type Sub' => $sub_risk,
-						'updated_by' => $request->created_by,
-						'agey' => $request->Agey,
-					]);
-
-				$stool_res = LabStoolTest::where('CID', '=', $gid)
-					->where('vdate', $cdate)
-					->update([
-						'Patient Type' => $main_risk,
-						'Patient Type Sub' => $sub_risk,
-						'updated_by' => $request->created_by,
-						'agey' => $request->Agey,
-					]);
-
-				$covid_res = LabCovidTest::where('CID', '=', $gid)
-					->where('vdate', $cdate)
-					->update([
-						'Patient Type' => $main_risk,
-						'Patient Type Sub' => $sub_risk,
-						'updated_by' => $request->created_by,
-						'agey' => $request->Agey,
-					]);
-				//ok
-
-				$Vir_res = Viralload::where('CID', '=', $gid)
-					->where('vdate', $cdate)
-					->update([
-						'Main-Risk' => $main_risk,
-						'Sub-Risk' => $sub_risk,
-						'updated_by' => $request->created_by,
-						'agey' => $request->Agey,
-					]);
-				$hiv_res = Lab::where('CID', '=', $gid)
-					->where('vdate', '=', $cdate)
-					->update([
-						'Patient_Type' => $main_risk,
-						'Patient Type Sub' => $sub_risk,
-						'updated_by' => $request->created_by,
-						'agey' => $request->Agey,
-					]);
-				$rpr_value = Rprtest::where('pid', '=', $gid)
-					->where('vdate', '=', $cdate)
-					->update([
-						'Type Of Patient' => $main_risk,
-						'Patient Type Sub' => $sub_risk,
-						'updated_by' => $request->created_by,
-						'agey' => $request->Agey,
-					]);
-
-				$hbc_res = LabHbcTest::where('CID', '=', $gid)
-					->where('vdate', '=', $cdate)
-					->update([
-						'Patient_Type' => $main_risk,
-						'Patient Type Sub' => $sub_risk,
-						'updated_by' => $request->created_by,
-						'agey' => $request->Agey,
-					]);
-
-				$sti_female = Stifemale::where('CID', '=', $gid)
-					->where('Visit_date', $cdate)
-					->update([
-						'risk_factor' => $main_risk,
-						'updated_by' => $request->created_by,
-						'age' => $request->Agey,
-					]);
-
-				$sti_female = Stimale::where('CID', '=', $gid)
-					->where('Visit_date', $cdate)
-					->update([
-						'risk_factor' => $main_risk,
-						'updated_by' => $request->created_by,
-						'age' => $request->Agey,
-					]);
-
-				$prevention = PreventionLogsheet::where('Pid', '=', $gid)
-					->where('Visit_date', $cdate)
-					->update([
-						'Main_Risk' => $main_risk,
-						'Sub_Risk' => $sub_risk,
-						'Risk changed Date' => $risk_change_date,
-						'Initial Risk' => $old_risk,
-						'Risk Changed' => $change_risk_rason,
-						'Agey' => $request->Agey,
-					]);
-
-				$cbs_prevention = PreventionCBS::where('Pid', '=', $gid)
-					->where('Visit_Date', $cdate)
-					->update([
-						'Main_Risk' => $main_risk,
-						'Sub_Risk' => $sub_risk,
-						'Agey' => $request->Agey,
-					]);
-
-				$cmv = cmv::where('Pid_cmv', '=', $gid)
-					->where('Visit_date', $cdate)
-					->update([
-						'Patient_Type' => $main_risk,
-						'Agey' => $request->Agey,
-					]);
-
-				$Consumption = Consumption::where('Pid', '=', strval($gid))
-					->where('Given_Date', $cdate)
-					->update([
-						'Main Risk' => $main_risk,
-						'Agey' => $request->Agey,
-						'Agem' => $request->Agem,
-					]);
-
 				if ($edit == 1) {
 					Patients::where('Pid', $gid)->update([
 						'Agey' => $request->register_age,
@@ -465,8 +308,9 @@ class CounsellingController extends Controller
 						]);
 				}
 				if ($risk_change_date == null) {
-					$risk_change_date = Carbon::now()->format('Y-m-d');
+					$risk_change_date = $current_date;
 				}
+				$changesDate = new DateTime($risk_change_date);
 				$old_risk_log = PtConfig::where('Pid', $gid)->select('Risk Log', 'Main Risk', 'Sub Risk')->first();
 
 				$risk_history = $old_risk_log['Risk Log'] . $risk_change_date . ':' . $old_risk_log['Main Risk'] . ':' . $main_risk . ':' . $change_risk_rason . ':' . $request->created_by . ':' . $old_risk_log['Sub Risk'] . ':' . $sub_risk . '/';
@@ -485,37 +329,47 @@ class CounsellingController extends Controller
 						'Risk Log' => $risk_history,
 					]);
 
-				$patient = Patients::where('Pid', $gid)->update([
-					'Main Risk' => $main_risk,
-					'Sub Risk' => $sub_risk,
-					'updated_by' => $request->created_by,
-				]);
-
-				$ptconfig = PtConfig::where('Pid', $gid)->update([
-					'Region' => $region,
-					'Township' => $township,
-					'Quarter' => $quarter,
-					'Phone' => $phone,
-					'Phone2' => $phone2,
-					'Phone3' => $phone3,
-					'Main Risk' => $main_risk,
-					'Sub Risk' => $sub_risk,
-
-					'updated_by' => $request->created_by,
-				]);
-				if ($ptconfig && $change_risk_rason == 'Yes' && $main_risk != $old_risk_log['Main Risk']) {
-					$ptconfig = PtConfig::where('Pid', $gid)->update([
-						'Risk Change_Date' => $risk_change_date,
-						'Former Risk' => $old_risk,
-						'Risk Changed' => $change_risk_rason,
-					]);
-				}
-				if ($patient && $change_risk_rason == 'Yes' && $main_risk != $old_risk_log['Main Risk']) {
+				if ($follow_lastDate || $patient_lastDate) {
 					$patient = Patients::where('Pid', $gid)->update([
-						'Risk Change_Date' => $risk_change_date,
-						'Former Risk' => $old_risk,
-						'Risk Changed' => $change_risk_rason,
+						'Main Risk' => $main_risk,
+						'Sub Risk' => $sub_risk,
+						'updated_by' => $request->created_by,
 					]);
+					PtConfig::where('Pid', $gid)->update([
+						'Main Risk' => $main_risk,
+						'Sub Risk' => $sub_risk,
+					]);
+					$ptconfig = PtConfig::where('Pid', $gid)->update([
+						'Region' => $region,
+						'Township' => $township,
+						'Quarter' => $quarter,
+						'Phone' => $phone,
+						'Phone2' => $phone2,
+						'Phone3' => $phone3,
+						'updated_by' => $request->created_by,
+					]);
+
+					if ($patient && $ptconfig && (($change_risk_rason == 'Yes' && $main_risk != $old_risk_log['Main Risk'])
+						|| ($old_risk_log['Main Risk'] == null || $old_risk_log['Main Risk'] == "731"))) {
+
+						if ($old_risk_log['Main Risk'] == null || $old_risk_log['Main Risk'] == "731") {
+							$old_risk = $main_risk;
+						} else {
+							$old_risk = $old_risk_log['Main Risk'];
+						}
+
+						$ptconfig = PtConfig::where('Pid', $gid)->update([
+							'Risk Change_Date' => $risk_change_date,
+							'Former Risk' => $old_risk,
+							'Risk Changed' => $change_risk_rason,
+						]);
+
+						$patient = Patients::where('Pid', $gid)->update([
+							'Risk Change_Date' => $risk_change_date,
+							'Former Risk' => $old_risk,
+							'Risk Changed' => $change_risk_rason,
+						]);
+					}
 				}
 
 				$follow_general = Followup_general::where('Pid', $gid)
@@ -526,12 +380,7 @@ class CounsellingController extends Controller
 						'updated_by' => $request->created_by,
 					]);
 
-				// return response()->json([
-				//   "ok pr update"
-				// ]);
-
 				if ($hts_counselling == 1 || $counsellingOnly == 1) {
-					$labs_updatedHTs = [$hiv_res, $rpr_value, $hbc_res, $urine_res, $oi_res, $sti_lab_res, $afb_res, $general_res, $stool_res, $covid_res, $Vir_res];
 					$counselling_exists = CounsellorRecords::where('Pid', '=', $gid)->where('Counselling_Date', $cdate)->exists();
 					if ($counsellingOnly == 1) {
 						if ($counselling_exists) {
@@ -673,45 +522,149 @@ class CounsellingController extends Controller
 						$counsellor_hts_exist = Coulselling::where('Pid', '=', $gid)->where('Counselling_Date', $cdate)->where('CBS_HTS', 2)->exists();
 						if (!$hts_exists || ($hts_exists && $cbs_hts_exist && !$counsellor_hts_exist)) {
 							if (!$counselling_exists) {
-								if ($hiv_res || $test_locate == '699886825970327') {
-									Coulselling::create([ // HTS Create row input
-										'Clinic code' => $request->clinic_code,
-										'Pid' => $request->Pid,
-										'FuchiaID' => $request->FuchiaID,
-										'Gender' => $gender,
-										'Age' => $request->Agey,
+								Coulselling::create([ // HTS Create row input
+									'Clinic code' => $request->clinic_code,
+									'Pid' => $request->Pid,
+									'FuchiaID' => $request->FuchiaID,
+									'Gender' => $gender,
+									'Age' => $request->Agey,
 
-										'Counsellor' => $counsellor,
-										'Counselling_Date' => $request->Counselling_Date,
-										'Pre' => $request->Pre,
-										'Post' => $request->Post,
+									'Counsellor' => $counsellor,
+									'Counselling_Date' => $request->Counselling_Date,
+									'Pre' => $request->Pre,
+									'Post' => $request->Post,
 
-										'Main Risk' => $main_risk,
-										'Sub Risk' => $sub_risk,
-										'Service_Modality' => $service,
-										'Mode of Entry' => $mode_of_entry,
-										'New_Old' => $new_old,
+									'Main Risk' => $main_risk,
+									'Sub Risk' => $sub_risk,
+									'Service_Modality' => $service,
+									'Mode of Entry' => $mode_of_entry,
+									'New_Old' => $new_old,
 
-										'HIV_Test_Date' => $request->hiv_test_date,
-										'HIV_Test_Determine' => $hiv_determine,
-										'HIV_Test_UNI' => $hiv_unigold,
-										'HIV_Test_STAT' => $hiv_stat,
-										'HIV_Final_Result' => $hiv_final,
+									'HIV_Test_Date' => $request->hiv_test_date,
+									'HIV_Test_Determine' => $hiv_determine,
+									'HIV_Test_UNI' => $hiv_unigold,
+									'HIV_Test_STAT' => $hiv_stat,
+									'HIV_Final_Result' => $hiv_final,
 
-										'Syp_Test_Date' => $request->syp_date,
-										'Syphillis_RDT' => $syp_rdt,
-										'Syphillis_RPR' => $syp_rpr,
-										'Syphillis_VDRL' => $syp_vdrl,
+									'Syp_Test_Date' => $request->syp_date,
+									'Syphillis_RDT' => $syp_rdt,
+									'Syphillis_RPR' => $syp_rpr,
+									'Syphillis_VDRL' => $syp_vdrl,
 
-										'Hep_Test_Date' => $request->hep_date,
-										'Hepatitis_B' => $hep_b,
-										'Hepatitis_C' => $hep_c,
-										'CBS_HTS' => 2,
-										'Test_Location' => $request->test_locate,
-										'created_by' => $request->created_by,
-									]);
+									'Hep_Test_Date' => $request->hep_date,
+									'Hepatitis_B' => $hep_b,
+									'Hepatitis_C' => $hep_c,
+									'CBS_HTS' => 2,
+									'Test_Location' => $test_locate,
+									'created_by' => $request->created_by,
+								]);
 
-									CounsellorRecords::create([ //where('Pid','=',$gid)->where('Counselling_Date','=',$hiv_test_date)
+								CounsellorRecords::create([ //where('Pid','=',$gid)->where('Counselling_Date','=',$hiv_test_date)
+									'Clinic Code' => $request->clinic_code,
+									'Pid' => $request->Pid,
+									'FuchiaID' => $request->FuchiaID,
+									'PrEPCode' => $request->PrEPCode,
+									'Gender' => $request->Gender,
+									'Agey' => $request->Agey,
+									'Agem' => $request->Agem,
+
+									'Counselling_Date' => $request->Counselling_Date,
+									'Counsellor' => $counsellor,
+									'Main Risk' => $main_risk,
+									'Sub Risk' => $sub_risk,
+
+									'Pre' => $request->Pre,
+									'Post' => $request->Post,
+									'HTSdone' => $HTSdone,
+									'Reason' => $Reason,
+									'Status' => $Status,
+									'PrEP' => $request->PrEP,
+									'PrEP Status' => $PrEP_Status,
+									'C1' => $request->c1,
+									'C2' => $request->c2,
+									'C3' => $request->c3,
+									'ADH' => $request->adh,
+									'Child under15 Adoles' => $request->Child_under15_Adoles,
+									'Child under15 Dis' => $request->Child_under15_Dis,
+									'Child under15 ADH' => $request->Child_under15_ADH,
+									'MMT' => $request->mmt,
+									'IPT' => $request->ipt,
+									'TB' => $request->tb,
+									'NCD' => $request->ncd,
+									'ANC' => $request->anc,
+									'PFA' => $request->pfa,
+									'PHQ9' => $request->phq9,
+									'Other' => $request->Other,
+									'EAC' => $request->eac,
+									'HMT' => $request->hmt,
+									'C P case' => $request->c_p_case,
+									'PMTCT' => $request->pmtct,
+									'c2_done' => $request->c2_done,
+									'stable' => $request->stable,
+									'phq4' => $request->phq4,
+									'gad7' => $request->gad7,
+									'brest_cancer' => $request->brest_cancer,
+									'hepC' => $request->hepC,
+									'art_ost' => $request->art_ost,
+									'd1' => $request->d1,
+									'd2' => $request->d2,
+									'd3' => $request->d3,
+									'd4' => $request->d4,
+									'cage' => $request->cage,
+									'Disclosure_Define' => $request->disclosure_def,
+									'Case_Presention' => $request->case_presention,
+									'PHQ9_Define' => $request->phq9_def,
+									'PHATB_Define' => $request->ipt_artTB_def,
+									'Only_IPT' => $request->only_ipt,
+									'Only_TB_Define' => $request->tb_def,
+									'gad7_Define' => $request->gad7_def,
+									'created_by' => $request->created_by,
+								]);
+
+								$success = 1; // Custom alert box SuccessFully
+
+							} else {
+
+								Coulselling::create([ // HTS Create row input
+									'Clinic code' => $request->clinic_code,
+									'Pid' => $request->Pid,
+									'FuchiaID' => $request->FuchiaID,
+									'Gender' => $gender,
+									'Age' => $request->Agey,
+									'Test_Location' => $test_locate,
+
+									'Counsellor' => $counsellor,
+									'Counselling_Date' => $request->Counselling_Date,
+									'Pre' => $request->Pre,
+									'Post' => $request->Post,
+
+									'Main Risk' => $main_risk,
+									'Sub Risk' => $sub_risk,
+									'Service_Modality' => $service,
+									'Mode of Entry' => $mode_of_entry,
+									'New_Old' => $new_old,
+
+									'HIV_Test_Date' => $request->hiv_test_date,
+									'HIV_Test_Determine' => $hiv_determine,
+									'HIV_Test_UNI' => $hiv_unigold,
+									'HIV_Test_STAT' => $hiv_stat,
+									'HIV_Final_Result' => $hiv_final,
+
+									'Syp_Test_Date' => $request->syp_date,
+									'Syphillis_RDT' => $syp_rdt,
+									'Syphillis_RPR' => $syp_rpr,
+									'Syphillis_VDRL' => $syp_vdrl,
+									'CBS_HTS' => 2,
+
+									'Hep_Test_Date' => $request->hep_date,
+									'Hepatitis_B' => $hep_b,
+									'Hepatitis_C' => $hep_c,
+
+									'created_by' => $request->created_by,
+								]);
+								CounsellorRecords::where('Pid', '=', $gid)
+									->where('Counselling_Date', '=', $cdate)
+									->update([
 										'Clinic Code' => $request->clinic_code,
 										'Pid' => $request->Pid,
 										'FuchiaID' => $request->FuchiaID,
@@ -771,119 +724,11 @@ class CounsellingController extends Controller
 										'Only_TB_Define' => $request->tb_def,
 										'gad7_Define' => $request->gad7_def,
 										'created_by' => $request->created_by,
+										'updated_by' => $request->created_by,
 									]);
 
-									$success = $labs_updatedHTs; // Custom alert box SuccessFully
-								} else {
-									$success = 2.1; //This Patient do not test Any HTS Test on
-								}
-							} else {
-								if ($hiv_res || $test_locate == '699886825970327') {
-									Coulselling::create([ // HTS Create row input
-										'Clinic code' => $request->clinic_code,
-										'Pid' => $request->Pid,
-										'FuchiaID' => $request->FuchiaID,
-										'Gender' => $gender,
-										'Age' => $request->Agey,
-										'Test_Location' => $test_locate,
+								$success = 1; // Custom alert box SuccessFully
 
-										'Counsellor' => $counsellor,
-										'Counselling_Date' => $request->Counselling_Date,
-										'Pre' => $request->Pre,
-										'Post' => $request->Post,
-
-										'Main Risk' => $main_risk,
-										'Sub Risk' => $sub_risk,
-										'Service_Modality' => $service,
-										'Mode of Entry' => $mode_of_entry,
-										'New_Old' => $new_old,
-
-										'HIV_Test_Date' => $request->hiv_test_date,
-										'HIV_Test_Determine' => $hiv_determine,
-										'HIV_Test_UNI' => $hiv_unigold,
-										'HIV_Test_STAT' => $hiv_stat,
-										'HIV_Final_Result' => $hiv_final,
-
-										'Syp_Test_Date' => $request->syp_date,
-										'Syphillis_RDT' => $syp_rdt,
-										'Syphillis_RPR' => $syp_rpr,
-										'Syphillis_VDRL' => $syp_vdrl,
-
-										'Hep_Test_Date' => $request->hep_date,
-										'Hepatitis_B' => $hep_b,
-										'Hepatitis_C' => $hep_c,
-
-										'created_by' => $request->created_by,
-									]);
-									CounsellorRecords::where('Pid', '=', $gid)
-										->where('Counselling_Date', '=', $cdate)
-										->update([
-											'Clinic Code' => $request->clinic_code,
-											'Pid' => $request->Pid,
-											'FuchiaID' => $request->FuchiaID,
-											'PrEPCode' => $request->PrEPCode,
-											'Gender' => $request->Gender,
-											'Agey' => $request->Agey,
-											'Agem' => $request->Agem,
-
-											'Counselling_Date' => $request->Counselling_Date,
-											'Counsellor' => $counsellor,
-											'Main Risk' => $main_risk,
-											'Sub Risk' => $sub_risk,
-
-											'Pre' => $request->Pre,
-											'Post' => $request->Post,
-											'HTSdone' => $HTSdone,
-											'Reason' => $Reason,
-											'Status' => $Status,
-											'PrEP' => $request->PrEP,
-											'PrEP Status' => $PrEP_Status,
-											'C1' => $request->c1,
-											'C2' => $request->c2,
-											'C3' => $request->c3,
-											'ADH' => $request->adh,
-											'Child under15 Adoles' => $request->Child_under15_Adoles,
-											'Child under15 Dis' => $request->Child_under15_Dis,
-											'Child under15 ADH' => $request->Child_under15_ADH,
-											'MMT' => $request->mmt,
-											'IPT' => $request->ipt,
-											'TB' => $request->tb,
-											'NCD' => $request->ncd,
-											'ANC' => $request->anc,
-											'PFA' => $request->pfa,
-											'PHQ9' => $request->phq9,
-											'Other' => $request->Other,
-											'EAC' => $request->eac,
-											'HMT' => $request->hmt,
-											'C P case' => $request->c_p_case,
-											'PMTCT' => $request->pmtct,
-											'c2_done' => $request->c2_done,
-											'stable' => $request->stable,
-											'phq4' => $request->phq4,
-											'gad7' => $request->gad7,
-											'brest_cancer' => $request->brest_cancer,
-											'hepC' => $request->hepC,
-											'art_ost' => $request->art_ost,
-											'd1' => $request->d1,
-											'd2' => $request->d2,
-											'd3' => $request->d3,
-											'd4' => $request->d4,
-											'cage' => $request->cage,
-											'Disclosure_Define' => $request->disclosure_def,
-											'Case_Presention' => $request->case_presention,
-											'PHQ9_Define' => $request->phq9_def,
-											'PHATB_Define' => $request->ipt_artTB_def,
-											'Only_IPT' => $request->only_ipt,
-											'Only_TB_Define' => $request->tb_def,
-											'gad7_Define' => $request->gad7_def,
-											'created_by' => $request->created_by,
-											'updated_by' => $request->created_by,
-										]);
-
-									$success = $labs_updatedHTs; // Custom alert box SuccessFully
-								} else {
-									$success = 2.1; //This Patient do not test Any HTS Test on
-								}
 							}
 						} else {
 							$success = 2.2; // This Patient has been Collected in thsi day
@@ -891,7 +736,7 @@ class CounsellingController extends Controller
 					}
 				} elseif ($pt_data_update == 'Only Patient Info_Update') {
 					$success = 3;
-					$pt_info_update = [$patient, $ptconfig, $follow_general];
+					$pt_info_update = [$patient, $ptconfig];
 					foreach ($pt_info_update as $pt_value) {
 						if ($pt_value == 1) {
 							$success = 1;
@@ -1130,6 +975,7 @@ class CounsellingController extends Controller
 				$ptNameDecrypt = $patientData['Name'];
 				$ptNameDecrypt = Crypt::decryptString($ptNameDecrypt);
 
+
 				$patientData["Titre(current)"] = Crypt::decrypt_light($patientData["Titre(current)"], $table);
 
 				$ptRegion = $patientData['Region'];
@@ -1150,8 +996,7 @@ class CounsellingController extends Controller
 				$phone3 = $patientData['Phone3'];
 				$phone3 = Crypt::decryptString($phone3);
 
-				$dob = $patientData['Date of Birth'];
-				$dob = Crypt::decryptString($dob);
+				$dob = "";
 
 				$table = 'General';
 				$gender = $patientData['Gender'];
@@ -1182,6 +1027,7 @@ class CounsellingController extends Controller
 						// $last_rpr_date,
 					]);
 				}
+
 				$coun_record_exist = CounsellorRecords::where('Pid', $gid)->exists();
 				$coun_alredy_exist = CounsellorRecords::where('Pid', $gid)->where('Counselling_Date', $vdate)->exists();
 				if (!$coun_record_exist) {
@@ -1198,6 +1044,17 @@ class CounsellingController extends Controller
 					$type_counselling['PrEP Status'] = Crypt::decrypt_light($type_counselling['PrEP Status'], $table);
 					$type_counselling['Reason'] = Crypt::decrypt_light($type_counselling['Reason'], $table);
 					$type_counselling['Status'] = Crypt::decrypt_light($type_counselling['Status'], $table);
+				}
+				if ($searchType == "pat_record") {
+					$coul_last_date = CounsellorRecords::where('Pid', $gid)->latest('Counselling_Date')->select("Counselling_Date")->first();
+					if ($coul_last_date) {
+						$patientData["Counselling_Date"] = $coul_last_date["Counselling_Date"];
+					}
+				}
+				$patientData = Export_age::Export_general($patientData, $vdate, $patientData["Date of Birth"], $patientData);
+				$acutal_reg_date = explode("-", $patientData["Reg Date"]);
+				if ($acutal_reg_date[0] != $patientData["Reg year"]) {
+					$patientData["Reg Date"] = $patientData["Reg year"] . "-" . $acutal_reg_date[1] . '-' . $acutal_reg_date[2];
 				}
 
 				return response()->json([
@@ -1294,8 +1151,10 @@ class CounsellingController extends Controller
 					$query->whereBetween('Counselling_Date', [$date_from, $date_to])
 						->orWhere('Pid', $search_ID);
 				})
-					->leftJoin('labs', 'coulsellings.Pid', '=', 'labs.CID')
-					->whereColumn('labs.vdate', 'coulsellings.Counselling_Date')
+					->leftjoin('labs', function ($join) {
+						$join->on('coulsellings.Pid', '=', 'labs.CID')
+							->whereColumn('labs.vdate', '=', 'coulsellings.Counselling_Date');
+					})
 					->select('labs.Req_Doctor', 'coulsellings.id', 'Pid', 'coulsellings.FuchiaID', 'Counselling_Date', 'HIV_Final_Result', 'New_Old')
 					->get();
 
@@ -1322,26 +1181,20 @@ class CounsellingController extends Controller
 					->first();
 				if ($confidential_data) {
 					$confid_encrypt = [
-						'Region', 'Township', 'Quarter', 'Phone', 'Phone2', 'Phone3', 'Date of Birth'
+						'Region',
+						'Township',
+						'Quarter',
+						'Phone',
+						'Phone2',
+						'Phone3',
+						'Date of Birth'
 					];
-					// $confid_date = [
-					// 	'Date of Birth', 'Reg Date'
-					// ];
+
 
 					foreach ($confid_encrypt as $encypt) {
 						$confidential_data[$encypt] = Crypt::decryptString($confidential_data[$encypt]);
 					}
 
-					// foreach ($confid_date as $encypt_date) {
-					// 	if (!empty($confidential_data[$encypt_date])) {
-					// 		$confidential_data[$encypt_date] = date('d-m-Y', strtotime($confidential_data[$encypt_date]));
-					// 		if ($confidential_data[$encypt_date] == '01-01-1970') {
-					// 			$confidential_data[$encypt_date] = '';
-					// 		}
-					// 	} else {
-					// 		$confidential_data[$encypt_date] = '';
-					// 	}
-					// }
 					$confidential_data["Main Risk"] = Crypt::decrypt_light($confidential_data["Main Risk"], $table);
 					$confidential_data["Sub Risk"] = Crypt::decrypt_light($confidential_data["Sub Risk"], $table);
 					return response()->json([$confidential_data, $updatedType]);
@@ -1389,17 +1242,40 @@ class CounsellingController extends Controller
 		} // HTS data show
 		if ($decryptFetch == 1) {
 			$confid_encrypt = [
-				'Region', 'Township', 'Quarter', 'Phone', 'Phone2', 'Phone3', 'Date of Birth'
+				'Region',
+				'Township',
+				'Quarter',
+				'Phone',
+				'Phone2',
+				'Phone3',
 			];
 			$confid_samll = [
-				'Main Risk', 'Sub Risk', 'Gender',
+				'Main Risk',
+				'Sub Risk',
+				'Gender',
 			];
 			$counselling_only_encypt = [
-				'Counsellor', 'HTSdone', 'Reason', 'Status', 'PrEP Status'
+				'Counsellor',
+				'HTSdone',
+				'Reason',
+				'Status',
+				'PrEP Status'
 			];
 			$hts_encrypt = [
-				'New_Old', 'Counsellor', 'Service_Modality', 'Mode of Entry', 'HIV_Test_Determine', 'HIV_Test_UNI', 'HIV_Test_STAT', 'HIV_Final_Result',
-				'Syphillis_RDT', 'Syphillis_RPR', 'Syphillis_VDRL', 'Hepatitis_B', 'Hepatitis_C', 'Test_Location'
+				'New_Old',
+				'Counsellor',
+				'Service_Modality',
+				'Mode of Entry',
+				'HIV_Test_Determine',
+				'HIV_Test_UNI',
+				'HIV_Test_STAT',
+				'HIV_Final_Result',
+				'Syphillis_RDT',
+				'Syphillis_RPR',
+				'Syphillis_VDRL',
+				'Hepatitis_B',
+				'Hepatitis_C',
+				'Test_Location'
 			];
 			$hts_data_next = [];
 			// return data from view to encrypt the row
@@ -1413,6 +1289,13 @@ class CounsellingController extends Controller
 				foreach ($confid_encrypt as $value) {
 					$patientData[$value] = Crypt::decryptString($patientData[$value]);
 				}
+				$patientData = Export_age::Export_general($patientData, $coun_row_data["Counselling_Date"], $patientData["Date of Birth"], $patientData);
+				$acutal_reg_date = explode("-", $patientData["Reg Date"]);
+				if ($acutal_reg_date[0] != $patientData["Reg year"]) {
+					$patientData["Reg Date"] = $patientData["Reg year"] . "-" . $acutal_reg_date[1] . '-' . $acutal_reg_date[2];
+				}
+
+				$patientData["Date of Birth'"] = "";
 				foreach ($confid_samll as $value) {
 					$patientData[$value] = Crypt::decrypt_light($patientData[$value], $table);
 				}
@@ -1486,44 +1369,80 @@ class CounsellingController extends Controller
 			$from = $date_from->format('Y-m-d');
 			$date_to = DateTime::createFromFormat('d-m-Y', $to);
 			$to = $date_to->format('Y-m-d');
+			$final_risklog = [];
+			$final_log = [];
 			if ($hts_coul == 'counsel_data') {
 				$users1 = CounsellorRecords::whereBetween('Counselling_Date', [$from, $to])
 					->with([
 						'ptconfig' => function ($query) {
-							$query->select('Pid', 'Name', 'Township', 'Date of Birth', 'Agey', 'Agem', 'Main Risk', 'Sub Risk'); // Select the specific columns from ptconfig
+							$query->select('Pid', 'Name', 'Township', 'Gender', 'Date of Birth', 'Agey', 'Agem', 'Main Risk', 'Sub Risk', 'Risk Log', 'Risk Change_Date', 'Former Risk'); // Select the specific columns from ptconfig
 						},
 					])
 					->get();
 
-				$encrypted_columns = ['Counsellor', 'Main Risk', 'Sub Risk', 'HTSdone', 'Reason', 'Status', 'PrEP Status'];
+				$encrypted_columns = ['Counsellor', 'Main Risk', 'Sub Risk', 'HTSdone', 'Reason', 'Status', 'PrEP Status', 'Gender'];
 				$counselling_dates = ['Counselling_Date', 'Reg Date'];
+
 				foreach ($users1 as $key => $user1) {
 					if ($user1['ptconfig'] != null) {
 						$users1[$key] = Export_age::Export_general($user1['ptconfig'], $user1['Counselling_Date'], $user1['ptconfig']['Date of Birth'], $users1[$key]);
+						$carbonDate = Carbon::createFromFormat('Y-m-d', $user1['Counselling_Date']);
+						$carbonDate = Carbon::createFromFormat('d-m-Y', $carbonDate->format('d-m-Y'));
+						$vdate = new DateTime($carbonDate);
+						$user1['Gender'] = $user1['ptconfig']['Gender'];
+						$user1["Main Risk"] = $user1["ptconfig"]["Main Risk"];
+						$user1["Sub Risk"] = $user1["ptconfig"]["Sub Risk"];
+						$forRiskCheck[1]["Pid"] = $user1["ptconfig"]["Pid"];
+						$forRiskCheck[1]["Risk Log"] = $user1["ptconfig"]["Risk Log"];
+
+						if (!array_key_exists($user1["ptconfig"]["Pid"], $final_log) && $user1["ptconfig"]["Risk Log"] != null) {
+							$final_risklog = RefillRisk::FillRisk($forRiskCheck);
+							$final_log[$user1["ptconfig"]["Pid"]] = $final_risklog;
+						} elseif ($user1["ptconfig"]["Risk Log"] == null) {
+							if ($user1['ptconfig']["Risk Change_Date"] != null && $user1['ptconfig']["Former Risk"] != null && $user1['ptconfig']["Former Risk"] != "731") {
+								$riskChangeDate = Carbon::createFromFormat('Y-m-d', $user1['ptconfig']["Risk Change_Date"]);
+								$riskChangeDate = new DateTime(Carbon::createFromFormat('d-m-Y', $riskChangeDate->format('d-m-Y')));
+								if ($vdate <= $riskChangeDate) {
+									$user1["Main Risk"] = ['ptconfig']["Former Risk"];
+									$user1["Sub Risk"] = '';
+								}
+							}
+						}
+						if (array_key_exists($user1["ptconfig"]["Pid"], $final_log)) {
+							foreach (array_reverse($final_log[$user1["ptconfig"]["Pid"]][$user1["ptconfig"]["Pid"]]) as $date => $data) {
+								if (strlen($date) == 10) {
+									$riskChangeDate = new DateTime($date);
+									if ($vdate < $riskChangeDate) {
+										$user1["Main Risk"] = Crypt::encrypt_light($data["Old Risk"], "General");
+										$user1["Sub Risk"] = Crypt::encrypt_light($data["Old Sub Risk"], "General");
+									}
+								}
+							}
+						}
 					}
 
-					$users1[$key]['Main Risk'] = $user1['ptconfig']['Main Risk'];
-					$users1[$key]['Sub Risk'] = $user1['ptconfig']['Sub Risk'];
 
-					$carbonDate = Carbon::createFromFormat('Y-m-d', $user1['Counselling_Date']);
-					$carbonDate = Carbon::createFromFormat('d-m-Y', $carbonDate->format('d-m-Y'));
+
 
 					$users1[$key]['Counselling_Date'] = Date::dateTimeToExcel($carbonDate->toDateTime());
 
+
 					foreach ($encrypted_columns as $encrypted_column) {
-						$users1[$key][$encrypted_column] = Crypt::decrypt_light($users1[$key][$encrypted_column], $table);
-						$users1[$key][$encrypted_column] = Crypt::codeBook($users1[$key][$encrypted_column], 'encode');
+						$user1[$encrypted_column] = Crypt::decrypt_light($user1[$encrypted_column], $table);
+						$user1[$encrypted_column] = Crypt::codeBook($user1[$encrypted_column], 'encode');
 					}
 				}
 				return Excel::download(new CounsellingExport($users1, $hts_coul), 'Counselling Export-' . date('d-m-Y') . '.xlsx');
 			} elseif ($hts_coul == 'hts_data') {
 				$users1 = Coulselling::whereBetween('Counselling_Date', [$from, $to])
-					->join('labs', 'coulsellings.Pid', '=', 'labs.CID')
-					->whereColumn('labs.vdate', '=', 'coulsellings.Counselling_Date')
+					->leftjoin('labs', function ($join) {
+						$join->on('coulsellings.Pid', '=', 'labs.CID')
+							->whereColumn('labs.vdate', '=', 'coulsellings.Counselling_Date');
+					})
 					->select('coulsellings.*', 'labs.Req_Doctor')
 					->with([
 						'ptconfig' => function ($query) {
-							$query->select('Pid', 'Name', 'Township', 'Date of Birth', 'Agey', 'Agem', 'Main Risk', 'Sub Risk');
+							$query->select('Pid', 'Name', 'Township', 'Date of Birth', 'Agey', 'Agem', 'Main Risk', 'Sub Risk', 'Risk Log', 'Gender', 'Risk Change_Date', 'Former Risk');
 						},
 					])
 					->get();
@@ -1536,6 +1455,49 @@ class CounsellingController extends Controller
 						$users1[$key] = Export_age::Export_general($user1['ptconfig'], $user1['Counselling_Date'], $user1['ptconfig']['Date of Birth'], $users1[$key]);
 						$users1[$key]['Main Risk'] = $user1['ptconfig']['Main Risk'];
 						$users1[$key]['Sub Risk'] = $user1['ptconfig']['Sub Risk'];
+						$user1['Gender'] = $user1['ptconfig']['Gender'];
+						$carbonDate = Carbon::createFromFormat('Y-m-d', $user1['Counselling_Date']);
+						$carbonDate = Carbon::createFromFormat('d-m-Y', $carbonDate->format('d-m-Y'));
+						$vdate = new DateTime($carbonDate);
+						$forRiskCheck[1]["Pid"] = $user1["ptconfig"]["Pid"];
+						$forRiskCheck[1]["Risk Log"] = $user1["ptconfig"]["Risk Log"];
+
+						if (!array_key_exists($user1["ptconfig"]["Pid"], $final_log) && $user1["ptconfig"]["Risk Log"] != null) {
+							$final_risklog = RefillRisk::FillRisk($forRiskCheck);
+							$final_log[$user1["ptconfig"]["Pid"]] = $final_risklog;
+						} elseif ($user1["ptconfig"]["Risk Log"] == null) {
+							if ($user1['ptconfig']["Risk Change_Date"] != null && $user1['ptconfig']["Former Risk"] != null && $user1['ptconfig']["Former Risk"] != "731") {
+								$riskChangeDate = Carbon::createFromFormat('Y-m-d', $user1['ptconfig']["Risk Change_Date"]);
+								$riskChangeDate = new DateTime(Carbon::createFromFormat('d-m-Y', $riskChangeDate->format('d-m-Y')));
+								if ($vdate <= $riskChangeDate) {
+									$user1["Main Risk"] = $user1['ptconfig']["Former Risk"];
+									$user1["Sub Risk"] = '';
+								}
+							}
+						}
+						if (array_key_exists($user1["ptconfig"]["Pid"], $final_log)) {
+							foreach (array_reverse($final_log[$user1["ptconfig"]["Pid"]][$user1["ptconfig"]["Pid"]]) as $date => $data) {
+								if (strlen($date) == 10) {
+									$riskChangeDate = new DateTime($date);
+									if ($vdate < $riskChangeDate) {
+										$user1["Main Risk"] = Crypt::encrypt_light($data["Old Risk"], "General");
+										$user1["Sub Risk"] = Crypt::encrypt_light($data["Old Sub Risk"], "General");
+									}
+								}
+							}
+						}
+					}
+					$visit_year = date('Y', strtotime($user1["Counselling_Date"]));
+
+					// Query to check if a record exists with the specified conditions
+					$final_new_old = Coulselling::whereYear('Counselling_Date', $visit_year)
+						->where('Pid', $user1["Pid"])
+						->where('Counselling_Date', '<', $user1["Counselling_Date"])
+						->exists();
+					if ($final_new_old) {
+						$user1["Final_new_old"] = "Old";
+					} else {
+						$user1["Final_new_old"] = "New";
 					}
 
 					foreach ($dates_hts as $date) {
@@ -1546,11 +1508,12 @@ class CounsellingController extends Controller
 						}
 					}
 					foreach ($encrypted_columns as $encrypted) {
-						$users1[$key][$encrypted] = Crypt::decrypt_light($users1[$key][$encrypted], $table);
-						$users1[$key][$encrypted] = Crypt::codeBook($users1[$key][$encrypted], 'encode');
+						$users1[$key][$encrypted] = Crypt::decrypt_light($user1[$encrypted], $table);
+						$users1[$key][$encrypted] = Crypt::codeBook($user1[$encrypted], 'encode');
 					}
 				}
 
+				//dd($user1);
 				return Excel::download(new CounsellingExport($users1, $hts_coul), 'HTS Export-' . date('d-m-Y') . '.xlsx');
 			} else {
 				$users = TeleCounselling::whereBetween('Call_Date', [$from, $to])

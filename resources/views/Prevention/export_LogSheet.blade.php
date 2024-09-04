@@ -123,8 +123,8 @@
 
 
 
-            <td> {{ $users[$index]['Main_Risk'] }} </td>
-            <td> {{ $users[$index]['Sub_Risk'] }} </td>
+            <td> {{ $users[$index]['Main Risk'] }} </td>
+            <td> {{ $users[$index]['Sub Risk'] }} </td>
             <td> {{ $users[$index]['Township'] }} </td>
 
 

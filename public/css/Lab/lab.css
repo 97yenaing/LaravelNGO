@@ -1,29 +1,56 @@
-.lab-refresh,.lab-export,.lab-printer{
+.lab-refresh,
+.lab-export,
+.lab-printer {
   background-color: #D4F6CC;
   border-color: #FFFAFA;
   color: #000;
   height: 50px;
   margin-top: 35px;
 }
-.lab-printcancel{
+
+#reportSpace table tr td {
+  color: #212529;
+}
+
+.lab-sti-table {
+  border: none;
+}
+
+.lab-sti-table thead tr:first-child {
+  color: transparent;
+}
+
+.lab-sti-table thead tr:first-child:first-child {
+  border-top: none;
+}
+
+.lab-report-tank label {
+  color: #003865
+}
+
+.lab-report-tank button {
+  margin-top: 14px;
+}
+
+.lab-printcancel {
   background-color: #a71944;
   color: #d6c7c7;
   height: 50px;
   margin-top: 25px;
 }
-#reportSpace table tr td{
-  color:#212529
-}
 
-.printID-Date,.printbtn-block{
+.printID-Date,
+.printbtn-block {
   width: 25%;
   margin-right: 5%;
   float: left;
 }
-.printbtn-block{
+
+.printbtn-block {
   width: 15%;
 }
-.print-Section{
+
+.print-Section {
   display: none;
   position: absolute;
   top: 37%;
@@ -33,48 +60,54 @@
   padding-left: 5%;
   z-index: 1;
 }
-.lab-diseaseSection{
+
+.lab-diseaseSection {
   position: relative;
 }
 
-.lab-update-select{
+.lab-update-select {
   display: inline-block;
   width: 25%;
   background-color: #28b9b8e0;
   margin-right: 4%;
 }
 
-.lab-printer{
+.lab-printer {
   position: absolute;
   top: 11px;
   right: 3%;
   margin-top: 0%;
 }
-.lab-refreshPos{
+
+.lab-refreshPos {
   position: absolute;
   top: 11px;
   left: 3%;
   margin-top: 0%;
 }
-.labUpdate-btn{
+
+.labUpdate-btn {
   width: 20%;
   margin: auto;
   margin-right: 5%;
   background-color: #28b967;
   color: #faf9f9;
 }
-#testHistory tr td:nth-child(2){
+
+#testHistory tr td:nth-child(2) {
   font-size: 15px;
 }
+
 .no-padding {
   padding-left: 0px;
   padding-right: 0px;
 }
-.print-HeadDiv{
+
+.print-HeadDiv {
   margin-top: 10px;
 }
 
-.lab-printAll{
+.lab-printAll {
   color: #FFFAFA;
   background-color: #6ba35b;
   border-color: #6ba35b;
@@ -82,48 +115,59 @@
   height: 50px;
   margin-top: 25px;
 }
-.printAll-testHeader{
+
+.printAll-testHeader {
   color: #000000;
   font-size: 20px;
   font-weight: 900;
 }
-.printAll_testname{
-  background-color: #adb5bd;;
+
+.printAll_testname {
+  background-color: #adb5bd;
+  ;
 }
-.pirntAll-colDT{
+
+.pirntAll-colDT {
   width: 25%;
   float: right;
 }
-.print_data{
+
+.print_data {
   border: 1px solid #000000;
   color: #000000;
   font-size: 15px;
 }
-.print_allTest{
+
+.print_allTest {
   color: #000000;
   font-size: 15px;
   display: none;
 }
-.printAll-patientGeneral{
-  width:75%;
+
+.printAll-patientGeneral {
+  width: 75%;
   float: left;
 }
-.skill-width{
+
+.skill-width {
   width: 22.25%;
 }
-.skill-widthlerge{
+
+.skill-widthlerge {
   width: 33.3%;
 }
-.skill-widthLast{
+
+.skill-widthLast {
   width: 22.2%;
 }
 
 
-.print_allHeader{
+.print_allHeader {
   text-align: center;
   color: #000000;
   font-weight: 900;
 }
+
 .print-sti-first .print-hiv-table tbody tr td:nth-child(n+3),
 .print-hiv-table tbody tr td:nth-child(n+3) {
   padding: 0px;
@@ -139,32 +183,35 @@
   padding: 0px 6%;
 }
 
-.lab-exportBtn{
+.lab-exportBtn {
   margin-top: 35px;
   height: 49px;
   width: 100%;
 }
-.btn-follow-search{
+
+.btn-follow-search {
   margin-top: 35px;
   width: 100%;
 }
-.lab-follow-show{
-  padding: 10px 1%;
+
+.lab-follow-show {
+  padding: 10px 0%;
 }
 
-.follow-dataSet div{
+.follow-dataSet div {
   border: 1px solid #FFFAFA;
   font-size: 17px;
   text-align: left;
   font-weight: 400;
   margin: 0%;
 }
-.follow-dataSet div:last-child{
-  padding:5px 0%;
+
+.follow-dataSet div:last-child {
+  padding: 5px 0%;
   text-align: center;
 }
 
-.follow-show-head div:last-child{
+.follow-show-head div:last-child {
   border: none;
 }
 
@@ -182,8 +229,6 @@
   height: 36px;
   padding-top: 6px;
 }
-
-
 
 .viralLoad-arso {
   width: 20%;
@@ -245,13 +290,13 @@
 }
 
 
-.print-coheader-list  li {
+.print-coheader-list li {
   float: left;
   list-style: none;
 }
 
-.print-coheader-list  li:nth-child(2n) {
-margin-right: 3%;
+.print-coheader-list li:nth-child(2n) {
+  margin-right: 3%;
   padding-right: 1%;
 
 }
@@ -261,32 +306,34 @@ margin-right: 3%;
 }
 
 
-.print-coheader-list  li:last-child {
+.print-coheader-list li:last-child {
   margin-right: 0%;
   border-right: none;
 }
 
-.print-hiv-footer  li {
+.print-hiv-footer li {
   float: left;
   list-style: none;
 }
 
-.print-hiv-footer  {
- padding: 0px 5%;
+.print-hiv-footer {
+  padding: 0px 5%;
   color: #000000;
   width: 100%;
 }
-#printResultTable tbody tr td:nth-child(n+2){
+
+#printResultTable tbody tr td:nth-child(n+2) {
   text-align: left;
 }
 
 
-.print-hiv-footer  li:nth-child(2n) {
+.print-hiv-footer li:nth-child(2n) {
   margin-right: 9.5%;
 
   padding-right: 1%;
 }
-.print-hiv-footer  li:last-child{
+
+.print-hiv-footer li:last-child {
   margin-right: 0%;
 }
 
@@ -301,6 +348,7 @@ margin-right: 3%;
 .print-hiv-table td:first-child {
   width: 10px;
 }
+
 /* .print-hiv-table thead tr:first-child,
 .print-sti-first thead tr:first-child ,.print-sti-urine tr:first-of-type
 .print-urine table thead tr:first-child {
@@ -309,60 +357,82 @@ margin-right: 3%;
 .table thead tr:first-child {
   font-weight: 900;
 }
+
 .print-sti-first tbody tr td:nth-of-type(n+3) {
   padding: 0px;
 }
-.print-sti-first tbody tr td .print-tr{
+
+.print-sti-first tbody tr td .print-tr {
   padding-left: 0.5rem !important;
   padding-top: 9px;
 }
-.print-sti-urine thead td .print-tr,.print-sti-urine tbody td .print-tr{
+
+.print-sti-urine thead td .print-tr,
+.print-sti-urine tbody td .print-tr {
   padding-left: 0.5rem !important;
   padding-top: 0px;
   height: 0%;
 
 }
-.print-sti-urine thead td,.print-sti-urine tbody td {
+
+.print-sti-urine thead td,
+.print-sti-urine tbody td {
   padding: 6px 0% 0% 0%;
 }
-.print-sti-urine tbody tr td:nth-of-type(2){
+
+.print-sti-urine tbody tr td:nth-of-type(2) {
   width: 20%;
-}.print-sti-urine tbody tr td:nth-of-type(4) {
+}
+
+.print-sti-urine tbody tr td:nth-of-type(4) {
   border-right: 1px solid #000000;
 }
-.print-sti-urine tbody tr td:nth-of-type(6){
+
+.print-sti-urine tbody tr td:nth-of-type(6) {
   width: 15%;
 }
-.print-sti-first{
+
+.print-sti-first {
   margin-bottom: 0%;
 }
+
 .print-hbc-footer {
   padding: 0% 15%;
 }
+
 .print-hbc-table {
   width: 60%;
   border: 1px solid #000000;
 }
-.print-hbc-table td{
+
+.print-hbc-table td {
   border: 1px solid #000000;
 }
-.print-urine-table td,.print-oi-table td {
+
+.print-urine-table td,
+.print-oi-table td {
   padding: 0px;
   border: 1px solid #000000;
 }
 
-.print-urine-table td:nth-child(2),.print-urine-table td:nth-child(4),.print-urine-table td:nth-child(5),
+.print-urine-table td:nth-child(2),
+.print-urine-table td:nth-child(4),
+.print-urine-table td:nth-child(5),
 .print-oi-table td:nth-child(2) {
   padding-left: 0.5rem !important;
 }
-.print-urine-table td .print-tr,.print-oi-table td .print-tr{
+
+.print-urine-table td .print-tr,
+.print-oi-table td .print-tr {
   padding-left: 0.5rem !important;
   height: 0%;
   padding-top: 0%;
 }
-.print-oi-table{
+
+.print-oi-table {
   width: 70%;
 }
+
 .print-hiv-table,
 .print-hiv-table td,
 .print-hiv-table tr {
@@ -372,12 +442,12 @@ margin-right: 3%;
   padding-bottom: 0px;
   height: 36px;
 }
-.print-hiv-table{
+
+.print-hiv-table {
   width: 50%;
 }
-.print-sti-first 
 
-.table> :not(:first-child) {
+.print-sti-first .table> :not(:first-child) {
   border-top: 1px solid currentColor;
 }
 
@@ -411,7 +481,7 @@ margin-right: 3%;
 
 .lab-containers {
   padding-bottom: 20px;
-  border: 1px solid #1C82AD;
+  border-bottom: 1px solid;
   background: #003865 no-repeat center/cover;
 }
 
@@ -453,6 +523,7 @@ margin-right: 3%;
 .label-year {
   float: left;
   margin-right: 3%;
+  width: 75%;
   border: 1px solid #F0CAA3;
   padding: 10px 5%;
 }
@@ -460,25 +531,25 @@ margin-right: 3%;
 .label-sex {
   float: left;
   margin-right: 3%;
+  width: 22%;
   border: 1px solid #F0CAA3;
   padding: 10px 5%;
 }
 
 .lab-year {
   float: left;
-  width: 41%;
+  width: 22%;
   height: 50px;
 }
 
 .lab-sex {
   float: left;
-  width: 62%;
+  width: 75%;
   height: 50px;
 }
 
 .lab-year-div {
-  width: 12%;
-
+  width: 24%;
   padding-right: 0px;
 }
 
@@ -490,8 +561,14 @@ margin-right: 3%;
 
 .risk-label {
   border: 1px solid #F0CAA3;
+  margin-right: 3%;
+  width: 36%;
   padding: 10px 3%;
   display: inline-block;
+}
+
+.hiv-inclusive {
+  margin-top: 35px;
 }
 
 .main-risk {
@@ -499,10 +576,14 @@ margin-right: 3%;
 }
 
 .mrisk-data,
-.srisk-data {
-  width: 72%;
+.srisk-data,
+.counsellor-data {
+  width: 61%;
   float: right;
+}
 
+.counsellor-data {
+  width: 62%;
 }
 
 .srisk-data {
@@ -579,7 +660,8 @@ margin-right: 3%;
 .finder-table table thead tr {
   color: rgb(241, 246, 245);
 }
-.covidoth_specify{
+
+.covidoth_specify {
   display: none;
 }
 
@@ -591,9 +673,11 @@ margin-right: 3%;
 .oi-indLink {
   justify-content: center;
 }
-.genral-info{
+
+.genral-info {
   position: relative;
 }
+
 @media screen and (min-width: 600px) and (max-width: 1160px) {
 
   .print-sti-first .print-hiv-table tbody tr td:nth-child(n+3),
@@ -1197,7 +1281,7 @@ margin-right: 3%;
     padding-left: 0.5rem !important;
   }
 
-  
+
 
   .viralLoad-arso {
     width: 20%;

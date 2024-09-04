@@ -16,7 +16,7 @@
           <th colspan="12" style="background-color:#adb5bd;text-align:left">Eye screening form for every screening
             patients(for data entry)</th>
           <th rowspan="2" style="width:150px;height:35px;background-color:#e9ec5d;text-align:center">
-            Symptom<br>Flashes,Floater,Scotoma,Sudden vision loss,Yes(Y) or No(N)</th>
+            Symptom</th>
           <th colspan="2" style="width:200px;height:35px;background-color:#0aeeab;text-align:center">Vision acuity</th>
           <th colspan="4" style="width:400px;height:35px;background-color:#0aeeab;text-align:center">Findings</th>
           <th colspan="2" style="width:200px;height:35px;background-color:#0aeeab;text-align:center">Treatment</th>

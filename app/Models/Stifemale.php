@@ -7,22 +7,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class Stifemale extends Model
 {
-    use HasFactory;
-    protected $fillable = [
+  use HasFactory;
+  protected $fillable = [
     'gender',
     'clinic',
     'CID',
+    'age',
+    'risk_factor',
     'tbl_demog_first_visit',
     'last_vis_within',
     'vtype',
-    'age',
     'about_clinic',
     'demo_remarks',
     'Visit_date',
     'Expr1',
     'episode',
     'rea_for_visit',
-    'risk_factor',
     'abn_vaginal_disc',
     'abn_vaginal_disc_long',
     'linked_menstru',
@@ -145,11 +145,12 @@ class Stifemale extends Model
     'created_by',
     'updated_by',
     'other_STD',
-    
+
     'created_by',
-      'updated_by',
+    'updated_by',
   ];
-  public function ptconfig(){
-    return $this->belongsTo(PtConfig::class,"CID","Pid");
+  public function ptconfig()
+  {
+    return $this->belongsTo(PtConfig::class, "CID", "Pid");
   }
 }

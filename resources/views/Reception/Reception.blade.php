@@ -5,7 +5,9 @@
 <script src="{{ asset('js/jquery.min.js') }}"></script>
 <script src="{{ asset('js/jquery-ui.min.js') }}"></script>
 <script src="{{ asset('js/reception.js') }}"></script>
-<link href="{{ asset('js/jquery.min.js') }}" media="print" rel="stylesheet" />
+<link href="{{ asset('js/jquery.min.js') }}"
+  media="print"
+  rel="stylesheet" />
 
 <body>
   @php
@@ -16,51 +18,80 @@
     <span></span>
   </p>
   <div class="container containers">
-    <button class="btn btn-success predefine" id="preCode_define">Pre-define</button>
-    <ul class="nav nav-tabs toggle  reception-list" id="hidden-title">
+    @if ($mam_clinicID=="81")
+    <button class="btn btn-success predefine"
+      id="preCode_define">Pre-define</button>
+    @endif
+
+    <ul class="nav nav-tabs toggle  reception-list"
+      id="hidden-title">
       <li class="nav-item">
-        <a class="nav-link active toggle-link " data-toggle="tab" href="#reception">Add New / Follow Up</a>
+        <a class="nav-link active toggle-link "
+          data-toggle="tab"
+          href="#reception">Add New / Follow Up</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link toggle-link" data-toggle="tab" href="#return">Diagnosis Data</a>
+        <a class="nav-link toggle-link"
+          data-toggle="tab"
+          href="#return">Diagnosis Data</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link toggle-link" data-toggle="tab" href="#follow">Follow up history</a>
+        <a class="nav-link toggle-link"
+          data-toggle="tab"
+          href="#follow">Follow Up History</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link toggle-link" data-toggle="tab" href="#next">Next Appointment List</a>
+        <a class="nav-link toggle-link"
+          data-toggle="tab"
+          href="#next">Next Appointment List</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link toggle-link" data-toggle="tab" href="#recepint_PtList"
+        <a class="nav-link toggle-link"
+          data-toggle="tab"
+          href="#recepint_PtList"
           onclick="showPatientList()">Consultation Records</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link toggle-link" data-toggle="tab" href="#recepint_PtList2">Patient List</a>
+        <a class="nav-link toggle-link"
+          data-toggle="tab"
+          href="#recepint_PtList2">Patient List</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link toggle-link" data-toggle="tab" href="#search_name">Search By Name</a>
+        <a class="nav-link toggle-link"
+          data-toggle="tab"
+          href="#search_name">Search By Name</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link toggle-link" data-toggle="tab" href="#export">Export</a>
+        <a class="nav-link toggle-link"
+          data-toggle="tab"
+          href="#export">Export</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link toggle-link" data-toggle="tab" href="#qrexport">QR Export</a>
+        <a class="nav-link toggle-link"
+          data-toggle="tab"
+          href="#qrexport">QR Export</a>
       </li>
     </ul> <!-- *adding containers clss -->
 
     <ul class="predefine-section clearfix">
       <li>
-        <input type="number" class="form-control" id="pre_number">
+        <input type="number"
+          class="form-control"
+          id="pre_number">
       </li>
-      <li><button class="btn btn-info preAdd-Btn" onclick="preadd()">Generate</button></li>
+      <li><button class="btn btn-info preAdd-Btn"
+          onclick="preadd()">Generate</button></li>
     </ul>
 
-    <div style="margin:auto" id="toshowResult"></div>
-    <div id="hider0" class="container containers page-color">
+    <div style="margin:auto"
+      id="toshowResult"></div>
+    <div id="hider0"
+      class="container containers page-color">
       <!-- *adding containers clss -->
 
       <div class="tab-content">
-        <div class="tab-pane container containers active" id="reception">
+        <div class="tab-pane container containers active"
+          id="reception">
           <div class="row justify-content-center">
             <div class="col-md-10">
               <ul class="clearfix current-md-list">
@@ -79,7 +110,8 @@
           <div class="row">
             <div class="col-sm-4 clearfix">
               <p style="float:left;">Response :</p>
-              <p style="float:left;" id="responseText"></p>
+              <p style="float:left;"
+                id="responseText"></p>
             </div>
           </div>
 
@@ -94,15 +126,19 @@
             </div>
             @foreach ($lastPt as $key => $value)
             <div class="col-md-3 reception-laID">
-              <label class="form-control reception-laID-label" id="lastID"> Last ID ({{ $value->Pid }})
+              <label class="form-control reception-laID-label"
+                id="lastID"> Last ID ({{ $value->Pid }})
 
-                <a class="reception-neID">Next ID</a> <a id="nextID" onclick="idgiven()" style="color:red;">{{
-                  $value->Pid + 1 }}</a>
+                <a class="reception-neID">Next ID</a> <a id="nextID"
+                  onclick="idgiven()"
+                  style="color:red;">{{ $value->Pid + 1 }}</a>
               </label>
             </div><br class="tablet">
             @endforeach
             <div class="col-sm-2">
-              <select name="" id="online_follow" class="form-select">
+              <select name=""
+                id="online_follow"
+                class="form-select">
                 <option value="No">Online Reach</option>
                 <option value="Prevent Yangon">Prevent Yangon</option>
                 <option value="SHE">SHE</option>
@@ -117,12 +153,15 @@
           <div class="row">
 
             <div class="col-md-1">
-              <select class="form-control" id="he_code">
-                <option value="0" selected></option>
+              <select class="form-control"
+                id="he_code">
+                <option value="0"
+                  selected></option>
               </select>
             </div>
             <div class="col-md-2">
-              <select class="form-control" id="clinic_code">
+              <select class="form-control"
+                id="clinic_code">
                 <option value="71">HTY-A ( 71 )</option>
                 <option value="72">HTY-B ( 72 )</option>
                 <option value="81">HTY-C2 ( 81 )</option>
@@ -142,23 +181,35 @@
 
             </div>
             <div class="col-md-1">
-              <select class="form-control" id="year_code">
+              <select class="form-control"
+                id="year_code">
                 <option value="10">2010</option>
               </select>
             </div>
             <div class="col-md-2">
-              <input type="number" id="pt_code" placeholder="Serial code input" class="form-control">
+              <input type="number"
+                id="pt_code"
+                placeholder="Serial code input"
+                class="form-control">
             </div>
             <div class="col-md-2">
-              <input type="number" id="eyes_code" placeholder="Eye Scan Code" class="form-control">
+              <input type="number"
+                id="eyes_code"
+                placeholder="Eye Scan Code"
+                class="form-control">
             </div>
             <div class="col-md-1">
-              <button onclick="peerCode()" class="code-combine"> Search</button>
+              <button onclick="peerCode()"
+                class="code-combine"> Search</button>
             </div>
             <div class="col-sm-2">
 
-              <select class="form-select reception-select" id="current_md" required="">
-                <option value="" selected disabled>Current MD</option>
+              <select class="form-select reception-select"
+                id="current_md"
+                required="">
+                <option value=""
+                  selected
+                  disabled>Current MD</option>
                 <option value=""></option>
                 <option value="TL">Team Leader MD</option>
                 <option value="MD1">1</option>
@@ -206,42 +257,61 @@
               </select>
             </div>
 
-
           </div>
           <div class="row">
 
             <div class="col-md-2 reception-code1">
-              <label for="validationCustom01" class="form-label">General ID</label>
+              <label for="validationCustom01"
+                class="form-label">General ID</label>
               <div class="input-group mb-3">
-                <input type="number" autofocus id="gid" class="form-control reception_id">
-
+                <input type="number"
+                  autofocus
+                  id="gid"
+                  class="form-control reception_id">
 
               </div>
             </div>
             <div class="col-md-2 reception-code2">
-              <label for="validationCustom01" class="form-label">Fuchia ID</label>
+              <label for="validationCustom01"
+                class="form-label">Fuchia ID</label>
               <div class="input-group mb-3">
-                <input type="text" id="fid" class="form-control">
+                <input type="text"
+                  id="fid"
+                  class="form-control">
                 <div class="input-group-append no-margin">
-                  <button class="btn btn-primary reception-serach" onclick="ptData()" type="button">Search</button>
+                  <button class="btn btn-primary reception-serach"
+                    onclick="ptData()"
+                    type="button">Search</button>
                 </div>
               </div>
             </div>
             <div class="col-md-2 reception-pfn">
               <label class="form-label">PrEP Code</label>
-              <input type="text" id="prepCode" placeholder='Pr/049/B0000/23' class="form-control" required>
+              <input type="text"
+                id="prepCode"
+                placeholder='Pr/049/B0000/23'
+                class="form-control"
+                required>
             </div> <br class="tablet">
             <div class="col-md-2 reception-pfn">
               <label class="form-label">Name</label>
-              <input type="text" id="name" class="form-control" required>
+              <input type="text"
+                id="name"
+                class="form-control"
+                required>
             </div>
             <div class="col-md-2 reception-pfn  reception-father ">
               <label class="form-label">Father's Name</label>
-              <input type="text" id="father" class="form-control" required>
+              <input type="text"
+                id="father"
+                class="form-control"
+                required>
             </div>
             <div class="col-md-2 reception-gender">
               <label class="form-label">Sex</label>
-              <select class="form-select reception-select" id="gender" required>
+              <select class="form-select reception-select"
+                id="gender"
+                required>
                 <option value=""></option>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
@@ -252,66 +322,108 @@
             <div class="col-md-2 reception-visitDate">
               <label class="form-label">Register Date</label>
               <div class="date-holder">
-                <input type="text" id="register_date" class="form-control Gdate date-verify reception-dateformat"
-                  onchange="reg_date_change()" placeholder="dd-mm-yyyy" disabled>
-                <img src="../img/calendar3.svg" class="dateimg" alt="date">
+                <input type="text"
+                  id="register_date"
+                  class="form-control Gdate date-verify reception-dateformat"
+                  onchange="reg_date_change()"
+                  placeholder="dd-mm-yyyy"
+                  disabled>
+                <img src="../img/calendar3.svg"
+                  class="dateimg"
+                  alt="date">
               </div>
             </div>
 
             <div class="col-md-2 reception-visitDate">
               <label class="form-label">Date Of Birth</label>
               <div class="date-holder">
-                <input type="text" id="dob" class="form-control Gdate dob reception-dateformat"
+                <input type="text"
+                  id="dob"
+                  class="form-control Gdate dob reception-dateformat"
                   placeholder="dd-mm-yyyy">
-                <img src="../img/calendar3.svg" class="dateimg" alt="date">
+                <img src="../img/calendar3.svg"
+                  class="dateimg"
+                  alt="date">
               </div>
             </div>
             <div class="col-md-2">
-              <label for="validationCustom02" class="form-label">Register Age</label>
-              <input type="number" id="agey_register" class="form-control" onblur="reg_age_change()">
+              <label for="validationCustom02"
+                class="form-label">Register Age</label>
+              <input type="number"
+                id="agey_register"
+                class="form-control"
+                onblur="reg_age_change()">
             </div>
             <div class="col-md-2">
-              <label for="validationCustom02" class="form-label">Register Age(month)</label>
-              <input type="number" id="agem_register" class="form-control">
+              <label for="validationCustom02"
+                class="form-label">Register Age(month)</label>
+              <input type="number"
+                id="agem_register"
+                class="form-control">
             </div>
             <div class="col-md-2">
-              <label for="validationCustom02" class="form-label">Current Age</label>
-              <input type="number" id="agey" class="form-control">
+              <label for="validationCustom02"
+                class="form-label">Current Age</label>
+              <input type="number"
+                id="agey"
+                class="form-control">
               <div class="valid-feedback">
                 plz put patient age.
               </div>
             </div>
             <div class="col-md-2">
-              <label for="validationCustom02" class="form-label">Current Age(Month)</label>
-              <input type="number" id="agem" onchange="monthValid()" class="form-control">
+              <label for="validationCustom02"
+                class="form-label">Current Age(Month)</label>
+              <input type="number"
+                id="agem"
+                onchange="monthValid()"
+                class="form-control">
               <div class="valid-feedback">
                 plz put patient age.
               </div>
             </div>
             <div class="col-md-2 consulor-mainrisk">
               <label for="">Main Risk</label>
-              <select class="form-control" id="main_risk" onchange="PatientType()">
-                <option selected value="-"></option>
-                <option id="preg_mom" value="Pregnant Mother">Pregnant Mother</option>
-                <option id="sp_preg_mom" value="Spouse of pregnant mother">Spouse of pregnant mother</option>
-                <option id="" value="Exposed Children">Exposed Children</option>
-                <option id="" value="Low Risk">Low Risk</option>
-                <option id="" value="PWUD">PWUD</option>
-                <option id="fsw" value="FSW">FSW</option>
-                <option id="cl_fsw" value="Client of FSW">Client of FSW</option>
-                <option id="msm" value="MSM">MSM</option>
-                <option id="" value="IDU">IDU</option>
-                <option id="tg" value="TG">TG</option>
-                <option id="pt_kp" value="Partner of KP">Partner of KP</option>
-                <option id="pt_kp_plhiv" value="Partner of PLHIV">Partner of PLHIV</option>
-                <option id="" value="Special Groups">Special Groups</option>
+              <select class="form-control"
+                id="main_risk"
+                onchange="PatientType()">
+                <option selected
+                  value=""></option>
+                <option id="preg_mom"
+                  value="Pregnant Mother">Pregnant Mother</option>
+                <option id="sp_preg_mom"
+                  value="Spouse of pregnant mother">Spouse of pregnant mother</option>
+                <option id=""
+                  value="Exposed Children">Exposed Children</option>
+                <option id=""
+                  value="Low Risk">Low Risk</option>
+                <option id=""
+                  value="PWUD">PWUD</option>
+                <option id="fsw"
+                  value="FSW">FSW</option>
+                <option id="cl_fsw"
+                  value="Client of FSW">Client of FSW</option>
+                <option id="msm"
+                  value="MSM">MSM</option>
+                <option id=""
+                  value="IDU">IDU</option>
+                <option id="tg"
+                  value="TG">TG</option>
+                <option id="pt_kp"
+                  value="Partner of KP">Partner of KP</option>
+                <option id="pt_kp_plhiv"
+                  value="Partner of PLHIV">Partner of PLHIV</option>
+                <option id=""
+                  value="Special Groups">Special Groups</option>
                 <option value="Migrant Population">Migrant Population</option>
               </select>
             </div>
             <div class="col-sm-2 consulor-subrisk">
               <label for="">Sub Risk</label>
-              <select class="form-control" id="sub_risk">
-                <option selected value=""></option>
+              <select class="form-control"
+                id="sub_risk">
+                <option selected
+                  value=""></option>
                 <option value="PP">PP</option>
                 <option value="MP">MP</option>
                 <option value="HIV(Pos)">HIV(Pos)</option>
@@ -341,13 +453,19 @@
 
             </div>
 
-
             <div class="col-sm-2 reception-region">
-              <label for="validationCustom02" class="form-label">State/ Region</label>
+              <label for="validationCustom02"
+                class="form-label">State/ Region</label>
               <div>
-                <select class="form-select reception-select" id="state" onchange="region(this.value)">
-                  <option selected disabled value="">Choose....................</option>
-                  <option selected disabled value=""></option>
+                <select class="form-select reception-select"
+                  id="state"
+                  onchange="region(this.value)">
+                  <option selected
+                    disabled
+                    value="">Choose....................</option>
+                  <option selected
+                    disabled
+                    value=""></option>
                   <option value="Ayeyarwady">Ayeyarwady</option>
                   <option value="Bago(East)">Bago(East)</option>
                   <option value="Bago(West)">Bago(West)</option>
@@ -370,10 +488,14 @@
               </div>
             </div>
             <div class="col-sm-2 reception-township">
-              <label for="validationCustom02" class="form-label">Township</label>
+              <label for="validationCustom02"
+                class="form-label">Township</label>
               <div>
-                <select class="form-select reception-select" id="tt">
-                  <option selected disabled value="">Choose...............</option>
+                <select class="form-select reception-select"
+                  id="tt">
+                  <option selected
+                    disabled
+                    value="">Choose...............</option>
                   <option id="tt_opt"></option>
                   <option value="Insein">Insein</option>
                   <option value="MingalarDon">MingalarDon</option>
@@ -424,38 +546,59 @@
               </div>
             </div>
             <div class="col-sm-2">
-              <label for="" class="form-label">Quarter</label>
-              <input type="text" name="" class="form-control" id="quarter">
+              <label for=""
+                class="form-label">Quarter</label>
+              <input type="text"
+                name=""
+                class="form-control"
+                id="quarter">
             </div>
             <div class="col-md-2 reception-visitDate">
               <label class="form-label">Visit Date</label>
               <!-- <input type="date" onblur="dateOver(2)" id="vDate" class="form-control" required  > -->
               <div class="date-holder">
-                <input type="text" id="vDate" class="form-control Gdate date-verify" placeholder="dd-mm-yyyy">
-                <img src="../img/calendar3.svg" class="dateimg" alt="date">
+                <input type="text"
+                  id="vDate"
+                  class="form-control Gdate date-verify"
+                  placeholder="dd-mm-yyyy">
+                <img src="../img/calendar3.svg"
+                  class="dateimg"
+                  alt="date">
               </div>
             </div>
             <div class="col-md-2">
               <label class="form-label">Last Visit Date</label>
               <div class="date-holder">
-                <input type="text" id="reception_LastVDate" class="form-control Gdate" disabled
+                <input type="text"
+                  id="reception_LastVDate"
+                  class="form-control Gdate"
+                  disabled
                   placeholder="dd-mm-yyyy">
-                <img src="../img/calendar3.svg" class="dateimg" alt="date">
+                <img src="../img/calendar3.svg"
+                  class="dateimg"
+                  alt="date">
               </div>
             </div>
 
             <div class="col-md-2 reception-weight">
               <label class="form-label">Weight (kg)</label>
-              <input id="weight" type="number" class="form-control" required>
+              <input id="weight"
+                type="number"
+                class="form-control"
+                required>
             </div>
             <div class="col-md-2 reception-height">
               <label class="form-label">Height (cm)</label>
-              <input id="heigth" class="form-control" required>
+              <input id="heigth"
+                class="form-control"
+                required>
             </div>
             <div class="col-md-2 reception-muac">
               <label class="form-label">MUAC</label>
-              <select class="form-control reception-select" id="muac" required>
-                <option value="-"></option>
+              <select class="form-control reception-select"
+                id="muac"
+                required>
+                <option value=""></option>
                 <option value="green">Green</option>
                 <option value="red">Red</option>
                 <option value="yellow">Yellow</option>
@@ -464,7 +607,8 @@
             </div>
             <div class="col-md-2">
               <label class="form-label">Print QR/Bar Code</label>
-              <select class="form-control" id="qrcode_print">
+              <select class="form-control"
+                id="qrcode_print">
                 <option value="No">No</option>
                 <option value="Yes">Yes</option>
 
@@ -472,82 +616,120 @@
 
             </div>
 
-            <div class="col-md-12" style="display: none" id="reception_remark_block">
-              <label for="" class="form-label">Remark</label>
-              <input type="text" id="reception_remark" class="form-control">
+            <div class="col-md-12"
+              style="display: none"
+              id="reception_remark_block">
+              <label for=""
+                class="form-label">Remark</label>
+              <input type="text"
+                id="reception_remark"
+                class="form-control">
             </div>
-
 
           </div>
 
-
           <div class="row">
             <div class="col-sm-2 reception-re-fo">
-              <button type="button" id="regbutton" onclick="send()" class="btn btn-primary reception-register"
+              <button type="button"
+                id="regbutton"
+                onclick="send(this)"
+                class="btn btn-primary reception-register"
                 disabled>Register</button>
-              <button type="button" id="followBton" onclick="send_fup()"
-                class="btn btn-info reception-follow refresh-follow" disabled>Follow Up</button>
-              <button type="button" id="updateBton" onclick="update_reg()" class="btn update-batton"
+              <button type="button"
+                id="followBton"
+                onclick="send_fup(this)"
+                class="btn btn-info reception-follow refresh-follow"
+                disabled>Follow Up</button>
+              <button type="button"
+                id="updateBton"
+                onclick="update_reg(this)"
+                class="btn update-batton"
                 disabled>Update</button>
             </div>
           </div>
 
-
-
         </div>
 
-        <div class="tab-pane container containers fade" id="return">
+        <div class="tab-pane container containers fade"
+          id="return">
 
           @csrf
           <div class="row justify-content-center">
-            <ul class="next-md-list clearfix" id="next_md_list">
+            <ul class="next-md-list clearfix"
+              id="next_md_list">
 
             </ul>
           </div><br>
           <div class="row">
             <div class="col-sm-4 clearfix">
               <p style="float:left;">Response :</p>
-              <p style="float:left;" id="responseText"></p>
+              <p style="float:left;"
+                id="responseText"></p>
             </div>
           </div>
           <div class="row ">
             <!-- justify-content-center -->
             <div class="col-md-4 reception-code1 no-margin">
-              <label for="validationCustom01" class="form-label">General ID OR Fuchia ID</label>
+              <label for="validationCustom01"
+                class="form-label">General ID OR Fuchia ID</label>
               <div class="input-group mb-3">
-                <input type="number" autofocus id="gid_return" class="form-control" placeholder="General ID">
-                <input type="text" id="fid_return" class="form-control" placeholder="Fuchia ID">
+                <input type="number"
+                  autofocus
+                  id="gid_return"
+                  class="form-control"
+                  placeholder="General ID">
+                <input type="text"
+                  id="fid_return"
+                  class="form-control"
+                  placeholder="Fuchia ID">
                 <div class="input-group-append no-margin">
-                  <button class="btn btn-primary reception-serach " onclick="ptData_return()" type="button"
+                  <button class="btn btn-primary reception-serach "
+                    onclick="ptData_return()"
+                    type="button"
                     id="return-reception">Search</button>
                 </div>
               </div>
             </div>
             <div class="col-sm-2 return-input no-margin">
-              <label for="validationCustom01" class="form-label">Visit Date</label>
+              <label for="validationCustom01"
+                class="form-label">Visit Date</label>
               <!-- <input id="fup_date" onblur="dateOver(3)" type="date"  class="form-control"> -->
               <div class="date-holder">
-                <input type="text" id="fup_date" class="form-control Gdate date-verify" placeholder="dd-mm-yyyy">
-                <img src="../img/calendar3.svg" class="dateimg" alt="date">
+                <input type="text"
+                  id="fup_date"
+                  class="form-control Gdate date-verify"
+                  placeholder="dd-mm-yyyy">
+                <img src="../img/calendar3.svg"
+                  class="dateimg"
+                  alt="date">
               </div>
               <div class="valid-feedback">
                 Plz put Patient's Issue Date.
               </div>
             </div>
             <div class="col-sm-2 return-input no-margin">
-              <label for="validationCustom01" class="form-label">Next Appointment Date</label>
+              <label for="validationCustom01"
+                class="form-label">Next Appointment Date</label>
               <!-- <input id="nDate" type="date" value="" class="form-control"  > -->
               <div class="date-holder">
-                <input type="text" id="nDate" class="form-control Gdate" placeholder="dd-mm-yyyy"
+                <input type="text"
+                  id="nDate"
+                  class="form-control Gdate"
+                  placeholder="dd-mm-yyyy"
                   onblur="find_next_md()">
-                <img src="../img/calendar3.svg" class="dateimg" alt="date">
+                <img src="../img/calendar3.svg"
+                  class="dateimg"
+                  alt="date">
               </div>
             </div>
 
             <div class="col-sm-2">
-              <label for="validationCustom01" class="form-label">Follow Up MD</label>
-              <select class="form-select reception-select" id="follow_up_md" required="">
-                <option value="-"></option>
+              <label for="validationCustom01"
+                class="form-label">Follow Up MD</label>
+              <select class="form-select reception-select"
+                id="follow_up_md"
+                required="">
+                <option value=""></option>
                 <option value="TL">Team Leader MD</option>
                 <option value="MD1">1</option>
                 <option value="MD2">2</option>
@@ -594,39 +776,52 @@
               </select>
             </div>
 
-
-
-            <div id="resDiaSecton" class="clearfix resDiaBlock">
+            <div id="resDiaSecton"
+              class="clearfix resDiaBlock">
 
               <div class="pha_artbox">
-                <ul class="clearfix" id="pha_ul">
-                  <li><input type="checkbox" id="phacheck" name=""><label>PHA</label></li>
+                <ul class="clearfix"
+                  id="pha_ul">
+                  <li><input type="checkbox"
+                      id="phacheck"
+                      name=""><label>PHA</label></li>
                   <li><label class="form-label new-old">New/Old</label>
-                    <select class="form-select reception-select" id="pha_new_old" required="">
+                    <select class="form-select reception-select"
+                      id="pha_new_old"
+                      required="">
                       <option value=""></option>
                       <option value="New">New</option>
                       <option value="Old">Old</option>
                     </select>
                   </li>
                   <li><label class="form-label">MAM Cohort</label>
-                    <select class="form-select reception-select" id="pha_cohort" required="">
+                    <select class="form-select reception-select"
+                      id="pha_cohort"
+                      required="">
                       <option value=""></option>
                       <option value="Yes">Yes</option>
                       <option value="No">No</option>
                     </select>
                   </li>
                 </ul>
-                <ul class="clearfix" id="art_ul">
-                  <li><input type="checkbox" id="artcheck" name=""><label>ART</label></li>
+                <ul class="clearfix"
+                  id="art_ul">
+                  <li><input type="checkbox"
+                      id="artcheck"
+                      name=""><label>ART</label></li>
                   <li><label class="form-label new-old">New/Old</label>
-                    <select class="form-select reception-select" id="art_new_old" required="">
+                    <select class="form-select reception-select"
+                      id="art_new_old"
+                      required="">
                       <option value=""></option>
                       <option value="New">New</option>
                       <option value="Old">Old</option>
                     </select>
                   </li>
                   <li><label class="form-label">MAM Cohort</label>
-                    <select class="form-select reception-select" id="art_cohort" required="">
+                    <select class="form-select reception-select"
+                      id="art_cohort"
+                      required="">
                       <option value=""></option>
                       <option value="Yes">Yes</option>
                       <option value="No">No</option>
@@ -636,10 +831,15 @@
                 </ul>
               </div>
               <div class="prep_pmtctbox">
-                <ul class="clearfix" id="prep_ul">
-                  <li><input type="checkbox" id="prepcheck" name=""><label>PrEP</label></li>
+                <ul class="clearfix"
+                  id="prep_ul">
+                  <li><input type="checkbox"
+                      id="prepcheck"
+                      name=""><label>PrEP</label></li>
                   <li><label class="form-label new-old">New/Old</label>
-                    <select class="form-select reception-select" id="prep_new_old" required="">
+                    <select class="form-select reception-select"
+                      id="prep_new_old"
+                      required="">
                       <option value=""></option>
                       <option value="New">New</option>
                       <option value="Old">Old</option>
@@ -647,10 +847,15 @@
                   </li>
 
                 </ul>
-                <ul class="clearfix" id="pmtct_ul">
-                  <li><input type="checkbox" id="pmtctcheck" name=""><label>PMTCT</label></li>
+                <ul class="clearfix"
+                  id="pmtct_ul">
+                  <li><input type="checkbox"
+                      id="pmtctcheck"
+                      name=""><label>PMTCT</label></li>
                   <li><label class="form-label new-old">New/Old</label>
-                    <select class="form-select reception-select" id="pmtct_new_old" required="">
+                    <select class="form-select reception-select"
+                      id="pmtct_new_old"
+                      required="">
                       <option value=""></option>
                       <option value="New">New</option>
                       <option value="Old">Old</option>
@@ -659,20 +864,30 @@
                 </ul>
               </div>
               <div class="anc_familybox">
-                <ul class="clearfix" id="anc_ul">
-                  <li><input type="checkbox" id="anccheck" name=""><label>ANC</label></li>
+                <ul class="clearfix"
+                  id="anc_ul">
+                  <li><input type="checkbox"
+                      id="anccheck"
+                      name=""><label>ANC</label></li>
                   <li><label class="form-label new-old">New/Old</label>
-                    <select class="form-select reception-select" id="anc_new_old" required="">
+                    <select class="form-select reception-select"
+                      id="anc_new_old"
+                      required="">
                       <option value=""></option>
                       <option value="New">New</option>
                       <option value="Old">Old</option>
                     </select>
                   </li>
                 </ul>
-                <ul class="clearfix" id="fmaily_ul">
-                  <li><input type="checkbox" id="fmaplancheck" name=""><label>Family Planning</label></li>
+                <ul class="clearfix"
+                  id="fmaily_ul">
+                  <li><input type="checkbox"
+                      id="fmaplancheck"
+                      name=""><label>Family Planning</label></li>
                   <li><label class="form-label new-old">New/Old</label>
-                    <select class="form-select reception-select" id="famaplan_new_old" required="">
+                    <select class="form-select reception-select"
+                      id="famaplan_new_old"
+                      required="">
                       <option value=""></option>
                       <option value="New">New</option>
                       <option value="Old">Old</option>
@@ -682,45 +897,63 @@
               </div>
 
               <div class="ncd_generalbox">
-                <ul class="clearfix" id="general_ul">
-                  <li><input type="checkbox" id="gneralcheck" name=""><label>General</label></li>
+                <ul class="clearfix"
+                  id="general_ul">
+                  <li><input type="checkbox"
+                      id="gneralcheck"
+                      name=""><label>General</label></li>
                   <li><label class="form-label new-old">New/Old</label>
-                    <select class="form-select reception-select" id="general_new_old" required="">
+                    <select class="form-select reception-select"
+                      id="general_new_old"
+                      required="">
                       <option value=""></option>
                       <option value="New">New</option>
                       <option value="Old">Old</option>
                     </select>
                   </li>
                   <li><label class="form-label">Type of Diagnosis</label>
-                    <select class="form-select reception-select" id="general_diagnosis" required="">
+                    <select class="form-select reception-select"
+                      id="general_diagnosis"
+                      required="">
                       <option value=""></option>
                     </select>
                   </li>
                   <li><label class="form-label">OPD</label>
-                    <select class="form-select reception-select" id="OPD" required="">
-                      <option value="No" selected>No</option>
+                    <select class="form-select reception-select"
+                      id="OPD"
+                      required="">
+                      <option value="No"
+                        selected>No</option>
                       <option value="Yes">Yes</option>
                     </select>
                   </li>
 
-
                 </ul>
-                <ul class="clearfix" id="ncd_ul">
-                  <li><input type="checkbox" id="ncdcheck" name=""><label>NCD</label></li>
+                <ul class="clearfix"
+                  id="ncd_ul">
+                  <li><input type="checkbox"
+                      id="ncdcheck"
+                      name=""><label>NCD</label></li>
                   <li><label class="form-label new-old">New/Old</label>
-                    <select class="form-select reception-select" id="ncd_new_old" required="">
+                    <select class="form-select reception-select"
+                      id="ncd_new_old"
+                      required="">
                       <option value=""></option>
                       <option value="New">New</option>
                       <option value="Old">Old</option>
                     </select>
                   </li>
                   <li><label class="form-label">Type of Diagnosis</label>
-                    <select class="form-select reception-select" id="ncd_diagnosis" required="">
+                    <select class="form-select reception-select"
+                      id="ncd_diagnosis"
+                      required="">
                       <option value=""></option>
                     </select>
                   </li>
                   <li><label class="form-label">Drug Supply By MAM</label>
-                    <select class="form-select reception-select" id="ncd_drugSupply" required="">
+                    <select class="form-select reception-select"
+                      id="ncd_drugSupply"
+                      required="">
                       <option value=""></option>
                       <option value="Yes">Yes</option>
                       <option value="No">No</option>
@@ -728,34 +961,48 @@
                   </li>
 
                 </ul>
-                <ul class="clearfix" id="hivTB_ul">
-                  <li><input type="checkbox" id="hivTBcheck" name=""><label>HIV(-)TB</label></li>
+                <ul class="clearfix"
+                  id="hivTB_ul">
+                  <li><input type="checkbox"
+                      id="hivTBcheck"
+                      name=""><label>HIV(-)TB</label></li>
                   <li><label class="form-label new-old">New/Old</label>
-                    <select class="form-select reception-select" id="hivTB_new_old" required="">
+                    <select class="form-select reception-select"
+                      id="hivTB_new_old"
+                      required="">
                       <option value=""></option>
                       <option value="New">New</option>
                       <option value="Old">Old</option>
                     </select>
                   </li>
                 </ul>
-
 
               </div>
               <div class="feed_labInvestbox">
-                <ul class="clearfix" id="feed_ul">
-                  <li><input type="checkbox" id="fcentercheck" name=""><label>Feeding Centre</label></li>
+                <ul class="clearfix"
+                  id="feed_ul">
+                  <li><input type="checkbox"
+                      id="fcentercheck"
+                      name=""><label>Feeding Centre</label></li>
                   <li><label class="form-label new-old">New/Old</label>
-                    <select class="form-select reception-select" id="feedcentre_new_old" required="">
+                    <select class="form-select reception-select"
+                      id="feedcentre_new_old"
+                      required="">
                       <option value=""></option>
                       <option value="New">New</option>
                       <option value="Old">Old</option>
                     </select>
                   </li>
                 </ul>
-                <ul class="clearfix" id="lab_Invest_ul">
-                  <li><input type="checkbox" id="labInvestcheck" name=""><label>Lab Investigation Only</label></li>
+                <ul class="clearfix"
+                  id="lab_Invest_ul">
+                  <li><input type="checkbox"
+                      id="labInvestcheck"
+                      name=""><label>Lab Investigation Only</label></li>
                   <li><label class="form-label new-old">New/Old</label>
-                    <select class="form-select reception-select" id="labInvest_new_old" required="">
+                    <select class="form-select reception-select"
+                      id="labInvest_new_old"
+                      required="">
                       <option value=""></option>
                       <option value="New">New</option>
                       <option value="Old">Old</option>
@@ -767,26 +1014,59 @@
 
             </div>
 
-
-
             <div class="row">
               <div class="col-sm-2 refer-block">
                 <label class="form-label">Refer to Fever Team</label>
-                <select class="form-select reception-select" id="refer_fever" required="">
+                <select class="form-select reception-select"
+                  id="refer_fever"
+                  required="">
                   <option value="No">No</option>
                   <option value="Yes">Yes</option>
 
                 </select>
               </div>
+              <div class="col-sm-2">
+                <label class="form-label">Mpox suspected</label>
+                <select class="form-select reception-select"
+                  id="mpox_yes_no"
+                  required="" >
+                  <option value="No">No</option>
+                  <option value="Yes">Yes</option>
+                </select>
+              </div>
+              <div class="col-sm-2">
+                <label class="form-label">Mpox suspected Rash</label>
+                <select class="form-select reception-select"
+                  id="mpox_rash_yes_no"
+                  required="" disabled>
+                  <option value=""> </option>
+                  <option value="No">No</option>
+                  <option value="Yes">Yes</option>
+                </select>
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label">Further Mx</label>
+                <select class="form-select reception-select"
+                  id="mpox_fur_mx"
+                  required="" disabled>
+                  <option value=""> </option>
+                  <option value="1.Treated at MAM">1. Treated at MAM</option>
+                  <option value="2.Referred to other center">2.Referred to other center</option>
+                </select>
+                
+              </div>
               <div class="col-sm-1 return-save">
-                <button type="button" id="updateBton" onclick="save()"
+                <button type="button"
+                  id="updateBton"
+                  onclick="save(this)"
                   class="btn btn-warning  update-batton">Save</button>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="tab-pane container containers fade" id="next">
+        <div class="tab-pane container containers fade"
+          id="next">
           @csrf
           <div>
             <div>
@@ -796,19 +1076,30 @@
 
           <div class="row reception-appointmentInfo ">
             <div class="col-sm-4 appointment-date">
-              <label for="validationCustom01" class="form-label appointment-label">Next Appointment Date</label>
+              <label for="validationCustom01"
+                class="form-label appointment-label">Next Appointment Date</label>
               <!-- <input id="ndate" type="date" autofocus class="form-control" id="validationCustom01"> -->
 
               <div class="date-holder">
-                <input type="text" id="nextSerachDate" class="form-control Gdate" placeholder="dd-mm-yyyy">
-                <img src="../img/calendar3.svg" class="dateimg" alt="date">
+                <input type="text"
+                  id="nextSerachDate"
+                  class="form-control Gdate"
+                  placeholder="dd-mm-yyyy">
+                <img src="../img/calendar3.svg"
+                  class="dateimg"
+                  alt="date">
               </div>
 
             </div>
             <div class="col-sm-3 appointemt-search">
-              <label for="validationCustom01" class="form-label">Type</label>
-              <select class="form-control reception-select" id="visit_type" required>
-                <option selected disabled value="">Choose....................</option>
+              <label for="validationCustom01"
+                class="form-label">Type</label>
+              <select class="form-control reception-select"
+                id="visit_type"
+                required>
+                <option selected
+                  disabled
+                  value="">Choose....................</option>
                 <option value="All">All</option>
                 <option value="PHA">PHA</option>
                 <option value="ART">ART</option>
@@ -824,7 +1115,9 @@
 
             </div>
             <div class="col-sm-1 next-serachBatton">
-              <button type="button" id="updateBton" onclick="search_nextAppointment()"
+              <button type="button"
+                id="updateBton"
+                onclick="search_nextAppointment()"
                 class="btn btn-primary appointment-serach reception-select">Search</button>
             </div>
           </div>
@@ -847,29 +1140,40 @@
 
         </div>
 
-        <div class="tab-pane container containers fade" id="follow">
+        <div class="tab-pane container containers fade"
+          id="follow">
           <div class="page-color">
             <div>
 
               <h2 class="header-text">Test History Of the Patient</h2>
 
             </div>
-            <div class="row reception-followSection" style="margin:auto;">
+            <div class="row reception-followSection"
+              style="margin:auto;">
               <div class="col-md-3">
-                <input id="id_hist" type="text" autofocus class="form-control" placeholder="Patient's ID" required>
+                <input id="id_hist"
+                  type="text"
+                  autofocus
+                  class="form-control"
+                  placeholder="Patient's ID"
+                  required>
                 <div class="valid-feedback">
                   Plz put Patient's ID.
                 </div>
               </div>
               <div class="col-md-3">
-                <button type="button" onclick="followupHistory()"
+                <button type="button"
+                  onclick="followupHistory()"
                   class="btn btn-primary btn-lg btn-searchFollowup">Search Follow up History</button>
               </div>
             </div>
             <br>
-            <div class="row " style="margin:auto;">
-              <div class="mobile" id="followupHistory-mobile"></div>
-              <div class="tablet" id="followupHistory-tablet">
+            <div class="row "
+              style="margin:auto;">
+              <div class="mobile"
+                id="followupHistory-mobile"></div>
+              <div class="tablet"
+                id="followupHistory-tablet">
               </div>
               <div class="col-md-12 pc">
                 <table class="table table-hover table-bordered">
@@ -885,17 +1189,19 @@
                       <th></th>
                     </tr>
                   </thead>
-                  <tbody id="followupHistory" calss="tablet-pc">
+                  <tbody id="followupHistory"
+                    calss="tablet-pc">
                 </table>
               </div>
             </div>
           </div>
 
-
-
-          <div id="updatePageView" class="container containers" style="display:none">
+          <div id="updatePageView"
+            class="container containers"
+            style="display:none">
             <!-- *adding containers clss -->
-            <div style="margin:auto" id="toshowResult"></div>
+            <div style="margin:auto"
+              id="toshowResult"></div>
             <div class="container containers page-color">
               <!-- *adding containers clss -->
               <br>
@@ -909,61 +1215,87 @@
               <div class="row">
                 <div class="col-sm-4 clearfix">
                   <p style="float:left;">Response :</p>
-                  <p style="float:left;" id="responseText"></p>
+                  <p style="float:left;"
+                    id="responseText"></p>
                 </div>
               </div>
               <div class="row">
 
                 <div class="col-sm-2 reception-code1">
-                  <label for="validationCustom01" class="form-label">General ID</label>
+                  <label for="validationCustom01"
+                    class="form-label">General ID</label>
                   <div class="input-group mb-3">
-                    <input type="number" autofocus id="gid_toupdate" class="form-control">
+                    <input type="number"
+                      autofocus
+                      id="gid_toupdate"
+                      class="form-control">
 
                     <div class="input-group-append no-margin">
-                      <button class="btn btn-primary reception-serach" type="button">Search</button>
+                      <button class="btn btn-primary reception-serach"
+                        type="button">Search</button>
                     </div>
                   </div>
                 </div>
                 <div class="col-sm-2 reception-code2">
-                  <label for="validationCustom01" class="form-label">Fuchia ID</label>
+                  <label for="validationCustom01"
+                    class="form-label">Fuchia ID</label>
                   <div class="input-group mb-3">
-                    <input type="text" id="fid_toupdate" class="form-control">
+                    <input type="text"
+                      id="fid_toupdate"
+                      class="form-control">
                     <div class="input-group-append no-margin">
-                      <button class="btn btn-primary reception-serach" type="button">Search</button>
+                      <button class="btn btn-primary reception-serach"
+                        type="button">Search</button>
                     </div>
                   </div>
                 </div>
                 <div class="col-md-2 receptionFollow-pfn">
                   <label class="form-label">PrEP Code</label>
-                  <input type="text" id="prepCode_toupdate" placeholder='Pr/049/B0000/23' class="form-control" required>
+                  <input type="text"
+                    id="prepCode_toupdate"
+                    placeholder='Pr/049/B0000/23'
+                    class="form-control"
+                    required>
                 </div> <br class="tablet">
                 <div class="col-md-2 receptionFollow-visitDate">
                   <label class="form-label">Visit Date</label>
                   <!-- <input type="date" onblur="dateOver(4)" id="vDate_toupdate" class="form-control" required  > -->
                   <div class="date-holder">
-                    <input type="text" id="vDate_toupdate" class="form-control Gdate date-verify"
+                    <input type="text"
+                      id="vDate_toupdate"
+                      class="form-control Gdate date-verify"
                       placeholder="dd-mm-yyyy">
-                    <img src="../img/calendar3.svg" class="dateimg" alt="date">
+                    <img src="../img/calendar3.svg"
+                      class="dateimg"
+                      alt="date">
                   </div>
                 </div>
                 <div class="col-md-2 receptionFollow-gender">
                   <label class="form-label">Sex</label>
-                  <select class="form-select reception-select" id="gender_toupdate" required>
-                    <option value="-"></option>
+                  <select class="form-select reception-select"
+                    id="gender_toupdate"
+                    required>
+                    <option value=""></option>
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
                   </select>
                 </div>
                 <div class="col-md-1 receptionFollow-ageYear">
-                  <label for="validationCustom02" class="form-label">Age(Year)</label>
-                  <input type="number" id="agey_toupdate" class="form-control">
+                  <label for="validationCustom02"
+                    class="form-label">Age(Year)</label>
+                  <input type="number"
+                    id="agey_toupdate"
+                    class="form-control">
                   <div class="valid-feedback">
                     plz put patient age.
                   </div>
                 </div>
                 <div class="col-md-1 receptionFollow-ageMonth">
-                  <label for="validationCustom02" class="form-label">Age(Month)</label>
-                  <input type="number" id="agem_toupdate" class="form-control">
+                  <label for="validationCustom02"
+                    class="form-label">Age(Month)</label>
+                  <input type="number"
+                    id="agem_toupdate"
+                    class="form-control">
                   <div class="valid-feedback">
                     plz put patient age.
                   </div>
@@ -972,7 +1304,9 @@
               <div class="row">
                 <div class="col-sm-3">
                   <label class="form-label">Refer to Fever Team</label>
-                  <select class="form-select reception-select" id="refer_feverupdate" required="">
+                  <select class="form-select reception-select"
+                    id="refer_feverupdate"
+                    required="">
                     <option value=""></option>
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
@@ -980,17 +1314,26 @@
                 </div>
 
                 <div class="col-sm-2 return-input ">
-                  <label for="validationCustom01" class="form-label">Next Appointment Date</label>
+                  <label for="validationCustom01"
+                    class="form-label">Next Appointment Date</label>
                   <!-- <input id="nDate_toupdate" type="date" value="" class="form-control"  > -->
                   <div class="date-holder">
-                    <input type="text" id="nDate_toupdate" class="form-control Gdate" placeholder="dd-mm-yyyy">
-                    <img src="../img/calendar3.svg" class="dateimg" alt="date">
+                    <input type="text"
+                      id="nDate_toupdate"
+                      class="form-control Gdate"
+                      placeholder="dd-mm-yyyy">
+                    <img src="../img/calendar3.svg"
+                      class="dateimg"
+                      alt="date">
                   </div>
                 </div>
                 <div class="col-sm-2 ">
-                  <label for="validationCustom01" class="form-label">Follow Up MD</label>
-                  <select class="form-select reception-select" id="follow_up_md_toupdate" required="">
-                    <option value="-"></option>
+                  <label for="validationCustom01"
+                    class="form-label">Follow Up MD</label>
+                  <select class="form-select reception-select"
+                    id="follow_up_md_toupdate"
+                    required="">
+                    <option value=""></option>
                     <option value="TL">Team Leader MD</option>
                     <option value="MD1">1</option>
                     <option value="MD2">2</option>
@@ -1037,7 +1380,10 @@
                   </select>
                 </div>
                 <div class="col-sm-2">
-                  <select name="" id="online_followupdate" class="form-select" style="margin-top:35px">
+                  <select name=""
+                    id="online_followupdate"
+                    class="form-select"
+                    style="margin-top:35px">
                     <option value="No">Online Reach</option>
                     <option value="Prevent Yangon">Prevent Yangon</option>
                     <option value="SHE">SHE</option>
@@ -1046,36 +1392,51 @@
                   </select>
                 </div>
               </div>
-              <div id="resDiaSecton2" class="clearfix resDiaBlock">
+              <div id="resDiaSecton2"
+                class="clearfix resDiaBlock">
                 <div class="pha_artbox">
-                  <ul class="clearfix" id="pha_ulupdate">
-                    <li><input type="checkbox" id="phacheckupdate" name=""><label>PHA</label></li>
+                  <ul class="clearfix"
+                    id="pha_ulupdate">
+                    <li><input type="checkbox"
+                        id="phacheckupdate"
+                        name=""><label>PHA</label></li>
                     <li><label class="form-label new-old">New/Old</label>
-                      <select class="form-select reception-select" id="pha_new_oldupdate" required="">
+                      <select class="form-select reception-select"
+                        id="pha_new_oldupdate"
+                        required="">
                         <option value=""></option>
                         <option value="New">New</option>
                         <option value="Old">Old</option>
                       </select>
                     </li>
                     <li><label class="form-label">MAM Cohort</label>
-                      <select class="form-select reception-select" id="pha_cohortupdate" required="">
+                      <select class="form-select reception-select"
+                        id="pha_cohortupdate"
+                        required="">
                         <option value=""></option>
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
                       </select>
                     </li>
                   </ul>
-                  <ul class="clearfix" id="art_ul_update">
-                    <li><input type="checkbox" id="artcheckupdate" name=""><label>ART</label></li>
+                  <ul class="clearfix"
+                    id="art_ul_update">
+                    <li><input type="checkbox"
+                        id="artcheckupdate"
+                        name=""><label>ART</label></li>
                     <li><label class="form-label new-old">New/Old</label>
-                      <select class="form-select reception-select" id="art_new_oldupdate" required="">
+                      <select class="form-select reception-select"
+                        id="art_new_oldupdate"
+                        required="">
                         <option value=""></option>
                         <option value="New">New</option>
                         <option value="Old">Old</option>
                       </select>
                     </li>
                     <li><label class="form-label">MAM Cohort</label>
-                      <select class="form-select reception-select" id="art_cohortupdate" required="">
+                      <select class="form-select reception-select"
+                        id="art_cohortupdate"
+                        required="">
                         <option value=""></option>
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
@@ -1085,10 +1446,15 @@
                   </ul>
                 </div>
                 <div class="prep_pmtctbox">
-                  <ul class="clearfix" id="prep_ulupdate">
-                    <li><input type="checkbox" id="prepcheckupdate" name=""><label>PrEP</label></li>
+                  <ul class="clearfix"
+                    id="prep_ulupdate">
+                    <li><input type="checkbox"
+                        id="prepcheckupdate"
+                        name=""><label>PrEP</label></li>
                     <li><label class="form-label new-old">New/Old</label>
-                      <select class="form-select reception-select" id="prep_new_oldupdate" required="">
+                      <select class="form-select reception-select"
+                        id="prep_new_oldupdate"
+                        required="">
                         <option value=""></option>
                         <option value="New">New</option>
                         <option value="Old">Old</option>
@@ -1096,10 +1462,15 @@
                     </li>
 
                   </ul>
-                  <ul class="clearfix" id="pmtct_ul">
-                    <li><input type="checkbox" id="pmtctcheckupdate" name=""><label>PMTCT</label></li>
+                  <ul class="clearfix"
+                    id="pmtct_ul">
+                    <li><input type="checkbox"
+                        id="pmtctcheckupdate"
+                        name=""><label>PMTCT</label></li>
                     <li><label class="form-label new-old">New/Old</label>
-                      <select class="form-select reception-select" id="pmtct_new_oldupdate" required="">
+                      <select class="form-select reception-select"
+                        id="pmtct_new_oldupdate"
+                        required="">
                         <option value=""></option>
                         <option value="New">New</option>
                         <option value="Old">Old</option>
@@ -1108,20 +1479,30 @@
                   </ul>
                 </div>
                 <div class="anc_familybox">
-                  <ul class="clearfix" id="anc_ulupdate">
-                    <li><input type="checkbox" id="anccheckupdate" name=""><label>ANC</label></li>
+                  <ul class="clearfix"
+                    id="anc_ulupdate">
+                    <li><input type="checkbox"
+                        id="anccheckupdate"
+                        name=""><label>ANC</label></li>
                     <li><label class="form-label new-old">New/Old</label>
-                      <select class="form-select reception-select" id="anc_new_oldupdate" required="">
+                      <select class="form-select reception-select"
+                        id="anc_new_oldupdate"
+                        required="">
                         <option value=""></option>
                         <option value="New">New</option>
                         <option value="Old">Old</option>
                       </select>
                     </li>
                   </ul>
-                  <ul class="clearfix" id="fmaily_ulupdate">
-                    <li><input type="checkbox" id="fmaplancheckupdate" name=""><label>Family Planning</label></li>
+                  <ul class="clearfix"
+                    id="fmaily_ulupdate">
+                    <li><input type="checkbox"
+                        id="fmaplancheckupdate"
+                        name=""><label>Family Planning</label></li>
                     <li><label class="form-label new-old">New/Old</label>
-                      <select class="form-select reception-select" id="famaplan_new_oldupdate" required="">
+                      <select class="form-select reception-select"
+                        id="famaplan_new_oldupdate"
+                        required="">
                         <option value=""></option>
                         <option value="New">New</option>
                         <option value="Old">Old</option>
@@ -1131,45 +1512,62 @@
                 </div>
 
                 <div class="ncd_generalbox">
-                  <ul class="clearfix" id="general_ulupdate">
-                    <li><input type="checkbox" id="gneralcheckupdate" name=""><label>General</label></li>
+                  <ul class="clearfix"
+                    id="general_ulupdate">
+                    <li><input type="checkbox"
+                        id="gneralcheckupdate"
+                        name=""><label>General</label></li>
                     <li><label class="form-label new-old">New/Old</label>
-                      <select class="form-select reception-select" id="general_new_oldupdate" required="">
+                      <select class="form-select reception-select"
+                        id="general_new_oldupdate"
+                        required="">
                         <option value=""></option>
                         <option value="New">New</option>
                         <option value="Old">Old</option>
                       </select>
                     </li>
                     <li><label class="form-label">Type of Diagnosis</label>
-                      <select class="form-select reception-select" id="general_diagnosisupdate" required="">
+                      <select class="form-select reception-select"
+                        id="general_diagnosisupdate"
+                        required="">
                         <option value=""></option>
                       </select>
                     </li>
                     <li><label class="form-label">OPD</label>
-                      <select class="form-select reception-select" id="OPDupdate" required="">
+                      <select class="form-select reception-select"
+                        id="OPDupdate"
+                        required="">
                         <option value="No">No</option>
                         <option value="Yes">Yes</option>
                       </select>
                     </li>
 
-
                   </ul>
-                  <ul class="clearfix" id="ncd_ulupdate">
-                    <li><input type="checkbox" id="ncdcheckupdate" name=""><label>NCD</label></li>
+                  <ul class="clearfix"
+                    id="ncd_ulupdate">
+                    <li><input type="checkbox"
+                        id="ncdcheckupdate"
+                        name=""><label>NCD</label></li>
                     <li><label class="form-label new-old">New/Old</label>
-                      <select class="form-select reception-select" id="ncd_new_oldupdate" required="">
+                      <select class="form-select reception-select"
+                        id="ncd_new_oldupdate"
+                        required="">
                         <option value=""></option>
                         <option value="New">New</option>
                         <option value="Old">Old</option>
                       </select>
                     </li>
                     <li><label class="form-label">Type of Diagnosis</label>
-                      <select class="form-select reception-select" id="ncd_diagnosisupdate" required="">
+                      <select class="form-select reception-select"
+                        id="ncd_diagnosisupdate"
+                        required="">
                         <option value=""></option>
                       </select>
                     </li>
                     <li><label class="form-label">Drug Supply By MAM</label>
-                      <select class="form-select reception-select" id="ncd_drugSupplyupdate" required="">
+                      <select class="form-select reception-select"
+                        id="ncd_drugSupplyupdate"
+                        required="">
                         <option value=""></option>
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
@@ -1177,35 +1575,49 @@
                     </li>
 
                   </ul>
-                  <ul class="clearfix" id="hivTB_ulupdate">
-                    <li><input type="checkbox" id="hivTBcheckupdate" name=""><label>HIV(-)TB</label></li>
+                  <ul class="clearfix"
+                    id="hivTB_ulupdate">
+                    <li><input type="checkbox"
+                        id="hivTBcheckupdate"
+                        name=""><label>HIV(-)TB</label></li>
                     <li><label class="form-label new-old">New/Old</label>
-                      <select class="form-select reception-select" id="hivTB_new_oldupdate" required="">
+                      <select class="form-select reception-select"
+                        id="hivTB_new_oldupdate"
+                        required="">
                         <option value=""></option>
                         <option value="New">New</option>
                         <option value="Old">Old</option>
                       </select>
                     </li>
                   </ul>
-
 
                 </div>
                 <div class="feed_labInvestbox">
-                  <ul class="clearfix" id="feed_ulupdate">
-                    <li><input type="checkbox" id="fcentercheckupdate" name=""><label>Feeding Centre</label></li>
+                  <ul class="clearfix"
+                    id="feed_ulupdate">
+                    <li><input type="checkbox"
+                        id="fcentercheckupdate"
+                        name=""><label>Feeding Centre</label></li>
                     <li><label class="form-label new-old">New/Old</label>
-                      <select class="form-select reception-select" id="feedcentre_new_oldupdate" required="">
+                      <select class="form-select reception-select"
+                        id="feedcentre_new_oldupdate"
+                        required="">
                         <option value=""></option>
                         <option value="New">New</option>
                         <option value="Old">Old</option>
                       </select>
                     </li>
                   </ul>
-                  <ul class="clearfix" id="lab_Invest_ulupdate">
-                    <li><input type="checkbox" id="labInvestcheckupdate" name=""><label>Lab Investigation Only</label>
+                  <ul class="clearfix"
+                    id="lab_Invest_ulupdate">
+                    <li><input type="checkbox"
+                        id="labInvestcheckupdate"
+                        name=""><label>Lab Investigation Only</label>
                     </li>
                     <li><label class="form-label new-old">New/Old</label>
-                      <select class="form-select reception-select" id="labInvest_new_oldupdate" required="">
+                      <select class="form-select reception-select"
+                        id="labInvest_new_oldupdate"
+                        required="">
                         <option value=""></option>
                         <option value="New">New</option>
                         <option value="Old">Old</option>
@@ -1217,16 +1629,23 @@
               <div class="row">
                 <div class="col-md-2 reception-weight">
                   <label class="form-label">Weight</label>
-                  <input id="weight_update" type="number" class="form-control" required>
+                  <input id="weight_update"
+                    type="number"
+                    class="form-control"
+                    required>
                 </div>
                 <div class="col-md-2 reception-height">
                   <label class="form-label">Height</label>
-                  <input id="heigth_update" class="form-control" required>
+                  <input id="heigth_update"
+                    class="form-control"
+                    required>
                 </div>
                 <div class="col-md-2 reception-muac">
                   <label class="form-label">MUAC</label>
-                  <select class="form-control reception-select" id="muac_update" required>
-                    <option value="-"></option>
+                  <select class="form-control reception-select"
+                    id="muac_update"
+                    required>
+                    <option value=""></option>
                     <option value="green">Green</option>
                     <option value="red">Red</option>
                     <option value="yellow">Yellow</option>
@@ -1234,8 +1653,11 @@
                   </select>
                 </div>
                 <div class="col-sm-2">
-                  <label for="validationCustom01" class="form-label">Current MD</label>
-                  <select class="form-select reception-select" id="current_md_update" required="">
+                  <label for="validationCustom01"
+                    class="form-label">Current MD</label>
+                  <select class="form-select reception-select"
+                    id="current_md_update"
+                    required="">
                     <option value=""></option>
                     <option value="TL">Team Leader MD</option>
                     <option value="MD1">1</option>
@@ -1283,40 +1705,84 @@
                   </select>
                 </div>
                 <div class="col-md-4">
-                  <label for="" class="form-label">Remark</label>
-                  <input type="text" id="remark_update" class="form-control">
+                  <label for=""
+                    class="form-label">Remark</label>
+                  <input type="text"
+                    id="remark_update"
+                    class="form-control">
+                </div>
+                <div class="col-sm-2">
+                  <label class="form-label">Mpox suspected</label>
+                  <select class="form-select reception-select"
+                    id="mpox_yes_no_update"
+                    required="" onchange="mox_update()">
+                    <option value="No">No</option>
+                    <option value="Yes">Yes</option>
+                  </select>
+                </div>
+                <div class="col-sm-2">
+                  <label class="form-label">Mpox suspected Rash</label>
+                  <select class="form-select reception-select"
+                    id="mpox_rash_yes_no_update"
+                    required="" disabled>
+                    <option value=""> </option>
+                    <option value="No">No</option>
+                    <option value="Yes">Yes</option>
+                  </select>
+                </div>
+                <div class="col-sm-8">
+                  <label class="form-label">Further Mx</label>
+                 
+                  <select class="form-select reception-select"
+                  id="mpox_fur_mx_update"
+                  required="" disabled>
+                   <option value=""> </option>
+                  <option value="1.Treated at MAM">1. Treated at MAM</option>
+                  <option value="2.Referred to other center">2.Referred to other center</option>
+                </select>
                 </div>
 
               </div>
               <div class="row">
                 <div class="col-sm-2 reception-re-fo">
-                  <button type="button" id="updateBton" onclick="update()" class="btn update-batton">Update</button>
+                  <button type="button"
+                    id="updateBton"
+                    onclick="update(this)"
+                    class="btn update-batton">Update</button>
                 </div>
               </div>
               <br>
-
 
             </div>
 
           </div>
         </div>
 
-        <div class="tab-pane container containers fade" id="search_name">
+        <div class="tab-pane container containers fade"
+          id="search_name">
           <div class="row">
             <div class="col-sm-2">
-              <label for="" class="form-laber">Select Year</label>
-              <select name="" class="form-select" onchange="SeachByName()" id="name_serach_year">
+              <label for=""
+                class="form-laber">Select Year</label>
+              <select name=""
+                class="form-select"
+                onchange="SeachByName()"
+                id="name_serach_year">
                 <option value=""></option>
                 <option value="10">2010</option>
               </select>
 
             </div>
             <div class="col-sm-4">
-              <input type="text" id="search_input_name" class="form-control search-input-name"
-                placeholder="Type name Correctly" onchange="Find_name()">
+              <input type="text"
+                id="search_input_name"
+                class="form-control search-input-name"
+                placeholder="Type name Correctly"
+                onchange="Find_name()">
             </div>
           </div>
-          <div id="show_name_result" class="show-name-result">
+          <div id="show_name_result"
+            class="show-name-result">
             <table class="table table-hover table-bordered">
               <thead>
                 <tr>
@@ -1336,8 +1802,11 @@
 
         </div>
 
-        <div class="tab-pane container containers fade" id="export">
-          <form action="{{ route('reception_export') }}" method="POST" enctype="multipart/form-data">
+        <div class="tab-pane container containers fade"
+          id="export">
+          <form action="{{ route('reception_export') }}"
+            method="POST"
+            enctype="multipart/form-data">
             @csrf
             <br>
             <div class="row justify-content-center">
@@ -1348,8 +1817,14 @@
                 <label for="">From(dd-mm-yyyy)</label>
                 <!-- <input type="date" class="form-control" id="ddFrom" name="Datefrom" value=""> -->
                 <div class="date-holder">
-                  <input type="text" id="ddFrom" class="form-control Gdate" name="Datefrom" placeholder="dd-mm-yyyy">
-                  <img src="../img/calendar3.svg" class="dateimg" alt="date">
+                  <input type="text"
+                    id="ddFrom"
+                    class="form-control Gdate"
+                    name="Datefrom"
+                    placeholder="dd-mm-yyyy">
+                  <img src="../img/calendar3.svg"
+                    class="dateimg"
+                    alt="date">
                 </div>
               </div>
 
@@ -1357,8 +1832,14 @@
                 <label for="">To(dd-mm-yyyy)</label>
                 <!-- <input  type="date" class="form-control" id="ddTo" name="Dateto" value=""> -->
                 <div class="date-holder">
-                  <input type="text" id="ddTo" class="form-control Gdate" name="Dateto" placeholder="dd-mm-yyyy">
-                  <img src="../img/calendar3.svg" class="dateimg" alt="date">
+                  <input type="text"
+                    id="ddTo"
+                    class="form-control Gdate"
+                    name="Dateto"
+                    placeholder="dd-mm-yyyy">
+                  <img src="../img/calendar3.svg"
+                    class="dateimg"
+                    alt="date">
                 </div>
               </div>
               <div class="col-sm-3">
@@ -1377,37 +1858,58 @@
             <br>
           </form>
         </div>
-        <div class="tab-pane container containers fade" id="recepint_PtList">
+        <div class="tab-pane container containers fade"
+          id="recepint_PtList">
           <h2 class="header-text">Consulation Records</h2>
           <div class="rec-patient-list ">
             <div class="row">
               <div class="col-sm-2">
-                <label for="" class="form-label">Search type</label>
-                <select name="" class="form-select" id="find_reception_type" onchange="show_consultation_record()">
+                <label for=""
+                  class="form-label">Search type</label>
+                <select name=""
+                  class="form-select"
+                  id="find_reception_type"
+                  onchange="show_consultation_record()">
                   <option value=""></option>
                   <option value="PrepCode">Prep</option>
                 </select>
               </div>
               <div class="col-sm-2">
-                <label for="" class="form-laber">From Date</label>
+                <label for=""
+                  class="form-laber">From Date</label>
                 <div class="date-holder">
-                  <input type="text" id="rec_show_date" class="form-control Gdate date-verify" placeholder="dd-mm-yyyy">
-                  <img src="../img/calendar3.svg" class="dateimg" alt="date">
+                  <input type="text"
+                    id="rec_show_date"
+                    class="form-control Gdate date-verify"
+                    placeholder="dd-mm-yyyy">
+                  <img src="../img/calendar3.svg"
+                    class="dateimg"
+                    alt="date">
                 </div>
               </div>
               <div class="col-sm-2">
-                <label for="" class="form-laber">To Date</label>
+                <label for=""
+                  class="form-laber">To Date</label>
                 <div class="date-holder">
-                  <input type="text" id="rec_date_To" class="form-control Gdate date-verify" placeholder="dd-mm-yyyy">
-                  <img src="../img/calendar3.svg" class="dateimg" alt="date">
+                  <input type="text"
+                    id="rec_date_To"
+                    class="form-control Gdate date-verify"
+                    placeholder="dd-mm-yyyy">
+                  <img src="../img/calendar3.svg"
+                    class="dateimg"
+                    alt="date">
                 </div>
               </div>
               <div class="col-sm-2">
-                <button class="btn btn-info" onclick="showPatientList()" style="margin-top: 35px">Show Patient
+                <button class="btn btn-info"
+                  onclick="showPatientList()"
+                  style="margin-top: 35px">Show Patient
                   List</button>
               </div>
               <div class="col-sm-2">
-                <label for="" class="form-label" id="reception_find_noti"></label>
+                <label for=""
+                  class="form-label"
+                  id="reception_find_noti"></label>
               </div>
             </div>
             <table class="table  table-bordered">
@@ -1430,20 +1932,28 @@
           </div>
         </div>
 
-        <div class="tab-pane container containers fade" id="recepint_PtList2">
+        <div class="tab-pane container containers fade"
+          id="recepint_PtList2">
           <h2 class="header-text">Patient List</h2>
           <div class="rec-patient-list2 ">
             <div class="row">
               <div class="col-sm-2">
-                <label for="" class="form-laber">Find Date</label>
+                <label for=""
+                  class="form-laber">Find Date</label>
                 <div class="date-holder">
-                  <input type="text" id="rec_show_date2" class="form-control Gdate date-verify"
+                  <input type="text"
+                    id="rec_show_date2"
+                    class="form-control Gdate date-verify"
                     placeholder="dd-mm-yyyy">
-                  <img src="../img/calendar3.svg" class="dateimg" alt="date">
+                  <img src="../img/calendar3.svg"
+                    class="dateimg"
+                    alt="date">
                 </div>
               </div>
               <div class="col-sm-2">
-                <button class="btn btn-info" onclick="showPatientList2(this)" style="margin-top: 35px">Show
+                <button class="btn btn-info"
+                  onclick="showPatientList2(this)"
+                  style="margin-top: 35px">Show
                   Patient
                   List</button>
               </div>
@@ -1461,69 +1971,84 @@
 
           </div>
         </div>
-        <div class="tab-pane container containers fade" id="qrexport">
+        <div class="tab-pane container containers fade"
+          id="qrexport">
           <div class="row">
             <div class="col-sm-2">
-              <label for="" class="form-lable">GeneralID</label>
-              <input type="number" name="generalID" id="qr_Pid" class="form-control">
+              <label for=""
+                class="form-lable">GeneralID</label>
+              <input type="number"
+                name="generalID"
+                id="qr_Pid"
+                class="form-control">
             </div>
             <div class="col-sm-2">
-              <button class="btn  s-t-update update-batton" style="margin-top:33px" onclick="qrExport()">print
-                QR</button>
+              <button class="btn  s-t-update update-batton"
+                style="margin-top:33px"
+                onclick="qrExport(this)">Print QR</button>
+
             </div>
           </div>
         </div>
       </div>
     </div>
 
-
   </div>
   <div class="row">
     <div>
-      <div class="vertical-barcode  barcode" style="left:-5%">
+      <div class="vertical-barcode  barcode"
+        style="left:-5%;top:70px">
 
       </div>
     </div>
     <div>
-      <div class="vertical-barcode  barcode" style="left:2%">
+      <div class="vertical-barcode  barcode"
+        style="left:2%;top:70px">
 
       </div>
     </div>
     <div>
-      <div class="vertical-barcode  barcode" style="left:9.5%">
-
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div>
-      <div class="vertical-barcode qr-top barcode" style="left:-5%">
-
-      </div>
-    </div>
-    <div>
-      <div class="vertical-barcode qr-top barcode" style="left:2%">
-
-      </div>
-    </div>
-    <div>
-      <div class="vertical-barcode qr-top barcode" style="left:9.5%">
+      <div class="vertical-barcode  barcode"
+        style="left:9.5%;top:70px">
 
       </div>
     </div>
   </div>
+  <div class="row">
+    <div>
+      <div class="vertical-barcode qr-top barcode"
+        style="left:-5%">
+
+      </div>
+    </div>
+    <div>
+      <div class="vertical-barcode qr-top barcode"
+        style="left:2%">
+
+      </div>
+    </div>
+    <div>
+      <div class="vertical-barcode qr-top barcode"
+        style="left:9.5%">
+
+      </div>
+    </div>
+  </div>
 
   <div class="row">
     <div>
-      <div class="barcode" style="left: 2%;
-      top: 490px;
+      <div class="barcode"
+        style="left: 4%;
+      top: 440px;
       position: absolute;">
 
       </div>
     </div>
     <div>
-      <div class="" id="qrcode" style="left: 10%;
-      top: 570px;
+      <div class=""
+        id="qrcode"
+        style="left: 8%;
+      top: 515px;
       position: absolute;">
 
       </div>
@@ -1533,7 +2058,8 @@
 </body>
 @endsection
 @endauth
-<script type="text/javascript" language="javascript">
+<script type="text/javascript"
+  language="javascript">
   let generatedID = 0;
   let text = 0;
   let ptID = 0;
@@ -1546,27 +2072,17 @@
   let serch_name_result; // to find by name
   let consultation_record; // for consultation_records;
   var diagnosis = [
-    "1.RTI(<2wks)", "2.RTI(≥2 wks)", "3. Obstructive pul. D/s", "4. NCD/Cerebro-vascular diseases (CVD)",
-    "5.Renal D/s", "6.GI & Hepatobiliary", "7.Gynaecology", "8.Musculoskeleton and rheumatology",
-    "9.Skin Infection", "10.Covid related consultation", "11.TB related consultation", "12.Sexual violence",
-    "13.STI", "14.Others",
+    "1.RTI(<2wks)", "2.RTI(≥2 wks)", "3. Obstructive pul. D/s", "4. NCD/Cerebro-vascular diseases (CVD)", "5.Renal D/s", "6.GI & Hepatobiliary", "7.Gynaecology", "8.Musculoskeleton and rheumatology", "9.Skin Infection", "10.Covid related consultation", "11.TB related consultation", "12.Sexual violence", "13.STI", "14.Others",
   ];
   var diagnosis_value = [
-    "RTI<2wks", "RTI>=2", "ObstructiveDs", "NCD-CVD",
-    "RenalDs", "GI-Hepato", "Gynaecology", "Musculo-rheumatology",
-    "SkinInfect", "Covid-consul", "TB-consul", "Sexual-viol",
-    "STI", "Others",
+    "RTI<2wks", "RTI>=2", "ObstructiveDs", "NCD-CVD", "RenalDs", "GI-Hepato", "Gynaecology", "Musculo-rheumatology", "SkinInfect", "Covid-consul", "TB-consul", "Sexual-viol", "STI", "Others",
   ];
   var diagnosisUn15 = [
-    "1.RTI(<2wks)", "2.RTI(≥2 wks)", "3. Obstructive pul. D/s", "4.Dengue Fever",
-    "5.Renal D/s", "6.GI & Hepatobiliary", "7.Malnourished", "8.Child Abuse",
-    "9.Skin Infection", "10.Covid related consultation", "11.TB related consultation", "12.Others",
+    "1.RTI(<2wks)", "2.RTI(≥2 wks)", "3. Obstructive pul. D/s", "4.Dengue Fever", "5.Renal D/s", "6.GI & Hepatobiliary", "7.Malnourished", "8.Child Abuse", "9.Skin Infection", "10.Covid related consultation", "11.TB related consultation", "12.Others",
 
   ];
   var diagnosis_valueUn15 = [
-    "RTI<2wks", "RTI>=2", "ObstructiveDs", "Dengue-Fever",
-    "RenalDs", "GI-Hepato", "Malnouri", "Child-Abuse",
-    "SkinInfect", "Covid-consul", "TB-consul", "Others",
+    "RTI<2wks", "RTI>=2", "ObstructiveDs", "Dengue-Fever", "RenalDs", "GI-Hepato", "Malnouri", "Child-Abuse", "SkinInfect", "Covid-consul", "TB-consul", "Others",
   ];
 
   function showPatientList() {
@@ -1620,7 +2136,16 @@
 
   }
 
-  function qrExport() {
+  function mox_update() {
+    if ($("#mpox_yes_no_update").val() == "Yes") {
+      $("#mpox_rash_yes_no_update,#mpox_fur_mx_update").prop("disabled", false);
+    } else {
+      $("#mpox_rash_yes_no_update").prop("disabled", true).val("No");
+      $("#mpox_fur_mx_update").prop("disabled", true).val("");
+    }
+  }
+
+  function qrExport(button) {
     let changeQR = {
       Pid: $("#qr_Pid").val(),
       notice: "Change to QR",
@@ -1636,7 +2161,13 @@
       dataType: 'json',
       contentType: 'application/json',
       data: JSON.stringify(changeQR),
+      beforeSend: function() {
+        $(button).prop("disabled", true);
+        timeoutHandle = setTimeout(oneClick, 3000);
+      },
       success: function(response) {
+        $(button).prop("disabled", false);
+        clearTimeout(timeoutHandle);
         // alert("You add from "+(Number(stillID)+1)+" to "+(Number(stillID)+Number(preCount)));
         // history.go(0);
 
@@ -1699,20 +2230,15 @@
       dataType: 'json',
       contentType: 'application/json',
       data: JSON.stringify(ckdata),
-      timeout: 10000,
       beforeSend: function() {
         // Set a timeout to show the loading div after 3 seconds
         $(button).prop("disabled", true);
-        timeoutHandle = setTimeout(function() {
-
-          $("#loadingSpinner").css("opacity", 1).addClass("spinner");
-          $(".tab-content").css("opacity", 0.3);
-          $(".tab-content").addClass("freeze-body");
-        }, 3000);
+        timeoutHandle = setTimeout(oneClick, 3000);
       },
       success: function(response) {
         $(button).prop("disabled", false);
         clearTimeout(timeoutHandle);
+        console.log(response);
         $(".pt-list-record").remove();
         $.each(response[0], function(index, value) {
           var Pt_list = $("<div>").attr("class", "row pt-list-record rec-patient-header no-margin")
@@ -1962,6 +2488,7 @@
             document.getElementById('regbutton').disabled = false;
             document.getElementById('updateBton').disabled = true;
             document.getElementById('followBton').disabled = true;
+            $("#clinic_code").prop("disabled", true);
             document.getElementById('responseText').innerHTML = "";
             document.getElementById('responseText').innerHTML = "The new code was checked ,it is the new ID.";
             document.getElementById('fid').focus();
@@ -1986,6 +2513,7 @@
             //document.getElementById("dob").value=response[0]["Date Of Birth"];
             document.getElementById('main_risk').disabled = false;
             document.getElementById('sub_risk').disabled = false;
+            $("#clinic_code").prop("disabled", false);
 
             document.getElementById('regbutton').disabled = true;
             document.getElementById('updateBton').disabled = true;
@@ -2131,6 +2659,7 @@
                   document.getElementById("fid").value = response[0]["FuchiaID"];
                   document.getElementById("prepCode").value = response[0]["PrEPCode"];
                   $("#main_risk").val(response[0]["Main Risk"]);
+                  PatientType()
                   $("#sub_risk").val(response[0]["Sub Risk"]);
                   $("#register_date").val(response[0]["Reg Date"]);
                   $("#agey_register").val(response[0]["Agey"]);
@@ -2331,7 +2860,7 @@
 
   }
   // function location ( 3 ) Add new patient
-  function send() {
+  function send(button) {
     let gtReg = 1;
     var functionLoco = 3;
     var created_by = document.getElementById("navbarDropdown").innerHTML;
@@ -2377,17 +2906,7 @@
       tt = "-";
     }
     var fuchiaID = document.getElementById("fid").value;
-    if (fuchiaID.length < 1) {
-      fuchiaID = "-";
-
-    }
-
     var prepCode = document.getElementById("prepCode").value;
-    if (prepCode.length < 1) {
-      prepCode = "-";
-    }
-
-
     var main_risk = document.getElementById("main_risk").value;
     var sub_risk = document.getElementById("sub_risk").value;
     if (gid.length == 10) { //Mode 0= Walk in , 1= Peer with 11,12 code.length;
@@ -2457,7 +2976,13 @@
         //  processData:false,
         contentType: 'application/json',
         data: JSON.stringify(pati),
+        beforeSend: function() {
+          $(button).prop("disabled", true);
+          timeoutHandle = setTimeout(oneClick, 3000);
+        },
         success: function(response) {
+          $(button).prop("disabled", false);
+          clearTimeout(timeoutHandle);
 
           if (response[0] == "duplicate") {
             alert("Duplicate Entry");
@@ -2466,31 +2991,31 @@
             alert("အချက်အလက်များကို သိမ်းပြီးပါပြီ။");
             console.log(response);
 
-            if (qrok=="Yes") {
+            if (qrok == "Yes") {
               $('.barcode').html(response.barcode1DHtml);
               $('#qrcode').html(response.barcode2DHtml);
-              
+
               $('.barcode').append(
-              $("<label>")
-                .attr({
-                "class": "",
-                "style": "color:black"
-                })
-              
-                .text($("#qr_Pid").val())
-                );
-                $('#qrcode').append(
                 $("<label>")
-                  .attr({
+                .attr({
+                  "class": "",
+                  "style": "color:black"
+                })
+
+                .text($("#gid").val())
+              );
+              $('#qrcode').append(
+                $("<label>")
+                .attr({
                   "class": "",
                   "style": "color:black;position:absolute;left:-50%"
-                  })
-              
-                  .text($("#qr_Pid").val())
-                  );
-                  $(".container").hide();
-                  window.print();
-              }
+                })
+
+                .text($("#gid").val())
+              );
+              $(".container").hide();
+              window.print();
+            }
 
             location.reload(true); // to refresh the page
           }
@@ -2507,7 +3032,7 @@
   }
   // function location (4) add follow up
 
-  function send_fup() {
+  function send_fup(button) {
 
     let ptFollowup = 1;
     var functionLoco = 4;
@@ -2543,7 +3068,7 @@
     }
     var gender = document.getElementById("gender").value;
     if (!gender) {
-      gender = "-";
+      gender = "";
     }
 
     vdate = formatDate($("#vDate").val());
@@ -2562,11 +3087,12 @@
     }
     var fuchiaID = document.getElementById("fid").value;
     if (!fuchiaID) {
-      fuchiaID = "-";
+      fuchiaID = "";
     }
+
     var prepCode = document.getElementById("prepCode").value;
     if (!prepCode) {
-      prepCode = "-";
+      prepCode = "";
     }
 
 
@@ -2636,7 +3162,13 @@
         //  processData:false,
         contentType: 'application/json',
         data: JSON.stringify(pati),
+        beforeSend: function() {
+          $(button).prop("disabled", true);
+          timeoutHandle = setTimeout(oneClick, 3000);
+        },
         success: function(response) {
+          $(button).prop("disabled", false);
+          clearTimeout(timeoutHandle);
           console.log(response);
           if (response[0] == true) {
             alert("Duplicate Entry");
@@ -2653,7 +3185,7 @@
                   "style": "color:black"
                 })
 
-                .text($("#qr_Pid").val())
+                .text($("#gid").val())
               );
               $('#qrcode').append(
                 $("<label>")
@@ -2662,7 +3194,7 @@
                   "style": "color:black;position:absolute;left:-50%"
                 })
 
-                .text($("#qr_Pid").val())
+                .text($("#gid").val())
               );
               $(".container").hide();
               window.print();
@@ -2714,6 +3246,7 @@
           $("#father").val(response[0]["Father"]);
           $("#main_risk").val(response[0]["Main Risk"]);
           PatientType();
+
           $("#sub_risk").val(response[0]["Sub Risk"]);
           $("#fid").val(response[0]["FuchiaID"]);
           $("#gender").val(response[0]["Gender"])
@@ -2743,7 +3276,7 @@
     });
   }
   // function locatjion ( 6 ) to update data to config table and patient table
-  function update_reg() {
+  function update_reg(button) {
     let update_reg = 1;
     var functionLoco = 6;
     var clinic_code = document.getElementById("clinic_code").value;
@@ -2822,7 +3355,13 @@
           //  processData:false,
           contentType: 'application/json',
           data: JSON.stringify(pati),
+          beforeSend: function() {
+            $(button).prop("disabled", true);
+            timeoutHandle = setTimeout(oneClick, 3000);
+          },
           success: function(response) {
+            $(button).prop("disabled", false);
+            clearTimeout(timeoutHandle);
             $('#agey').css("background", "red");
             console.log(response);
             if (qrok == "Yes") {
@@ -2836,7 +3375,7 @@
                   "style": "color:black"
                 })
 
-                .text($("#qr_Pid").val())
+                .text($("#gid").val())
               );
               $('#qrcode').append(
                 $("<label>")
@@ -2845,7 +3384,7 @@
                   "style": "color:black;position:absolute;left:-50%"
                 })
 
-                .text($("#qr_Pid").val())
+                .text($("#gid").val())
               );
               $(".container").hide();
               window.print();
@@ -2972,7 +3511,7 @@
   }
 
   // function location ( 9 ) to save next appointment date and diagnosis data
-  function save() {
+  function save(button) {
     let next = 1;
     var functionLoco = 9;
     var gid = document.getElementById("gid_return").value;
@@ -2997,14 +3536,9 @@
     }
 
     var diag_check = [
-      'phacheck', 'artcheck', 'prepcheck', 'pmtctcheck', 'anccheck',
-      'fmaplancheck', 'gneralcheck', 'ncdcheck', 'hivTBcheck', 'fcentercheck', 'labInvestcheck',
+      'phacheck', 'artcheck', 'prepcheck', 'pmtctcheck', 'anccheck', 'fmaplancheck', 'gneralcheck', 'ncdcheck', 'hivTBcheck', 'fcentercheck', 'labInvestcheck',
     ]
-    var diag_select = ['pha_new_old', 'pha_cohort', 'prep_new_old',
-      'anc_new_old', 'art_new_old', 'art_cohort', 'pmtct_new_old', 'famaplan_new_old', 'general_new_old',
-      'general_diagnosis', 'OPD', 'feedcentre_new_old', 'ncd_new_old', 'ncd_diagnosis', 'ncd_drugSupply', 'hivTB_new_old',
-      'labInvest_new_old', 'refer_fever',
-    ]
+    var diag_select = ['pha_new_old', 'pha_cohort', 'prep_new_old', 'anc_new_old', 'art_new_old', 'art_cohort', 'pmtct_new_old', 'famaplan_new_old', 'general_new_old', 'general_diagnosis', 'OPD', 'feedcentre_new_old', 'ncd_new_old', 'ncd_diagnosis', 'ncd_drugSupply', 'hivTB_new_old', 'labInvest_new_old', 'refer_fever', ]
     console.log(diag_select.length + "select")
     for (var i = 0; i < diag_check.length; i++) {
       if ($("#" + diag_check[i]).prop('checked')) {
@@ -3020,6 +3554,10 @@
     if (Diagnosis_Data["OPD"] == null) {
       Diagnosis_Data["OPD"] = "No";
     }
+    Diagnosis_Data["mpox suspected"] = $("#mpox_yes_no").val();
+    Diagnosis_Data["mpox rash"] = $("#mpox_rash_yes_no").val();
+    Diagnosis_Data["mpox futher"] = $("#mpox_fur_mx").val();
+
 
 
 
@@ -3037,7 +3575,13 @@
         //  processData:false,
         contentType: 'application/json',
         data: JSON.stringify(Diagnosis_Data),
+        beforeSend: function() {
+          $(button).prop("disabled", true);
+          timeoutHandle = setTimeout(oneClick, 3000);
+        },
         success: function(response) {
+          $(button).prop("disabled", false);
+          clearTimeout(timeoutHandle);
           console.log(response);
           if (!nDate) {
             alert("Diagnosis Data များကို သိမ်းပြီးပါပြီ။");
@@ -3196,10 +3740,8 @@
   // function location ( 11 ) to show  history
 
   function PatientType() {
-    var type = document.getElementById('main_risk').value;
-    if (sub_risk.innerHTML != null) {
-      sub_risk.innerHTML = "";
-    }
+    let type = $("#main_risk").val();
+
     $("#sub_risk").empty();
     if (type == "Pregnant Mother") {
       var sel = document.getElementById('sub_risk');
@@ -3821,14 +4363,9 @@
         }
 
         var diag_check = [
-          'phacheck', 'artcheck', 'prepcheck', 'pmtctcheck', 'anccheck',
-          'fmaplancheck', 'gneralcheck', 'ncdcheck', 'hivTBcheck', 'fcentercheck', 'labInvestcheck',
+          'phacheck', 'artcheck', 'prepcheck', 'pmtctcheck', 'anccheck', 'fmaplancheck', 'gneralcheck', 'ncdcheck', 'hivTBcheck', 'fcentercheck', 'labInvestcheck',
         ]
-        var diag_select = ['pha_new_old', 'pha_cohort', 'prep_new_old',
-          'anc_new_old', 'art_new_old', 'art_cohort', 'pmtct_new_old', 'famaplan_new_old', 'general_new_old',
-          'general_diagnosis', 'OPD', 'feedcentre_new_old', 'ncd_new_old', 'ncd_diagnosis', 'ncd_drugSupply', 'hivTB_new_old',
-          'labInvest_new_old',
-        ]
+        var diag_select = ['pha_new_old', 'pha_cohort', 'prep_new_old', 'anc_new_old', 'art_new_old', 'art_cohort', 'pmtct_new_old', 'famaplan_new_old', 'general_new_old', 'general_diagnosis', 'OPD', 'feedcentre_new_old', 'ncd_new_old', 'ncd_diagnosis', 'ncd_drugSupply', 'hivTB_new_old', 'labInvest_new_old', ]
         age = $("#agey_toupdate").val();
         for (var i = 0; i < diag_check.length; i++) {
           $("#" + diag_check[i] + "update").prop('checked', false);
@@ -3859,6 +4396,7 @@
         $("#weight_update").val(response[1]["weight"]);
         $("#heigth_update").val(response[1]["height"]);
         $("#muac_update").val(response[1]["muac"]);
+
         //update check validation 
         pha_art_prepUPdateCheck();
         if (response[0][0]['Agey'] > 5 || (response[0][0]['Agey'] < 5 && response[0][0]['Agem'] < 6)) {
@@ -3873,6 +4411,12 @@
 
           $("#pmtctcheckupdate").prop("disabled", true);
         }
+
+        $("#mpox_yes_no_update").val(response[0][0]["Mpox_suspected"]);
+        mox_update()
+        $("#mpox_rash_yes_no_update").val(response[0][0]["Mpox_sus_rash"]);
+        $("#mpox_fur_mx_update").val(response[0][0]["Mpox_mx"]);
+
         DateTo_text();
 
       }
@@ -3883,7 +4427,7 @@
 
   }
   // function location ( 13 ) to save update data
-  function update() {
+  function update(button) {
     var f_up_update = 1;
     var functionLoco = 13;
     var clinic_code = document.getElementById("clinic_code").value;
@@ -3930,14 +4474,9 @@
 
     };
     var diag_check = [
-      'phacheck', 'artcheck', 'prepcheck', 'pmtctcheck', 'anccheck',
-      'fmaplancheck', 'gneralcheck', 'ncdcheck', 'hivTBcheck', 'fcentercheck', 'labInvestcheck',
+      'phacheck', 'artcheck', 'prepcheck', 'pmtctcheck', 'anccheck', 'fmaplancheck', 'gneralcheck', 'ncdcheck', 'hivTBcheck', 'fcentercheck', 'labInvestcheck',
     ]
-    var diag_select = ['pha_new_old', 'pha_cohort', 'prep_new_old',
-      'anc_new_old', 'art_new_old', 'art_cohort', 'pmtct_new_old', 'famaplan_new_old', 'general_new_old',
-      'general_diagnosis', 'OPD', 'feedcentre_new_old', 'ncd_new_old', 'ncd_diagnosis', 'ncd_drugSupply', 'hivTB_new_old',
-      'labInvest_new_old', 'refer_fever',
-    ]
+    var diag_select = ['pha_new_old', 'pha_cohort', 'prep_new_old', 'anc_new_old', 'art_new_old', 'art_cohort', 'pmtct_new_old', 'famaplan_new_old', 'general_new_old', 'general_diagnosis', 'OPD', 'feedcentre_new_old', 'ncd_new_old', 'ncd_diagnosis', 'ncd_drugSupply', 'hivTB_new_old', 'labInvest_new_old', 'refer_fever', ]
     console.log(diag_select.length + "select")
     for (var i = 0; i < diag_check.length; i++) {
       if ($("#" + diag_check[i] + "update").prop('checked')) {
@@ -3950,6 +4489,9 @@
     for (var j = 0; j < diag_select.length; j++) {
       f_up_data[diag_select[j]] = $("#" + diag_select[j] + "update").val();
     } //selectbox data collecting
+    f_up_data["mpox suspected"] = $("#mpox_yes_no_update").val();
+    f_up_data["mpox rash"] = $("#mpox_rash_yes_no_update").val();
+    f_up_data["mpox futher"] = $("#mpox_fur_mx_update").val();
 
     console.log(f_up_data);
     if (pid.length > 8 && ((agey > 0 && agey < 150 && agem == 0) || (agem > 0 && agem < 12 && agey == 0)) && vDate.length > 5 && gender.length > 2 &&
@@ -3965,7 +4507,13 @@
         dataType: 'json',
         contentType: 'application/json',
         data: JSON.stringify(f_up_data),
+        beforeSend: function() {
+          $(button).prop("disabled", true);
+          timeoutHandle = setTimeout(oneClick, 3000);
+        },
         success: function(response) {
+          $(button).prop("disabled", false);
+          clearTimeout(timeoutHandle);
           alert("အချက်အလက်များ ပြင်ဆင်ဖြည့်သွင်းပြီးပါပြီ။");
           location.reload(true); // to refresh the page
           $("#updatePageView").hide();

@@ -88,6 +88,7 @@ $(document).ready(function(){
         if($(this).is(":checked")){
             $("#ncd_pid,#ncd_fid,.ncd-generalCode button").prop("disabled",false);
             $(".ncd_btn button").prop("disabled",true)
+            alert("To change ID of NCD register,first check the checkbox,insert the required ID to update register and follow-up records.And then click the update button.")
         }else{
             $("#ncd_pid,#ncd_fid,.ncd-generalCode button").prop("disabled",true);
             $(".ncd_btn button").prop("disabled",false)

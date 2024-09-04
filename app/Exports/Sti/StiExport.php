@@ -35,13 +35,12 @@ class StiExport implements FromView, WithColumnFormatting
 
 	private $users;
 	private $sex;
-	private $sti_data;
 
-	public function __construct($users, $sex, $sti_data)
+
+	public function __construct($users, $sex)
 	{
 		$this->users = $users;
 		$this->sex = $sex;
-		$this->sti_data = $sti_data;
 	}
 	public function view(): View
 	{
@@ -248,7 +247,7 @@ class StiExport implements FromView, WithColumnFormatting
 					'chancroid',
 					'gen_herpes',
 					'gen_scabies',
-					//'gud_other',
+					'gud_other',
 					'other_plz_specify',
 					'Gonorhoea',
 					'non_gono_urethritis',
@@ -297,73 +296,63 @@ class StiExport implements FromView, WithColumnFormatting
 				break;
 		}
 		$final_risklog = [];
+		$final_log = [];
 		foreach ($this->users as $user) {
 
 			if ($user["ptconfig"] != null) {
 				$user = Export_age::Export_general($user["ptconfig"], $user["Visit_date"], $user["ptconfig"]["Date of Birth"], $user);
 				$carbonDate = Carbon::createFromFormat('Y-m-d', $user["Visit_date"]);
 				$carbonDate = Carbon::createFromFormat('d-m-Y', $carbonDate->format('d-m-Y'));
+				$vdate = new DateTime($carbonDate);
 				$user["Visit_date"] = Date::dateTimeToExcel($carbonDate->toDateTime());
 				$user["Main Risk"] = $user["ptconfig"]["Main Risk"];
 				$user["Sub Risk"] = $user["ptconfig"]["Sub Risk"];
 				$user["Gender"] = $user["ptconfig"]["Gender"];
 				$user["FuchiaID"] = $user["ptconfig"]["FuchiaID"];
+
 				$forRiskCheck[1]["Pid"] = $user["ptconfig"]["Pid"];
 				$forRiskCheck[1]["Risk Log"] = $user["ptconfig"]["Risk Log"];
 
-				if (!array_key_exists($user["ptconfig"]["Pid"], $final_risklog) && $user["ptconfig"]["Risk Log"] != null) {
-					$final_log = RefillRisk::FillRisk($forRiskCheck);
-					$final_risklog[$user["ptconfig"]["Pid"]] = $final_log;
-				}
-				if (array_key_exists($user["ptconfig"]["Pid"], $final_risklog)) {
-					uksort($final_risklog[$user["ptconfig"]["Pid"]][$user["ptconfig"]["Pid"]], function ($a, $b) {
-						// Extract the date part from the keys
-						if (strlen($a) == 10) {
-							$dateA = DateTime::createFromFormat('d-m-Y', $a);
-							$dateB = DateTime::createFromFormat('d-m-Y', $b);
-							// Compare the date objects
-							return $dateA <=> $dateB;
+				if (!array_key_exists($user["ptconfig"]["Pid"], $final_log) && $user["ptconfig"]["Risk Log"] != null) {
+					$final_risklog = RefillRisk::FillRisk($forRiskCheck);
+					$final_log[$user["ptconfig"]["Pid"]] = $final_risklog;
+				} elseif ($user["ptconfig"]["Risk Log"] == null) {
+					if ($user['ptconfig']["Risk Change_Date"] != null && $user['ptconfig']['Former Risk'] != null && $user['ptconfig']['Former Risk'] != "731") {
+						$riskChangeDate = Carbon::createFromFormat('Y-m-d', $user['ptconfig']["Risk Change_Date"]);
+						$riskChangeDate = new DateTime(Carbon::createFromFormat('d-m-Y', $riskChangeDate->format('d-m-Y')));
+						if ($vdate <= $riskChangeDate) {
+							$user["Main Risk"] = $user['ptconfig']["Former Risk"];
+							$user["Sub Risk"] = '';
 						}
-					});
-					dd($final_risklog[$user["ptconfig"]["Pid"]][$user["ptconfig"]["Pid"]]);
-					foreach (array_reverse($final_risklog[$user["ptconfig"]["Pid"]][$user["ptconfig"]["Pid"]]) as $key => $chnges_date) {
-						dd($final_risklog[$user["ptconfig"]["Pid"]][$user["ptconfig"]["Pid"]]);
-						if (strlen($key) == 10) {
-							$vdate = new DateTime($carbonDate);
-							$riskChangeDate = new DateTime($key);
+					}
+				}
+				if (array_key_exists($user["ptconfig"]["Pid"], $final_log)) {
+					foreach (array_reverse($final_log[$user["ptconfig"]["Pid"]][$user["ptconfig"]["Pid"]]) as $date => $data) {
+						if (strlen($date) == 10) {
+							$riskChangeDate = new DateTime($date);
 							if ($vdate < $riskChangeDate) {
-								$user["Main Risk"] = $chnges_date["Old Risk"];
-								$user["Sub Risk"] = $chnges_date["Old Sub Risk"];
+								$user["Main Risk"] = Crypt::encrypt_light($data["Old Risk"], "General");
+								$user["Sub Risk"] = Crypt::encrypt_light($data["Old Sub Risk"], "General");
 							}
 						}
 					}
-					$user->{"Main Risk"} = Crypt::encrypt_light($user->{"Main Risk"}, "General");
-					$user->{"Sub Risk"} = Crypt::encrypt_light($user->{"Sub Risk"}, "General");
 				}
 			} else {
 				$carbonDate = Carbon::createFromFormat('Y-m-d', $user["Visit_date"]);
 				$carbonDate = Carbon::createFromFormat('d-m-Y', $carbonDate->format('d-m-Y'));
 				$user["Visit_date"] = Date::dateTimeToExcel($carbonDate->toDateTime());
 			}
-
-
-			//dd($user);
+			$no = 0;
 			foreach ($encrypted_columns as $column) {
-				$user->{$column} = Crypt::decrypt_light($user->{$column}, "General");
-				$user->{$column} = Crypt::codeBook($user->{$column}, "encode");
+
+				$user[$column] = Crypt::decrypt_light($user[$column], "General");
+				$user[$column] = Crypt::codeBook($user[$column], "encode");
 			};
 			foreach ($encrypted_38 as $column) {
-
 				$user->{$column} = Crypt::decryptString($user->{$column}, "General");
 			};
 		}
-		// $users_treated = $this->users->map(function ($user) use ($encrypted_columns, $encrypted_38, $final_log) {
 
-
-
-		// 	return $user;
-		// });
-		//dd($final_risklog, $this->users[0]);
 		return view('STI.Export.' . $export_blade, [
 			'users'     => $this->users,
 		]);

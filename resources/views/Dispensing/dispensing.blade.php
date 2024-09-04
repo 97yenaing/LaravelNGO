@@ -44,7 +44,6 @@
           <option value="Damage Out">Damage Out</option>
           <option value="Donation Out">Donation Out</option>
           <option value="Family Planning">Family Planning</option>
-          <option value="Other Patient">Other Patient</option>
           <option value="Other">Other</option>
         </select>
       </div>
@@ -74,6 +73,14 @@
               <option value="nurse3">Nurse 3</option>
               <option value="nurse4">Nurse 4</option>
               <option value="nurse5">Nurse 5</option>
+              <option value="nurse6">Nurse 6</option>
+              <option value="nurse7">Nurse 7</option>
+              <option value="nurse8">Nurse 8</option>
+              <option value="nurse9">Nurse 9</option>
+              <option value="nurse10">Nurse 10</option>
+              <option value="nurse11">Nurse 11</option>
+              <option value="nurse12">Nurse 12</option>
+              <option value="nurse13">Nurse 13</option>
             </select><br>
           </div>
 
@@ -141,7 +148,6 @@
               <option value="Damage Out">Damage Out</option>
               <option value="Donation Out">Donation Out</option>
               <option value="Family Planning">Family Planning</option>
-              <option value="Other Patient">Other Patient</option>
               <option value="Other">Other</option>
             </select>
           </div>

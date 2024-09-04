@@ -47,7 +47,7 @@ $(document).ready(function(){
         for (let prefollow = 0; prefollow < Fhistory_data.length; prefollow++) {
             var preTB_Flist=$("<div>").attr({class:"row no-margin preTB-Flist"}).append($("<div>").attr({class:"col-sm-1 no-margin preTB_FNo"}).text(prefollow+1))
                             .append($("<div>").attr({class:"col-sm-4 no-margin preTB_FID"}).text(Fhistory_data[prefollow]["Pid_preTB"]))
-                            .append($("<div>").attr({class:"col-sm-4 no-margin preTB_FvDate"}).text(Fhistory_data[prefollow]["VisitDate_preTB"]))
+                            .append($("<div>").attr({class:"col-sm-4 no-margin preTB_FvDate"}).text(Fhistory_data[prefollow]["TBscreenDate_preTB"]))
                             .append($("<div>").attr({class:"col-sm-3 no-margin preTB_Fview"})
                             .append($("<button>").attr({class:"btn preTB_FViewBtn",id:"preTBview_"+prefollow,onclick:"preTB_FollowData()"}).text("Detail"))
                             .append($("<button>").attr({class:"btn btn-danger",id:"preTB_remove_"+prefollow,onclick:"preTB_remove()"}).text("Delete")));

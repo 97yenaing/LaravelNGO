@@ -6,7 +6,7 @@ $(document).ready(function(){
     var origin_opt=$("#year option:last-child").val();
     net_year=year-origin_opt;
     for (let index = 1; index <= net_year; index++) {
-        var set_opt=$("<option>").attr({value:2023+index}).text(2023+index)
+        var set_opt=$("<option>").attr({value:2023+index}).text(2020+index)
         $("#year").append(set_opt);
     }
 })

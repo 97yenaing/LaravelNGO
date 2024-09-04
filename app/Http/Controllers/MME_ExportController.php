@@ -22,13 +22,16 @@ use App\Exports\MME_Export\CervicalCancer\CervicalExport;
 use App\Exports\MME_Export\CMV\CMVExport;
 use App\Exports\MME_Export\NCD\NCDExport;
 use App\Exports\MME_Export\TB\TBExport;
-
+use App\Exports\RiskbackExcel\RefillRisk;
+use DateTime;
 
 class MME_ExportController extends Controller
 {
 	//new Ncd view
-	protected $DB = ["MAM_A", "MAM_C1", "MAM_C2", "MAM_B",];
+	protected $DB = ["MAM_A", "MAM_B", "MAM_C1", "MAM_C2", "MAM_SPT", "MAM_SDG", "MAM_TL"];
 	protected $table_code = "General";
+	protected $final_risklog = [];
+	protected	$final_log = [];
 
 	public function mme_export_View()
 	{
@@ -36,24 +39,31 @@ class MME_ExportController extends Controller
 	}
 	public function mme_export(Request $request)
 	{
+		//dd($request);
 		$validator = Validator::make($request->all(), [
 			"road" => "required",
-			"From_date" => "required|date",
-			"To_date" => "required|date",
-			"clinic_road" => [
-				"required",
-				function ($attribute, $value, $fail) {
-					if (count($this->DB) < $value) {
-						$fail("The clinic road is out of range.");
-					}
-				},
+			'clinics' => 'required|array|min:1', // Ensure it's an array with at least one item
+			'clinics.*' => 'string|in:All,0,1,2,3,4,5,6', // Validate each item if necessary
+			'exportQuarter' => 'required|string',
+			'From_date' => [
+				'required_if:exportQuarter,ByDate',
+				'date',
+			],
+			'To_date' => [
+				'required_if:exportQuarter,ByDate',
+				'date',
 			],
 		]);
-
 		if ($validator->fails()) {
 			return redirect()->back()->withErrors($validator)->withInput();
 		}
-
+		if ($request["exportQuarter"] == "All Data") {
+			$request["From_date"] = "01-01-2000";
+			$request["To_date"] = today()->format('d-m-Y');
+		}
+		if ($request["clinics"][0] == "All") {
+			$request["clinics"] = [0, 1, 2, 3, 4, 5, 6];
+		}
 		$request["From_date"] = date("Y-m-d", strtotime($request["From_date"]));
 		$request["To_date"] = date("Y-m-d", strtotime($request["To_date"]));
 
@@ -95,17 +105,25 @@ class MME_ExportController extends Controller
 
 	public function Reception_Export($request)
 	{
+		// Increase memory limit to 1GB
 		$vdate = "Visit Date";
 		$dob = "Date of Birth";
+		$export_data = collect([]);
 
-		$export_data = DB::connection($this->DB[$request["clinic_road"]])
-			->table("followup_generals")
-			->whereBetween("Visit Date", [$request["From_date"], $request["To_date"]])
-			->where("preCode", "!=", "1")
-			->leftJoin("patients", "patients.Pid", "=", "followup_generals.Pid")
-			->select("followup_generals.*", "Date of Birth", "patients.Agey", "patients.Agem", "patients.Gender", "patients.FuchiaID", "patients.Main Risk", "patients.Sub Risk", "patients.created_by", "patients.updated_by")
-			->get();
-		$reception_exports = $export_data->toArray();
+		$modelClassName = "App\\Models\\Followup_general"; // extend model
+		$model = app()->make($modelClassName); // resolves the model from the service container.
+		foreach ($request["clinics"] as $clinic) {
+			$model->setConnection($this->DB[$clinic]);
+			$users = $model
+				->whereBetween("Visit Date", [$request["From_date"], $request["To_date"]])
+				->where("preCode", "!=", "1")
+				->leftJoin("patients", "patients.Pid", "=", "followup_generals.Pid")
+				->select("followup_generals.*", "Date of Birth", "patients.Agey", "patients.Agem", "patients.Gender", "patients.FuchiaID", "patients.Main Risk", "patients.Sub Risk", 'Risk Log', 'Risk Change_Date', 'Former Risk')
+				->get();
+			$export_data = $export_data->merge($users);
+		}
+
+
 
 		$Dates_excel = ["Next Appointment Date", "Visit Date"];
 		$Decrypt_excel = ["Main Risk", "Sub Risk", "Gender", "Fever", "MUAC"];
@@ -141,10 +159,10 @@ class MME_ExportController extends Controller
 		]; // 27
 
 		$diagnosisArray = [];
-		foreach ($reception_exports as $index => $export) {
+		foreach ($export_data as $index => $export) {
 			$counting = 0;
 
-			$diaString = $export->Pateint_Diagnosis;
+			$diaString = $export["Pateint_Diagnosis"];
 
 			if ($diaString != null && $diaString != "" && $diaString != 731) {
 				$diagnosis_cut = explode("/", $diaString);
@@ -176,32 +194,69 @@ class MME_ExportController extends Controller
 							$counting++;
 						}
 					}
-					$diagnosisArray[$index] = $diagnosis_final;
+					$diagnosisArray = $diagnosis_final;
 				}
 			} else {
 				for ($i = 0; $i < count($diagnosis_dataonly); $i++) {
-					$diagnosisArray[$index][$diagnosis_dataonly[$i]] = "";
+					$diagnosisArray[$diagnosis_dataonly[$i]] = "";
 				}
 			}
-			$export_array = (array) $export;
-			if (property_exists($export, "Date of Birth")) {
-				$export_array = Export_age::Export_general($export_array, $export_array[$vdate], $export_array[$dob], $export_array);
+
+
+			if ($export["Date of Birth"] != null) {
+				$export = Export_age::Export_general($export, $export["Visit Date"], $export["Date of Birth"], $export);
+			}
+			if ($export["Risk Log"] != null) {
+				$carbonDate = Carbon::createFromFormat('Y-m-d', $export['Visit Date']);
+				$carbonDate = Carbon::createFromFormat('d-m-Y', $carbonDate->format('d-m-Y'));
+				$vdate = new DateTime($carbonDate);
+				$forRiskCheck[1]['Pid'] = $export['Pid'];
+				$forRiskCheck[1]['Risk Log'] = $export['Risk Log'];
+				if (!array_key_exists($export['Pid'], $this->final_log) && $export['Risk Log'] != null) {
+					$this->final_risklog = RefillRisk::FillRisk($forRiskCheck);
+					$this->final_log[$export['Pid']] = $this->final_risklog;
+				}
+				if (array_key_exists($export['Pid'], $this->final_log)) {
+					foreach (array_reverse($this->final_log[$export['Pid']][$export['Pid']]) as $date => $data) {
+						if (strlen($date) == 10) {
+							$riskChangeDate = new DateTime($date);
+							if ($vdate < $riskChangeDate) {
+								$export['Main Risk'] = Crypt::encrypt_light($data['Old Risk'], 'General');
+								$export['Sub Risk'] = Crypt::encrypt_light($data['Old Sub Risk'], 'General');
+							}
+						}
+					}
+				}
+			} elseif ($export['Former Risk'] != null && $export['Former Risk'] != "731" && $export['Risk Change_Date'] != null) {
+				$riskChangeDate = Carbon::createFromFormat('Y-m-d', $export['Risk Change_Date']);
+				$riskChangeDate = new DateTime(Carbon::createFromFormat('d-m-Y', $riskChangeDate->format('d-m-Y')));
+				if ($vdate < $riskChangeDate) {
+					$export['Main Risk'] = $export['Former Risk'];
+					$export['Sub Risk'] = '';
+				}
 			}
 			foreach ($Dates_excel as $Date_excel) {
-				if ($export_array[$Date_excel] != null) {
-					$carbonDate = Carbon::createFromFormat("Y-m-d", $export_array[$Date_excel]);
+				if ($export[$Date_excel] != null) {
+					$carbonDate = Carbon::createFromFormat("Y-m-d", $export[$Date_excel]);
 					$carbonDate = Carbon::createFromFormat("d-m-Y", $carbonDate->format("d-m-Y"));
-					$export_array[$Date_excel] = Date::dateTimeToExcel($carbonDate->startOfDay());
+					$export[$Date_excel] = Date::dateTimeToExcel($carbonDate->startOfDay());
 				}
 			}
 			foreach ($Decrypt_excel as $decrypt_excel) {
-				$export_array[$decrypt_excel] = Crypt::decrypt_light($export_array[$decrypt_excel], $this->table_code);
-				$export_array[$decrypt_excel] = Crypt::codeBook($export_array[$decrypt_excel], "encode");
+
+				$export[$decrypt_excel] = Crypt::decrypt_light($export[$decrypt_excel], $this->table_code);
+				if (($decrypt_excel == "Main Risk" || $decrypt_excel == "Sub Risk") && $export[$decrypt_excel] == "-") {
+					$export[$decrypt_excel] = null;
+				}
+
+				$export[$decrypt_excel] = Crypt::codeBook($export[$decrypt_excel], "encode");
 			}
-			$reception_exports[$index] = $export_array;
-			$reception_exports[$index] = array_merge($reception_exports[$index], $diagnosisArray);
+			if (!array_key_exists("OPD", $diagnosisArray)) {
+				$diagnosisArray["OPD"] = "";
+			}
+			$export["Diagnosis_data"] = $diagnosisArray;
 		}
-		return Excel::download(new ReceptionExport($reception_exports), $this->DB[$request["clinic_road"]] . "-FollowUP_Export-" . date("d-m-Y") . ".xlsx");
+		return Excel::download(new ReceptionExport($export_data), "FollowUP_Export-" . date("d-m-Y") . "." . $request["typeExport"]);
 	}
 
 	public function Lab_Export($request)
@@ -210,13 +265,28 @@ class MME_ExportController extends Controller
 		$table_name = null;
 		$act_table = null;
 		$export_name = null;
+		$users = collect([]);
+		//dd($request);
 
 		switch ($request["other"]) {
 			case "hiv":
 				$table_name = "Lab";
 				$export_name = "lab_hiv_test";
 				$act_table = "labs";
-				$encrypted_columns = ["Main Risk", "Sub Risk", "Gender", "Patient_Type", "Patient Type Sub", "Detmine_Result", "Unigold_Result", "STAT_PAK_Result", "Final_Result", "Req_Doctor", "Counsellor", "LabTech"];
+				$encrypted_columns = [
+					"Main Risk",
+					"Sub Risk",
+					"Gender",
+					"Patient_Type",
+					"Patient Type Sub",
+					"Detmine_Result",
+					"Unigold_Result",
+					"STAT_PAK_Result",
+					"Final_Result",
+					"Req_Doctor",
+					"Counsellor",
+					"LabTech"
+				];
 
 				$date_type = ["vdate", "bcollectdate"];
 				break;
@@ -331,24 +401,65 @@ class MME_ExportController extends Controller
 		if ($table_name != null && $export_name != null && $act_table != null) {
 			$modelClassName = "App\\Models\\" . $table_name; // extend model
 			$model = app()->make($modelClassName); // resolves the model from the service container.
-			$model->setConnection($this->DB[$request["clinic_road"]]);
-
-			$users = $model
-				->whereBetween($act_table . ".vdate", [$request["From_date"], $request["To_date"]])
-				->leftJoin("patients", "patients.Pid", "=", $act_table . "." . $target_id)
-				->when($request["other"] == "hep_bc" || $request["other"] == "afb", function ($query) use ($act_table, $target_id) {
-					return $query->leftJoin("labs", "labs.CID", "=", $act_table . "." . $target_id);
-				})
-				->select($act_table . ".*", "Date of Birth", "patients.Agey", "patients.Agem", "patients.Gender", "patients.FuchiaID", "patients.Pid", "patients.Main Risk", "patients.Sub Risk", $act_table . ".created_at", $act_table . ".updated_at")
-				->when($target_id == "hep_bc" || $target_id == "afb", function ($query) {
-					return $query->addSelect("labs.Final_Result", "labs.Unigold_Result");
-				})
-				->get();
+			foreach ($request["clinics"] as $clinic) {
+				$model->setConnection($this->DB[$clinic]);
+				$lab_data = $model
+					->whereBetween($act_table . ".vdate", [$request["From_date"], $request["To_date"]])
+					->leftJoin("patients", "patients.Pid", "=", $act_table . "." . $target_id)
+					->select($act_table . ".*", "Date of Birth", "patients.Agey", "patients.Agem", "patients.Gender", "patients.FuchiaID", "patients.Pid", "patients.Main Risk", "patients.Sub Risk", $act_table . ".created_at", $act_table . ".updated_at", 'Risk log', 'Former Risk', 'Risk Change_Date')
+					->get();
+				$users = $users->merge($lab_data);
+			}
 
 			foreach ($users as $key => $user) {
 				if ($user["Date of Birth"] != null) {
 					$user = Export_age::Export_general($user, $user["vdate"], $user["Date of Birth"], $user);
 				}
+				$carbonDate = Carbon::createFromFormat('Y-m-d', $user['vdate']);
+				$carbonDate = Carbon::createFromFormat('d-m-Y', $carbonDate->format('d-m-Y'));
+				$vdate = new DateTime($carbonDate);
+				if ($user["Risk Log"] != null) {
+					dd("hello is me");
+					$forRiskCheck[1]['Pid'] = $user['Pid'];
+					$forRiskCheck[1]['Risk Log'] = $user['Risk Log'];
+					if (!array_key_exists($user['Pid'], $this->final_log)) {
+						$this->final_risklog = RefillRisk::FillRisk($forRiskCheck);
+						$this->final_log[$user['Pid']] = $this->final_risklog;
+					}
+					if (array_key_exists($user['Pid'], $this->final_log)) {
+						foreach (array_reverse($this->final_log[$user['Pid']][$user['Pid']]) as $date => $data) {
+
+							if (strlen($date) == 10) {
+								$riskChangeDate = new DateTime($date);
+								if ($vdate < $riskChangeDate) {
+									$user['Main Risk'] = Crypt::encrypt_light($data['Old Risk'], 'General');
+									$user['Sub Risk'] = Crypt::encrypt_light($data['Old Sub Risk'], 'General');
+								}
+							}
+						}
+					}
+				} elseif ($user['Risk Change_Date'] != null && $user['Former Risk'] != null && $user['Former Risk'] != "731") {
+					$riskChangeDate = Carbon::createFromFormat('Y-m-d', $user['Risk Change_Date']);
+					$riskChangeDate = new DateTime(Carbon::createFromFormat('d-m-Y', $riskChangeDate->format('d-m-Y')));
+					if ($vdate < $riskChangeDate) {
+						$user['Main Risk'] = $user['Former Risk'];
+						$user['Sub Risk'] = '';
+					}
+				}
+				if ($request["other"] == "hep_bc" || $request["other"] == "afb") {
+					$labresult = app()->make("App\\Models\\Lab")->setConnection($user->getConnectionName())->where("CID", $user["CID"])
+						->latest("vdate")
+						->select("Final_Result", "Unigold_Result", "vdate")->first();
+					if ($labresult) {
+						$user["Final_Result"] = $labresult["Final_Result"];
+						$user["Unigold_Result"] = $labresult["Unigold_Result"];
+						$user["lab_vdate"] = $labresult["vdate"];
+					} else {
+						$user["Final_Result"] = null;
+						$user["Unigold_Result"] = null;
+					}
+				}
+
 				foreach ($date_type as $column) {
 					$dateString = $user[$column];
 					if (!empty($dateString)) {
@@ -361,7 +472,11 @@ class MME_ExportController extends Controller
 				}
 				foreach ($encrypted_columns as $column) {
 					$user[$column] = Crypt::decrypt_light($user[$column], "General");
+					if (($column == "Main Risk" || $column == "Sub Risk") && $user[$column] == "-") {
+						$user[$column] = null;
+					}
 					$user[$column] = Crypt::codeBook($user[$column], "encode");
+
 					if ($request["other"] == "hep_bc" || $request["other"] == "afb") {
 						if ($column == "Final_Result") {
 							if ($user[$column] != 24 && $user[$column] != 25) {
@@ -371,9 +486,10 @@ class MME_ExportController extends Controller
 					}
 				}
 			}
-			return Excel::download(new LabExport($users, $request["other"]), $this->DB[$request["clinic_road"]] . "-" . $request["other"] . "-" . date("d-m-Y") . ".xlsx");
+			//dd($request["other"]);
+			return Excel::download(new LabExport($users, $request["other"]), $request["other"] . "-" . date("d-m-Y") . "." . $request["typeExport"]);
 		} else {
-			abort("Wrong Permission");
+			abort(404);
 		}
 	}
 
@@ -381,6 +497,7 @@ class MME_ExportController extends Controller
 	{
 		$table_name = null;
 		$act_table = null;
+		$counselling_records = collect([]);
 		switch ($request["other"]) {
 			case "counsel_data":
 				$act_table = "counsellor_records";
@@ -401,28 +518,66 @@ class MME_ExportController extends Controller
 		if ($table_name != null && $act_table != null) {
 			$modelClassName = "App\\Models\\" . $table_name; // extend model
 			$model = app()->make($modelClassName); // resolves the model from the service container.
-			$model->setConnection($this->DB[$request["clinic_road"]]);
-			$counselling_records = $model
-				->whereBetween("Counselling_Date", [$request["From_date"], $request["To_date"]])
-				->leftJoin("patients", "patients.Pid", "=", $act_table . ".Pid")
-				->when($request["other"] == "hts_data", function ($query) use ($act_table) {
-					return $query->leftJoin("labs", "labs.CID", "=", $act_table . ".Pid");
-				})
-				->select($act_table . ".*", "Date of Birth", "patients.Agey", "patients.Agem", "patients.Gender", "patients.FuchiaID", "patients.Pid", "patients.Main Risk", "patients.Sub Risk", $act_table . ".created_at", $act_table . ".updated_at")
-				->when($request["other"] == "hts_data", function ($query) {
-					return $query->addSelect("labs.Req_Doctor");
-				})
-				->get();
+			foreach ($request["clinics"] as $clinic) {
+				$model->setConnection($this->DB[$clinic]);
+				$counselling_data = $model
+					->whereBetween("Counselling_Date", [$request["From_date"], $request["To_date"]])
+					->leftJoin("patients", "patients.Pid", "=", $act_table . ".Pid")
+					->when($request["other"] == "hts_data", function ($query) use ($act_table) {
+						return $query->leftJoin("labs", function ($join) use ($act_table) {
+							$join->on("labs.CID", "=", $act_table . ".Pid")
+								->whereColumn("labs.vdate", "=", "Counselling_Date");
+						});
+					})
+					->select($act_table . ".*", "Date of Birth", "patients.Agey", "patients.Agem", "patients.Gender", "patients.FuchiaID", $act_table . ".Pid", "Risk Log", "Former Risk", "Risk Change_Date", "patients.Main Risk", "patients.Sub Risk", $act_table . ".created_at", $act_table . ".updated_at")
+					->when($request["other"] == "hts_data", function ($query) {
+						return $query->addSelect("labs.Req_Doctor");
+					})
+					->get();
+				$counselling_records = $counselling_records->merge($counselling_data);
+			}
 		} else {
-			abort("Wrong Permission");
+			abort(404);
 		}
 		foreach ($counselling_records as $key => $counselling_record) {
 			if ($counselling_record["Date of Birth"] != null) {
 				$counselling_record = Export_age::Export_general($counselling_record, $counselling_record["Counselling_Date"], $counselling_record["Date of Birth"], $counselling_record);
 			}
+			$carbonDate = Carbon::createFromFormat('Y-m-d', $counselling_record['Counselling_Date']);
+			$carbonDate = Carbon::createFromFormat('d-m-Y', $carbonDate->format('d-m-Y'));
+			$vdate = new DateTime($carbonDate);
+			if ($counselling_record["Risk Log"] != null) {
+				$forRiskCheck[1]['Pid'] = $counselling_record['Pid'];
+				$forRiskCheck[1]['Risk Log'] = $counselling_record['Risk Log'];
+				if (!array_key_exists($counselling_record['Pid'], $this->final_log) && $counselling_record['Risk Log'] != null) {
+					$this->final_risklog = RefillRisk::FillRisk($forRiskCheck);
+					$this->final_log[$counselling_record['Pid']] = $this->final_risklog;
+				}
+				if (array_key_exists($counselling_record['Pid'], $this->final_log)) {
+					foreach (array_reverse($this->final_log[$counselling_record['Pid']][$counselling_record['Pid']]) as $date => $data) {
+						if (strlen($date) == 10) {
+							$riskChangeDate = new DateTime($date);
+							if ($vdate < $riskChangeDate) {
+								$counselling_record['Main Risk'] = Crypt::encrypt_light($data['Old Risk'], 'General');
+								$counselling_record['Sub Risk'] = Crypt::encrypt_light($data['Old Sub Risk'], 'General');
+							}
+						}
+					}
+				}
+			} elseif ($counselling_record['Risk Change_Date'] != null && $counselling_record['Former Risk'] != null && $counselling_record['Former Risk'] != "731") {
+				$riskChangeDate = Carbon::createFromFormat('Y-m-d', $counselling_record['Risk Change_Date']);
+				$riskChangeDate = new DateTime(Carbon::createFromFormat('d-m-Y', $riskChangeDate->format('d-m-Y')));
+				if ($vdate < $riskChangeDate) {
+					$counselling_record['Main Risk'] = $counselling_record['Former Risk'];
+					$counselling_record['Sub Risk'] = '';
+				}
+			}
 
 			foreach ($encryptes as $key => $encrypte) {
 				$counselling_record[$encrypte] = Crypt::decrypt_light($counselling_record[$encrypte], "General");
+				if (($encrypte == "Main Risk" || $encrypte == "Sub Risk") && $counselling_record[$encrypte] == "-") {
+					$counselling_record[$encrypte] = null;
+				}
 				$counselling_record[$encrypte] = Crypt::codeBook($counselling_record[$encrypte], "encode");
 			}
 			foreach ($date_type as $column) {
@@ -436,13 +591,15 @@ class MME_ExportController extends Controller
 				}
 			}
 		}
-		return Excel::download(new CounsellingExport($counselling_records, $export_name), $this->DB[$request["clinic_road"]] . "-" . $export_name . "-" . date("d-m-Y") . ".xlsx");
+
+		return Excel::download(new CounsellingExport($counselling_records, $export_name), $export_name . "-" . date("d-m-Y") . "." . $request["typeExport"]);
 	}
 
 	public function STI_Export($request)
 	{
 		$table_name = null;
 		$act_table = null;
+		$sti_values = collect([]);
 		switch ($request["other"]) {
 			case "Male":
 				$table_name = "Stimale";
@@ -560,6 +717,7 @@ class MME_ExportController extends Controller
 					"episode",
 					"rea_for_visit",
 					"Main Risk",
+					"Sub Risk",
 					"abn_vaginal_disc",
 					"abn_vaginal_disc_long",
 					"linked_menstru",
@@ -682,21 +840,56 @@ class MME_ExportController extends Controller
 		if ($table_name != null && $act_table != null) {
 			$modelClassName = "App\\Models\\" . $table_name; // extend model
 			$model = app()->make($modelClassName); // resolves the model from the service container.
-			$model->setConnection($this->DB[$request["clinic_road"]]);
-			$sti_values = $model
-				->whereBetween("Visit_date", [$request["From_date"], $request["To_date"]])
-				->leftJoin("patients", "patients.Pid", "=", $act_table . ".CID")
-				->select($act_table . ".*", "Date of Birth", "patients.Agey", "patients.Agem", "patients.Gender", "patients.FuchiaID", "patients.Pid", "patients.Main Risk", "patients.Sub Risk", $act_table . ".created_at", $act_table . ".updated_at")
-				->get();
+			foreach ($request["clinics"] as $clinic) {
+				$model->setConnection($this->DB[$clinic]);
+				$sti_values_data = $model
+					->whereBetween("Visit_date", [$request["From_date"], $request["To_date"]])
+					->leftJoin("patients", "patients.Pid", "=", $act_table . ".CID")
+					->select($act_table . ".*", "Date of Birth", "patients.Agey", "patients.Agem", "patients.Gender", "patients.FuchiaID", "patients.Pid", "Risk Log", "Former Risk", "Risk Change_Date", "patients.Main Risk", "patients.Sub Risk", $act_table . ".created_at", $act_table . ".updated_at")
+					->get();
+				$sti_values = $sti_values->merge($sti_values_data);
+			}
 		} else {
-			abort("Wrong Permission");
+			abort(404);
 		}
 		foreach ($sti_values as $key => $sit_value) {
+			$carbonDate = Carbon::createFromFormat('Y-m-d', $sit_value['Visit_date']);
+			$carbonDate = Carbon::createFromFormat('d-m-Y', $carbonDate->format('d-m-Y'));
+			$vdate = new DateTime($carbonDate);
 			if ($sit_value["Date of Birth"] != null) {
 				$sit_value = Export_age::Export_general($sit_value, $sit_value["Visit_date"], $sit_value["Date of Birth"], $sit_value);
 			}
+			if ($sit_value["Risk Log"] != null) {
+				$forRiskCheck[1]['Pid'] = $sit_value['CID'];
+				$forRiskCheck[1]['Risk Log'] = $sit_value['Risk Log'];
+				if (!array_key_exists($sit_value['CID'], $this->final_log) && $sit_value['Risk Log'] != null) {
+					$this->final_risklog = RefillRisk::FillRisk($forRiskCheck);
+					$this->final_log[$sit_value['CID']] = $this->final_risklog;
+				}
+				if (array_key_exists($sit_value['CID'], $this->final_log)) {
+					foreach (array_reverse($this->final_log[$sit_value['CID']][$sit_value['CID']]) as $date => $data) {
+						if (strlen($date) == 10) {
+							$riskChangeDate = new DateTime($date);
+							if ($vdate < $riskChangeDate) {
+								$sit_value['Main Risk'] = Crypt::encrypt_light($data['Old Risk'], 'General');
+								$sit_value['Sub Risk'] = Crypt::encrypt_light($data['Old Sub Risk'], 'General');
+							}
+						}
+					}
+				}
+			} elseif ($sit_value['Risk Change_Date'] != null && $sit_value['Former Risk'] != null && $sit_value['Former Risk'] != "731") {
+				$riskChangeDate = Carbon::createFromFormat('Y-m-d', $sit_value['Risk Change_Date']);
+				$riskChangeDate = new DateTime(Carbon::createFromFormat('d-m-Y', $riskChangeDate->format('d-m-Y')));
+				if ($vdate < $riskChangeDate) {
+					$sit_value['Main Risk'] = $sit_value['Former Risk'];
+					$sit_value['Sub Risk'] = '';
+				}
+			}
 			foreach ($encrypted_columns as $key => $encrypte) {
 				$sit_value[$encrypte] = Crypt::decrypt_light($sit_value[$encrypte], "General");
+				if (($encrypte == "Main Risk" || $encrypte == "Sub Risk") && $sit_value[$encrypte] == "-") {
+					$sit_value[$encrypte] = null;
+				}
 				$sit_value[$encrypte] = Crypt::codeBook($sit_value[$encrypte], "encode");
 			}
 			foreach ($encrypted_38 as $column) {
@@ -706,7 +899,7 @@ class MME_ExportController extends Controller
 			$carbonDate = Carbon::createFromFormat("d-m-Y", $carbonDate->format("d-m-Y"));
 			$sit_value["Visit_date"] = Date::dateTimeToExcel($carbonDate->startOfDay());
 		}
-		return Excel::download(new STIExport($sti_values, $request["other"]), $this->DB[$request["clinic_road"]] . "-STI_" . $request["other"] . "-" . date("d-m-Y") . ".xlsx");
+		return Excel::download(new STIExport($sti_values, $request["other"]), "STI_" . $request["other"] . "-" . date("d-m-Y") . "." . $request["typeExport"]);
 	}
 
 	public function Prevention_Export($request)
@@ -714,6 +907,7 @@ class MME_ExportController extends Controller
 		$table_name = null;
 		$act_table = null;
 		$export_name = null;
+		$prevention_values = collect([]);
 		switch ($request["other"]) {
 			case "log_sheet":
 				$table_name = "PreventionLogsheet";
@@ -737,47 +931,112 @@ class MME_ExportController extends Controller
 				$prevent_dates = ["Visit_Date", "date_confirm"];
 				break;
 			case "confidential":
-			$table_name = "Patients";
-			$act_table = "patients";
-			$export_name = "Server_Confidential";
-			$encrypted_columns = [
-			"Main Risk",
-			"Sub Risk",
-			"Gender",
-			"Former Risk", // decrypt
-			];
-			$prevent_dates = ["Reg Date","Risk Change_Date"];
-			break;
-			
+				$table_name = "Patients";
+				$act_table = "patients";
+				$export_name = "Server_Confidential";
+				$encrypted_columns = [
+					"Main Risk",
+					"Sub Risk",
+					"Gender",
+					"Former Risk", // decrypt
+				];
+				$prevent_dates = ["Reg Date", "Risk Change_Date"];
+				break;
 		}
 		if ($table_name != null && $act_table != null) {
 			$modelClassName = "App\\Models\\" . $table_name; // extend model
 			$model = app()->make($modelClassName); // resolves the model from the service container.
-			$model->setConnection($this->DB[$request["clinic_road"]]);
-			switch ($request["other"]) {
-				case 'log_sheete':
-				case 'cbs':
-					$prevention_values = $model
-					->whereBetween("Visit_Date", [$request["From_date"], $request["To_date"]])
-					->leftJoin("patients", "patients.Pid", "=", $act_table . ".Pid")
-					->select($act_table . ".*", "Date of Birth", "patients.Agey", "patients.Agem", "patients.Gender", "patients.FuchiaID",
-					"patients.Pid", "patients.Main Risk", "patients.Sub Risk", $act_table . ".created_at", $act_table . ".updated_at")
-					->get();
-					break;
-				case 'confidential':
-					$prevention_values = $model->whereBetween("Reg Date", [$request["From_date"], $request["To_date"]])->get();
-					break;
+			foreach ($request["clinics"] as $clinic) {
+				$model->setConnection($this->DB[$clinic]);
+				switch ($request["other"]) {
+					case 'log_sheet':
+					case 'cbs':
+						$prevention_values_data = $model
+							->whereBetween("Visit_Date", [$request["From_date"], $request["To_date"]])
+							->leftJoin("patients", "patients.Pid", "=", $act_table . ".Pid")
+							->select(
+								$act_table . ".*",
+								"Date of Birth",
+								"patients.Agey",
+								"patients.Agem",
+								"patients.Gender",
+								"patients.FuchiaID",
+								"patients.Main Risk",
+								"patients.Sub Risk",
+								"patients.Risk Log",
+								"patients.Former Risk",
+								"patients.Risk Change_Date",
+
+								$act_table . ".created_at",
+								$act_table . ".updated_at"
+							)
+							->get();
+						break;
+					case 'confidential':
+						$prevention_values_data = $model->whereBetween("Reg Date", [$request["From_date"], $request["To_date"]])->get();
+						break;
+				}
+				$prevention_values = $prevention_values->merge($prevention_values_data);
 			}
-			
 		} else {
-			abort("Wrong Permission");
+			abort(404);
 		}
+
 		foreach ($prevention_values as $key => $prevention_value) {
 			if ($prevention_value["Date of Birth"] != null) {
 				$prevention_value = Export_age::Export_general($prevention_value, $prevention_value["Visit_Date"], $prevention_value["Date of Birth"], $prevention_value);
 			}
+			if ($request["other"] != "confidential") {
+				$carbonDate = Carbon::createFromFormat('Y-m-d', $prevention_value['Visit_Date']);
+				$carbonDate = Carbon::createFromFormat('d-m-Y', $carbonDate->format('d-m-Y'));
+				$vdate = new DateTime($carbonDate);
+				if ($prevention_value["Risk Log"] != null) {
+					$forRiskCheck[1]['Pid'] = $prevention_value['Pid'];
+					$forRiskCheck[1]['Risk Log'] = $prevention_value['Risk Log'];
+					if (!array_key_exists($prevention_value['Pid'], $this->final_log) && $prevention_value['Risk Log'] != null) {
+						$this->final_risklog = RefillRisk::FillRisk($forRiskCheck);
+						$this->final_log[$prevention_value['Pid']] = $this->final_risklog;
+					}
+					if (array_key_exists($prevention_value['Pid'], $this->final_log)) {
+						foreach (array_reverse($this->final_log[$prevention_value['Pid']][$prevention_value['Pid']]) as $date => $data) {
+							if (strlen($date) == 10) {
+								$riskChangeDate = new DateTime($date);
+								if ($vdate < $riskChangeDate) {
+									$prevention_value['Main Risk'] = Crypt::encrypt_light($data['Old Risk'], 'General');
+									$prevention_value['Sub Risk'] = Crypt::encrypt_light($data['Old Sub Risk'], 'General');
+								}
+							}
+						}
+					}
+				} elseif ($prevention_value['Risk Change_Date'] != null && $prevention_value['Former Risk'] != null && $prevention_value['Former Risk'] != "731") {
+					$riskChangeDate = Carbon::createFromFormat('Y-m-d', $prevention_value['Risk Change_Date']);
+					$riskChangeDate = new DateTime(Carbon::createFromFormat('d-m-Y', $riskChangeDate->format('d-m-Y')));
+					if ($vdate < $riskChangeDate) {
+						$prevention_value['Main Risk'] = $prevention_value['Former Risk'];
+						$prevention_value['Sub Risk'] = '';
+					}
+				}
+				if ($request["other"] == "log_sheet") {
+					$visit_year = explode('-', $prevention_value["Visit_Date"])[0];
+					$model->setConnection($prevention_value->getConnectionName());
+					$final_new_old = $model->whereYear('Visit_Date', $visit_year)
+						->where("Pid", $prevention_value["Pid"])
+						->where('Visit_Date', '<', $prevention_value["Visit_Date"])->exists();
+					if ($final_new_old) {
+						$prevention_value["New_Old"] = "Old";
+					} else {
+						$prevention_value["New_Old"] = "New";
+					}
+				}
+			}
+
+
+
 			foreach ($encrypted_columns as $key => $encrypte) {
 				$prevention_value[$encrypte] = Crypt::decrypt_light($prevention_value[$encrypte], "General");
+				if (($encrypte == "Main Risk" || $encrypte == "Sub Risk") && $prevention_value[$encrypte] == "-") {
+					$prevention_value[$encrypte] = null;
+				}
 				$prevention_value[$encrypte] = Crypt::codeBook($prevention_value[$encrypte], "encode");
 			}
 			// if ($request["other"]=="confidential") {
@@ -792,25 +1051,43 @@ class MME_ExportController extends Controller
 					$prevention_value[$column] = Date::dateTimeToExcel($carbonDate->startOfDay());
 				}
 			}
-			
-			
 		}
 		//dd($prevention_values[0]);
 
-		return Excel::download(new PreventionExport($prevention_values, $export_name), $this->DB[$request["clinic_road"]] . "-" . $export_name . "-" . date("d-m-Y") . ".xlsx");
+		return Excel::download(new PreventionExport($prevention_values, $export_name), $export_name . "-" . date("d-m-Y") . "." . $request["typeExport"]);
 	}
 
 	public function Cervical_Export($request)
 	{
+		$cervical_values = collect([]);
 		$cervical_dates = ["Visit_date", "LMP", "UCG_test_date", "Postpone_date", "Date", "Followup_date", "AE_Date", "AE_followUp_Date"];
 		$modelClassName = "App\\Models\\Cervicalcancer"; // extend model
 		$model = app()->make($modelClassName); // resolves the model from the service container.
-		$model->setConnection($this->DB[$request["clinic_road"]]);
-		$cervical_values = $model
-			->whereBetween("Visit_date", [$request["From_date"], $request["To_date"]])
-			->leftJoin("patients", "patients.Pid", "=", "cervicalcancers.General ID")
-			->select("cervicalcancers.*", "Date of Birth", "patients.Agey", "patients.Agem", "patients.Gender", "patients.FuchiaID", "patients.Pid", "patients.Main Risk", "patients.Sub Risk", "cervicalcancers.created_at", "cervicalcancers.updated_at")
-			->get();
+		foreach ($request["clinics"] as $clinic) {
+			$model->setConnection($this->DB[$clinic]);
+			$cervical_values_data = $model
+				->whereBetween("Visit_date", [$request["From_date"], $request["To_date"]])
+				->leftJoin("patients", "patients.Pid", "=", "cervicalcancers.General ID")
+				->select(
+					"cervicalcancers.*",
+					"Date of Birth",
+					"patients.Agey",
+					"patients.Agem",
+					"patients.Gender",
+					"patients.FuchiaID",
+					"patients.Pid",
+					"patients.Main Risk",
+					"patients.Sub Risk",
+					"cervicalcancers.created_at",
+					"cervicalcancers.updated_at",
+					"patients.Risk Log",
+					"patients.Former Risk",
+					"patients.Risk Change_Date"
+				)
+				->get();
+			$cervical_values = $cervical_values->merge($cervical_values_data);
+		}
+
 		foreach ($cervical_values as $key => $cervical_value) {
 			if ($cervical_value["Date of Birth"] != null) {
 				$cervical_value = Export_age::Export_general($cervical_value, $cervical_value["Visit_date"], $cervical_value["Date of Birth"], $cervical_value);
@@ -823,21 +1100,25 @@ class MME_ExportController extends Controller
 				}
 			}
 		}
-		return Excel::download(new CervicalExport($cervical_values), $this->DB[$request["clinic_road"]] . "-Cervical_CancerExport-" . date("d-m-Y") . ".xlsx");
+		return Excel::download(new CervicalExport($cervical_values), "Cervical_CancerExport-" . date("d-m-Y") . "." . $request["typeExport"]);
 	}
 
 	public function CMV_Export($request)
 	{
+		$cmv_values = collect([]);
 		$cmv_dates = ["Visit_date", "Art_StartDate", "Recent_CD4Date"];
 		$encryptes = ["Art_Status", "Currnt_Art_Regime", "Most_CD4", "Gender"];
 		$modelClassName = "App\\Models\\cmv"; // extend model
 		$model = app()->make($modelClassName); // resolves the model from the service container.
-		$model->setConnection($this->DB[$request["clinic_road"]]);
-		$cmv_values = $model
-			->whereBetween("Visit_date", [$request["From_date"], $request["To_date"]])
-			->leftJoin("patients", "patients.Pid", "=", "cmvs.Pid_cmv")
-			->select("cmvs.*", "Date of Birth", "patients.Agey", "patients.Agem", "patients.Gender", "patients.FuchiaID", "patients.Pid", "patients.Main Risk", "patients.Sub Risk")
-			->get();
+		foreach ($request["clinics"] as $clinic) {
+			$model->setConnection($this->DB[$clinic]);
+			$cmv_values_data = $model
+				->whereBetween("Visit_date", [$request["From_date"], $request["To_date"]])
+				->leftJoin("patients", "patients.Pid", "=", "cmvs.Pid_cmv")
+				->select("cmvs.*", "Date of Birth", "patients.Agey", "patients.Agem", "patients.Gender", "patients.FuchiaID", "patients.Pid", "patients.Main Risk", "patients.Sub Risk")
+				->get();
+			$cmv_values = $cmv_values->merge($cmv_values_data);
+		}
 		foreach ($cmv_values as $key => $cmv_value) {
 			if ($cmv_value["Date of Birth"] != null) {
 				$cmv_value = Export_age::Export_general($cmv_value, $cmv_value["Visit_date"], $cmv_value["Date of Birth"], $cmv_value);
@@ -854,7 +1135,7 @@ class MME_ExportController extends Controller
 				$cmv_value[$encrypte] = Crypt::codeBook($cmv_value[$encrypte], "encode");
 			}
 		}
-		return Excel::download(new CMVExport($cmv_values), $this->DB[$request["clinic_road"]] . "-CMV_Export-" . date("d-m-Y") . ".xlsx");
+		return Excel::download(new CMVExport($cmv_values), "CMV_Export-" . date("d-m-Y") . "." . $request["typeExport"]);
 	}
 
 	public function NCD_Export($request)
@@ -862,6 +1143,7 @@ class MME_ExportController extends Controller
 		$table_name = null;
 		$act_table = null;
 		$test_date = null;
+		$ncd_values = collect([]);
 		switch ($request["other"]) {
 			case "Register":
 				$table_name = "ncd_pt_register";
@@ -881,20 +1163,23 @@ class MME_ExportController extends Controller
 		if ($table_name != null && $act_table != null) {
 			$modelClassName = "App\\Models\\" . $table_name; // extend model
 			$model = app()->make($modelClassName); // resolves the model from the service container.
-			$model->setConnection($this->DB[$request["clinic_road"]]);
-			$ncd_values = $model
-				->whereBetween($test_date, [$request["From_date"], $request["To_date"]])
-				->leftJoin("patients", "patients.Pid", "=", $act_table . ".Pid")
-				->when($request["other"] == "Follow_Up", function ($query) {
-					return $query->leftJoin("ncd_pt_registers", "ncd_pt_registers.Pid", "=", "ncd_followups.Pid");
-				})
-				->select($act_table . ".*", "Date of Birth", "patients.Agey", "patients.Agem", "patients.Gender", "patients.FuchiaID", "patients.Pid", "patients.Main Risk", "patients.Sub Risk")
-				->when($request["other"] == "Follow_Up", function ($query) {
-					return $query->addSelect("ncd_pt_registers.visit_Age");
-				})
-				->get();
+			foreach ($request["clinics"] as $clinic) {
+				$model->setConnection($this->DB[$clinic]);
+				$ncd_values_data = $model
+					->whereBetween($test_date, [$request["From_date"], $request["To_date"]])
+					->leftJoin("patients", "patients.Pid", "=", $act_table . ".Pid")
+					->when($request["other"] == "Follow_Up", function ($query) {
+						return $query->leftJoin("ncd_pt_registers", "ncd_pt_registers.Pid", "=", "ncd_followups.Pid");
+					})
+					->select($act_table . ".*", "Date of Birth", "patients.Agey", "patients.Agem", "patients.Gender", "patients.FuchiaID", "patients.Main Risk", "patients.Sub Risk")
+					->when($request["other"] == "Follow_Up", function ($query) {
+						return $query->addSelect("ncd_pt_registers.visit_Age");
+					})
+					->get();
+				$ncd_values = $ncd_values->merge($ncd_values_data);
+			}
 		} else {
-			abort("Wrong Permission");
+			abort(404);
 		}
 		foreach ($ncd_values as $key => $ncd_value) {
 			if ($ncd_value["Date of Birth"] != null) {
@@ -911,7 +1196,7 @@ class MME_ExportController extends Controller
 				$ncd_value[$encrypte] = Crypt::decrypt_light($ncd_value[$encrypte], "General");
 			}
 		}
-		return Excel::download(new NCDExport($ncd_values, $request["other"]), $this->DB[$request["clinic_road"]] . "-NCD_" . $request["other"] . "-" . date("d-m-Y") . ".xlsx");
+		return Excel::download(new NCDExport($ncd_values, $request["other"]), "NCD_" . $request["other"] . "-" . date("d-m-Y") . "." . $request["typeExport"]);
 	}
 
 	public function TB_Export($request)
@@ -921,6 +1206,7 @@ class MME_ExportController extends Controller
 		$act_table = null;
 		$export_name = null;
 		$patient_vdate = null;
+		$tb_values = collect([]);
 		switch ($request["road"]) {
 			case "8":
 				$target_id = "Pid_TB03";
@@ -929,8 +1215,12 @@ class MME_ExportController extends Controller
 				$export_name = "TB03_Register";
 				$patient_vdate = "TreDate_TB03";
 				$date_values = [
-					"TreDate_TB03", "ART_start_TB03", "CPT_start_TB03", "Intial_RegimenDate_TB03",
-					"TrementOut_Date_TB03", "EstimentOut_Date_TB03"
+					"TreDate_TB03",
+					"ART_start_TB03",
+					"CPT_start_TB03",
+					"Intial_RegimenDate_TB03",
+					"TrementOut_Date_TB03",
+					"EstimentOut_Date_TB03"
 				];
 				break;
 			case "9":
@@ -938,9 +1228,14 @@ class MME_ExportController extends Controller
 				$table_name = "preTB";
 				$act_table = "pre_t_b_s";
 				$export_name = "Pre_TB";
-				$patient_vdate = "VisitDate_preTB";
+				$patient_vdate = "TBscreenDate_preTB";
 				$date_values = [
-					"VisitDate_preTB", "NextVDate_preTB", "TBscreenDate_preTB", "HTCDate_preTB", "AFBDate_preTB", "GeneXpertDate_preTB",
+					"VisitDate_preTB",
+					"NextVDate_preTB",
+					"TBscreenDate_preTB",
+					"HTCDate_preTB",
+					"AFBDate_preTB",
+					"GeneXpertDate_preTB",
 					"CXRDate_preTB"
 				];
 				break;
@@ -958,23 +1253,26 @@ class MME_ExportController extends Controller
 			$encryptes = ["Main Risk", "Sub Risk", "Gender"];
 			$modelClassName = "App\\Models\\" . $table_name; // extend model
 			$model = app()->make($modelClassName); // resolves the model from the service container.
-			$model->setConnection($this->DB[$request["clinic_road"]]);
+			foreach ($request["clinics"] as $clinic) {
+				$model->setConnection($this->DB[$clinic]);
+				$tb_values_data = $model
+					->whereBetween($patient_vdate, [$request["From_date"], $request["To_date"]])
+					->leftJoin("patients", "patients.Pid", "=", $act_table . '.' . $target_id)
+					->select(
+						$act_table . ".*",
+						"Date of Birth",
+						"patients.Agey",
+						"patients.Agem",
+						"patients.Gender",
+						"patients.FuchiaID",
+						"patients.Pid",
+						"patients.Main Risk",
+						"patients.Sub Risk"
+					)
+					->get();
+				$tb_values = $tb_values->merge($tb_values_data);
+			}
 
-			$tb_values = $model
-				->whereBetween($patient_vdate, [$request["From_date"], $request["To_date"]])
-				->leftJoin("patients", "patients.Pid", "=", $act_table . '.' . $target_id)
-				->select(
-					$act_table . ".*",
-					"Date of Birth",
-					"patients.Agey",
-					"patients.Agem",
-					"patients.Gender",
-					"patients.FuchiaID",
-					"patients.Pid",
-					"patients.Main Risk",
-					"patients.Sub Risk"
-				)
-				->get();
 			foreach ($tb_values as $tb_value) {
 				if ($tb_value["Date of Birth"] != null) {
 					$tb_value = Export_age::Export_general($tb_value, $tb_value[$patient_vdate], $tb_value["Date of Birth"], $tb_value);
@@ -998,6 +1296,6 @@ class MME_ExportController extends Controller
 				}
 			}
 		}
-		return Excel::download(new TBExport($tb_values, $export_name), $this->DB[$request["clinic_road"]] . '-' . $export_name . "-" . date("d-m-Y") . ".xlsx");
+		return Excel::download(new TBExport($tb_values, $export_name), $export_name . "-" . date("d-m-Y") . "." . $request["typeExport"]);
 	}
 }

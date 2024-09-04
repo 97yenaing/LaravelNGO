@@ -40,7 +40,7 @@
     margin-right: 2.5%;
 }
 
-.assist-nav-ul li {
+.assist-nav-ul li  {
     width: 20%;
 }
 
@@ -74,9 +74,7 @@
 }
 
 /* asssist Register Css &&  assist Physical Exam Css */
-.assist-nav-ul {
-    width: 90%;
-}
+
 
 .assist-parent-div {
     background-color: #003865;
@@ -326,7 +324,7 @@
         width: 50%;
     }
 
-    .assist-nav-ul li {
+    .assist-nav-ul li  {
         width: 20%;
     }
 
@@ -370,9 +368,7 @@
     }
 
     /* asssist Register Css &&  assist Physical Exam Css */
-    .assist-nav-ul {
-        width: 90%;
-    }
+    
 
     .assist-parent-div {
         background-color: #003865;
@@ -860,7 +856,7 @@
         width: 100%;
     }
 
-    .assist-nav-ul li {
+    .assist-nav-ul li  {
         width: 20%;
     }
 
@@ -905,9 +901,7 @@
     }
 
     /* asssist Register Css &&  assist Physical Exam Css */
-    .assist-nav-ul {
-        width: 90%;
-    }
+    
 
     .assist-parent-div {
         background-color: #003865;

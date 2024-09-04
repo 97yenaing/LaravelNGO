@@ -56,7 +56,7 @@
                     <div class="col-sm-2">
                         <label class="form-label">Patient Type</label>
                         <select class="form-select" id="cmv_ptype">
-                            <option value="-"></option>
+                            <option value=""></option>
                             <option value="New">New</option>
                             <option value="Old">Old</option>
                         </select>
@@ -67,7 +67,7 @@
                     <div class="col-sm-2">
                         <label class="form-label">ART Status</label>
                         <select class="form-select" id="cmv_artStatus">
-                            <option value="-"></option>
+                            <option value=""></option>
                             <option value="Yes">Yes</option>
                             <option value="No">No</option>
                         </select>
@@ -75,7 +75,7 @@
                     <div class="col-sm-2">
                         <label class="form-label">Current ART Regime</label>
                         <select class="form-select" id="cmv_artRegime">
-                            <option value="-"></option>
+                            <option value=""></option>
                             <option value="1st">1st</option>
                             <option value="2nd">2nd</option>
                         </select>
@@ -101,7 +101,7 @@
                     <div class="col-sm-2">
                         <label class="form-label">Symptoms</label>
                         <select class="form-select" id="cmv_Symptoms" placeholder="hello">
-                            <option value="-" disabled selected>Flashes,Floater,Scotoma,Sudden vision loss</option>
+                            <option value="" disabled selected>Flashes,Floater,Scotoma,Sudden vision loss</option>
                             <option value="Yes">Yes</option>
                             <option value="No">No</option>
                         </select>
@@ -115,7 +115,7 @@
                                 <label class="form-label">Right Eye</label>
                                 <div class="input-group mb-3"> 
                                     <select class="form-select" id="cmv_RVeye">
-                                        <option value="-"></option>
+                                        <option value=""></option>
                                         <option value="no eye">No Eye</option>
                                         <option value="6">6</option>
                                         <option value="CF">CF</option>
@@ -130,7 +130,7 @@
                                 <label class="form-label">Left Eye</label>
                                 <div class="input-group mb-3"> 
                                     <select class="form-select" id="cmv_LVeye">
-                                        <option value="-"></option>
+                                        <option value=""></option>
                                         <option value="no eye">No Eye</option>
                                         <option value="6">6</option>
                                         <option value="CF">CF</option>
@@ -150,7 +150,7 @@
                             <div class="col-sm-3">
                                 <label class="form-label">Right Eye Diagnosis</label>
                                 <select class="form-select" id="cmv_RFDeye">
-                                    <option value="-"></option>
+                                    <option value=""></option>
                                     <option value="Active_CMV">Active_CMV</option>
                                     <option value="Inactive_CMV">Inactive_CMV</option>
                                     <option value="Extensive _CMV">Extensive _CMV</option>
@@ -164,7 +164,7 @@
                             <div class="col-sm-3">
                                 <label class="form-label">Type of Dx (Right)</label>
                                 <select class="form-select" id="cmv_RFDTeye">
-                                    <option value="-"></option>
+                                    <option value=""></option>
                                     <option value="New">New</option>
                                     <option value="FU">FU</option>
                                     <option value="Relapse">Relapse</option>
@@ -175,7 +175,7 @@
                             <div class="col-sm-3">
                                 <label class="form-label">Left Eye Diagnosis</label>
                                 <select class="form-select" id="cmv_LFDeye">
-                                    <option value="-"></option>
+                                    <option value=""></option>
                                     <option value="Active_CMV">Active_CMV</option>
                                     <option value="Inactive_CMV">Inactive_CMV</option>
                                     <option value="Extensive _CMV">Extensive _CMV</option>
@@ -187,9 +187,9 @@
                                 </select>
                             </div>
                             <div class="col-sm-3">
-                                <label class="form-label">Type of Dx (Right)</label>
+                                <label class="form-label">Type of Dx (Left)</label>
                                 <select class="form-select" id="cmv_LFDTeye">
-                                    <option value="-"></option>
+                                    <option value=""></option>
                                     <option value="New">New</option>
                                     <option value="FU">FU</option>
                                     <option value="Relapse">Relapse</option>
@@ -209,7 +209,7 @@
                             <div class="col-sm-6">
                                 <label class="form-label">Right Eye</label>
                                 <select class="form-select" id="cmv_TreReye">
-                                    <option value="-"></option>
+                                    <option value=""></option>
                                     <option value="Injection only">Injection only</option>
                                     <option value="Valgan only">Valgan only</option>
                                     <option value="Injection with valgan">Injection with valgan</option>
@@ -221,7 +221,7 @@
                             <div class="col-sm-6">
                                 <label class="form-label">Left Eye</label>
                                 <select class="form-select" id="cmv_TreLeye">
-                                    <option value="-"></option>
+                                    <option value=""></option>
                                     <option value="Injection only">Injection only</option>
                                     <option value="Valgan only">Valgan only</option>
                                     <option value="Injection with valgan">Injection with valgan</option>
@@ -262,7 +262,7 @@
                 </div>
                 <div class="row cmv_InfoBtn">
                     <div class="col-sm-2">
-                        <button class="btn btn-info cmv-saveUp" id="cmv_saveUP" onclick="cmv_SaveUp()"disabled>Save Record</save>
+                        <button class="btn btn-info cmv-saveUp" id="cmv_saveUP" onclick="cmv_SaveUp(this)"disabled>Save Record</save>
                     </div>
                 </div>
             </div>
@@ -388,7 +388,7 @@
             }
         })
     }
-    function cmv_SaveUp(){
+    function cmv_SaveUp(button){
         let cmv_name;let cmv_data={};
         $("#cmv_Info input, #cmv_Info span, #cmv_Info select").each(function() {
              cmv_name=$(this).attr("id");
@@ -435,7 +435,13 @@
                 dataType:'json',
                 contentType: 'application/json',
                 data: JSON.stringify(cmv_data),
-                success:function(response){
+                 beforeSend: function() {
+            $(button).prop("disabled", true);
+            timeoutHandle = setTimeout(oneClick, 3000);
+          },
+          success: function(response) {
+            $(button).prop("disabled", false);
+            clearTimeout(timeoutHandle);
                 alert(response);
                 history.go(0);
                 

@@ -48,7 +48,7 @@
                   <th style="background-color:#a6a6a6;">followup_visit</th>
                   <th style="background-color:#a6a6a6;">episode</th>
                   <th style="background-color:#a6a6a6;">Reason for Visit</th>
-                  <th style="background-color:#a6a6a6;">risk_factor</th>
+                  <th style="background-color:#a6a6a6;">Main Risk</th>
                   <th style="background-color:#a6a6a6;">Sub Risk</th>
                   <th style="background-color:#a6a6a6;">urethral_disc</th>
                   <th style="background-color:#a6a6a6;">urethral_disc_hl</th>

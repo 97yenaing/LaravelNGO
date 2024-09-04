@@ -1,6 +1,6 @@
 $(document).ready(function () {
     $('html, body').animate({ scrollTop: 0 }, 'slow');
-    // $("#regdate").val(todayIn);
+    //$("#regdate").val(todayIn);
     $("#pid").focus();
 	$(function () {
         $('#ucler_li').on('click', function () {
@@ -50,10 +50,6 @@ $(document).ready(function () {
 		
 
 	});
-    $("#sti_follow").click(function(){
-        $("#home_view").hide();
-        $("#visit_view").show();
-    })
     $("#sti_id_change").change(function(){
         if($("#sti_id_change").prop("checked")){
             $("#pid-search,#pid,#regdate").prop("disabled",false);

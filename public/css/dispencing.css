@@ -19,7 +19,9 @@
     width: 75%;
     float: right;
 }
-
+#con_table_view table tr td,#second_table table tr td{
+  color:black;
+  }
 .dis-exportData,.export-row,.export-rowData{
     justify-content: center;
 }

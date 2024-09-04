@@ -8,6 +8,30 @@
   margin-top: 35px;
 }
 
+.counselling-type {
+  position: relative;
+}
+
+.adjust-button {
+  margin-top: 35px;
+}
+
+.phq4-hide {
+  left: -2000;
+}
+
+.phq4-show {
+  left: 0;
+}
+
+.phpq4_detail {
+  position: absolute;
+  background-color: #004905;
+  z-index: 10;
+  transition: left 1s ease-in-out;
+
+}
+
 #tele-search,
 #tele-collect {
   margin-top: 35px;
@@ -42,6 +66,15 @@
 .counselling-type .col-sm-2 {
   width: 30%;
   margin-right: 2rem;
+}
+
+.counselling-type .phpq4_detail .col-sm-2 {
+  width: 16.66666667%;
+  margin-right: 0rem;
+}
+
+.phq4-child {
+  margin-top: 35px;
 }
 
 .fetch-color {
@@ -186,6 +219,10 @@
 
 .counselling-type label {
   text-align: left;
+}
+
+.counselling-type .phpq4_detail label {
+  text-align: center;
 }
 
 .counHTS-show {
@@ -467,11 +504,6 @@ border-bottom:1px solid #E9F8F9;
 
   .counHTS-prepost {
     justify-content: center;
-  }
-
-  .counselling-type div {
-
-    padding: 0px;
   }
 
   .counselling-type .col-sm-1 {

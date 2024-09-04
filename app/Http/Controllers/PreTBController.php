@@ -48,8 +48,8 @@ class PreTBController extends Controller
          })->get();
          foreach ($preTBcont as $key => $value) {
           $preTBcont[$key]["HTCRes_preTB"]=Crypt::decrypt_light($value["HTCRes_preTB"],$table);
-          $value["VisitDate_preTB"] = Carbon::createFromFormat('Y-m-d',  $value["VisitDate_preTB"]);
-          $value["VisitDate_preTB"] = $value["VisitDate_preTB"]->format('d-m-Y');
+          $value["TBscreenDate_preTB"] = Carbon::createFromFormat('Y-m-d',  $value["TBscreenDate_preTB"]);
+          $value["TBscreenDate_preTB"] = $value["TBscreenDate_preTB"]->format('d-m-Y');
          }
       
         
@@ -64,7 +64,7 @@ class PreTBController extends Controller
         'Agey_preTB'=>$request->input("preTb_agey"),
         'Agem_preTB'=>$request->input("preTb_agem"),
         'Gender_preTB'=>$request->input("preTB_gender"),
-        'VisitDate_preTB'=>$request->input("preTb_vDate"),
+        //'VisitDate_preTB'=>$request->input("preTb_vDate"),
         'KAP_preTB'=>$request->input("kap_check"),
         'ModEntry_preTB'=>$request->input("preTb_mod_entry"),
         'NextVDate_preTB'=>$request->input("preTb_nextVDate"),
@@ -116,7 +116,7 @@ class PreTBController extends Controller
         'Agey_preTB'=>$request->input("preTb_agey"),
         'Agem_preTB'=>$request->input("preTb_agem"),
         'Gender_preTB'=>$request->input("preTB_gender"),
-        'VisitDate_preTB'=>$request->input("preTb_vDate"),
+        //'VisitDate_preTB'=>$request->input("preTb_vDate"),
         'KAP_preTB'=>$request->input("kap_check"),
         'ModEntry_preTB'=>$request->input("preTb_mod_entry"),
         'NextVDate_preTB'=>$request->input("preTb_nextVDate"),
@@ -170,7 +170,7 @@ class PreTBController extends Controller
       ])
       ->get()->makeHidden(['created_at', 'updated_at']);
       
-        $pretb_export_dates=["VisitDate_preTB","NextVDate_preTB","TBscreenDate_preTB","HTCDate_preTB","AFBDate_preTB","GeneXpertDate_preTB",
+        $pretb_export_dates=["NextVDate_preTB","TBscreenDate_preTB","HTCDate_preTB","AFBDate_preTB","GeneXpertDate_preTB",
         "CXRDate_preTB"];
         foreach($pretb_export_dataes as $index=>$pretb_export_data){
           if($pretb_export_data["ptconfig"]!=null){

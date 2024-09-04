@@ -14,7 +14,7 @@
                 <tr>
                     <th>No.</th>
                     <th style="width:500px">Medical Item</th>
-                    <th>Blance</th>
+                    <th>Balance</th>
                 </tr>
             </thead>
             <tbody>

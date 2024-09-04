@@ -46,7 +46,7 @@
             <div class="col-sm-2">
               <label class="form-label">HIV Status</label>
               <select class="form-select" id="crecival_hivStatus">
-                <option value="-"></option>
+                <option value=""></option>
                 <option value="1">Positive</option>
                 <option value="2">Negative</option>
                 <option value="3">Unknown</option>
@@ -55,7 +55,7 @@
             <div class="col-sm-2">
               <label class="form-label">Female Sex Worker</label>
               <select class="form-select" id="crecival_FSW">
-                <option value="-"></option>
+                <option value=""></option>
                 <option value="1">Yes</option>
                 <option value="2">No</option>
               </select>
@@ -78,7 +78,7 @@
             <div class="col-sm-3">
               <label class="form-label">Current Birth Spacing Method</label>
               <select class="form-select cercivla-birthSpacing" id="birth_spacing_met">
-                <option value="-"></option>
+                <option value=""></option>
                 <option value="1">Pill</option>
                 <option value="2">DMPA</option>
                 <option value="3">Implant</option>
@@ -103,7 +103,7 @@
             <div class="col-sm-2">
               <label class="form-label">UCG Tested result</label>
               <select class="form-select" id="UCG_test_res">
-                <option value="-"></option>
+                <option value=""></option>
                 <option value="1">Positive</option>
                 <option value="2">Negative</option>
               </select>
@@ -117,7 +117,7 @@
               </div>
               <div class="col-sm-1">
                 <select class="form-select" id="crecival_selfhave">
-                  <option value="-"></option>
+                  <option value=""></option>
                   <option value="1">Yes</option>
                   <option value="2">No</option>
                 </select>
@@ -127,7 +127,7 @@
               </div>
               <div class="col-sm-1">
                 <select class="form-select" id="crecival_familyHis_have">
-                  <option value="-"></option>
+                  <option value=""></option>
                   <option value="1">Yes</option>
                   <option value="2">No</option>
                 </select>
@@ -137,7 +137,7 @@
               </div>
               <div class="col-sm-1">
                 <select class="form-select" id="crecival_breastExam">
-                  <option value="-"></option>
+                  <option value=""></option>
                   <option value="1">Yes</option>
                   <option value="2">No</option>
                   <option value="3">NA</option>
@@ -148,7 +148,7 @@
               </div>
               <div class="col-sm-1">
                 <select class="form-select" id="crecival_abnormal_breast" disabled>
-                  <option value="-"></option>
+                  <option value=""></option>
                   <option value="1">Yes</option>
                   <option value="2">No</option>
                   
@@ -166,7 +166,7 @@
             <div class="col-sm-3">
               <label class="form-label">Discharge</label>
               <select class="form-select" id="discharge">
-                <option value="-"></option>
+                <option value=""></option>
                 <option value="1">Positive</option>
                 <option value="2">Negative</option>
               </select>
@@ -174,7 +174,7 @@
             <div class="col-sm-3">
               <label class="form-label">Cervix bleed on touch</label>
               <select class="form-select" id="cervix_bleed">
-                <option value="-"></option>
+                <option value=""></option>
                 <option value="1">Positive</option>
                 <option value="2">Negative</option>
               </select>
@@ -182,7 +182,7 @@
             <div class="col-sm-3">
               <label class="form-label">Tenderness</label>
               <select class="form-select" id="tenderness">
-                <option value="-"></option>
+                <option value=""></option>
                 <option value="1">Positive</option>
                 <option value="2">Negative</option>
               </select>
@@ -190,7 +190,7 @@
             <div class="col-sm-3">
               <label class="form-label">Malignancy</label>
               <select class="form-select" id="malignancy">
-                <option value="-"></option>
+                <option value=""></option>
                 <option value="1">Suspect</option>
                 <option value="2">Not suspect</option>
               </select>
@@ -207,7 +207,7 @@
               <h3> <div class="cc_underline"> STI complaint </div></h3>
               <label class="form-label">STI Complaint</label>
               <select class="form-select" id="sti_complaint">
-                <option value="-"></option>
+                <option value=""></option>
                 <option value="1">Yes</option>
                 <option value="2">No</option>
               </select>
@@ -218,7 +218,7 @@
               <h3>STI examination</h3>
               <label class="form-label">STI examination</label>
               <select class="form-select" id="sti_examination">
-                <option value="-"></option>
+                <option value=""></option>
                 <option value="1">Done</option>
                 <option value="2">Not Done</option>
               </select>
@@ -230,7 +230,7 @@
             <div class="col-sm-3">
               <label class="form-label">VIA Screening History</label>
               <select class="form-select" id="via_screening_his">
-                <option value="-"></option>
+                <option value=""></option>
                 <option value="1">Fist time VIA</option>
                 <option value="2">Follow-up After</option>
                 <option value="3">Follow-up 1 year after thermal ablation</option>
@@ -239,7 +239,7 @@
             <div class="col-sm-2">
               <label class="form-label">VIA test</label>
               <select class="form-select" id="via_test">
-                <option value="-"></option>
+                <option value=""></option>
                 <option value="1">Done</option>
                 <option value="2">NotDone</option>
                 <option value="3">Postponed due to</option>
@@ -248,7 +248,7 @@
             <div class="col-sm-3">
               <label class="form-label">VIA test Postpone Reason</label>
               <select class="form-select" id="via_postponed_reason" disabled>
-                <option value="-"></option>
+                <option value=""></option>
                 <option value="1">Very ill</option>
                 <option value="2">Pregnancy</option>
                 <option value="3">Less than 12 weeks after dilivery</option>
@@ -271,7 +271,7 @@
             <div class="col-sm-2">
               <label class="form-label">SCJ</label>
               <select class="form-select" id="SCJ">
-                <option value="-"></option>
+                <option value=""></option>
                 <option value="1">Was clearly seen</option>
                 <option value="2">Not all seen</option>
               </select>
@@ -279,7 +279,7 @@
             <div class="col-sm-2">
               <label class="form-label">VIA test result</label>
               <select class="form-select" id="via_test_res">
-                <option value="-"></option>
+                <option value=""></option>
                 <option value="1">Negative</option>
                 <option value="2">Postive</option>
                 <option value="3">Suspicious for cancer</option>
@@ -288,7 +288,7 @@
             <div class="col-sm-2">
               <label class="form-label">Refer to OG</label>
               <select class="form-select" id="referred_OG">
-                <option value="-"></option>
+                <option value=""></option>
                 <option value="1">Yes</option>
                 <option value="2">No</option>
               </select>
@@ -306,7 +306,7 @@
             <div class="col-sm-4">
               <label class="form-label">Eligible for thermal ablation</label>
               <select class="form-select" id="eligible_thermal_ablation">
-                <option value="-"></option>
+                <option value=""></option>
                 <option value="1">Yes</option>
                 <option value="2">No</option>
               </select>
@@ -314,7 +314,7 @@
             <div class="col-sm-4">
               <label class="form-label">If No,please specify reason</label>
               <select class="form-select" id="eligible_thermal_ablation_rea" disabled>
-                <option value="-"></option>
+                <option value=""></option>
                 <option value="1">Evidence of genital infection</option>
                 <option value="2">Location,size and extension of the lesion</option>
                 <option value="3">Other,please specify</option>
@@ -332,7 +332,7 @@
             <div class="col-sm-3">
               <label class="form-label">Thermal ablation done</label>
               <select class="form-select" id="thermal_ablation">
-                <option value="-"></option>
+                <option value=""></option>
                 <option value="1">Yes</option>
                 <option value="2">No</option>
               </select>
@@ -340,7 +340,7 @@
             <div class="col-sm-2">
               <label class="form-label">If No,specify reason</label>
               <select class="form-select" id="thermal_ablation_rea" disabled>
-                <option value="-"></option>
+                <option value=""></option>
                 <option value="1">Patient refuse for treatment</option>
                 <option value="2">Postpone to</option>
                 <option value="3">other,please specify</option>
@@ -387,7 +387,7 @@
             <div class="col-sm-5">
               <label class="form-label">Referred to Tertiary center for futher treatment</label>
               <select class="form-select" id="ref_to_tertiary_center_fut_treat">
-                <option value="-"></option>
+                <option value=""></option>
                 <option value="1">Yes</option>
                 <option value="2">No</option>
               </select>
@@ -400,7 +400,7 @@
               <div class="col-sm-2">
                 <label class="form-label">AE(Y/N)</label>
                 <select class="form-select" id="ae">
-                  <option value="-"></option>
+                  <option value=""></option>
                   <option value="1">Yes</option>
                   <option value="2">No</option>
                 </select>
@@ -418,7 +418,7 @@
                 <div class="col-sm-2">
                   <label class="form-label">Complaint</label>
                   <select class="form-select" id="complaint">
-                    <option value="-"></option>
+                    <option value=""></option>
                     <option value="1">Yes</option>
                     <option value="2">No</option>
                   </select>
@@ -426,7 +426,7 @@
                 <div class="col-sm-3">
                   <label class="form-label">Complaint,if Yes</label>
                   <select class="form-select" id="complaint_spec" disabled>
-                    <option value="-"></option>
+                    <option value=""></option>
                     <option value="1">Fever for more than two days</option>
                     <option value="2">Servere bleeding(beyond a heavy period with blood cl)</option>
                     <option value="3">Foul-smelling discharge</option>
@@ -441,7 +441,7 @@
                 <div class="col-sm-2">
                   <label class="form-label">Refer to Hospital</label>
                   <select class="form-select" id="ref_hos">
-                    <option value="-"></option>
+                    <option value=""></option>
                     <option value="1">Yes</option>
                     <option value="2">No</option>
                   </select>
@@ -449,7 +449,7 @@
                 <div class="col-sm-4">
                   <label class="form-label">Adverse evetns related to thermal ablation</label>
                   <select class="form-select" id="ae_thermal_relAblation">
-                    <option value="-"></option>
+                    <option value=""></option>
                     <option value="1">Yes</option>
                     <option value="2">No</option>
                   </select>

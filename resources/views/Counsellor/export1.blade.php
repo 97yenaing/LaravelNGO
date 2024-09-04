@@ -81,7 +81,7 @@
                     <td >{{ $user1['Post'] }}</td>
                     <td >{{ $user1['Service_Modality'] }}</td>
                     <td >{{ $user1['Mode of Entry'] }}</td>
-                    <td >{{ $user1['New_Old'] }}</td>
+                    <td >{{ $user1['Final_new_old'] }}</td>
                     <td >{{ $user1['Test_Location'] }}</td> 
                     <td >{{ $user1['Main Risk'] }}</td>
                     <td >{{ $user1['Sub Risk'] }}</td>

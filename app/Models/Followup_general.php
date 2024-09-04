@@ -34,12 +34,6 @@ class Followup_general extends Model
         "Support_1",
         'Current_MD',
 
-        // "Patient Type_2",
-        // "New_Old_2",
-        // "Fever_2",
-        // "Diagnosis_2",
-        // "Support_2",
-
         "Next Appointment Date",
         'Follow_up_md',// Add according to AClinic
         'Mode',
@@ -51,7 +45,11 @@ class Followup_general extends Model
         'MUAC',
         'Pateint_Diagnosis',
         'Remark',
-        'Online'
+        'Online',
+
+        'Mpox_suspected',
+        'Mpox_sus_rash',
+        'Mpox_mx'
       ];
 
       public function logSheet()

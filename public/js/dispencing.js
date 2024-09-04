@@ -1,7 +1,7 @@
 // const { forEach } = require("lodash");
 
 $(document).ready(function(){
-    console.log(itemsArray);
+    //console.log(itemsArray);
     var despencing_store=[];
     medicine_list=[]
     $("#vDate,#medic_entry_Date_from,#medic_entry_Date_to,#givenDate_toshow").val(todayIn);
@@ -25,6 +25,7 @@ $(document).ready(function(){
 
     $("#dis_rp_type").change(function(){
         rp_clinic=$(this).val();
+       
         if(rp_clinic=="Clinic Out"){
             $("#rp_clinic_find").show();
         }else{
@@ -148,7 +149,7 @@ $(document).ready(function(){
         
     })
 
-    $("#consumtype,#consumUptype").on("change",function(){
+    $("#consumtype,#consumUptype,#dis_update").on("change",function(){
         consum_Search=$(event.target).attr("id");
         console.log(consum_Search);
         if(consum_Search=="consumtype"){

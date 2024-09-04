@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Log;
 
 // Exports
 use App\Exports\Reception\ReceptionExport;
+use App\Exports\RiskbackExcel\RefillRisk;
 use Illuminate\Database\Eloquent\Builder;
 use DateTime;
 use Illuminate\Support\Str;
@@ -52,30 +53,34 @@ class ReceptionController extends Controller
   {
     $current_md_has = [];
     $mam_clinicID = Auth()->user()->clinic;
+
     $lastPt = PtConfig::where("Mode", "=", 0)
       ->where("Clinic Code", "=", $mam_clinicID)
       ->where("Pid", "like", $mam_clinicID . "%")
       ->orderBy('Pid', 'desc')
       ->limit(1)
       ->get();
-    $yrDigit = date("y"); // last two digit like 24, 25, 26
-    $thirdAndFourthDigits = substr($lastPt[0]['Pid'], 2, 2); // Get the 3rd and 4th digits
-    if ($yrDigit != $thirdAndFourthDigits) {
-      $lastPt[0]['Pid'] = $mam_clinicID . $yrDigit . '000000';
-    }
-    $current_md = Followup_general::select("Current_MD")->where("Visit Date", date("Y-m-d"))->get();
-    foreach ($current_md as $key => $value) {
-      if ($value["Current_MD"] != null) {
-        if (array_key_exists($value["Current_MD"], $current_md_has)) {
-          $current_md_has[$value["Current_MD"]] += 1;
-        } else {
-          $current_md_has[$value["Current_MD"]] = 1;
+    if ($lastPt) {
+      $yrDigit = date("y"); // last two digit like 24, 25, 26
+      $thirdAndFourthDigits = substr($lastPt[0]['Pid'], 2, 2); // Get the 3rd and 4th digits
+      if ($yrDigit != $thirdAndFourthDigits) {
+        $lastPt[0]['Pid'] = $mam_clinicID . $yrDigit . '000000';
+      }
+      $current_md = Followup_general::select("Current_MD")->where("Visit Date", date("Y-m-d"))->get();
+      foreach ($current_md as $key => $value) {
+        if ($value["Current_MD"] != null) {
+          if (array_key_exists($value["Current_MD"], $current_md_has)) {
+            $current_md_has[$value["Current_MD"]] += 1;
+          } else {
+            $current_md_has[$value["Current_MD"]] = 1;
+          }
         }
       }
+
+      ksort($current_md_has); //sorting the md;
     }
 
-    ksort($current_md_has); //sorting the md;
-    return view("Reception.Reception", ["lastPt" => $lastPt, "current_md" => $current_md_has]);
+    return view("Reception.Reception", ["lastPt" => $lastPt, "current_md" => $current_md_has, 'mam_clinicID' => $mam_clinicID]);
   }
   public function reception_data(Request $request)
   {
@@ -271,8 +276,7 @@ class ReceptionController extends Controller
           $patientData["Main Risk"] = Crypt::decrypt_light($patientData["Main Risk"], $table);
           $patientData["Sub Risk"] = Crypt::decrypt_light($patientData["Sub Risk"], $table);
 
-          $dob = $patientData["Date of Birth"];
-          $dob = Crypt::decryptString($dob);
+          $dob = "";
 
           $region = $patientData["Region"];
           $region = Crypt::decryptString($region);
@@ -292,6 +296,11 @@ class ReceptionController extends Controller
             $height = "";
           }
           $patientData = Export_age::Export_general($patientData, "", $patientData["Date of Birth"], $patientData);
+          $acutal_reg_date = explode("-", $patientData["Reg Date"]);
+          if ($acutal_reg_date[0] != $patientData["Reg year"]) {
+            $patientData["Reg Date"] = $patientData["Reg year"] . "-" . $acutal_reg_date[1] . '-' . $acutal_reg_date[2];
+          }
+
           return response()->json([$patientData, $ptNameDecrypt, $ptFather, $dob, $region, $town, $quarter, $followupData, $gender, $height, $patientData["Main Risk"]]);
           $ckID = 0;
         }
@@ -492,7 +501,9 @@ class ReceptionController extends Controller
         ]);
       } catch (Exception $e) {
         DB::rollBack();
-        return response()->json(['error' => 'Invalid ID'], 500);
+        Log::error('Error occurred while saving teleCounselling data: ' . $e->getMessage(), [
+          'exception' => $e,
+        ]);
       }
     } //Register
   }
@@ -893,6 +904,10 @@ class ReceptionController extends Controller
           "Pateint_Diagnosis" => $finalString,
           "Fever" => $referFever,
           "Follow_up_md" => $request->follow_up_md,
+          "Mpox_suspected" => $request["mpox suspected"],
+          'Mpox_sus_rash' => $request["mpox rash"],
+          "Mpox_mx" => $request["mpox futher"],
+
         ]);
 
       $success = [["id" => 1, "name" => "Successfully collected"]];
@@ -1185,6 +1200,9 @@ class ReceptionController extends Controller
           "Remark" => $request->remark,
           "Current_MD" => $request->current_md,
           "Online" => $request->online,
+          "Mpox_suspected" => $request["mpox suspected"],
+          'Mpox_sus_rash' => $request["mpox rash"],
+          "Mpox_mx" => $request["mpox futher"],
         ]);
       $success = "It's OK";
       return response()->json([$success]);
@@ -1209,7 +1227,7 @@ class ReceptionController extends Controller
 
     $users1 = Followup_general::with([
       "ptconfig" => function ($query) {
-        $query->select("Pid", "Date of Birth", "Agey", "Agem", "Gender", "Main Risk", "Sub Risk", 'Eyes_code'); // Select the specific columns from ptconfig
+        $query->select("Pid", "Date of Birth", "Agey", "Agem", "Gender", "Main Risk", "Sub Risk", 'Eyes_code', 'Risk Log', 'Risk Change_Date', 'Former Risk'); // Select the specific columns from ptconfig
       },
     ])
       ->whereBetween("Visit Date", [$from, $to])
@@ -1302,16 +1320,53 @@ class ReceptionController extends Controller
       $users2 = $diagnosisArray;
     }
     $Dates_excel = ["Next Appointment Date", "Visit Date"];
-
+    $encrypted_columns = [
+      "Fever",
+      "MUAC"
+    ];
+    $final_risklog = [];
+    $final_log = [];
     foreach ($users1 as $user1_key => $user1) {
       if ($user1["ptconfig"] != null) {
         $users1[$user1_key] = Export_age::Export_general($users1[$user1_key]["ptconfig"], $user1["Visit Date"], $user1["ptconfig"]["Date of Birth"], $user1);
-        $users1[$user1_key]["Main Risk"] = Crypt::decrypt_light($users1[$user1_key]["ptconfig"]["Main Risk"], "General");
-        $users1[$user1_key]["Sub Risk"] = Crypt::decrypt_light($users1[$user1_key]["ptconfig"]["Sub Risk"], "General");
-        $users1[$user1_key]["Sub Risk"] = Crypt::codeBook($users1[$user1_key]["Sub Risk"], "encode");
-        $users1[$user1_key]["Main Risk"] = Crypt::codeBook($users1[$user1_key]["Main Risk"], "encode");
+        $carbonDate = Carbon::createFromFormat('Y-m-d', $user1["Visit Date"]);
+        $carbonDate = Carbon::createFromFormat('d-m-Y', $carbonDate->format('d-m-Y'));
+        $vdate = new DateTime($carbonDate);
         $users1[$user1_key]["Gender"] = Crypt::decrypt_light($users1[$user1_key]["ptconfig"]["Gender"], "General");
         $users1[$user1_key]["Eyes_code"] = $users1[$user1_key]["ptconfig"]["Eyes_code"];
+        $user1["Main Risk"] = $user1["ptconfig"]["Main Risk"];
+        $user1["Sub Risk"] = $user1["ptconfig"]["Sub Risk"];
+        $forRiskCheck[1]["Pid"] = $user1["ptconfig"]["Pid"];
+        $forRiskCheck[1]["Risk Log"] = $user1["ptconfig"]["Risk Log"];
+
+        if (!array_key_exists($user1["ptconfig"]["Pid"], $final_log) && $user1["ptconfig"]["Risk Log"] != null) {
+          $final_risklog = RefillRisk::FillRisk($forRiskCheck);
+          $final_log[$user1["ptconfig"]["Pid"]] = $final_risklog;
+        } elseif ($user1["ptconfig"]["Risk Log"] == null) {
+          if ($user1['ptconfig']["Risk Change_Date"] != null && $user1['ptconfig']["Former Risk"] != null && $user1['ptconfig']["Former Risk"] != "731") {
+            $riskChangeDateDate = Carbon::createFromFormat('Y-m-d', $user1['ptconfig']["Risk Change_Date"]);
+            $riskChangeDateDate = new DateTime(Carbon::createFromFormat('d-m-Y', $riskChangeDateDate->format('d-m-Y')));
+            if ($vdate <= $riskChangeDateDate) {
+              $user1["Main Risk"] = $user1['ptconfig']["Former Risk"];
+              $user1["Sub Risk"] = '';
+            }
+          }
+        }
+        if (array_key_exists($user1["ptconfig"]["Pid"], $final_log)) {
+          foreach (array_reverse($final_log[$user1["ptconfig"]["Pid"]][$user1["ptconfig"]["Pid"]]) as $date => $data) {
+            if (strlen($date) == 10) {
+              $riskChangeDate = new DateTime($date);
+              if ($vdate < $riskChangeDate) {
+                $user1["Main Risk"] = Crypt::encrypt_light($data["Old Risk"], "General");
+                $user1["Sub Risk"] = Crypt::encrypt_light($data["Old Sub Risk"], "General");
+              }
+            }
+          }
+        }
+        $users1[$user1_key]["Main Risk"] = Crypt::decrypt_light($user1["Main Risk"], "General");
+        $users1[$user1_key]["Sub Risk"] = Crypt::decrypt_light($user1["Sub Risk"], "General");
+        $users1[$user1_key]["Sub Risk"] = Crypt::codeBook($users1[$user1_key]["Sub Risk"], "encode");
+        $users1[$user1_key]["Main Risk"] = Crypt::codeBook($users1[$user1_key]["Main Risk"], "encode");
       }
 
       foreach ($Dates_excel as $Date_excel) {
@@ -1322,8 +1377,13 @@ class ReceptionController extends Controller
         }
       }
     }
+
+    foreach ($users as $user) {
+      foreach ($encrypted_columns as $ecolumn) {
+        $user[$ecolumn] = Crypt::decrypt_light($user[$ecolumn], "General");
+      }
+    }
     return Excel::download(new ReceptionExport($users, $users1, $users2), "FollowUP_Export-" . date("d-m-Y") . ".xlsx");
-    // return response()->json([ $diagnosis_cut]);
   }
   public function new_pt_list($request)
   {

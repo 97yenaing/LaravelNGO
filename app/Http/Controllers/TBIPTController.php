@@ -54,8 +54,11 @@ class TBIPTController extends Controller
 
         if($Tbipt_history){
           foreach ($Tbipt_history as $key => $ipt_his) {
+            if($ipt_his["IPT_startDate"]!=null){
             $ipt_his["IPT_startDate"] = Carbon::createFromFormat('Y-m-d',  $ipt_his["IPT_startDate"]);
             $ipt_his["IPT_startDate"] = $ipt_his["IPT_startDate"]->format('d-m-Y');
+            }
+            
           }
           $Tbipt_Olddata =Tbipt::where('Pid_iptTB', $Pidipt)
           ->orWhere(function ($query) use ($Fidipt,$Pidipt) {
@@ -137,7 +140,7 @@ class TBIPTController extends Controller
       $ipt_export_dataes=Tbipt::whereBetween("IPT_regDate",[$dateForm,$dateTo])
       ->with([
         'ptconfig' => function ($query) {
-            $query->select("Pid",'Date of Birth','Agey','Agem','Gender','FuchiaID');
+            $query->select("Pid",'Date of Birth','Agey','Agem','Gender','FuchiaID','Name');
         }
       ])->get()->makeHidden(['created_at', 'updated_at']);
 
@@ -149,7 +152,8 @@ class TBIPTController extends Controller
           if($ipt_export_data['ptconfig']!=null){
             $ipt_export_data=Export_age::Export_general($ipt_export_data["ptconfig"],$ipt_export_data["IPT_regDate"],$ipt_export_data["ptconfig"]["Date of Birth"],$ipt_export_data);
             $ipt_export_dataes[$index]["Gender"]=Crypt::decrypt_light($ipt_export_data['ptconfig']["Gender"],$table);
-            $ipt_export_dataes[$index]["FuchiaID"]=$ipt_export_data['FuchiaID'];
+            $ipt_export_dataes[$index]["FuchiaID"]=$ipt_export_data["ptconfig"]['FuchiaID'];
+            $ipt_export_dataes[$index]["Name"]=Crypt::DecryptString($ipt_export_data['ptconfig']["Name"]);
           }
           foreach($ipt_export_dates as $column ){
             if($ipt_export_data[$column]!=null){

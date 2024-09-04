@@ -28,14 +28,14 @@ class NCD_Register_Export implements FromView, WithColumnFormatting
     public function columnFormats(): array
     {
         return [
-            "G"=>"d-m-yyyy",
-            "N"=>"d-m-yyyy",
-            "P"=>"d-m-yyyy",
-            "R"=>"d-m-yyyy",
-            "T"=>"d-m-yyyy",
-            "V"=>"d-m-yyyy",
-            "Y"=>"d-m-yyyy",
-            "AA"=>"d-m-yyyy",
+            "F"=>"d-m-yyyy",
+            "M"=>"d-m-yyyy",
+            "O"=>"d-m-yyyy",
+            "Q"=>"d-m-yyyy",
+            "S"=>"d-m-yyyy",
+            "U"=>"d-m-yyyy",
+            "x"=>"d-m-yyyy",
+            "Z"=>"d-m-yyyy",
 
         ];
     }

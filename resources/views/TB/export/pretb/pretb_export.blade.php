@@ -20,7 +20,7 @@
                     <td syyle="text-align:center; width:100px;">Agey</td>
                     <td syyle="text-align:center; width:100px;">Agem</td>
                     <td syyle="text-align:center; width:100px;">Sex</td>
-                    <td syyle="text-align:center; width:100px;">Visit Date</td>
+                    
                     <td syyle="text-align:center; width:100px;">KAP:</td>
                     <td syyle="text-align:center; width:100px;">Mode of entry:</td>
                     <td syyle="text-align:center; width:100px;">Date of TB screening:</td>
@@ -72,8 +72,6 @@
                         <td style="width:80px;">{{ $pretb_exdata['Current Agey']}}</td>
                         <td style="width:80px;">{{ $pretb_exdata['Current Agem']}}</td>
                         <td style="width:100px;">{{ $pretb_exdata['Gender']}}</td>
-                        
-                        <td>{{$pretb_exdata["VisitDate_preTB"]}}</td>
                         <td>{{$pretb_exdata["KAP_preTB"]}}</td>
                         <td>{{$pretb_exdata["ModEntry_preTB"]}}</td>
                         <td>{{$pretb_exdata["TBscreenDate_preTB"]}}</td>

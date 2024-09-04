@@ -224,7 +224,7 @@
           <td>{{$ncd_record["FuchiaID"]}}</td>
           <td>{{$ncd_record["Visit_date"]}}</td>
           <td>{{$ncd_record["Reg_Date"]}}</td>
-          <td>{{$ncd_record["visit_Age"]}}</td>{{-- get form ncd register table --}}
+          <td>{{$ncd_record["visit_Age"]}}</td>
 
           <td>{{$ncd_record["Current Agey"]}}</td>
           <td>{{$ncd_record["Gender"]}}</td>

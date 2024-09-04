@@ -68,16 +68,20 @@ class ServerRiskLogController extends Controller
       $validator = Validator::make($request->all(), [
         'riskLog_searchID' => 'required|integer', // Ensures 'riskLog_From' is a valid date
         "clinic_road" => [
-        "required",
-        function ($attribute, $value, $fail) {
-        if (count($this->DB) < $value) { $fail("The clinic doesn't have in server."); } }, ],
+          "required",
+          function ($attribute, $value, $fail) {
+            if (count($this->DB) < $value) {
+              $fail("The clinic doesn't have in server.");
+            }
+          },
+        ],
       ]);
       if ($validator->fails()) {
         return redirect()->back()
           ->withErrors($validator)
           ->withInput();
       }
-      $export_viewData = PtConfig::select("Risk Log", "Pid")->where("Pid", $request["riskLog_searchID"])->where("Risk Log", "!=", null)->get();
+      $export_viewData = Patients::select("Risk Log", "Pid")->where("Pid", $request["riskLog_searchID"])->where("Risk Log", "!=", null)->get();
     }
     //dd($export_viewData);
     foreach ($export_viewData as $key => $value) {

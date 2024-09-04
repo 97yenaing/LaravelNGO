@@ -54,7 +54,7 @@ use App\Exports\Reception\ReceptionExport;
 use App\Exports\Lab\LabExport;
 use App\Exports\Sti\StiExport;
 use App\Exports\dispensing\dispensingExport;
-
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -71,21 +71,20 @@ Route::get("/", function () {
     return view("welcome");
 });
 
+//Reception route
 Route::get("Reception/Reception", [ReceptionController::class, "Reception_View"]);
 Route::post("Reception/Reception", [ReceptionController::class, "reception_data"])->name("reception_road");
 
 Route::post("Reception/export_followup_tb", [ReceptionController::class, "export"])->name("reception_export");
 Route::post("Reception/exportReport", [ConsultationController::class, "report"])->name("reception_report_export");
 
-//
 Route::get("Reception/report", [ConsultationController::class, "report_view"])->name("consultation_report_view");
 Route::post("Reception/report", [ConsultationController::class, "report_cal"])->name("consultation_report_cal");
 
 Route::get("import/GeneralPatientImport", [ReceptimportController::class, "generalImportView"]);
-//Route::post('import/GeneralPatientImport', [ReceptimportController::class,'generalPatient'])->name('general_import');// This is for patients
-//Route::post('import/GeneralPatientImport', [ReceptimportController::class,'generalPatient1'])->name('general_import');// This is for confid
 Route::post("import/GeneralPatientImport", [ReceptimportController::class, "followup_rows"])->name("general_import"); // This is for follow up
 
+// Counselling Route
 Route::get("Counsellor/counselling", [CounsellingController::class, "room_view"]);
 Route::post("Counsellor/counselling", [CounsellingController::class, "save_data"])->name("counsellor_room");
 
@@ -94,15 +93,7 @@ Route::post("Counsellor/hts_report", [HtsReportController::class, "calculated_re
 
 Route::post("Counsellor/export", [CounsellingController::class, "export_starter"])->name("counsellor_export");
 
-//Route::get('Labs/HtyALabClinic', [HtyALabClinicController::class, 'Hty_A_Lab_View'])->name('labA');
-//Route::post('Labs/HtyALabClinic', [HtyALabClinicController::class, 'Hty_A_Lab_data'])->name('lab');
-Route::get("Labs/HivLabRecord", [HtyALabClinicController::class, "lab_records"])->name("labRecords");
-
-//Route::get('import/passport', [ReceptimportController::class,'passport_view'])->name('general_import');
-
-//Route::get('Labs/LabMenu',[LabmenuController::class,'labmenu'])->name('labmenu');
-//Route::get('Labs/Urine',[UrineController::class,'Urine_view'])->name('urine');
-//Route::post('Labs/Urine',[UrineController::class,'Urine'])->name('ckID');
+// Lab Reports Routes
 
 Route::get("Labs/labs", [LabsController::class, "labs_view"])->name("labs_show");
 Route::post("Labs/labs", [LabsController::class, "labResponse"])->name("tests");
@@ -113,16 +104,18 @@ Route::get("import/lab_hiv_import", [LabimportController::class, "labs_import_vi
 
 Route::post("import/lab_hiv_import", [LabimportController::class, "lab_hts_data"])->name("lab_hiv_import");
 
-// Lab Reports Routes
 Route::get("Labs/results", [LabreportController::class, "results"]);
 Route::post("Labs/results", [LabreportController::class, "reports"])->name("lab-results");
 
 Route::get("Labs/UrineRecords", [LabsController::class, "lab_urine_records"])->name("urineRecords");
 
+
+
+// NCD Route
 Route::get("NCD/Ncd", [ncdRegisterPtController::class, "ncd_View"]);
 Route::post("NCD/Ncd", [ncdRegisterPtController::class, "ncdRegister_data"])->name("ncd");
 
-/* Sti Section */
+/* STI  Route */
 
 Route::get("STI/stiform", [StiController::class, "stiform_View"]);
 Route::post("STI/stiform", [StiController::class, "stidata"])->name("stiData");
@@ -140,9 +133,6 @@ Route::post("import/StiFemale_Import", [StiController::class, "StiFemaleInput"])
 Route::get("import/Stimale_Import", [StiController::class, "StimaleView"])->name("sti-male-import");
 Route::post("import/Stimale_Import", [StiController::class, "StimaleInput"])->name("sti_male");
 
-//Route::get('import/lab_sti_Import', [StiController::class, 'Lab_Sti_View'])->name('labSti');
-//Route::post('import/lab_sti_Import', [StiController::class, 'Lab_Sti_input'])->name('labSti');
-
 Route::get("import/RprlabresultsImport", [StiController::class, "Lab_Rpr_View"]);
 Route::post("import/RprlabresultsImport", [StiController::class, "Lab_Rpr_input"])->name("labRpr");
 
@@ -158,7 +148,8 @@ Route::get("Manage/key", [AnnounceController::class, "key_view"]);
 Route::post("Manage/key", [AnnounceController::class, "key"])->name("key");
 
 Route::get("Manage/info", [AnnounceController::class, "info"]);
-// Dispensing
+
+// Dispensing Route
 Route::get("Dispensing/dispensing", [DispensingController::class, "dispense_view"]);
 Route::post("Dispensing/dispensing", [DispensingController::class, "dispensing_Control"])->name("dispencing_data");
 
@@ -235,9 +226,12 @@ Route::get("import/GeneralPatientImport", [ImportController::class, "generalImpo
 //Route::post('import/GeneralPatientImport', [ReceptimportController::class,'generalPatient1'])->name('general_import');// This is for confid
 Route::post("import/GeneralPatientImport", [ImportController::class, "importer_select"])->name("general_import"); // This is for follow up
 
-Route::get('Id_Fix/Id_Delete',[IdFixController::class,'idFix_view']);
+//ID Fix Route
+Route::get('Id_Fix/Id_Delete', [IdFixController::class, 'idFix_view']);
 
-Route::post('Id_Fix/Id_Delete',[IdFixController::class,'idFix_control'])->name("id_search");
+Route::post('Id_Fix/Id_Delete', [IdFixController::class, 'idFix_control'])->name("id_search");
+
+//MME server RiskLog
 
 Route::get("MME/serverRiskLog", [ServerRiskLogController::class, "risk_log_View"])->name("risk_log_view");
 Route::post("MME/serverRiskLog", [ServerRiskLogController::class, "risk_log"])->name("server_risk_log_data");

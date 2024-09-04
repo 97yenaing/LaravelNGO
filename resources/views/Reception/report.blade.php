@@ -21,7 +21,7 @@
   <div class="container">
   <div class="row">
       <div class="col-sm-12">
-        <h3 style="color:black;margin:auto;">Clinic Overall Registration Report</h3>
+        <h3 style="color:black;margin:auto;">Clinic's Consulation Report</h3>
       </div>
     </div>
   

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 
 use App\Exports\RiskbackExcel\RefillRisk;
 use App\Exports\RiskLog\RiskHistory;
+
+
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -36,7 +38,7 @@ class RiskLogController extends Controller
     if ($request["notice"] == "RiskLogView") {
       $final_log = [];
 
-      dd($request);
+      //dd($request);
 
       if ($request["searchType"] == "Date") {
         $validator = Validator::make($request->all(), [
@@ -89,7 +91,7 @@ class RiskLogController extends Controller
         foreach ($riskencrypt as $encrypt) {
           $value[$encrypt] = Crypt::encrypt_light($value[$encrypt], $table);
         }
-        $riskhistory = $riskhistory . $value["riskChangeDate"] . ":" . $value["mainRiskOld"] . ":" . $value["mainRiskCurrent"] . ":" . $value["duetoPatient"] . ":" . $value["cangeUser"] . ":" . $value["subRiskOld"] . ":" . $value["subRiskCurrent"] . "/";
+        $riskhistory = $riskhistory . $value["riskChangeDate"] . ":" . $value["mainRiskOld"] . ":" . $value["mainRiskCurrent"] . ":" . $value["duetoPatient"] . ":" . Auth()->user()->name . ":" . $value["subRiskOld"] . ":" . $value["subRiskCurrent"] . "/";
       }
       $updated = PtConfig::where('Pid', $request["generalID"])
         ->update([

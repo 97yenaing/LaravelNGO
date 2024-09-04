@@ -9,7 +9,7 @@
         "arielmejiadev/larapex-charts": "^6.0",
         "fruitcake/laravel-cors": "^2.0",
         "google/cloud-vision": "^1.5",
-        "guzzlehttp/guzzle": "^7.0.1",
+        "guzzlehttp/guzzle": "^7.4",
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",

@@ -23,6 +23,7 @@ $(document).ready(function(){
         $("#Tb_registerForm .tb-generalCode").children().prop("disabled",false);
         $("#tb_info .TB-button,#tb03_remove").prop("disabled",true);
         $("#Tb_registerForm .tb-generalCode").children().eq(2).prop("disabled",false)
+        alert("To change ID of TB-03 register,1. search ID,2. click 'Follow Up' button ,3. click 'Detail' button,4. check ID change check box, 5. Insert required ID,then click update TB-03 button.")
         $("#new_RC_Block").hide();
        }else{
         $("#Tb_registerForm .tb-generalCode").children().prop("disabled", function(index) {

@@ -16,7 +16,9 @@ $(document).ready(function(){
   
 // Date to text -----> ext to Date Section
 
-
+  $(".idfix #searchID").click(function (event) {
+    $(this).val("");
+  })
   $(".dateimg").click(function(event) {
     dateCalender();
   });
@@ -113,7 +115,7 @@ $(document).ready(function(){
     let inputid=event.target.id;
     let input_length=$("#"+inputid).val().length;
     if(input_length>255){
-      alert("Your Input is too much,please insert 100 character max")
+      alert("Your Input is too much,please insert 255 character max")
       $("#"+inputid).val("").focus();
     }
   })

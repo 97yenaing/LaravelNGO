@@ -10,6 +10,7 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
   <?php
+
   use Illuminate\Support\Facades\Crypt;
   ?>
   <title>MAM</title>
@@ -96,18 +97,13 @@
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="{{ url('Reception/Reception') }}">Clinic Reception</a></li>
                 <li><a class="dropdown-item" href="{{ url('import/GeneralPatientImport') }}">General Import</a></li>
-                <!-- <li><a class="dropdown-item" href="{{ url('Reception/Reception_return') }}">Return to Reception</a></li>
-                                      <li><a class="dropdown-item" href="{{ url('Reception/Reception_next') }}">Next Appointment List</a></li>
-                                      <li><a class="dropdown-item" href="{{ url('Reception/reception_followup_history') }}">follow_up_history</a></li>
-                                      <li><a id="patientExport" class="dropdown-item" href="{{ url('Reception/patients') }}">Patients List </a></li>
-                                     <li><a class="dropdown-item" href="{{ url('import/GeneralPatientImport') }}">General Import</a></li> -->
               </ul>
             </li>
 
             <li class="nav-item dropdown recption-dropdown">
               <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Reports </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{{ url('Reception/report') }}">Clinic C2 Consultation</a></li>
+                <li><a class="dropdown-item" href="{{ url('Reception/report') }}">Clinic's Consultation Report</a></li>
               </ul>
             </li>
             <li class="nav-item dropdown recption-dropdown">
@@ -135,18 +131,12 @@
                 <li><a class="dropdown-item" href="{{ url('TB/TB_IPT') }}">IPT</a></li>
                 <li><a class="dropdown-item" href="{{ url('RiskHistory/risk_history') }}">Risk Log</a></li>
                 <li><a class="dropdown-item" href="{{ url('All_Export/export_all') }}">Export All Data</a></li>
-                <li><a class="dropdown-item" href="{{ url('MME/mme_export') }}">MME Export</a></li>
-                <li><a class="dropdown-item" href="{{ url('Id_Fix/Id_Delete') }}">ID Fix</a></li>
-                <li><a class="dropdown-item" href="{{ url('MME/serverRiskLog') }}">Server Risk Log</a></li>
+                <li><a class="dropdown-item" href="{{ url('MME/mme_export') }}">MNE Export</a></li>
 
-              </ul>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Exports Files </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{{ url('Reception/exports') }}">Register Data Export</a></li>
-                <li><a class="dropdown-item" href="{{ url('Reception/export_followup') }}">Follow Up Data Export</a>
-                </li>
+
+                <li><a class="dropdown-item" href="{{ url('Id_Fix/Id_Delete') }}">ID Fix</a></li>
+
+
               </ul>
             </li>
             <li class="nav-item dropdown">
@@ -163,26 +153,6 @@
               </ul>
             </li>
 
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Import Files</a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{{ url('import/Stimale_Import') }}">STI-Male Import</a></li>
-                <li><a class="dropdown-item" href="{{ url('import/StiFemale_Import') }}">STI-Female Import</a></li>
-                <li><a class="dropdown-item" href="{{ url('import/RprlabresultsImport') }}">RPR_lab_results Import</a>
-                </li>
-
-              </ul>
-            </li>
-            <!--
-                                <li class="nav-item dropdown">
-                                  <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Export Files</a>
-                                  <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="{{ url('import/NcdRegImport') }}">NCD Register</a></li>
-                                    <li><a class="dropdown-item" href="{{ url('import/NcdArImport') }}">NCD AR</a></li>
-                                    <li><a class="dropdown-item" href="{{ url('import/NcdFollowup') }}">NCD Follow Up</a></li>
-
-                                  </ul>
-                                </li>   -->
 
           </ul>
           @endif
@@ -192,27 +162,12 @@
               <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Lab</a>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="{{ url('Labs/labs') }}">Labs</a></li>
-                <li><a class="dropdown-item" href="{{ url('Reception/patients') }}">Patients List </a></li>
-                <!--  <li><a class="dropdown-item" href="{{ url('import/lab_hiv_import') }}">Lab's Old data Import</a></li> -->
-                <!--  <li><a class="dropdown-item" href="{{ url('import/passport') }}">Test</a></li>
-                                    <li><a class="dropdown-item" href="{{ url('Labs/results') }}">Lab's Reports </a></li>
-                                    <li><a class="dropdown-item" href="{{ url('Labs/exports') }}">Lab's Exports </a></li> -->
               </ul>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Reports</a>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="{{ url('Labs/results') }}">Lab's Reports </a></li>
-                <!--  <li><a class="dropdown-item" href="{{ url('import/lab_hiv_import') }}">Lab's Old data Import</a></li> -->
-                <!--  <li><a class="dropdown-item" href="{{ url('import/passport') }}">Test</a></li> -->
-              </ul>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Exports</a>
-              <ul class="dropdown-menu">
-                <!--  <li><a class="dropdown-item" href="{{ url('import/lab_hiv_import') }}">Lab's Old data Import</a></li> -->
-                <!--  <li><a class="dropdown-item" href="{{ url('import/passport') }}">Test</a></li> -->
-                <li><a class="dropdown-item" href="{{ url('Labs/export') }}">Export </a></li>
               </ul>
             </li>
             <li class="nav-item dropdown">
@@ -227,20 +182,15 @@
           @if (Auth::user()->type == 4)
           <ul class="nav nav-tabs consel-mainlist main-nav" id="main-title">
             <li class="nav-item dropdown">
-              <a class="dropdown-item" href="{{ url('Counsellor/counselling') }}">Counselling Room</a>
-            </li>
-
-
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Report and Information </a>
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Counselling Room</a>
               <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{{ url('Counsellor/counselling') }}">Counselling Entry</a></li>
                 <li>
                   <a class="dropdown-item" href="{{ url('Counsellor/hts_report') }}">HTS Report</a>
                 </li>
-                <li><a class="dropdown-item" href="{{ url('Manage/info') }}">Announcements</a></li>
+
               </ul>
             </li>
-
           </ul>
           @endif
 
@@ -306,10 +256,10 @@
           @endif
 
           <!-- <ul class="navbar-nav ms-auto"> *  CLINIC CODE
-                              <li>
-                                    <label style="color:red;" class="form-control" id="clinic">Clinic Code :{{ Auth::user()->clinic }}</label>
-                              </li>
-                            </ul> -->
+                                <li>
+                                      <label style="color:red;" class="form-control" id="clinic">Clinic Code :{{ Auth::user()->clinic }}</label>
+                                </li>
+                              </ul> -->
           @endauth
           <!-- Right Side Of Navbar -->
           <ul class="navbar-nav ms-auto ">
@@ -352,7 +302,9 @@
     </nav>
   </div>
   <main class="py-4">
+    <div class="" id="loadingSpinner"></div>
     @yield('content')
+
   </main>
 
 </body>
@@ -481,6 +433,7 @@
       [""]
     ]
   };
+  document.getElementById("clinic_code").value = @json($mam_clinicID);
   // const select = $('<select />', {
   //   class: 'form-select',
   //   id: 'main_risk',
@@ -493,6 +446,7 @@
   // });
 
   function mainRiskCreate(MainRiskIdBlock) {
+    console.log(options);
     $.each(options, function(index, option) {
       $('<option />', {
         id: option.id,
@@ -502,26 +456,26 @@
     });
   }
 
-  function subRiskCreate(SubRiskIdBlock,risk) {
-    mainriskValue=$(risk).val();
-    console.log(subOptions[mainriskValue],mainriskValue,risk,SubRiskIdBlock);
-    $("."+SubRiskIdBlock).empty();
+  function subRiskCreate(SubRiskIdBlock, risk) {
+    mainriskValue = $(risk).val();
+    console.log(subOptions[mainriskValue], mainriskValue, risk, SubRiskIdBlock);
+    $("." + SubRiskIdBlock).empty();
     if (subOptions[mainriskValue].length == 2) {
       $.each(subOptions[mainriskValue][0], function(index, subOption) {
         console.log(subOption);
-         $('<option /> ', {
-        value: subOption,
-        text: subOptions[mainriskValue][1][index],
-        }).appendTo($("."+SubRiskIdBlock));
-        
-        });
-    }else{
+        $('<option /> ', {
+          value: subOption,
+          text: subOptions[mainriskValue][1][index],
+        }).appendTo($("." + SubRiskIdBlock));
+
+      });
+    } else {
       $.each(subOptions[mainriskValue][0], function(index, subOption) {
-      $(' <option /> ', {
-        value: subOption,
-        text: subOption,
-        }).appendTo($("."+SubRiskIdBlock));
-        });
+        $(' <option /> ', {
+          value: subOption,
+          text: subOption,
+        }).appendTo($("." + SubRiskIdBlock));
+      });
     }
   }
 
@@ -1106,7 +1060,7 @@
       if (tt_inner.innerHTML != null) {
         tt_inner.innerHTML = "";
       }
-    } else {
+    } else if (state == "Yangon") {
       var Tcount = 45;
       const yangon = [];
       yangon[0] = "Hlaingtharya";
@@ -1172,7 +1126,15 @@
         // add opt to end of select box (sel)
         sel.appendChild(opt);
       }
+    } else {
+      $("#sub_risk").empty();
     }
+  }
+
+  function oneClick() {
+    $("#loadingSpinner").css("opacity", 1).addClass("spinner");
+    $(".tab-content").css("opacity", 0.3);
+    $(".tab-content").addClass("freeze-body");
   }
 
   function net_age(reg_date, date_ofBirth, visit_date) {
@@ -1298,8 +1260,6 @@
         var dt_yearDay = dobarray[0];
         var dtYear = dobarray[2];
         if (agey_dob > 0) { // For Age in Year
-
-
           if (agey_dob == 1) {
 
             var estimated_Year = reg_date_year - agey_dob;

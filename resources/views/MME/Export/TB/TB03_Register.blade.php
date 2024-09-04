@@ -19,16 +19,14 @@
           <th style="width:150px">Facility Name</th>
           <th style="width:150px">Reporting Period</th>
           <th style="width:150px">Treatment Registar Date</th>
-          {{-- <th style="width:150px">General ID</th> --}}
+
           <th style="width:150px">TB Code</th>
           <th style="width:150px">Nationality</th>
           <th style="width:150px">Sex</th>
-          {{-- <th style="width:150px">Reg Year</th> --}}
+
 
           <th style="width:150px">Register Age</th>
-          {{-- <th style="width:150px">Register Age("Month")</th>
           <th style="width:150px">Current Age</th>
-          <th style="width:150px">Current Age("Month")</th> --}}
           <th style="width:150px">Refered from </th>
 
           <th style="width:150px">Type of Patient's</th>
@@ -86,12 +84,12 @@
           <td style="text-align:center">{{$tb_record["RePariod_TB03"]}}</td>
           <td style="text-align:center">{{$tb_record["TreDate_TB03"]}}</td>
           <td style="text-align:center">{{$tb_record["TNumber_TB03"]}}</td>
-          {{-- <td style="text-align:center">{{$tb_record["Pid_TB03"]}}</td> --}}
+
           <td style="text-align:center">{{$tb_record["Nationality_TB03"]}}</td>
           <td style="text-align:center">{{$tb_record["Gender"]}}</td>
-          {{-- <td style="width:80px;">{{ $tb_record['Reg year']}}</td> --}}
+
           <td style="width:80px;">{{ $tb_record['Register Agey']}}</td>
-          {{-- <td style="width:80px;">{{ $tb_record['Register Agem']}}</td>
+
           <td style="width:80px;">{{ $tb_record['Current Agey']}}</td>
           <td style="width:80px;">{{ $tb_record['Current Agem']}}</td> --}}
           <td style="text-align:center">{{$tb_record["ReferFrom_TB03"]}}</td>

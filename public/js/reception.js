@@ -53,6 +53,14 @@ $(document).ready(function () {
             }
         }
     });
+    $("#mpox_yes_no").change(function () {
+        if ($("#mpox_yes_no").val() == "Yes") {
+            $("#mpox_rash_yes_no,#mpox_fur_mx").prop("disabled", false);
+        } else {
+            $("#mpox_rash_yes_no").prop("disabled", true).val("No");
+            $("#mpox_fur_mx").prop("disabled", true).val("");
+        }
+    });
 
     $("#patientExport").click(function () {
         $("#export-container").table2excel({

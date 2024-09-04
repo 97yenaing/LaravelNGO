@@ -8,7 +8,7 @@
 
 <div id="Dispencing_report" class="tab-pane container containers page-color clearfix">
         <div class="header-text dis-reportHeader">
-          <h2>Dispencing Report Section</h2>
+          <h2>Consumption Report</h2>
           <select class="form-select condome-report" id="condome_rp" name="">
             <option value=""></option>
             <option value="maleCon" sletcted="">Male condom</option>
@@ -27,6 +27,7 @@
                   <option value="Donation Out">Donation Out</option>
                   <option value="Other Patient">Other Patient</option>
                   <option value="Other">Other</option>
+                  <option value="Family Planning">Family Planning</option>
                   <option value="All">All use</option>
                 </select>
               </div>

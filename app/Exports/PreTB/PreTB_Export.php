@@ -28,13 +28,12 @@ class PreTB_Export implements FromView, WithColumnFormatting
     public function columnFormats(): array
     {
         return [
-            "J"=>"d-m-yyyy",
+            "L"=>"d-m-yyyy",
             "M"=>"d-m-yyyy",
-            "N"=>"d-m-yyyy",
-            "P"=>"d-m-yyyy",
-            "R"=>"d-m-yyyy",
-            "T"=>"d-m-yyyy",
-            "V"=>"d-m-yyyy",
+            "O"=>"d-m-yyyy",
+            "Q"=>"d-m-yyyy",
+            "S"=>"d-m-yyyy",
+            "U"=>"d-m-yyyy",
         ];
     }
 

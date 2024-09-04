@@ -3,7 +3,12 @@
 <script src="{{ asset('js/jquery.min.js') }}"></script>
 <script src="{{ asset('js/jquery-ui.min.js') }}"></script>
 @auth
-<ul class="nav nav-tabs toggle" id="">
+<p class="btn-gnavi">
+  <span></span>
+  <span></span>
+  <span></span>
+</p>
+<ul class="nav nav-tabs toggle" id="hidden-title">
   <li class="nav-item">
     <a class="nav-link active toggle-link" data-toggle="pill" href="#showRiskLog">Show Risk Log</a>
   </li>
@@ -12,6 +17,7 @@
   </li>
 </ul>
 <div class="tab-content container containers">
+
   <div class="tab-pane active" id="showRiskLog">
     <form action="{{ route('risk_log_data') }}" method="post">
       @php
@@ -140,32 +146,38 @@
   <div class="tab-pane" id="updateRiskLog">
     <section class="page-color container containers ">
       <div class="row">
-        <div class="col-sm-2">
+        <div class="col-sm-3">
           <label for="" class="form-label">General ID</label>
           <input type="number" class="form-select" id="riskUpdateId">
         </div>
         <div class="col-sm-2"><button class="btn btn-info" style="margin-top: 35px"
             onclick="risklogSearch(this)">Search</button></div>
       </div>
-      <div class="row">
-        <table class="table table-borderless">
-          <thead>
-            <tr>
-              <th>Change Date</th>
-              <th>Main Risk(old)</th>
-              <th>Sub Risk(old)</th>
-              <th>Main Risk(current)</th>
-              <th>Sub Risk(current)</th>
-              <th>Due to Patient</th>
-              <th>Update By</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
+      <div class="row pc">
+        <div class="log-col">
+          <label class="form-label">Change Date</labbel>
+        </div>
+        <div class="log-col">
+          <label class="form-label">Main Risk <br> (old)</labbel>
+        </div>
+        <div class="log-col">
+          <label class="form-label">Sub Risk<br>(old)</labbel>
+        </div>
+        <div class="log-col">
+          <label class="form-label">Main Risk<br>(current)</labbel>
+        </div>
+        <div class="log-col">
+          <label class="form-label">Main Risk<br>(current)</labbel>
+        </div>
+        <div class="logsmall-col">
+          <label class="form-label">By Patient</labbel>
+        </div>
+        <div class="log-col">
+          <label class="form-label">Update By</labbel>
+        </div>
+        <div class="log-col">
 
-          </tbody>
-
-        </table>
+        </div>
       </div>
     </section>
   </div>
@@ -270,14 +282,19 @@
 
           console.log(response[riskLogUpdate["generalID"]]);
           let count = 0;
-          $("tbody").empty();
+          $("section .row:nth-child(n+3)").remove();
           $.each(response[riskLogUpdate["generalID"]], function(index, value) {
             let changeDate = index.split('-');
             if (changeDate.length > 3) {
               index = changeDate[0] + "-" + changeDate[1] + "-" + changeDate[2];
             }
-            riskLogview = $("<tr id='" + index + "'>")
-              .append($("<td>").append($("<div>")
+              
+            riskLogview = $("<div id='" + index + "' class='row loghistory-row'>")
+              .append($("<div class='tablet log-col'>")
+                .append($("<label class='form-label'>").attr({
+                  class: "form-label",
+                  }).text("Change Date")))
+              .append($("<div class='log-col'>").append($("<div>")
                 .append($("<div>").attr({
                     class: "date-holder"
                   }).append($("<input>")
@@ -295,56 +312,82 @@
                     onclick: "dateCalender()"
                   }))
                 )))
-              .append($("<td>").append($("<select>")
+              .append($("<div class='tablet log-col'>")
+                .append($("<label class='form-label'>").attr({
+                  class: "form-label",
+                  }).text("Main Risk(old)")))
+              .append($("<div class='log-col'>").append($("<select>")
                 .attr({
                   class: 'form-select mainriskblock' + count,
                   id: 'oldrisk' + count,
                   name: "mainRiskOld",
                   onchange: 'subRiskCreate(' + '"subriskold' + count + '","#oldrisk' + count + '")'
                 }).val(value["Old Risk"])))
-              .append($("<td>").append($("<select>")
+              .append($("<div class='tablet log-col'>")
+                .append($("<label class='form-label'>").attr({
+                  class: "form-label",
+                  }).text("Sub Risk(old)")))
+              .append($("<div class='log-col'>").append($("<select>")
                 .attr({
                   class: 'form-select subriskold' + count,
                   name: "subRiskOld",
                   id: 'oldsub' + count,
                 }).val(value["Old Sub Risk"])))
-              .append($("<td>").append($("<select>")
+              .append($("<div class='tablet log-col'>")
+                .append($("<label class='form-label'>").attr({
+                  class: "form-label",
+                  }).text("Main Risk(current)")))
+              .append($("<div class='log-col'>").append($("<select>")
                 .attr({
                   class: 'form-select mainriskblock' + count,
                   id: "currentmain" + count,
                   name: "mainRiskCurrent",
                   onchange: 'subRiskCreate(' + '"subriskcurrent' + count + count + '","#currentmain' + count + '")'
                 }).val(value["Current Risk"])))
-              .append($("<td>").append($("<select>")
+              .append($("<div class='tablet log-col'>")
+                .append($("<label class='form-label'>").attr({
+                  class: "form-label",
+                  }).text("Sub Risk(current)")))
+              .append($("<div class='log-col'>").append($("<select>")
                 .attr({
                   class: 'form-select subriskcurrent' + count + count,
                   name: 'subRiskCurrent',
                   id: 'currentsub' + count,
                 }).val(value["Current Sub Risk"])))
-              .append($("<td>").append($("<span>").attr({
+              .append($("<div class='tablet log-col'>")
+                .append($("<label class='form-label'>").attr({
+                  class: "form-label",
+                  }).text("By Patient")))
+              .append($("<div class='logsmall-col'>").append($("<span>").attr({
                 class: "form-control",
                 name: "duetoPatient",
               }).text(value["Due_to_patient"])))
-              .append($("<td>").append($("<input>").attr({
-                class: "form-control",
-                name: "cangeUser",
-              }).val(value["change_user"])))
-              .append($("<td>").append($("<button>").attr({
+              .append($("<div class='tablet log-col'>")
+                .append($("<label class='form-label'>").attr({
+                  class: "form-label",
+                  }).text("Update By")))
+              .append($("<div class='log-col'>").append($("<label>").attr({
+                class: "form-label",
+                name: "changeUser",
+              }).text(value["change_user"])))
+              
+              .append($("<div class='log-col'>").append($("<button>").attr({
                 class: "btn btn-danger",
-                onclick: "DeleteLog()"
+                onclick: "DeleteLog()",
+                id:"DeleteLog"+count,
               }).text("DeleteLog")))
 
-            $("#updateRiskLog table tbody").append(riskLogview);
+            $("section").append(riskLogview);
             mainRiskCreate("mainriskblock" + count);
             $('#oldrisk' + count).val((value["Old Risk"]))
             $('#currentmain' + count).val((value["Current Risk"]))
             subRiskCreate("subriskold" + count, '#oldrisk' + count)
-            subRiskCreate("subriscurrent" + count + count, '#currentmain' + count)
+            subRiskCreate("subriskcurrent" + count + count, '#currentmain' + count)
             $('#currentsub' + count).val((value["Current Sub Risk"]))
             $('#oldsub' + count).val((value["Old Sub Risk"]))
             count++;
           });
-          $("table tr td span, table tr td  select, table tr td input,table tr td button").css("margin-top", "5px");
+          //$("table tr td span, table tr td  select, table tr td input,table tr td button").css("margin-top", "5px");
           $("section").append(
             $("<div class='row' style='justify-content:center'>").append(
               $("<div class='col-sm-2' >").append(
@@ -352,7 +395,10 @@
               )
             )
           );
+          $("#currentmain"+(count-1)+',#currentsub'+(count-1)+",#DeleteLog"+(count-1)).prop("disabled",true);
+          console.log("#currentmain"+(count-1));
           $searchIDLog=riskLogUpdate["generalID"];
+
 
         }
       })
@@ -369,9 +415,9 @@
         riskFinaldata:{}
       };
 
-      $("tr").each(function(index) {
+      $(".loghistory-row").each(function(index) {
         riskLogUpdate['riskFinaldata'][counting] = {};
-        if (index != 0) {
+        
           $(this).find("input, span, select").each(function() {
             if ($(this).is('input, select')) {
               if ($(this).hasClass("Gdate")) {
@@ -384,11 +430,15 @@
             }
           });
           counting++;
-        }
+        
       });
+      
+     
 
       riskLogUpdate["notice"]="Updating Risk Log";
       riskLogUpdate["generalID"]=$searchIDLog;
+
+
 
       console.log(riskLogUpdate);
 
@@ -404,20 +454,21 @@
         contentType: 'application/json',
         data: JSON.stringify(riskLogUpdate),
         timeout: 10000,
-        // beforeSend: function() {
-        //   // Set a timeout to show the loading div after 3 seconds
-        //   $(button).prop("disabled", true);
-        //   timeoutHandle = setTimeout(function() {
+        beforeSend: function() {
+          // Set a timeout to show the loading div after 3 seconds
+          $(button).prop("disabled", true);
+          timeoutHandle = setTimeout(function() {
 
-        //     $("#loadingSpinner").css("opacity", 1).addClass("spinner");
-        //     $(".tab-content").css("opacity", 0.3);
-        //     $(".tab-content").addClass("freeze-body");
-        //   }, 3000);
-        // },
+            $("#loadingSpinner").css("opacity", 1).addClass("spinner");
+            $(".tab-content").css("opacity", 0.3);
+            $(".tab-content").addClass("freeze-body");
+          }, 3000);
+        },
         success: function(response) {
-          // $(button).prop("disabled", false);
-          // clearTimeout(timeoutHandle);
+          $(button).prop("disabled", false);
+          clearTimeout(timeoutHandle);
           console.log(response);
+          alert("Successfull Risk History Update")
         }
       })
     }
