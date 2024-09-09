@@ -4718,9 +4718,6 @@
 		var issue_date = $("#issue_date").val();
 		issue_date = formatDate(issue_date); // date FormatChange YYYY/MM/DD
 		var counsellor = $("#counselor").val();
-
-
-
 		//var hivForm = document.getElementById('hivTest');
 		if (save_update_hiv == 1) {
 
@@ -4772,6 +4769,7 @@
 				updated_by: updated_by,
 			};
 		}
+		console.log(hivdata);
 		if (cid.length > 8 && final_result != "-" && lab_tech.length > 2) {
 			if (confirm("Are you sure you want to do save?")) {
 				$.ajaxSetup({
@@ -8722,33 +8720,7 @@
 		location.reload(true);
 	}
 
-	// function getAge(bd_date) {
 
-	//     var dates = bd_date.split("-");
-	//     var d = new Date();
-
-	//     var useryear = dates[0];
-	//     var usermonth = dates[1];
-	//     var userday = dates[2];
-
-	//     var curday = d.getDate();
-	//     var realMonth = d.getMonth();
-	//     var curmonth = d.getMonth() + 1;
-	//     var curyear = d.getFullYear();
-
-	//     if (curyear == useryear) {
-	//         var age = realMonth - usermonth;
-	//         ////console.log("month"+ age);
-	//     } else {
-	//         var age = curyear - useryear;
-	//         ////console.log("age"+ age);
-	//     }
-	//     if ((curmonth < usermonth) || ((curmonth == usermonth) && curday < userday)) {
-	//         age--;
-	//     }
-
-	//     return age;
-	// }
 
 	function hideTab(hider) {
 		switch (hider) {

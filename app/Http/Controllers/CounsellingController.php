@@ -1445,7 +1445,7 @@ class CounsellingController extends Controller
 								$riskChangeDate = Carbon::createFromFormat('Y-m-d', $user1['ptconfig']["Risk Change_Date"]);
 								$riskChangeDate = new DateTime(Carbon::createFromFormat('d-m-Y', $riskChangeDate->format('d-m-Y')));
 								if ($vdate < $riskChangeDate) {
-									$user1["Main Risk"] = ['ptconfig']["Former Risk"];
+									$user1["Main Risk"] = $user1['ptconfig']["Former Risk"];
 									$user1["Sub Risk"] = '';
 								}
 							}
@@ -1462,13 +1462,7 @@ class CounsellingController extends Controller
 							}
 						}
 					}
-
-
-
-
 					$users1[$key]['Counselling_Date'] = Date::dateTimeToExcel($carbonDate->toDateTime());
-
-
 					foreach ($encrypted_columns as $encrypted_column) {
 						$user1[$encrypted_column] = Crypt::decrypt_light($user1[$encrypted_column], $table);
 						$user1[$encrypted_column] = Crypt::codeBook($user1[$encrypted_column], 'encode');
@@ -1488,6 +1482,7 @@ class CounsellingController extends Controller
 						},
 					])
 					->get();
+				dd($users1);
 
 				$encrypted_columns = ['Gender', 'Counsellor', 'Service_Modality', 'Mode of Entry', 'New_Old', 'Test_Location', 'Main Risk', 'Sub Risk', 'HIV_Test_Determine', 'HIV_Test_UNI', 'HIV_Test_STAT', 'HIV_Final_Result', 'Syphillis_RDT', 'Syphillis_RPR', 'Syphillis_VDRL', 'Hepatitis_B', 'Hepatitis_C', 'Req_Doctor'];
 				$dates_hts = ['Counselling_Date', 'HIV_Test_Date', 'Syp_Test_Date', 'Hep_Test_Date'];
@@ -1557,7 +1552,7 @@ class CounsellingController extends Controller
 
 				//dd($user1);
 				return Excel::download(new CounsellingExport($users1, $hts_coul), 'HTS Export-' . date('d-m-Y') . '.xlsx');
-			} else {
+			} elseif ($hts_coul == 'TeleCounselling') {
 				$users = TeleCounselling::whereBetween('Call_Date', [$from, $to])
 					->leftjoin('confid.pt_configs', 'pt_configs.Pid', '=', 'tele_counsellings.Pid')
 					->select('tele_counsellings.*', 'Date of Birth', 'Name', 'Agey', 'Agem', 'pt_configs.Gender as Sex')
@@ -1576,6 +1571,71 @@ class CounsellingController extends Controller
 					$user["Call_Date"] = Date::dateTimeToExcel($carbonDate->startOfDay());
 				}
 				return Excel::download(new CounsellingExport($users, $hts_coul), 'TeleCounselling-' . date('d-m-Y') . '.xlsx');
+			} elseif ($hts_coul == 'Mental Health') {
+				$mental_exportes = Mental_Health::WhereBetween("mental__healths.Counselling_Date", [$from, $to])
+					->leftjoin('confid.pt_configs', function ($config_join) {
+						$config_join->on("confid.pt_configs.Pid", '=', 'mental__healths.Pid');
+					})->select(
+						'mental__healths.*',
+						'confid.pt_configs.FuchiaID',
+						'confid.pt_configs.FuchiaID',
+						'confid.pt_configs.Agey',
+						'confid.pt_configs.Agem',
+						'confid.pt_configs.Gender',
+						'Date of Birth',
+						'Former Risk',
+						'Risk Change_Date',
+						'Main Risk',
+						'Sub Risk',
+						'Risk Log'
+					)->get();
+
+				$encrypted_columns = ['Main Risk', 'Sub Risk', 'Gender', 'Final Result'];
+				foreach ($mental_exportes as $mental_export) {
+					if ($mental_export["Date of Birth"] != null) {
+						$mental_export = Export_age::Export_general($mental_export, $mental_export['Counselling_Date'], $mental_export['Date of Birth'], $mental_export);
+					}
+					$carbonDate = Carbon::createFromFormat('Y-m-d', $mental_export['Counselling_Date']);
+					$carbonDate = Carbon::createFromFormat('d-m-Y', $carbonDate->format('d-m-Y'));
+					$vdate = new DateTime($carbonDate);
+					$forRiskCheck[1]["Pid"] = $mental_export["Pid"];
+					$forRiskCheck[1]["Risk Log"] = $mental_export["Risk Log"];
+
+					if (!array_key_exists($mental_export["Pid"], $final_log) && $mental_export["Risk Log"] != null) {
+						$final_risklog = RefillRisk::FillRisk($forRiskCheck);
+						$final_log[$mental_export["Pid"]] = $final_risklog;
+					} elseif ($mental_export["Risk Log"] == null) {
+						if ($mental_export["Risk Change_Date"] != null && $mental_export["Former Risk"] != null && $mental_export["Former Risk"] != "731") {
+							$riskChangeDate = Carbon::createFromFormat('Y-m-d', $mental_export["Risk Change_Date"]);
+							$riskChangeDate = new DateTime(Carbon::createFromFormat('d-m-Y', $riskChangeDate->format('d-m-Y')));
+							if ($vdate < $riskChangeDate) {
+								$mental_export["Main Risk"] = $mental_export["Former Risk"];
+								$mental_export["Sub Risk"] = '';
+							}
+						}
+					}
+					if (array_key_exists($mental_export["Pid"], $final_log)) {
+						foreach (array_reverse($final_log[$mental_export["Pid"]][$mental_export["Pid"]]) as $date => $data) {
+							if (strlen($date) == 10) {
+								$riskChangeDate = new DateTime($date);
+								if ($vdate < $riskChangeDate) {
+									$mental_export["Main Risk"] = Crypt::encrypt_light($data["Old Risk"], "General");
+									$mental_export["Sub Risk"] = Crypt::encrypt_light($data["Old Sub Risk"], "General");
+								}
+							}
+						}
+					}
+					$mental_export['Counselling_Date'] = Date::dateTimeToExcel($carbonDate->startOfDay());
+					$hiv_status = Lab::where("CID", $mental_export["Pid"])->latest('vdate')->select("Final_Result")->first();
+					$mental_export["Final Result"] = $hiv_status["Final_Result"];
+					foreach ($encrypted_columns as $encrypted_column) {
+						$mental_export[$encrypted_column] = Crypt::decrypt_light($mental_export[$encrypted_column], $table);
+						$mental_export[$encrypted_column] = Crypt::codeBook($mental_export[$encrypted_column], 'encode');
+					}
+				}
+
+				dd($mental_exportes);
+				return Excel::download(new MentalExport($mental_exportes), 'Mental Health Export-' . date('d-m-Y') . '.xlsx');
 			}
 		} else {
 			return view('Counsellor.counselling');
