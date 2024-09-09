@@ -37,7 +37,7 @@ class PreventionExport implements FromCollection, WithMapping, WithHeadings, Wit
 				$row['Pid'],
 				$row['FuchiaID'],
 				$row['PrEPCode'],
-				$row['Name'],
+
 
 				$row['Reg_Date'],
 
@@ -49,17 +49,11 @@ class PreventionExport implements FromCollection, WithMapping, WithHeadings, Wit
 				$row['Current Agey'],
 				$row['Current Agem'],
 				$row['Sex'],
-
 				$row['Initial Risk'],
 				$row['Risk changed'],
 				$row['Risk changed Date'],
-
-
-
 				$row['Main_Risk'],
 				$row['Sub_Risk'],
-				$row['Township'],
-
 
 				$row['New_Old'],
 				$row['Substantial Risk'],
@@ -86,11 +80,16 @@ class PreventionExport implements FromCollection, WithMapping, WithHeadings, Wit
 				$row['PHQ4_Q3_Q4'],
 				$row['OST_Done'],
 				$row['OST_Accept'],
+
 				$row['Decline_Reason'],
 				$row['OST_Initial_Date'],
+				$row["OST_Eligible"],
+				$row["Decline_Reason_new"],
+				$row["Referral_Coupon"],
 				$row['Test_Clinic'],
 				$row['Test_New_Old'],
 				$row['Remark'],
+
 			];
 		} else if ($this->testName == "CBS") {
 			return [
@@ -165,8 +164,8 @@ class PreventionExport implements FromCollection, WithMapping, WithHeadings, Wit
 				'Pid',
 				'Fuchia ID',
 				'PrEP Code',
-				'Name',
-				'Register Date',
+
+				'Clinic Register Date',
 				'Visit Date',
 				'Register Agey',
 				'Register Age month',
@@ -176,10 +175,10 @@ class PreventionExport implements FromCollection, WithMapping, WithHeadings, Wit
 				'Initial Risk',
 				'Risk changed',
 				'Risk changed Date',
-				'Main Risk(Current Risk)',
+				'Main Risk(Current)',
 				'Sub Risk',
-				'Township',
-				'New_Old',
+
+				'Reach New_Old',
 				'Substantial Risk',
 				'Meeting Point',
 				'Service Provision1',
@@ -204,6 +203,9 @@ class PreventionExport implements FromCollection, WithMapping, WithHeadings, Wit
 				'OST_Accept',
 				'Decline_Reason',
 				'OST_Initial_Date',
+				"OST_Eligible",
+				'Decline_Reason_new	',
+				'Referral_Coupon',
 				'Test_Clinic',
 				'Test_New_Old',
 				'Remark',
@@ -270,11 +272,11 @@ class PreventionExport implements FromCollection, WithMapping, WithHeadings, Wit
 	{
 		if ($this->testName == "LogSheet") {
 			return [
-				'J' => 'dd-mm-yyyy',
+				'H' => 'dd-mm-yyyy',
 				'I' => 'dd-mm-yyyy',
-				'K' => 'dd-mm-yyyy',
-				'AK' => 'dd-mm-yyyy',
-				'AT' => 'dd-mm-yyyy',
+				'Q' => 'dd-mm-yyyy',
+				'AR' => 'dd-mm-yyyy',
+				'AI' => 'dd-mm-yyyy',
 			];
 		} else if ($this->testName == "CBS") {
 			return [

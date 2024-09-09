@@ -8,7 +8,6 @@ use App\Http\Controllers\ncdRegisterPtController;
 
 use App\Http\Controllers\CervicalcancerscrenningController;
 use App\Http\Controllers\CmvController;
-
 use App\Http\Controllers\HtyALabClinicController;
 use App\Http\Controllers\LabmenuController;
 use App\Http\Controllers\UrineController;
@@ -93,6 +92,8 @@ Route::post("Counsellor/hts_report", [HtsReportController::class, "calculated_re
 
 Route::post("Counsellor/export", [CounsellingController::class, "export_starter"])->name("counsellor_export");
 
+
+
 // Lab Reports Routes
 
 Route::get("Labs/labs", [LabsController::class, "labs_view"])->name("labs_show");
@@ -165,8 +166,8 @@ Route::post("Dispensing/export/dispensingexportData", [DispensingController::cla
 Route::get("Prevention/log_sheet", [Logsheet_cbsController::class, "Prevention_View"]);
 Route::post("Prevention/log_sheet", [Logsheet_cbsController::class, "Prevention_data"])->name("prevention_data");
 
-Route::get("STI/tb", [TbController::class, "tb_View"]);
-Route::post("STI/tb", [TbController::class, "tb_data"])->name("tb_data");
+// Route::get("STI/tb", [TbController::class, "tb_View"]);
+// Route::post("STI/tb", [TbController::class, "tb_data"])->name("tb_data");
 
 ///RiskLog
 Route::get("RiskHistory/risk_history", [RiskLogController::class, "risk_log_View"])->name("risk_log_view");

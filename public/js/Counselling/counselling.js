@@ -4,23 +4,18 @@ $(document).ready(function () {
     });
     $("#vDate").val(todayIn);
 
-    $("#phq4").click(function () {
-        console.log("hello phq4");
-        if ($(this).prop("checked") == true) {
-            $(".phpq4_detail").removeClass("phq4-hide");
-            $(".phpq4_detail").addClass("phq4-show");
-        } else {
-            $(".phpq4_detail").addClass("phq4-hide");
-            $(".phpq4_detail").removeClass("phq4-show");
-            $(".phpq4_detail select,.phpq4_detail input[type='number']").val(
-                ""
-            );
-
-            $(".phpq4_detail input[type='checkbox']").prop("checked", false);
-        }
+    $("#q1_q2_amount").change(function () {
+        q1q2();
     });
-    $(".adjust-button").click(function () {
-        $(".phpq4_detail").addClass("phq4-hide");
-        $(".phpq4_detail").removeClass("phq4-show");
+    $("#q3_q4_amount").change(function () {
+        q3q4();
+    });
+
+    $("#phq4").click(function () {
+        phq4_show_hide();
+    });
+    $("#back_counselling").click(function () {
+        console.log("hello back");
+        backCounselling();
     });
 });

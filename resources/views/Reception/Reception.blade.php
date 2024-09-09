@@ -1029,7 +1029,7 @@
                 <label class="form-label">Mpox suspected</label>
                 <select class="form-select reception-select"
                   id="mpox_yes_no"
-                  required="" >
+                  required="">
                   <option value="No">No</option>
                   <option value="Yes">Yes</option>
                 </select>
@@ -1053,7 +1053,7 @@
                   <option value="1.Treated at MAM">1. Treated at MAM</option>
                   <option value="2.Referred to other center">2.Referred to other center</option>
                 </select>
-                
+
               </div>
               <div class="col-sm-1 return-save">
                 <button type="button"
@@ -1732,14 +1732,14 @@
                 </div>
                 <div class="col-sm-8">
                   <label class="form-label">Further Mx</label>
-                 
+
                   <select class="form-select reception-select"
-                  id="mpox_fur_mx_update"
-                  required="" disabled>
-                   <option value=""> </option>
-                  <option value="1.Treated at MAM">1. Treated at MAM</option>
-                  <option value="2.Referred to other center">2.Referred to other center</option>
-                </select>
+                    id="mpox_fur_mx_update"
+                    required="" disabled>
+                    <option value=""> </option>
+                    <option value="1.Treated at MAM">1. Treated at MAM</option>
+                    <option value="2.Referred to other center">2.Referred to other center</option>
+                  </select>
                 </div>
 
               </div>
@@ -4399,9 +4399,9 @@
 
         //update check validation 
         pha_art_prepUPdateCheck();
-        if (response[0][0]['Agey'] > 5 || (response[0][0]['Agey'] < 5 && response[0][0]['Agem'] < 6)) {
-          $("#fcentercheckupdate").prop("disabled", true);
-        }
+        // if (response[0][0]['Agey'] > 5 || (response[0][0]['Agey'] == 0 && response[0][0]['Agem'] < 6)) {
+        //   $("#fcentercheckupdate").prop("disabled", true);
+        // }
         /*if(response[0][0]['Agey']< 13) {
           $("#fmaplancheckupdate").prop("disabled",true);
         }*/

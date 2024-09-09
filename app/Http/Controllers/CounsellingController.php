@@ -39,6 +39,7 @@ use App\Models\TeleCounselling;
 use DateTime;
 use App\Exports\Export_age;
 use App\Exports\RiskbackExcel\RefillRisk;
+use App\Models\Mental_Health;
 
 class CounsellingController extends Controller
 {
@@ -114,8 +115,7 @@ class CounsellingController extends Controller
 			}
 
 			return response()->json([$hts_final_reaming]);
-		}
-		if ($notice == "TeleCollection") {
+		} else if ($notice == "TeleCollection") {
 
 			$tele_name = !$request->tele_id ? Crypt::encryptString($request->ph_name) : null;
 			if ($request["task_do"] != "Tele update") {
@@ -140,6 +140,54 @@ class CounsellingController extends Controller
 					'Remark' => $request->ph_remark,
 				]);
 				return response()->json("Save လုပ်ဆောင်မှု့ အောင်မြင်ပါသည်");
+			}
+		} else if ($notice == "Mental Health") {
+			if ($request["task"] == "Mental Save") {
+				$mental_exist = Mental_Health::where('Pid', $request["gid"])->where('Counselling_Date', $request["counselling_date"])->exists();
+				if (!$mental_exist) {
+					Mental_Health::create([
+						'Pid' => $request->gid,
+						'Counselling_Date' => $request["counselling_date"],
+						'Q1_Q2' => $request["q1q2"],
+						'Q3_Q4' => $request["q3q4"],
+						'gad7_amount' => $request["gad7_amount"],
+						'PHQ9_amount' => $request["phq9_amount"],
+						'Drug3M' => $request["mental_drug"],
+						'SexDrug' => $request["sexdrug"],
+						'ChemSex' => $request["chemsex"],
+						'A' => $request["mental_A"],
+						'B' => $request["mental_B"],
+						'C' => $request["mental_C"],
+						'D' => $request["mental_D"],
+						'Remark' => $request["mental_remark"],
+					]);
+					return response()->json("Mental Health data သိမ်းဆည်းပြီးပါပြီ။");
+				}
+			} else if ($request["task"] == "Mental Update") {
+				Mental_Health::where("Pid", $request["gid"])->where('Counselling_Date', $request["counselling_date"])->update([
+					'Pid' => $request->gid,
+					'Counselling_Date' => $request["counselling_date"],
+					'Q1_Q2' => $request["q1q2"],
+					'Q3_Q4' => $request["q3q4"],
+					'gad7_amount' => $request["gad7_amount"],
+					'PHQ9_amount' => $request["phq9_amount"],
+					'Drug3M' => $request["mental_drug"],
+					'SexDrug' => $request["sexdrug"],
+					'ChemSex' => $request["chemsex"],
+					'A' => $request["mental_A"],
+					'B' => $request["mental_B"],
+					'C' => $request["mental_C"],
+					'D' => $request["mental_D"],
+					'Remark' => $request["mental_remark"],
+				]);
+				CounsellorRecords::where("Pid", $request["gid"])->where('Counselling_Date', $request["counselling_date"])->update([
+					'PHQ9' => $request->phq9,
+					'gad7' => $request->gad7,
+					'PHQ9_Define' => $request->phq9_def,
+					'gad7_Define' => $request->gad7_def,
+				]);
+
+				return response()->json("Mental Health data ပြင်ဆင် ပြီးပါပြီ။");
 			}
 		}
 		if ($hts_counselling == 1 || $counsellingOnly == 1 || $pt_data_update == 'Only Patient Info_Update' || $pt_data_update == 'Update') {
@@ -260,52 +308,6 @@ class CounsellingController extends Controller
 						'Date of Birth' => $calDob,
 						'updated_by' => $request->created_by,
 					]);
-
-					Followup_general::where('Pid', $gid)
-						->where('Visit Date', $cdate)
-						->update([
-							'Agey' => $request->Agey,
-							'Agem' => $request->Agem,
-							'updated_by' => $request->created_by,
-						]);
-
-					$cervicalcancer = Cervicalcancer::where('General ID', '=', $gid)
-						->where('Visit_date', $cdate)
-						->update([
-							'Agey' => $request->Agey,
-						]);
-
-					$ncd_pt_register = ncd_pt_register::where('Pid', '=', $gid)
-						->where('Reg_Date', $cdate)
-						->update([
-							'visit_Age' => $request->register_age,
-							'Current_Age' => $request->Agey,
-						]);
-					$ncdFollowup = ncdFollowup::where('Pid', '=', $gid)
-						->where('Visit_date', $cdate)
-						->update([
-							'Agey' => $request->Agey,
-						]);
-
-					$tb_registerO3 = tb_registerO3::where('Pid_TB03', '=', $gid)
-						->where('TreDate_TB03', $cdate)
-						->update([
-							'Age_TB03' => $request->Agey,
-						]);
-
-					$preTB = preTB::where('Pid_preTB', '=', $gid)
-						->where('VisitDate_preTB', $cdate)
-						->update([
-							'Agey_preTB' => $request->Agey,
-							'Agem_preTB' => $request->Agem,
-						]);
-
-					$Tbipt = Tbipt::where('Pid_iptTB', '=', $gid)
-						->where('IPT_regDate', $cdate)
-						->update([
-							'Agey' => $request->Agey,
-							'Agem' => $request->Agem,
-						]);
 				}
 				if ($risk_change_date == null) {
 					$risk_change_date = $current_date;
@@ -371,15 +373,6 @@ class CounsellingController extends Controller
 						]);
 					}
 				}
-
-				$follow_general = Followup_general::where('Pid', $gid)
-					->where('Visit Date', $cdate)
-					->update([
-						'Main Risk' => $main_risk,
-						'Sub Risk' => $sub_risk,
-						'updated_by' => $request->created_by,
-					]);
-
 				if ($hts_counselling == 1 || $counsellingOnly == 1) {
 					$counselling_exists = CounsellorRecords::where('Pid', '=', $gid)->where('Counselling_Date', $cdate)->exists();
 					if ($counsellingOnly == 1) {
@@ -1030,6 +1023,8 @@ class CounsellingController extends Controller
 
 				$coun_record_exist = CounsellorRecords::where('Pid', $gid)->exists();
 				$coun_alredy_exist = CounsellorRecords::where('Pid', $gid)->where('Counselling_Date', $vdate)->exists();
+				$mental_exist = Mental_Health::where('Pid', $gid)->where('Counselling_Date', $vdate)->exists();
+				$patientData["mental_exist"] = $mental_exist;
 				if (!$coun_record_exist) {
 					$patient = 'new';
 				} else {
@@ -1037,8 +1032,13 @@ class CounsellingController extends Controller
 				}
 
 				if ($coun_alredy_exist) {
-
-					$type_counselling = CounsellorRecords::where('Pid', '=', $gid)->where('Counselling_Date', $vdate)->first();
+					$type_counselling = CounsellorRecords::where('counsellor_records.Pid', '=', $gid)->where('counsellor_records.Counselling_Date', $vdate)
+						->leftjoin('mental__healths', function ($join) {
+							$join->on('counsellor_records.Pid', '=', 'mental__healths.Pid')
+								->whereColumn('mental__healths.Counselling_Date', '=', 'counsellor_records.Counselling_Date');
+						})
+						->select('counsellor_records.*', 'mental__healths.Q1_Q2', 'mental__healths.Q3_Q4', 'mental__healths.gad7_amount', 'mental__healths.PHQ9_amount', 'mental__healths.Drug3M', 'mental__healths.SexDrug', 'mental__healths.ChemSex', 'mental__healths.A', 'mental__healths.B', 'mental__healths.C', 'mental__healths.D', 'mental__healths.Remark')
+						->first();
 					$table = 'General';
 					$type_counselling['HTSdone'] = Crypt::decrypt_light($type_counselling['HTSdone'], $table);
 					$type_counselling['PrEP Status'] = Crypt::decrypt_light($type_counselling['PrEP Status'], $table);
@@ -1046,7 +1046,9 @@ class CounsellingController extends Controller
 					$type_counselling['Status'] = Crypt::decrypt_light($type_counselling['Status'], $table);
 				}
 				if ($searchType == "pat_record") {
-					$coul_last_date = CounsellorRecords::where('Pid', $gid)->latest('Counselling_Date')->select("Counselling_Date")->first();
+					$coul_last_date = CounsellorRecords::where('Pid', $gid)->latest('Counselling_Date')
+						->select('Counselling_Date')
+						->first();
 					if ($coul_last_date) {
 						$patientData["Counselling_Date"] = $coul_last_date["Counselling_Date"];
 					}
@@ -1074,6 +1076,7 @@ class CounsellingController extends Controller
 					$patient,
 					$type_counselling,
 					$coun_alredy_exist,
+
 					// $last_rpr,
 					// $last_rpr_date,
 				]);
@@ -1218,6 +1221,30 @@ class CounsellingController extends Controller
 					}
 				}
 				return response()->json([$tele_data, $updatedType]);
+			} elseif ($updatedType == 4) {
+				$mental_data = Mental_Health::where(function ($query) use ($date_from, $date_to, $search_ID) {
+					$query->whereBetween('mental__healths.Counselling_Date', [$date_from, $date_to])
+						->orWhere('mental__healths.Pid', $search_ID);
+				})->leftjoin('counsellor_records', function ($join) {
+					$join->on('counsellor_records.Pid', '=', 'mental__healths.Pid')
+						->whereColumn('counsellor_records.Counselling_Date', '=', 'mental__healths.Counselling_Date');
+				})->select(
+					'mental__healths.*',
+					'counsellor_records.gad7',
+					'counsellor_records.gad7_Define',
+					'counsellor_records.PHQ9',
+					'counsellor_records.PHQ9_Define',
+					'counsellor_records.phq4',
+
+				)->get();
+				foreach ($mental_data as $mental_data_each) {
+					$mental_data_each["Counselling_Date"] = date('d-m-Y', strtotime($mental_data_each["Counselling_Date"]));
+					if ($mental_data_each["Counselling_Date"] == '01-01-1970') {
+						$mental_data_each["Counselling_Date"] = '';
+					};
+				}
+
+				return response()->json([$mental_data, $updatedType]);
 			}
 
 			if (count($updated_data) > 0) {
@@ -1348,6 +1375,20 @@ class CounsellingController extends Controller
 				if (!$tele_dele) {
 					$remove_mesg = 'Your Wrong Credential contant to Admin';
 				}
+			} elseif ($updated_type == 4) {
+				$mental_delete = Mental_Health::where('id', $id)->where('Pid', $Pid)->where('Counselling_Date', $counselling_date)->delete();
+				CounsellorRecords::where("Pid", $Pid)->where('Counselling_Date', $counselling_date)->update([
+					'PHQ9' => 0,
+					'gad7' => 0,
+					'PHQ9_Define' => null,
+					'gad7_Define' => null,
+				]);
+
+				if ($mental_delete) {
+					$remove_mesg = "Mental Health Delete Successfull";
+				} else {
+					$remove_mesg = 'Your Wrong Credential contant to Admin';
+				}
 			} else {
 				$remove_mesg = "You don't have permission to delete this record";
 			}
@@ -1380,6 +1421,7 @@ class CounsellingController extends Controller
 					])
 					->get();
 
+
 				$encrypted_columns = ['Counsellor', 'Main Risk', 'Sub Risk', 'HTSdone', 'Reason', 'Status', 'PrEP Status', 'Gender'];
 				$counselling_dates = ['Counselling_Date', 'Reg Date'];
 
@@ -1402,7 +1444,7 @@ class CounsellingController extends Controller
 							if ($user1['ptconfig']["Risk Change_Date"] != null && $user1['ptconfig']["Former Risk"] != null && $user1['ptconfig']["Former Risk"] != "731") {
 								$riskChangeDate = Carbon::createFromFormat('Y-m-d', $user1['ptconfig']["Risk Change_Date"]);
 								$riskChangeDate = new DateTime(Carbon::createFromFormat('d-m-Y', $riskChangeDate->format('d-m-Y')));
-								if ($vdate <= $riskChangeDate) {
+								if ($vdate < $riskChangeDate) {
 									$user1["Main Risk"] = ['ptconfig']["Former Risk"];
 									$user1["Sub Risk"] = '';
 								}

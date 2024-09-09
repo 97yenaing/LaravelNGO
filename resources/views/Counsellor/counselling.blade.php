@@ -863,15 +863,18 @@
           </div>
           <br class="pc">
           <div class="row counselling-type">
-            <div class="phpq4_detail phq4-hide">
+            <div class="phpq4_detail phq4-hide" id="mental_health">
+              <h3 class="header-text">Mental Health,Drug Use,Chem Sex Screening</h3>
               <div class="row">
                 <div class="col-sm-2">
                   <label for="" class="form-label">Q1+Q2</label>
-                  <input type="number" class="form-control" name="" id="q1_q2_amount">
+                  <br class="tablet">
+                  <input type="number" class="form-control" name="q1q2" id="q1_q2_amount">
                 </div>
                 <div class="col-sm-2">
                   <label for="" class="form-label">Q3+Q4</label>
-                  <input type="number" class="form-control" name="" id="q3_q4_amount">
+                  <br class="tablet">
+                  <input type="number" class="form-control" name="q3q4" id="q3_q4_amount">
                 </div>
                 <div class="form-check-inline col-sm-2">
                   <label class="form-check-label phq4-child">
@@ -884,7 +887,7 @@
                   </label>
                 </div>
                 <div class="col-sm-2">
-                  <label for="" class="form-label">GAD7 New/Old</label>
+                  <label for="" class="form-label">GAD7<br class="tablet"> New/Old</label>
                   <select name="gad7_def"
                     id="gad7_sub"
                     class="form-select"
@@ -894,8 +897,8 @@
                     <option value="Follow up">Follow up</option>
                   </select>
                 </div>
-                <div class="col-sm-2"><label for="" class="form-label">GAD7 Quantity</label>
-                  <input type="number" name="" class="form-control" id="gad7_amount" disabled>
+                <div class="col-sm-2"><label for="" class="form-label">GAD7<br class="tablet"> Score</label>
+                  <input type="number" name="gad7_amount" class="form-control" id="gad7_amount" disabled>
                 </div>
 
                 <div class="form-check-inline col-sm-2">
@@ -909,7 +912,8 @@
                   </label>
                 </div>
                 <div class="col-sm-2">
-                  <label for="" class="form-label">PHQ9 New/Old</label>
+                  <label for="" class="form-label">PHQ9<br class="tablet"> New/Old</label>
+
                   <select name="phq9_def"
                     id="phq9_sub"
                     class="form-select" disabled>
@@ -918,11 +922,84 @@
                     <option value="Follow up">Follow up</option>
                   </select>
                 </div>
-                <div class="col-sm-2"><label for="" class="form-label">PHQ9 Quantity</label>
-                  <input type="number" name="" class="form-control" id="phq9_amount" disabled>
+                <div class="col-sm-2"><label for="" class="form-label">PHQ9<br class="tablet"> Score</label>
+
+                  <input type="number" name="phq9_amount" class="form-control" id="phq9_amount" disabled>
                 </div>
-                <div class="col-sm-3">
-                  <button class="btn btn-info adjust-button">Back Counselling</button>
+                <div class="col-sm-4">
+                  <label class="form-label">1.Any type of drug use<br class="tablet"> within 3 months</label>
+                  <select name="mental_drug" id="drug3month" class="form-select" name="mental_drug">
+                    <option value=""></option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                  </select>
+                </div>
+                <div class="col-sm-4">
+                  <label class="form-label">2.Sexual activities under<br class="tablet"> the drug effect</label>
+                  <select name="sexdrug" id="sexdrug" class="form-select" name="sexdrug">
+                    <option value=""></option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-check-inline col-sm-1 mental-chemsex-child">
+                  <label class="form-check-label">
+                    <input type="checkbox"
+                      class="form-check-input"
+                      id="mental_A"
+                      value=""
+                      name="mental_A">A
+                  </label>
+                </div>
+                <div class="form-check-inline col-sm-1 mental-chemsex-child">
+                  <label class="form-check-label">
+                    <input type="checkbox"
+                      class="form-check-input"
+                      id="mental_B"
+                      value=""
+                      name="mental_B">B
+                  </label>
+                </div>
+                <div class="form-check-inline col-sm-1 mental-chemsex-child">
+                  <label class="form-check-label">
+                    <input type="checkbox"
+                      class="form-check-input"
+                      id="mental_C"
+                      value=""
+                      name="mental_C">C
+                  </label>
+                </div>
+                <div class="form-check-inline col-sm-1 mental-chemsex-child">
+                  <label class="form-check-label">
+                    <input type="checkbox"
+                      class="form-check-input"
+                      id="mental_D"
+                      value=""
+                      name="mental_D">D
+                  </label>
+                </div>
+                <div class="col-sm-6">
+                  <label class="form-label">3.Assessment for problematic chemsex<br class="tablet"> (during last 1 month)</label>
+                  <select name="chemsex" id="chemsex" class="form-select" name="chemsex">
+                    <option value=""></option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12"><label for="" class="form-label">Remark</label>
+                  <input type="text" name="mental_remark" id="mental_remark" class="form-control">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-3 phq-button">
+                  <button class=" btn btn-info adjust-button" id="mental_save" onclick="saveMentalHealth(this)" disabled>Save MentalHealth</button>
+                </div>
+                <div class="col-sm-3 phq-button">
+                  <button class="btn btn-warning adjust-button" id="back_counselling">Back Counselling</button>
                 </div>
               </div>
             </div>
@@ -1300,7 +1377,7 @@
           </div>
 
           <br>
-          <div class='row'>
+          <div class='row counselling-button'>
 
             <div class="col-sm-2 tablet-pc">
               <button type="button"
@@ -1489,6 +1566,7 @@
               value="upd_counsel">Counselling Data Update</option>
             <option value="upd_HTS">HTS Data Update</option>
             <option value="TeleCounselling">Tele Update</option>
+            <option value="Mental Health">Mental Health</option>
             <option value="Confidential"
               style="display: none">Confidential</option>
           </select>
@@ -1633,6 +1711,7 @@
               <option value="hts_data">HTS Data</option>
               <option value="counsel_data">Counselling Data</option>
               <option value="TeleCounselling">Tele Data</option>
+              <option value="Mental Health">Mental Health</option>
             </select>
           </div>
 
@@ -1677,6 +1756,7 @@
 </div>
 
 @endauth
+
 @endsection
 <script type="text/javascript"
   language="javascript">
@@ -1750,6 +1830,18 @@
     "Only_IPT", "onlyIpt",
     "Only_TB_Define", "tb_sub",
     "gad7_Define", "gad7_sub",
+    'Q1_Q2', 'q1_q2_amount',
+    'Q3_Q4', 'q3_q4_amount',
+    'gad7_amount', 'gad7_amount',
+    'PHQ9_amount', 'phq9_amount',
+    'Drug3M', 'drug3month',
+    'SexDrug', 'sexdrug',
+    'ChemSex', 'chemsex',
+    'A', 'mental_A',
+    'B', 'mental_B',
+    'C', 'mental_C',
+    'D', 'mental_D',
+    'Remark', 'mental_remark',
   ]
   let tele_collect_array = [
     'Pid', 'tele_id',
@@ -1760,6 +1852,25 @@
     'Counsellor', 'ph_counsellor',
     'Remark', 'ph_remark'
   ];
+
+  let mental_fill_array = [
+    'Drug3M', 'drug3month',
+    'SexDrug', 'sexdrug',
+    'ChemSex', 'chemsex',
+    'A', 'mental_A',
+    'B', 'mental_B',
+    'C', 'mental_C',
+    'D', 'mental_D',
+    'Remark', 'mental_remark',
+    "gad7_Define", "gad7_sub",
+    "PHQ9_Define", "phq9_sub",
+    "gad7", "gad7",
+    'PHQ9_amount', 'phq9_amount',
+    'Q1_Q2', 'q1_q2_amount',
+    'Q3_Q4', 'q3_q4_amount',
+    'gad7_amount', 'gad7_amount',
+    "PHQ9", "phq9",
+  ]
 
   function tele_ptData() {
     ckdata = {
@@ -1785,6 +1896,55 @@
         $("#ph_name").val(response[1]);
         $("#tele-collect").prop("disabled", false)
 
+      }
+    })
+  }
+
+  function saveMentalHealth(button) {
+    let mental_data = {};
+    $("#mental_health input,#mental_health select").each(function(index) {
+      let mental_name = $(this).attr('name');
+      if ($(this).is("input[type = 'checkbox']")) {
+        if ($(this).prop("checked") == true) {
+          mental_data[mental_name] = 1
+        } else {
+          mental_data[mental_name] = 0
+        }
+      } else {
+        mental_data[mental_name] = $(this).val();
+      }
+
+    })
+    mental_data["gid"] = $("#gid").val();
+    mental_data["counselling_date"] = formatDate($("#vDate").val());
+    mental_data["notice"] = "Mental Health";
+    console.log($(button).text() + "okdoki");
+    if ($(button).text() == "Save MentalHealth") {
+      mental_data["task"] = "Mental Save";
+    } else if ($(button).text() == "Update MentalHealth") {
+      mental_data["task"] = "Mental Update";
+    }
+    console.log(mental_data);
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+      }
+    });
+    $.ajax({
+      type: 'POST',
+      url: "{{ route('counsellor_room') }}",
+      dataType: 'json',
+      contentType: 'application/json',
+      data: JSON.stringify(mental_data),
+      beforeSend: function() {
+        $(button).prop("disabled", true);
+        timeoutHandle = setTimeout(oneClick, 3000);
+      },
+      success: function(response) {
+        $(button).prop("disabled", false);
+        clearTimeout(timeoutHandle);
+        alert(response);
+        backCounselling()
       }
     })
   }
@@ -2026,8 +2186,10 @@
       updatedType = 0;
     } else if ($("#update_type").val() == "Confidential") {
       updatedType = 2; //Confidential
-    } else {
+    } else if ($("#update_type").val() == 'TeleCounselling') {
       updatedType = 3; //TeleCounselling
+    } else if ($("#update_type").val() == 'Mental Health') {
+      updatedType = 4;
     }
     var ckdata = {
       dateFrom: dateFrom,
@@ -2096,13 +2258,19 @@
               .append($("<td>").text("To Updated"))
             $(".counsel-update-list thead").append(couns_update_thead);
           } //Confidential
-          else {
+          else if (response[1] == 3) {
             var couns_update_thead = $("<tr>").append($("<td>").text("No."))
               .append($("<td>").text("General_ID"))
               .append($("<td>").text("Tele Call Date"))
               .append($("<td>").text("Name"))
               .append($("<td>").text("Age"))
               .append($("<td>").text("Sex"))
+              .append($("<td>").text("To Updated"))
+            $(".counsel-update-list thead").append(couns_update_thead);
+          } else if (response[1] == 4) {
+            var couns_update_thead = $("<tr>").append($("<td>").text("No."))
+              .append($("<td>").text("General_ID"))
+              .append($("<td>").text("Counselling Date"))
               .append($("<td>").text("To Updated"))
             $(".counsel-update-list thead").append(couns_update_thead);
           } //TeleCounselling
@@ -2162,6 +2330,17 @@
                   "<button class='btn btn-info btn-warning' onclick='tele_fill()' id='tele_update_" + i + "'> Update</button>" +
                   "<button class='btn btn-info btn-danger counsel-delete' id='tele_remove_" + i +
                   "' onclick='remove_row()'  >" + "Delete" + "</button>" + "</td>" + "</tr>";;
+              } else if (response[1] == 4) {
+                var result_body1 =
+                  "<tr style='background-color:#A7DBD8; color:#000000;'>" +
+                  "<td>" + (i + 1) + "</td>" +
+                  "<td>" + response[0][i]['Pid'] + "</td>" +
+                  "<td>" + response[0][i]['Counselling_Date'] + "</td>" +
+
+                  "<td class=tablet-pc id='mental" + i + "'>" +
+                  "<button class='btn btn-info btn-warning' onclick='mental_fill()' id='mental_update_" + i + "'> Update</button>" +
+                  "<button class='btn btn-info btn-danger counsel-delete' id='mental_remove_" + i +
+                  "' onclick='remove_row()'  >" + "Delete" + "</button>" + "</td>" + "</tr>";;
               }
               $("#list").append(result_body1);
             }
@@ -2177,6 +2356,37 @@
       }
     });
   } // to show HTS data rows
+  function mental_fill() {
+    $("#firstPage,#first").addClass("active");
+    $("#secondPage,#second").removeClass("active");
+    mental_click_id = event.target.id.match(/\d+/)[0];
+    $("#pateint_type").val(resp[0][mental_click_id]);
+    $("#phq4").prop("checked", true);
+    console.log(resp, "hello");
+    $("#gid").val(resp[0][mental_click_id]["Pid"]);
+    $("#vDate").val(resp[0][mental_click_id]["Counselling_Date"]);
+
+    for (let index = 0; index < mental_fill_array.length; index = index + 2) {
+      if (!$("#" + mental_fill_array[index + 1]).is("input[type='checkbox'")) {
+        $("#" + mental_fill_array[index + 1]).val(resp[0][mental_click_id][mental_fill_array[index]]);
+      } else {
+        if (resp[0][mental_click_id][mental_fill_array[index]] == 1) {
+          console.log(mental_fill_array[index]);
+          $("#" + mental_fill_array[index + 1]).prop("checked", true)
+        } else {
+          console.log("else" + mental_fill_array[index]);
+          $("#" + mental_fill_array[index + 1]).prop("checked", false)
+        }
+      }
+    }
+    phq4_show_hide();
+    q1q2();
+    q3q4();
+    DateTo_text();
+    $("#mental_save").prop("disabled", false);
+    $("#mental_save").text("Update MentalHealth");
+  }
+
   function updateFiller() {
     $("#saveBton").hide();
     $("#labTestDate").hide();
@@ -2372,7 +2582,6 @@
     teleType();
     for (let index = 0; index < tele_collect_array.length; index = index + 2) {
       $("#" + tele_collect_array[index + 1]).val(resp[0][tele_click_id][tele_collect_array[index]]);
-      console.log(resp[0][tele_click_id][tele_collect_array[index]]);
     }
     $("#tele-collect").text("Tele update").prop("disabled", false);
     $("#tele-search").prop("disabled", true);
@@ -2383,7 +2592,7 @@
   function remove_row() {
     var id = event.target.id.match(/\d+/)[0];
     var Pid = $(event.target).parent().parent().children().eq(1).text();
-    if (resp[1] == 3) {
+    if (resp[1] == 3 || resp[1] == 4) {
       id = resp[0][id]["id"];
       counselling_date = formatDate($(event.target).parent().parent().children().eq(2).text());
     } // Tele Counselling
@@ -2394,8 +2603,7 @@
     var htsUpdate = "remove_row";
     let remove_data = {
       id: id,
-      Pid,
-      Pid,
+      Pid: Pid,
       counselling_date: counselling_date,
       update_type: updatedType,
       htsUpdate: htsUpdate,
@@ -2694,99 +2902,99 @@
 
         console.log(col_data);
 
-        // $.ajaxSetup({
-        //   headers: {
-        //     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-        //   }
-        // });
-        // $.ajax({
-        //   type: 'POST',
-        //   url: "{{ route('counsellor_room') }}",
-        //   dataType: 'json',
-        //   //  processData:false,
-        //   contentType: 'application/json',
-        //   data: JSON.stringify(col_data),
-        //   beforeSend: function() {
-        //     $(button).prop("disabled", true);
-        //     timeoutHandle = setTimeout(oneClick, 3000);
-        //   },
-        //   success: function(response) {
-        //     $(button).prop("disabled", false);
-        //     clearTimeout(timeoutHandle);
-        //     console.log(response);
-        //     console.log(response[0].length + "hello length");
+        $.ajaxSetup({
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+          }
+        });
+        $.ajax({
+          type: 'POST',
+          url: "{{ route('counsellor_room') }}",
+          dataType: 'json',
+          //  processData:false,
+          contentType: 'application/json',
+          data: JSON.stringify(col_data),
+          beforeSend: function() {
+            $(button).prop("disabled", true);
+            timeoutHandle = setTimeout(oneClick, 3000);
+          },
+          success: function(response) {
+            $(button).prop("disabled", false);
+            clearTimeout(timeoutHandle);
+            console.log(response);
+            console.log(response[0].length + "hello length");
 
 
-        //     var resp = response[0];
-        //     switch (resp) {
-        //       case 0:
-        //         alert("This Patient Don't Test in Lab Please First Point  to Lab");
-        //         break;
-        //       case 1:
-        //         $('html, body').animate({
-        //           scrollTop: 0
-        //         }, 'fast');
-        //         $("#customAlertBox").show();
-        //         $(".cosulor-parent-div").addClass('freeze-body');
-        //         break;
-        //       case 1.5:
-        //         $('html, body').animate({
-        //           scrollTop: 0
-        //         }, 'fast');
-        //         $("#customAlertBox").show();
-        //         $(".cosulor-parent-div").addClass('freeze-body');
-
-
-
-        //         break;
-        //       case 1.1:
-        //         alert("This Patient do not test in Any_Lab at" + labTestDate);
-        //         break;
-        //       case 2:
-        //         alert("This Patient do not Pass Reception Center");
-        //         break;
-        //       case 2.1:
-        //         alert("This Patient do not test Any HTS Test on");
-        //         break;
-        //       case 2.2:
-        //         alert("This Patient has been Collected in thsi day");
-        //         break;
-        //       case 3:
-        //         alert("This Patient can not update,contant to Admin");
-        //         break;
-        //       case 3.2:
-        //         alert("Your Update is not complete,'Fail'");
-        //         break;
-        //     }
-
-        //     if (resp.length > 5) {
-        //       $("#responseText").empty();
-        //       var test_name = ["Hiv", "Rpr", "Hbc", "Urine", "Oi", "Sti_Lab", "Afb",
-        //         "General", "Stool", "Covid", "Viral"
-        //       ];
-        //       var mesage_result = "";
-
-
-        //       for (var up_res = 0; up_res < response[0].length; up_res++) {
-        //         $("#responseText").empty();
-        //         if (response[0][up_res] == "1") {
-        //           console.log("hello 1")
-        //           var mesage_result = mesage_result.concat("", test_name[up_res] + "/");
-        //         }
-        //       }
-        //       $("#responseText").text(mesage_result + "Updated in" + $("#labTestDate").val());
-        //       $(".alert").css("background-color", "yellow");
-        //       $('html, body').animate({
-        //         scrollTop: 0
-        //       }, 'fast');
-        //       $("#customAlertBox").show();
-        //       $(".cosulor-parent-div").addClass('freeze-body');
+            var resp = response[0];
+            switch (resp) {
+              case 0:
+                alert("This Patient Don't Test in Lab Please First Point  to Lab");
+                break;
+              case 1:
+                $('html, body').animate({
+                  scrollTop: 0
+                }, 'fast');
+                $("#customAlertBox").show();
+                $(".cosulor-parent-div").addClass('freeze-body');
+                break;
+              case 1.5:
+                $('html, body').animate({
+                  scrollTop: 0
+                }, 'fast');
+                $("#customAlertBox").show();
+                $(".cosulor-parent-div").addClass('freeze-body');
 
 
 
-        //     }
-        //   }
-        // });
+                break;
+              case 1.1:
+                alert("This Patient do not test in Any_Lab at" + labTestDate);
+                break;
+              case 2:
+                alert("This Patient do not Pass Reception Center");
+                break;
+              case 2.1:
+                alert("This Patient do not test Any HTS Test on");
+                break;
+              case 2.2:
+                alert("This Patient has been Collected in thsi day");
+                break;
+              case 3:
+                alert("This Patient can not update,contant to Admin");
+                break;
+              case 3.2:
+                alert("Your Update is not complete,'Fail'");
+                break;
+            }
+
+            if (resp.length > 5) {
+              $("#responseText").empty();
+              var test_name = ["Hiv", "Rpr", "Hbc", "Urine", "Oi", "Sti_Lab", "Afb",
+                "General", "Stool", "Covid", "Viral"
+              ];
+              var mesage_result = "";
+
+
+              for (var up_res = 0; up_res < response[0].length; up_res++) {
+                $("#responseText").empty();
+                if (response[0][up_res] == "1") {
+                  console.log("hello 1")
+                  var mesage_result = mesage_result.concat("", test_name[up_res] + "/");
+                }
+              }
+              $("#responseText").text(mesage_result + "Updated in" + $("#labTestDate").val());
+              $(".alert").css("background-color", "yellow");
+              $('html, body').animate({
+                scrollTop: 0
+              }, 'fast');
+              $("#customAlertBox").show();
+              $(".cosulor-parent-div").addClass('freeze-body');
+
+
+
+            }
+          }
+        });
 
       }
     }
@@ -3130,11 +3338,23 @@
                 if ($("#" + counselling_type_array[check_select + 1]).is("select")) {
                   $("#" + counselling_type_array[check_select + 1]).val(response[14][counselling_type_array[check_select]])
                 } else {
+                  if (!$("#" + counselling_type_array[check_select + 1]).is("input[type='checkbox'")) {
+                    $("#" + counselling_type_array[check_select + 1]).val(response[14][counselling_type_array[check_select]]);
+                  }
                   response[14][counselling_type_array[check_select]] == 1 ? ($("#" + counselling_type_array[check_select + 1]).prop("checked", true)) : $(
                     "#" + counselling_type_array[check_select + 1]).prop("checked", false);
                 }
               }
             }
+            phq4_show_hide();
+            $("#mental_save").prop("disabled", false);
+            if (response[0]["mental_exist"]) {
+              $("#mental_save").text("Update MentalHealth");
+            } else {
+              $("#mental_save").text('Save MentalHealth');
+            }
+
+
 
             $("#ls_rpr_dilution").text(response[16]);
 
@@ -3161,12 +3381,6 @@
 
       }
     });
-
-
-
-
-
-
   }
 
   function region() {
@@ -4245,6 +4459,49 @@
       sel.addEventListener("click", sub_risk);
       sel.appendChild(opt0);
 
+    }
+
+  }
+
+  function phq4_show_hide() {
+    if ($("#phq4").prop("checked") == true) {
+      $(".phpq4_detail").removeClass("phq4-hide");
+      $(".phpq4_detail").addClass("phq4-show");
+      $(".counselling-button").hide();
+    } else {
+      $(".phpq4_detail").addClass("phq4-hide");
+      $(".phpq4_detail").removeClass("phq4-show");
+      $(".phpq4_detail select,.phpq4_detail input").val("");
+      $(".phpq4_detail input[type='checkbox']").prop("checked", false);
+      $(".counselling-button").show();
+    }
+  }
+
+  function backCounselling() {
+    $(".phpq4_detail").addClass("phq4-hide");
+    $(".phpq4_detail").removeClass("phq4-show");
+    $(".counselling-button").show();
+  }
+
+  function q1q2() {
+    let q1_q2 = $("#q1_q2_amount").val();
+    if (q1_q2 >= 3) {
+      $("#gad7").prop("checked", true);
+      $("#gad7_sub,#gad7_amount").prop("disabled", false);
+    } else {
+      $("#gad7").prop("checked", false);
+      $("#gad7_sub,#gad7_amount").prop("disabled", true).val("");
+    }
+  }
+
+  function q3q4() {
+    let q3_q4 = $("#q3_q4_amount").val();
+    if (q3_q4 >= 3) {
+      $("#phq9").prop("checked", true);
+      $("#phq9_sub,#phq9_amount").prop("disabled", false);
+    } else {
+      $("#phq9").prop("checked", false);
+      $("#phq9_sub,#phq9_amount").prop("disabled", true).val("");
     }
   }
 </script>

@@ -961,12 +961,12 @@ class MME_ExportController extends Controller
 								"patients.Agem",
 								"patients.Gender",
 								"patients.FuchiaID",
+								"patients.PrEPCode",
 								"patients.Main Risk",
 								"patients.Sub Risk",
 								"patients.Risk Log",
 								"patients.Former Risk",
 								"patients.Risk Change_Date",
-
 								$act_table . ".created_at",
 								$act_table . ".updated_at"
 							)
@@ -985,6 +985,10 @@ class MME_ExportController extends Controller
 		foreach ($prevention_values as $key => $prevention_value) {
 			if ($prevention_value["Date of Birth"] != null) {
 				$prevention_value = Export_age::Export_general($prevention_value, $prevention_value["Visit_Date"], $prevention_value["Date of Birth"], $prevention_value);
+			} else {
+				$prevention_value['He Code'] = null;
+				$prevention_value['Clinic Code'] = null;
+				$prevention_value['PrEPCode'] = null;
 			}
 			if ($request["other"] != "confidential") {
 				$carbonDate = Carbon::createFromFormat('Y-m-d', $prevention_value['Visit_Date']);

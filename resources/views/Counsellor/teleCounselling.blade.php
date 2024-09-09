@@ -17,6 +17,7 @@
         <th style="width:100px">Current Age</th>
         <th style="width:100px">Sex</th>
         <th style="width:100px">Counselling Date</th>
+        <th style="width:100px">Counsellor</th>
         <th style="width:100px">Remark</th>
       </tr>
     </thead>
@@ -32,6 +33,7 @@
         @endif
         <td>{{$user["Gender"]}}</td>
         <td>{{$user["Call_Date"]}}</td>
+        <td>{{$user["Counsellor"]}}</td>
         <td>{{$user["Remark"]}}</td>
       </tr>
 
