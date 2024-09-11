@@ -33,6 +33,7 @@ use Illuminate\Support\Facades\Crypt;
 use Maatwebsite\Excel\Facades\Excel;
 // Exports
 use App\Exports\Counselling\CounsellingExport;
+use App\Exports\Counselling\MentalExport;
 use Illuminate\Database\Eloquent\Builder;
 
 use App\Models\TeleCounselling;
@@ -1023,7 +1024,7 @@ class CounsellingController extends Controller
 
 				$coun_record_exist = CounsellorRecords::where('Pid', $gid)->exists();
 				$coun_alredy_exist = CounsellorRecords::where('Pid', $gid)->where('Counselling_Date', $vdate)->exists();
-				$mental_exist = Mental_Health::where('Pid', $gid)->where('Counselling_Date', $vdate)->exists();
+				$mental_exist = Mental_Health::where('Pid', $gid)->where('Counselling_Date', $vdate)->first();
 				$patientData["mental_exist"] = $mental_exist;
 				if (!$coun_record_exist) {
 					$patient = 'new';
@@ -1627,14 +1628,15 @@ class CounsellingController extends Controller
 					}
 					$mental_export['Counselling_Date'] = Date::dateTimeToExcel($carbonDate->startOfDay());
 					$hiv_status = Lab::where("CID", $mental_export["Pid"])->latest('vdate')->select("Final_Result")->first();
-					$mental_export["Final Result"] = $hiv_status["Final_Result"];
+					if ($hiv_status) {
+						$mental_export["Final Result"] = $hiv_status["Final_Result"];
+					}
+
 					foreach ($encrypted_columns as $encrypted_column) {
 						$mental_export[$encrypted_column] = Crypt::decrypt_light($mental_export[$encrypted_column], $table);
 						$mental_export[$encrypted_column] = Crypt::codeBook($mental_export[$encrypted_column], 'encode');
 					}
 				}
-
-				dd($mental_exportes);
 				return Excel::download(new MentalExport($mental_exportes), 'Mental Health Export-' . date('d-m-Y') . '.xlsx');
 			}
 		} else {

@@ -891,7 +891,7 @@
             <div class="col-sm-12"
               id="f31">
               <label for="validationCustom01"
-                class="form-label">Location</label>
+                class="form-label">Genital ulc Location</label>
               <Input id="genital_ulc_location"
                 class="form-control">
             </div>

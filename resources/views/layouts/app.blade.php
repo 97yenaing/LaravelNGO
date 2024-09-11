@@ -188,6 +188,7 @@
                 <li>
                   <a class="dropdown-item" href="{{ url('Counsellor/hts_report') }}">HTS Report</a>
                 </li>
+                <li><a class="dropdown-item" href="{{ url('TB/TB_IPT') }}">IPT</a></li>
 
               </ul>
             </li>

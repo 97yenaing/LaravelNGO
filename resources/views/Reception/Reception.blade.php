@@ -1997,19 +1997,19 @@
   <div class="row">
     <div>
       <div class="vertical-barcode  barcode"
-        style="left:-5%;top:70px">
+        style="left:-57px;top:73px">
 
       </div>
     </div>
     <div>
       <div class="vertical-barcode  barcode"
-        style="left:2%;top:70px">
+        style="left:18px;top:70px">
 
       </div>
     </div>
     <div>
       <div class="vertical-barcode  barcode"
-        style="left:9.5%;top:70px">
+        style="left:100px;top:70px">
 
       </div>
     </div>
@@ -2017,19 +2017,19 @@
   <div class="row">
     <div>
       <div class="vertical-barcode qr-top barcode"
-        style="left:-5%">
+        style="left:-57px">
 
       </div>
     </div>
     <div>
       <div class="vertical-barcode qr-top barcode"
-        style="left:2%">
+        style="left:18px">
 
       </div>
     </div>
     <div>
       <div class="vertical-barcode qr-top barcode"
-        style="left:9.5%">
+        style="left:100px">
 
       </div>
     </div>
@@ -2038,8 +2038,8 @@
   <div class="row">
     <div>
       <div class="barcode"
-        style="left: 4%;
-      top: 440px;
+        style="left: 20px;
+      top: 510px;
       position: absolute;">
 
       </div>
@@ -2047,8 +2047,8 @@
     <div>
       <div class=""
         id="qrcode"
-        style="left: 8%;
-      top: 515px;
+        style="left: 75px;
+      top: 575px;
       position: absolute;">
 
       </div>
@@ -2198,7 +2198,7 @@
           );
           $(".container").hide();
           window.print();
-          location.reload(true);
+          //location.reload(true);
         }
 
       }
@@ -3458,9 +3458,7 @@
             $("#responseText").append("There is no data.");
             $("#responseText").css("color", "red");
           }
-          if (age > 12) {
-            $("#fcentercheck").prop("disabled", true);
-          }
+
           if (age < 13) {
             $("#fmaplancheck").prop("disabled", true);
           }
@@ -3481,35 +3479,6 @@
 
     }
   }
-
-  function getAge(bd_date) {
-
-    var dates = bd_date.split("-");
-    var d = new Date();
-
-    var useryear = dates[0];
-    var usermonth = dates[1];
-    var userday = dates[2];
-
-    var curday = d.getDate();
-    var realMonth = d.getMonth();
-    var curmonth = d.getMonth() + 1;
-    var curyear = d.getFullYear();
-
-    if (curyear == useryear) {
-      var age = realMonth - usermonth;
-      console.log("month" + age);
-    } else {
-      var age = curyear - useryear;
-      console.log("age" + age);
-    }
-    if ((curmonth < usermonth) || ((curmonth == usermonth) && curday < userday)) {
-      age--;
-    }
-
-    return age;
-  }
-
   // function location ( 9 ) to save next appointment date and diagnosis data
   function save(button) {
     let next = 1;
@@ -4061,34 +4030,6 @@
     }
     // migrant
   } //Risk
-  function getAge(bd_date) {
-
-    var dates = bd_date.split("-");
-    var d = new Date();
-
-    var useryear = dates[0];
-    var usermonth = dates[1];
-    var userday = dates[2];
-
-    var curday = d.getDate();
-    var realMonth = d.getMonth();
-    var curmonth = d.getMonth() + 1;
-    var curyear = d.getFullYear();
-
-    if (curyear == useryear) {
-      var age = realMonth - usermonth;
-      console.log("month" + age);
-    } else {
-      var age = curyear - useryear;
-      console.log("age" + age);
-    }
-    if ((curmonth < usermonth) || ((curmonth == usermonth) && curday < userday)) {
-      age--;
-    }
-
-    return age;
-  }
-
 
 
   // Search
@@ -4399,12 +4340,7 @@
 
         //update check validation 
         pha_art_prepUPdateCheck();
-        // if (response[0][0]['Agey'] > 5 || (response[0][0]['Agey'] == 0 && response[0][0]['Agem'] < 6)) {
-        //   $("#fcentercheckupdate").prop("disabled", true);
-        // }
-        /*if(response[0][0]['Agey']< 13) {
-          $("#fmaplancheckupdate").prop("disabled",true);
-        }*/
+
         if (response[0][0]['Gender'] == "195997324") {
           $("#fmaplancheckupdate").prop("disabled", true);
           $("#anccheckupdate").prop("disabled", true);

@@ -2665,7 +2665,6 @@
 
 
     dateOfBirth();
-    console.log(ddDate + "hello date of birth" + hts_counselling);
     var calDob = ddDate;
     var pre_post = document.getElementById("coun_count").value;
     var Pid = patient_generalInfo["Pid"];
@@ -3348,8 +3347,23 @@
             }
             phq4_show_hide();
             $("#mental_save").prop("disabled", false);
-            if (response[0]["mental_exist"]) {
+            if (response[0]["mental_exist"] != null) {
               $("#mental_save").text("Update MentalHealth");
+              for (let index = 0; index < mental_fill_array.length; index = index + 2) {
+                if (!$("#" + mental_fill_array[index + 1]).is("input[type='checkbox'")) {
+                  $("#" + mental_fill_array[index + 1]).val(response[0]["mental_exist"][mental_fill_array[index]]);
+                } else {
+                  if (response[0]["mental_exist"][mental_fill_array[index]] == 1) {
+                    $("#" + mental_fill_array[index + 1]).prop("checked", true)
+                  } else {
+                    $("#" + mental_fill_array[index + 1]).prop("checked", false)
+                  }
+                }
+              }
+              q1q2();
+              q3q4();
+
+
             } else {
               $("#mental_save").text('Save MentalHealth');
             }

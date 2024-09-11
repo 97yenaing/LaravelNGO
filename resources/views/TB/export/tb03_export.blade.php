@@ -13,21 +13,24 @@
 		<table>
 			<thead>
 				<tr>
+					<th style="width:150px">General ID</th>
+					<th style="width:150px">Fuchia ID</th>
+					<th style="width:150px">TB Code</th>
 					<th style="width:150px">State/Region Name</th>
 					<th style="width:150px">Township Name</th>
 					<th style="width:150px">Facility Name</th>
 					<th style="width:150px">Reporting Period</th>
 					<th style="width:150px">Treatment Registar Date</th>
-					{{-- <th style="width:150px">General ID</th> --}}
-					<th style="width:150px">TB Code</th>
+
+
 					<th style="width:150px">Nationality</th>
 					<th style="width:150px">Sex</th>
-					{{-- <th style="width:150px">Reg Year</th> --}}
+					<th style="width:150px">Reg Year</th>
 
 					<th style="width:150px">Register Age</th>
-					{{-- <th style="width:150px">Register Age("Month")</th>
+					<th style="width:150px">Register Age("Month")</th>
 					<th style="width:150px">Current Age</th>
-					<th style="width:150px">Current Age("Month")</th> --}}
+					<th style="width:150px">Current Age("Month")</th>
 					<th style="width:150px">Refered from </th>
 
 					<th style="width:150px">Type of Patient's</th>
@@ -70,8 +73,7 @@
 					<th style="width:150px">bacteriological/clinical </th>
 					<th style="width:150px">Consular Name</th>
 					<th style="width:150px">Remark</th>
-					<th style="width:150px">Fuchia ID</th>
-					<th style="width:150px">General ID</th>
+
 
 				</tr>
 
@@ -79,20 +81,22 @@
 			<tbody>
 				@foreach($tb03_exdataes as $tb03_exdata)
 				<tr>
+					<td style="text-align:center">{{$tb03_exdata["Pid_TB03"]}}</td>
+					<td style="text-align:center">{{$tb03_exdata["FuchiaID_TB03"]}}</td>
+					<td style="text-align:center">{{$tb03_exdata["TNumber_TB03"]}}</td>
+
 					<td style="text-align:center">{{$tb03_exdata["State_TB03"]}}</td>
 					<td style="text-align:center">{{$tb03_exdata["Township_TB03"]}}</td>
 					<td style="text-align:center">{{$tb03_exdata["FaciName_TB03"]}}</td>
 					<td style="text-align:center">{{$tb03_exdata["RePariod_TB03"]}}</td>
 					<td style="text-align:center">{{$tb03_exdata["TreDate_TB03"]}}</td>
-					<td style="text-align:center">{{$tb03_exdata["TNumber_TB03"]}}</td>
-					{{-- <td style="text-align:center">{{$tb03_exdata["Pid_TB03"]}}</td> --}}
 					<td style="text-align:center">{{$tb03_exdata["Nationality_TB03"]}}</td>
 					<td style="text-align:center">{{$tb03_exdata["Gender"]}}</td>
-					{{-- <td style="width:80px;">{{ $tb03_exdata['Reg year']}}</td> --}}
+					<td style="width:80px;">{{ $tb03_exdata['Reg year']}}</td>
 					<td style="width:80px;">{{ $tb03_exdata['Register Agey']}}</td>
-					{{-- <td style="width:80px;">{{ $tb03_exdata['Register Agem']}}</td>
+					<td style="width:80px;">{{ $tb03_exdata['Register Agem']}}</td>
 					<td style="width:80px;">{{ $tb03_exdata['Current Agey']}}</td>
-					<td style="width:80px;">{{ $tb03_exdata['Current Agem']}}</td> --}}
+					<td style="width:80px;">{{ $tb03_exdata['Current Agem']}}</td>
 					<td style="text-align:center">{{$tb03_exdata["ReferFrom_TB03"]}}</td>
 
 					<td style="text-align:center">{{$tb03_exdata["TypePatient_TB03"]}}</td>
@@ -129,8 +133,7 @@
 					<td style="text-align:center">{{$tb03_exdata["BioClinical_TB03"]}}</td>
 					<td style="text-align:center">{{$tb03_exdata["Counsellor_TB03"]}}</td>
 					<td style="text-align:center">{{$tb03_exdata["Remark_TB03"]}}</td>
-					<td style="text-align:center">{{$tb03_exdata["FuchiaID_TB03"]}}</td>
-					<td style="text-align:center">{{$tb03_exdata["Pid_TB03"]}}</td>
+
 
 				</tr>
 				@endforeach

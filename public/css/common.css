@@ -48,6 +48,10 @@ width: 80%;
   margin-right: 8%;
 
 }
+.vertical_barcode{
+transform:rotate(90deg);
+display:inline-block;
+}
 .spinner {
   opacity: 0;
   width: 40px;
