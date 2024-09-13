@@ -115,7 +115,7 @@
             <label for="" class="form-label">{{ $key }}</label>
           </div>
           <div class="col-sm-2">
-            <select name="" class="form-select" id="change_date" onchange="risk_change_date()">
+            <select name="" class="form-control" id="change_date" onchange="risk_change_date()">
               <option value=""></option>
               @foreach ($item as $index => $item)
               <option value="{{ $index }}">{{ $index }}</option>
@@ -190,287 +190,287 @@
   var final_log = @json($final_log);
   let $searchIDLog;
 
-    console.log(final_log);
+  console.log(final_log);
 
-    function riskLogType() {
-      var search_riskType = $("#riskLog_searchType").val();
-      if (search_riskType == "Date") {
-        $(".riskLog-id").hide();
-        $("#riskLog_id").val("");
-        $(".risklog-date").show();
+  function riskLogType() {
+    var search_riskType = $("#riskLog_searchType").val();
+    if (search_riskType == "Date") {
+      $(".riskLog-id").hide();
+      $("#riskLog_id").val("");
+      $(".risklog-date").show();
 
 
-      } else if (search_riskType == "ID") {
-        $(".risklog-date").hide();
-        $("#riskLog_From,#riskLog_To").val("");
-        $(".riskLog-id").show();
-      }
-
+    } else if (search_riskType == "ID") {
+      $(".risklog-date").hide();
+      $("#riskLog_From,#riskLog_To").val("");
+      $(".riskLog-id").show();
     }
 
-    function risk_change_date() {
-      var changeDate = $(event.target).val();
-      var gid = $(event.target).parent().parent().children().eq(0).find("label").text();
-      if (changeDate.length > 5) {
-        $(event.target)
-          .parent()
-          .parent()
-          .children().eq(2) // Use eq(2) to get the third child
-          .find('.form-label') // Assuming the label has a class "form-label"
-          .text(final_log[gid][changeDate]["Old Risk"]);
-        $(event.target)
-          .parent()
-          .parent()
-          .children().eq(3)
-          .find('.form-label')
-          .text(final_log[gid][changeDate]["Current Risk"]);
-        $(event.target)
-          .parent()
-          .parent()
-          .children().eq(4) // Use eq(2) to get the third child
-          .find('.form-label') // Assuming the label has a class "form-label"
-          .text(final_log[gid][changeDate]["Due_to_patient"]);
-        $(event.target)
-          .parent()
-          .parent()
-          .children().eq(5) // Use eq(2) to get the third child
-          .find('.form-label') // Assuming the label has a class "form-label"
-          .text(final_log[gid][changeDate]["change_user"]);
-      } else {
-        $(event.target)
-          .parent()
-          .parent()
-          .children().filter(function(index) {
-            return index >= 2 && index <= 5; // Filter elements with indices 2, 3, 4, and 5
-          })
-          .find('.form-label') // Assuming the label has a class "form-label"
-          .text("");
-      }
+  }
+
+  function risk_change_date() {
+    var changeDate = $(event.target).val();
+    var gid = $(event.target).parent().parent().children().eq(0).find("label").text();
+    if (changeDate.length > 5) {
+      $(event.target)
+        .parent()
+        .parent()
+        .children().eq(2) // Use eq(2) to get the third child
+        .find('.form-label') // Assuming the label has a class "form-label"
+        .text(final_log[gid][changeDate]["Old Risk"]);
+      $(event.target)
+        .parent()
+        .parent()
+        .children().eq(3)
+        .find('.form-label')
+        .text(final_log[gid][changeDate]["Current Risk"]);
+      $(event.target)
+        .parent()
+        .parent()
+        .children().eq(4) // Use eq(2) to get the third child
+        .find('.form-label') // Assuming the label has a class "form-label"
+        .text(final_log[gid][changeDate]["Due_to_patient"]);
+      $(event.target)
+        .parent()
+        .parent()
+        .children().eq(5) // Use eq(2) to get the third child
+        .find('.form-label') // Assuming the label has a class "form-label"
+        .text(final_log[gid][changeDate]["change_user"]);
+    } else {
+      $(event.target)
+        .parent()
+        .parent()
+        .children().filter(function(index) {
+          return index >= 2 && index <= 5; // Filter elements with indices 2, 3, 4, and 5
+        })
+        .find('.form-label') // Assuming the label has a class "form-label"
+        .text("");
     }
+  }
 
-    function risklogSearch(button) {
-      let riskLogUpdate = {
-        generalID: $("#riskUpdateId").val(),
-        notice: "RiskLogUpdate",
-      };
-      console.log(riskLogUpdate);
-      $.ajaxSetup({
-        headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-        },
-      });
-      $.ajax({
-        type: 'POST',
-        url: "{{ route('risk_log_data') }}",
-        dataType: 'json',
-        contentType: 'application/json',
-        data: JSON.stringify(riskLogUpdate),
-        timeout: 10000,
-        beforeSend: function() {
-          // Set a timeout to show the loading div after 3 seconds
-          $(button).prop("disabled", true);
-          timeoutHandle = setTimeout(function() {
+  function risklogSearch(button) {
+    let riskLogUpdate = {
+      generalID: $("#riskUpdateId").val(),
+      notice: "RiskLogUpdate",
+    };
+    console.log(riskLogUpdate);
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+      },
+    });
+    $.ajax({
+      type: 'POST',
+      url: "{{ route('risk_log_data') }}",
+      dataType: 'json',
+      contentType: 'application/json',
+      data: JSON.stringify(riskLogUpdate),
+      timeout: 10000,
+      beforeSend: function() {
+        // Set a timeout to show the loading div after 3 seconds
+        $(button).prop("disabled", true);
+        timeoutHandle = setTimeout(function() {
 
-            $("#loadingSpinner").css("opacity", 1).addClass("spinner");
-            $(".tab-content").css("opacity", 0.3);
-            $(".tab-content").addClass("freeze-body");
-          }, 3000);
-        },
-        success: function(response) {
-          $(button).prop("disabled", false);
-          clearTimeout(timeoutHandle);
+          $("#loadingSpinner").css("opacity", 1).addClass("spinner");
+          $(".tab-content").css("opacity", 0.3);
+          $(".tab-content").addClass("freeze-body");
+        }, 3000);
+      },
+      success: function(response) {
+        $(button).prop("disabled", false);
+        clearTimeout(timeoutHandle);
 
-          console.log(response[riskLogUpdate["generalID"]]);
-          let count = 0;
-          $("section .row:nth-child(n+3)").remove();
-          $.each(response[riskLogUpdate["generalID"]], function(index, value) {
-            let changeDate = index.split('-');
-            if (changeDate.length > 3) {
-              index = changeDate[0] + "-" + changeDate[1] + "-" + changeDate[2];
-            }
-              
-            riskLogview = $("<div id='" + index + "' class='row loghistory-row'>")
-              .append($("<div class='tablet log-col'>")
-                .append($("<label class='form-label'>").attr({
-                  class: "form-label",
-                  }).text("Change Date")))
-              .append($("<div class='log-col'>").append($("<div>")
-                .append($("<div>").attr({
-                    class: "date-holder"
-                  }).append($("<input>")
-                    .attr({
-                      id: "date" + count,
-                      class: "form-control Gdate",
-                      name: "riskChangeDate",
-                      placeholder: "dd-mm-yyyy",
-                      onchange: "dateformatValid()"
-                    }).val(index))
-                  .append($("<img>").attr({
-                    src: "../img/calendar3.svg",
-                    class: "dateimg",
-                    alt: "date",
-                    onclick: "dateCalender()"
-                  }))
-                )))
-              .append($("<div class='tablet log-col'>")
-                .append($("<label class='form-label'>").attr({
-                  class: "form-label",
-                  }).text("Main Risk(old)")))
-              .append($("<div class='log-col'>").append($("<select>")
-                .attr({
-                  class: 'form-select mainriskblock' + count,
-                  id: 'oldrisk' + count,
-                  name: "mainRiskOld",
-                  onchange: 'subRiskCreate(' + '"subriskold' + count + '","#oldrisk' + count + '")'
-                }).val(value["Old Risk"])))
-              .append($("<div class='tablet log-col'>")
-                .append($("<label class='form-label'>").attr({
-                  class: "form-label",
-                  }).text("Sub Risk(old)")))
-              .append($("<div class='log-col'>").append($("<select>")
-                .attr({
-                  class: 'form-select subriskold' + count,
-                  name: "subRiskOld",
-                  id: 'oldsub' + count,
-                }).val(value["Old Sub Risk"])))
-              .append($("<div class='tablet log-col'>")
-                .append($("<label class='form-label'>").attr({
-                  class: "form-label",
-                  }).text("Main Risk(current)")))
-              .append($("<div class='log-col'>").append($("<select>")
-                .attr({
-                  class: 'form-select mainriskblock' + count,
-                  id: "currentmain" + count,
-                  name: "mainRiskCurrent",
-                  onchange: 'subRiskCreate(' + '"subriskcurrent' + count + count + '","#currentmain' + count + '")'
-                }).val(value["Current Risk"])))
-              .append($("<div class='tablet log-col'>")
-                .append($("<label class='form-label'>").attr({
-                  class: "form-label",
-                  }).text("Sub Risk(current)")))
-              .append($("<div class='log-col'>").append($("<select>")
-                .attr({
-                  class: 'form-select subriskcurrent' + count + count,
-                  name: 'subRiskCurrent',
-                  id: 'currentsub' + count,
-                }).val(value["Current Sub Risk"])))
-              .append($("<div class='tablet log-col'>")
-                .append($("<label class='form-label'>").attr({
-                  class: "form-label",
-                  }).text("By Patient")))
-              .append($("<div class='logsmall-col'>").append($("<span>").attr({
-                class: "form-control",
-                name: "duetoPatient",
-              }).text(value["Due_to_patient"])))
-              .append($("<div class='tablet log-col'>")
-                .append($("<label class='form-label'>").attr({
-                  class: "form-label",
-                  }).text("Update By")))
-              .append($("<div class='log-col'>").append($("<label>").attr({
+        console.log(response[riskLogUpdate["generalID"]]);
+        let count = 0;
+        $("section .row:nth-child(n+3)").remove();
+        $.each(response[riskLogUpdate["generalID"]], function(index, value) {
+          let changeDate = index.split('-');
+          if (changeDate.length > 3) {
+            index = changeDate[0] + "-" + changeDate[1] + "-" + changeDate[2];
+          }
+
+          riskLogview = $("<div id='" + index + "' class='row loghistory-row'>")
+            .append($("<div class='tablet log-col'>")
+              .append($("<label class='form-label'>").attr({
                 class: "form-label",
-                name: "changeUser",
-              }).text(value["change_user"])))
-              
-              .append($("<div class='log-col'>").append($("<button>").attr({
-                class: "btn btn-danger",
-                onclick: "DeleteLog()",
-                id:"DeleteLog"+count,
-              }).text("DeleteLog")))
+              }).text("Change Date")))
+            .append($("<div class='log-col'>").append($("<div>")
+              .append($("<div>").attr({
+                  class: "date-holder"
+                }).append($("<input>")
+                  .attr({
+                    id: "date" + count,
+                    class: "form-control Gdate",
+                    name: "riskChangeDate",
+                    placeholder: "dd-mm-yyyy",
+                    onchange: "dateformatValid()"
+                  }).val(index))
+                .append($("<img>").attr({
+                  src: "../img/calendar3.svg",
+                  class: "dateimg",
+                  alt: "date",
+                  onclick: "dateCalender()"
+                }))
+              )))
+            .append($("<div class='tablet log-col'>")
+              .append($("<label class='form-label'>").attr({
+                class: "form-label",
+              }).text("Main Risk(old)")))
+            .append($("<div class='log-col'>").append($("<select>")
+              .attr({
+                class: 'form-select mainriskblock' + count,
+                id: 'oldrisk' + count,
+                name: "mainRiskOld",
+                onchange: 'subRiskCreate(' + '"subriskold' + count + '","#oldrisk' + count + '")'
+              }).val(value["Old Risk"])))
+            .append($("<div class='tablet log-col'>")
+              .append($("<label class='form-label'>").attr({
+                class: "form-label",
+              }).text("Sub Risk(old)")))
+            .append($("<div class='log-col'>").append($("<select>")
+              .attr({
+                class: 'form-select subriskold' + count,
+                name: "subRiskOld",
+                id: 'oldsub' + count,
+              }).val(value["Old Sub Risk"])))
+            .append($("<div class='tablet log-col'>")
+              .append($("<label class='form-label'>").attr({
+                class: "form-label",
+              }).text("Main Risk(current)")))
+            .append($("<div class='log-col'>").append($("<select>")
+              .attr({
+                class: 'form-select mainriskblock' + count,
+                id: "currentmain" + count,
+                name: "mainRiskCurrent",
+                onchange: 'subRiskCreate(' + '"subriskcurrent' + count + count + '","#currentmain' + count + '")'
+              }).val(value["Current Risk"])))
+            .append($("<div class='tablet log-col'>")
+              .append($("<label class='form-label'>").attr({
+                class: "form-label",
+              }).text("Sub Risk(current)")))
+            .append($("<div class='log-col'>").append($("<select>")
+              .attr({
+                class: 'form-select subriskcurrent' + count + count,
+                name: 'subRiskCurrent',
+                id: 'currentsub' + count,
+              }).val(value["Current Sub Risk"])))
+            .append($("<div class='tablet log-col'>")
+              .append($("<label class='form-label'>").attr({
+                class: "form-label",
+              }).text("By Patient")))
+            .append($("<div class='logsmall-col'>").append($("<span>").attr({
+              class: "form-control",
+              name: "duetoPatient",
+            }).text(value["Due_to_patient"])))
+            .append($("<div class='tablet log-col'>")
+              .append($("<label class='form-label'>").attr({
+                class: "form-label",
+              }).text("Update By")))
+            .append($("<div class='log-col'>").append($("<label>").attr({
+              class: "form-label",
+              name: "changeUser",
+            }).text(value["change_user"])))
 
-            $("section").append(riskLogview);
-            mainRiskCreate("mainriskblock" + count);
-            $('#oldrisk' + count).val((value["Old Risk"]))
-            $('#currentmain' + count).val((value["Current Risk"]))
-            subRiskCreate("subriskold" + count, '#oldrisk' + count)
-            subRiskCreate("subriskcurrent" + count + count, '#currentmain' + count)
-            $('#currentsub' + count).val((value["Current Sub Risk"]))
-            $('#oldsub' + count).val((value["Old Sub Risk"]))
-            count++;
-          });
-          //$("table tr td span, table tr td  select, table tr td input,table tr td button").css("margin-top", "5px");
-          $("section").append(
-            $("<div class='row' style='justify-content:center'>").append(
-              $("<div class='col-sm-2' >").append(
-                $("<button class='btn btn-info' onclick='updateRiskLog(this)'>").text("UpdateRiskLog")
-              )
+            .append($("<div class='log-col'>").append($("<button>").attr({
+              class: "btn btn-danger",
+              onclick: "DeleteLog()",
+              id: "DeleteLog" + count,
+            }).text("DeleteLog")))
+
+          $("section").append(riskLogview);
+          mainRiskCreate("mainriskblock" + count);
+          $('#oldrisk' + count).val((value["Old Risk"]))
+          $('#currentmain' + count).val((value["Current Risk"]))
+          subRiskCreate("subriskold" + count, '#oldrisk' + count)
+          subRiskCreate("subriskcurrent" + count + count, '#currentmain' + count)
+          $('#currentsub' + count).val((value["Current Sub Risk"]))
+          $('#oldsub' + count).val((value["Old Sub Risk"]))
+          count++;
+        });
+        //$("table tr td span, table tr td  select, table tr td input,table tr td button").css("margin-top", "5px");
+        $("section").append(
+          $("<div class='row' style='justify-content:center'>").append(
+            $("<div class='col-sm-2' >").append(
+              $("<button class='btn btn-info' onclick='updateRiskLog(this)'>").text("UpdateRiskLog")
             )
-          );
-          $("#currentmain"+(count-1)+',#currentsub'+(count-1)+",#DeleteLog"+(count-1)).prop("disabled",true);
-          console.log("#currentmain"+(count-1));
-          $searchIDLog=riskLogUpdate["generalID"];
+          )
+        );
+        $("#currentmain" + (count - 1) + ',#currentsub' + (count - 1) + ",#DeleteLog" + (count - 1)).prop("disabled", true);
+        console.log("#currentmain" + (count - 1));
+        $searchIDLog = riskLogUpdate["generalID"];
 
 
+      }
+    })
+
+  }
+
+  function DeleteLog() {
+    $(event.target).parent().parent().remove();
+  }
+
+  function updateRiskLog(button) {
+    let counting = 0;
+    let riskLogUpdate = {
+      riskFinaldata: {}
+    };
+
+    $(".loghistory-row").each(function(index) {
+      riskLogUpdate['riskFinaldata'][counting] = {};
+
+      $(this).find("input, span, select").each(function() {
+        if ($(this).is('input, select')) {
+          if ($(this).hasClass("Gdate")) {
+            riskLogUpdate['riskFinaldata'][counting][$(this).attr("name")] = formatDate($(this).val());
+          } else {
+            riskLogUpdate['riskFinaldata'][counting][$(this).attr("name")] = $(this).val();
+          }
+        } else {
+          riskLogUpdate['riskFinaldata'][counting][$(this).attr("name")] = $(this).text();
         }
-      })
-
-    }
-
-    function DeleteLog() {
-      $(event.target).parent().parent().remove();
-    }
-
-    function updateRiskLog(button) {
-      let counting = 0;
-      let riskLogUpdate = {
-        riskFinaldata:{}
-      };
-
-      $(".loghistory-row").each(function(index) {
-        riskLogUpdate['riskFinaldata'][counting] = {};
-        
-          $(this).find("input, span, select").each(function() {
-            if ($(this).is('input, select')) {
-              if ($(this).hasClass("Gdate")) {
-                riskLogUpdate['riskFinaldata'][counting][$(this).attr("name")] = formatDate($(this).val());
-              } else {
-                riskLogUpdate['riskFinaldata'][counting][$(this).attr("name")] = $(this).val();
-              }
-            } else {
-              riskLogUpdate['riskFinaldata'][counting][$(this).attr("name")] = $(this).text();
-            }
-          });
-          counting++;
-        
       });
-      
-     
+      counting++;
 
-      riskLogUpdate["notice"]="Updating Risk Log";
-      riskLogUpdate["generalID"]=$searchIDLog;
+    });
 
 
 
-      console.log(riskLogUpdate);
+    riskLogUpdate["notice"] = "Updating Risk Log";
+    riskLogUpdate["generalID"] = $searchIDLog;
 
-      $.ajaxSetup({
-        headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-        },
-      });
-      $.ajax({
-        type: 'POST',
-        url: "{{ route('risk_log_data') }}",
-        dataType: 'json',
-        contentType: 'application/json',
-        data: JSON.stringify(riskLogUpdate),
-        timeout: 10000,
-        beforeSend: function() {
-          // Set a timeout to show the loading div after 3 seconds
-          $(button).prop("disabled", true);
-          timeoutHandle = setTimeout(function() {
 
-            $("#loadingSpinner").css("opacity", 1).addClass("spinner");
-            $(".tab-content").css("opacity", 0.3);
-            $(".tab-content").addClass("freeze-body");
-          }, 3000);
-        },
-        success: function(response) {
-          $(button).prop("disabled", false);
-          clearTimeout(timeoutHandle);
-          console.log(response);
-          alert("Successfull Risk History Update")
-        }
-      })
-    }
+
+    console.log(riskLogUpdate);
+
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+      },
+    });
+    $.ajax({
+      type: 'POST',
+      url: "{{ route('risk_log_data') }}",
+      dataType: 'json',
+      contentType: 'application/json',
+      data: JSON.stringify(riskLogUpdate),
+      timeout: 10000,
+      beforeSend: function() {
+        // Set a timeout to show the loading div after 3 seconds
+        $(button).prop("disabled", true);
+        timeoutHandle = setTimeout(function() {
+
+          $("#loadingSpinner").css("opacity", 1).addClass("spinner");
+          $(".tab-content").css("opacity", 0.3);
+          $(".tab-content").addClass("freeze-body");
+        }, 3000);
+      },
+      success: function(response) {
+        $(button).prop("disabled", false);
+        clearTimeout(timeoutHandle);
+        console.log(response);
+        alert("Successfull Risk History Update")
+      }
+    })
+  }
 </script>
 @endsection

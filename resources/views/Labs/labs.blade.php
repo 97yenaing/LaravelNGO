@@ -3029,6 +3029,8 @@
 	var gender = "";
 	var main_risk = "";
 	var sub_risk = "";
+	var vdate_array = [];
+	var selected_Date = 0;
 
 	function printDateChange(date) {
 		if (date != "") {
@@ -3096,7 +3098,7 @@
 				var viralprint = response[10];
 				var patientData = response[11];
 				console.log(hivprint.length + "hiv length");
-				if (patientData.length != 0) {
+				if (patientData) {
 
 
 					if (hivprint.length != 0 || rprprint.length != 0 || stiprint.length != 0 || hbcprint
@@ -3551,20 +3553,20 @@
 
 						$("#printAll_generalId").text($('#lab_Printcid').val());
 						// 
-						$("#printAll_fupId").text(patientData[0]['FuchiaID']);
-						if (patientData[0]['Agey'] == 0) {
+						$("#printAll_fupId").text(patientData['FuchiaID']);
+						if (patientData['Agey'] == 0) {
 							$("#printAll_ageY").text("-");
 						} else {
-							$("#printAll_ageY").text(patientData[0]['Agey']);
+							$("#printAll_ageY").text(patientData['Agey']);
 						}
-						if (patientData[0]['Agem'] == 0) {
+						if (patientData['Agem'] == 0) {
 							$("#printAll_ageM").text("-");
 						} else {
-							$("#printAll_ageM").text(patientData[0]['Agem']);
+							$("#printAll_ageM").text(patientData['Agem']);
 						}
 
 						// For Male some box will has blank in STI not available
-						if (response[11][0]['Gender'] == "195997324") {
+						if (response[11]['Gender'] == "195997324") {
 							console.log("This patient is Male.");
 							$("#allSti_cluePosteria").text("");
 							$("#allSti_pmnlHpfPosteria").text("");
@@ -4791,7 +4793,12 @@
 					success: function(response) {
 						$(button).prop("disabled", false);
 						clearTimeout(timeoutHandle);
-						alert("We Have Been Updated Data");
+						if (response != "This ID has another record in this Day") {
+							alert("We Have Been Updated Data");
+						} else {
+							alert(response);
+						}
+
 					}
 				});
 
@@ -5139,7 +5146,12 @@
 					success: function(response) {
 						$(button).prop("disabled", false);
 						clearTimeout(timeoutHandle);
-						alert("We Have Been Updated Data");
+						console.log(response);
+						if (response != "This ID has another record in this Day") {
+							alert("We Have Been Updated Data");
+						} else {
+							alert(response);
+						}
 
 					}
 				});
@@ -5595,7 +5607,11 @@
 					data: JSON.stringify(stiDataset),
 					//data: rprDataset,
 					success: function(response) {
-						alert("We Have Been Updated Data");
+						if (response != "This ID has another record in this Day") {
+							alert("We Have Been Updated Data");
+						} else {
+							alert(response);
+						}
 					}
 				});
 			} else {
@@ -5844,7 +5860,11 @@
 					success: function(response) {
 						$(button).prop("disabled", false);
 						clearTimeout(timeoutHandle);
-						alert("We Have Been Updated Data");
+						if (response != "This ID has another record in this Day") {
+							alert("We Have Been Updated Data");
+						} else {
+							alert(response);
+						}
 					}
 				});
 			} else {
@@ -6215,7 +6235,11 @@
 					success: function(response) {
 						$(button).prop("disabled", false);
 						clearTimeout(timeoutHandle);
-						alert("We Have Been Updated Data");
+						if (response != "This ID has another record in this Day") {
+							alert("We Have Been Updated Data");
+						} else {
+							alert(response);
+						}
 					}
 				});
 			} else {
@@ -6598,7 +6622,12 @@
 					success: function(response) {
 						$(button).prop("disabled", false);
 						clearTimeout(timeoutHandle);
-						alert("We Have Been Updated Data");
+						console.log(response);
+						if (response != "This ID has another record in this Day") {
+							alert("We Have Been Updated Data");
+						} else {
+							alert(response);
+						}
 					}
 				});
 			} else {
@@ -6943,7 +6972,11 @@
 					success: function(response) {
 						$(button).prop("disabled", false);
 						clearTimeout(timeoutHandle);
-						alert("We Have Been Updated Data");
+						if (response != "This ID has another record in this Day") {
+							alert("We Have Been Updated Data");
+						} else {
+							alert(response);
+						}
 					}
 				});
 			} else {
@@ -7269,7 +7302,7 @@
 				NS1_antigen: NS1_antigen,
 				igG: igG,
 				igm: igm,
-				malaria_rdt: malaria_rdt,
+				malaria_rdt_done: malaria_rdt_done,
 				malaria_rdt_result: malaria_rdt_result,
 				mal_spec: mal_spec,
 				mal_grade: mal_grade,
@@ -7291,6 +7324,7 @@
 
 
 		}
+		console.log(gtData);
 		if (cid.length > 8) {
 			if (confirm("Are you sure you want to do save?")) {
 
@@ -7314,7 +7348,11 @@
 					success: function(response) {
 						$(button).prop("disabled", false);
 						clearTimeout(timeoutHandle);
-						alert("We Have Been Updated Data");
+						if (response != "This ID has another record in this Day") {
+							alert("We Have Been Updated Data");
+						} else {
+							alert(response);
+						}
 					}
 				});
 
@@ -7602,7 +7640,11 @@
 						success: function(response) {
 							$(button).prop("disabled", false);
 							clearTimeout(timeoutHandle);
-							alert("We Have Been Updated Data");
+							if (response != "This ID has another record in this Day") {
+								alert("We Have Been Updated Data");
+							} else {
+								alert(response);
+							}
 						}
 					});
 				} else {
@@ -7886,7 +7928,11 @@
 						success: function(response) {
 							$(button).prop("disabled", false);
 							clearTimeout(timeoutHandle);
-							alert("We Have Been Updated Data");
+							if (response != "This ID has another record in this Day") {
+								alert("We Have Been Updated Data");
+							} else {
+								alert(response);
+							}
 						}
 					});
 				} else {
@@ -8182,7 +8228,11 @@
 					data: JSON.stringify(viral_loadData),
 					//data: rprDataset,
 					success: function(response) {
-						alert("We Have Been Updated Data");
+						if (response != "This ID has another record in this Day") {
+							alert("We Have Been Updated Data");
+						} else {
+							alert(response);
+						}
 					}
 				});
 
@@ -8791,10 +8841,6 @@
 
 		}
 	}
-
-
-	var vdate_array = [];
-	var selected_Date = 0;
 	// 1. test History -> 2. row_num() -> 3.updateFiller(testSection)
 	function row_num() { // to get row ID from follow up History
 		var parent = event.target.parentElement.id; // collecting id of the targeted parent
@@ -9200,14 +9246,14 @@
 			$('#hivUpdate_btn').show();
 			$('#hiv_tab').css("background-color", "red");
 			save_update_hiv = 1;
-			if (resp[0][i]["Visit_date"] == selected_Date) {
+			if (resp[0][i]["vdate"] == selected_Date) {
 				if (headerOK == 'hiv') {
 					document.getElementById('fuchiaID').value = resp[0][i]["fuchiacode"];
 					document.getElementById('cid').value = resp[0][i]["CID"];
 					document.getElementById('agey').innerHTML = resp[0][i]["agey"];
 					document.getElementById('agem').innerHTML = resp[0][i]["agem"];
 					document.getElementById('gender').innerHTML = resp[0][i]["Gender"];
-					document.getElementById('vDate').value = resp[0][i]["Visit_date"];
+					document.getElementById('vDate').value = resp[0][i]["vdate"];
 
 
 
@@ -9235,7 +9281,7 @@
 			$('#rpr_tab').css("background-color", "red");
 			$('#rprUpdate_btn').show();
 			save_update_rpr = 2;
-			if (resp[1][i]["visit_date"] == selected_Date) {
+			if (resp[1][i]["vdate"] == selected_Date) {
 
 				if (headerOK == "rpr") {
 					document.getElementById('fuchiaID').value = resp[1][i]["fuchiacode"];
@@ -9243,7 +9289,7 @@
 					document.getElementById('agey').innerHTML = resp[1][i]["agey"];
 					document.getElementById('agem').innerHTML = resp[1][i]["agem"];
 					document.getElementById('gender').innerHTML = resp[1][i]["Gender"];
-					document.getElementById('vDate').value = resp[1][i]["visit_date"];
+					document.getElementById('vDate').value = resp[1][i]["vdate"];
 
 					document.getElementById("labmd").value = resp[1][i]["Req_Doctor"];
 
@@ -9281,14 +9327,14 @@
 			$('#stiUpdate_btn').show();
 			$('#sti_tab').css("background-color", "red");
 			save_update_sti = 3;
-			if (resp[2][i]["visit_date"] == selected_Date) {
+			if (resp[2][i]["vdate"] == selected_Date) {
 				if (headerOK == "sti") {
 					document.getElementById('fuchiaID').value = resp[2][i]["fuchiacode"];
 					document.getElementById('cid').value = resp[2][i]["CID"];
 					document.getElementById('agey').innerHTML = resp[2][i]["agey"];
 					document.getElementById('agem').innerHTML = resp[2][i]["agem"];
 					document.getElementById('gender').innerHTML = resp[2][i]["Gender"];
-					document.getElementById('vDate').value = resp[2][i]["visit_date"];
+					document.getElementById('vDate').value = resp[2][i]["vdate"];
 
 					document.getElementById("labmd").value = resp[2][i]["Req_Doctor"];
 					console.log(resp[2][i]["Req_Doctor"] + "sti D")
@@ -9313,7 +9359,7 @@
 					document.getElementById('Sper_other_endo').disabled = true;
 				}
 
-				//document.getElementById('vDate').value= resp[2][[i]]["visit_date"];
+				//document.getElementById('vDate').value= resp[2][[i]]["vdate"];
 
 				//document.getElementById("Ptype").innerHTML=
 				//document.getElementById("ext").innerHTML=
@@ -9430,7 +9476,7 @@
 				document.getElementById('agey').innerHTML = resp[3][i]["agey"];
 				document.getElementById('agem').innerHTML = resp[3][i]["agem"];
 				document.getElementById('gender').innerHTML = resp[3][i]["Gender"];
-				document.getElementById('vDate').value = resp[3][i]["Visit_date"];
+				document.getElementById('vDate').value = resp[3][i]["vdate"];
 
 				document.getElementById("labmd").value = resp[3][i]["Req_Doctor"];
 				console.log(resp[3][i]["Req_Doctor"] + "hbc D")
@@ -9505,7 +9551,7 @@
 				document.getElementById('agey').innerHTML = resp[5][i]["agey"];
 				document.getElementById('agem').innerHTML = resp[5][i]["agem"];
 				document.getElementById('gender').innerHTML = resp[5][i]["Gender"];
-				document.getElementById('vDate').value = resp[5][i]["visit_date"];
+				document.getElementById('vDate').value = resp[5][i]["vdate"];
 
 				document.getElementById("labmd").value = resp[5][i]["Req_Doctor"];
 			}
@@ -9522,7 +9568,8 @@
 			]; //[0]['Serum Result'];
 			document.getElementById('csf_dil').value = resp[5][i]["csf_crypto_pos"]; //[0]['serum_pos'];
 
-			document.getElementById('csf_smear').value = resp[5][i]["csf_Fungal"]; //[0]['CSF Smear India Ink'];
+			document.getElementById('csf_smear').value = resp[5][i]["csf_fungal"]; //[0]['CSF Smear India Ink'];
+			console.log(resp[5][i]["csf_fungal"] + "Hello Label");
 			gramChange();
 			validation('csf_smear');
 			document.getElementById('giemsa_stain_result').value = resp[5][i][
@@ -9532,7 +9579,7 @@
 				"CSF Smear India Ink"
 			]; //[0]['lymph India Ink'];
 
-			document.getElementById('skin_smear').value = resp[5][i]["skin_Fungal"]; //[0]['Skin Smear India Ink'];
+			document.getElementById('skin_smear').value = resp[5][i]["skin_fungal"]; //[0]['Skin Smear India Ink'];
 			validation('skin_smear');
 			document.getElementById('skin_giemsa_stain_result').value = resp[5][i][
 				"Skin Smear Giemsa Stain"
@@ -9579,7 +9626,7 @@
 				document.getElementById('agey').innerHTML = resp[6][i]["agey"];
 				document.getElementById('agem').innerHTML = resp[6][i]["agem"];
 				document.getElementById('gender').innerHTML = resp[6][i]["Gender"];
-				document.getElementById('vDate').value = resp[6][i]["Visit_date"];
+				document.getElementById('vDate').value = resp[6][i]["vdate"];
 
 				document.getElementById("labmd").value = resp[6][i]["Req_Doctor"];
 			}
@@ -9648,7 +9695,7 @@
 				document.getElementById('agey').innerHTML = resp[7][i]["agey"];
 				document.getElementById('agem').innerHTML = resp[7][i]["agem"];
 				document.getElementById('gender').innerHTML = resp[7][i]["Gender"];
-				document.getElementById('vDate').value = resp[7][i]["visit_date"];
+				document.getElementById('vDate').value = resp[7][i]["vdate"];
 
 				document.getElementById("labmd").value = resp[7][i]["Req_Doctor"];
 			}
@@ -9684,7 +9731,7 @@
 				document.getElementById('agey').innerHTML = resp[8][i]["agey"];
 				document.getElementById('agem').innerHTML = resp[8][i]["agem"];
 				document.getElementById('gender').innerHTML = resp[8][i]["Gender"];
-				document.getElementById('vDate').value = resp[8][i]["visit_date"];
+				document.getElementById('vDate').value = resp[8][i]["vdate"];
 
 				document.getElementById("labmd").value = resp[8][i]["Req_Doctor"];
 			}
@@ -9785,11 +9832,11 @@
 
 		}
 		DateTo_text();
-		// var only_forRisk=$("#Ptype").val();
-		// alert(only_forRisk);
-		// if(only_forRisk==null){
-		//   $("#Ptype,#ext").prop("disabled",false);
-		// }
+		$('#agey_register').text(resp[11]['Agey']);
+		$('#agem_register').text(resp[11]['Agem']);
+		$('#agey').text(resp[11]['Current Agey']);
+		$('#agem').text(resp[11]['Current Agem']);
+		$('#Ptype').val(resp[11]['Main Risk']);
 
 		$('#hivSave').hide();
 		$('#rprSave').hide();

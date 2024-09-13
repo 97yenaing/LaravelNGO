@@ -66,11 +66,11 @@ class LabExport implements FromView, WithColumnFormatting
           $final_risklog = RefillRisk::FillRisk($forRiskCheck);
           $final_log[$user['ptconfig']['Pid']] = $final_risklog;
         } elseif ($user['ptconfig']['Risk Log'] == null) {
-          if ($user['ptconfig']['Risk Change_Date'] != null&&$user['ptconfig']['Former Risk'] != null&&$user['ptconfig']['Former Risk'] != "731") {
+          if ($user['ptconfig']['Risk Change_Date'] != null && $user['ptconfig']['Former Risk'] != null && $user['ptconfig']['Former Risk'] != "731") {
             $riskChangeDate = Carbon::createFromFormat('Y-m-d', $user['ptconfig']['Risk Change_Date']);
             $riskChangeDate = new DateTime(Carbon::createFromFormat('d-m-Y', $riskChangeDate->format('d-m-Y')));
-            if ($vdate <= $riskChangeDate) {
-              $user['Patient_Type'] =$user['ptconfig']['Former Risk'];
+            if ($vdate < $riskChangeDate) {
+              $user['Patient_Type'] = $user['ptconfig']['Former Risk'];
               $user['Patient Type Sub'] = '';
             }
           }

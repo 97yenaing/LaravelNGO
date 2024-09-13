@@ -314,6 +314,10 @@
     padding-right: 1px;
   }
 
+  #change_date {
+    padding: 0px;
+  }
+
   .phq4-child {
     margin-top: 64px;
   }

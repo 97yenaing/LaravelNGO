@@ -418,558 +418,609 @@ class LabsController extends Controller
 
     // Update Section
     if ($hiv_update == 3 && $updateID_hiv > 0) {
-      Lab::where('id', $updateID_hiv)
-        ->update([
-          'ClinicName' => $request->clinic,
-          'CID' => $request->cid,
-          'fuchiacode' => $request->fuchiaID,
-          'agey' => $request->agey,
-          'agem' => $request->agem,
-          'Visit_date' => $request->vDate,
-          'vdate' => $request->vDate,
-          'Gender' => Crypt::encrypt_light($request->gender, $table),
-          'Patient_Type' => Crypt::encrypt_light($request->Ptype, $table),
-          'Patient Type Sub' => Crypt::encrypt_light($request->ext_sub, $table),
-          'bcollectdate' => $request->bcdate,
-          'Detmine_Result' => Crypt::encrypt_light($request->d_result, $table),
-          'Unigold_Result' => Crypt::encrypt_light($request->uni_result, $table),
-          'STAT_PAK_Result' => Crypt::encrypt_light($request->stat_result, $table),
-          'Final_Result' => Crypt::encrypt_light($request->final_result, $table),
-          'Counsellor' => Crypt::encrypt_light($request->counsellor, $table),
-          'LabTech' => Crypt::encrypt_light($request->lab_tech, $table),
-          'Req_Doctor' => Crypt::encrypt_light($request->reqDoctor, $table),
+      $lab_exist = Lab::where('id', '!=', $updateID_hiv)->where('CID', $request->cid)->where('vdate', $request->vDate)->exists();
+      if (!$lab_exist) {
+        Lab::where('id', $updateID_hiv)
+          ->update([
+            'ClinicName' => $request->clinic,
+            'CID' => $request->cid,
+            'fuchiacode' => $request->fuchiaID,
+            'agey' => $request->agey,
+            'agem' => $request->agem,
+            'Visit_date' => $request->vDate,
+            'vdate' => $request->vDate,
+            'Gender' => Crypt::encrypt_light($request->gender, $table),
+            'Patient_Type' => Crypt::encrypt_light($request->Ptype, $table),
+            'Patient Type Sub' => Crypt::encrypt_light($request->ext_sub, $table),
+            'bcollectdate' => $request->bcdate,
+            'Detmine_Result' => Crypt::encrypt_light($request->d_result, $table),
+            'Unigold_Result' => Crypt::encrypt_light($request->uni_result, $table),
+            'STAT_PAK_Result' => Crypt::encrypt_light($request->stat_result, $table),
+            'Final_Result' => Crypt::encrypt_light($request->final_result, $table),
+            'Counsellor' => Crypt::encrypt_light($request->counsellor, $table),
+            'LabTech' => Crypt::encrypt_light($request->lab_tech, $table),
+            'Req_Doctor' => Crypt::encrypt_light($request->reqDoctor, $table),
 
-          'Incon' => $request->Incon,
-          'updated_by' => $request->updated_by,
-          'Comment' => $request->Comment,
+            'Incon' => $request->Incon,
+            'updated_by' => $request->updated_by,
+            'Comment' => $request->Comment,
 
+          ]);
+        Applog::create([
+          'User' => $request->appUser,
+          'Pid' => $request->cid,
+          'tableName' => "Lab-HIV-Test",
+          'Org_info' => $request->org_info,
+          'Updated_info'   => $request->updated_info,
         ]);
-      Applog::create([
-        'User' => $request->appUser,
-        'Pid' => $request->cid,
-        'tableName' => "Lab-HIV-Test",
-        'Org_info' => $request->org_info,
-        'Updated_info'   => $request->updated_info,
-      ]);
-      $hiv = 0;
-      $success = [[
-        "id"   => 1,
-        "name" => "updated"
-      ]];
-      return response()->json([$success]);
+        $hiv = 0;
+        $success = [[
+          "id"   => 1,
+          "name" => "updated"
+        ]];
+        return response()->json([$success]);
+      } else {
+        return response()->json(["This ID has another record in this Day"]);
+      }
     }
     if ($rprTest == 2 && $updateID_rpr > 0) { // to collect rpr test results
-
-      Rprtest::where('id', $updateID_rpr)
-        ->update([
-          'pid' => $request->cid,
-          'visit_date' => $request->vDate,
-          'vdate' => $request->vDate,
-          'fuchiacode' => $request->fuchiaID,
-          'agey' => $request->agey,
-          'agem' => $request->agem,
-          'Gender' => Crypt::encrypt_light($request->gender, $table),
-          'Type Of Patient' => Crypt::encrypt_light($request->Ptype, $table),
-          'Patient Type Sub' => Crypt::encrypt_light($request->Ptype_ext, $table),
-          'RDT(Yes/No)' => Crypt::encrypt_light($request->rdtYes_no, $table),
-          'RDT Result' => Crypt::encrypt_light($request->Sy_rdt_result, $table),
-          'Quantitative(Yes/No)' => Crypt::encrypt_light($request->rprYes_NO, $table),
-          'RPR Qualitative' => Crypt::encrypt_light($request->qualitative, $table),
-          'Titre(current)' => Crypt::encrypt_light($request->titreCur, $table),
-          'Titre(Last)' => Crypt::encrypt_light($request->titreLast, $table),
-          'TitreLastDate' => $request->lastTireDate,
-          'Req_Doctor' => Crypt::encrypt_light($request->reqDoctor, $table),
-          'Counsellor' => Crypt::encrypt_light($request->rpr_counselor, $table),
-          'Lab Tech' => Crypt::encrypt_light($request->lab_tech_rpr, $table),
-          'Issue Date' => $request->rpr_issue_date,
-          'updated_by' => $request->updated_by,
-          'Comment' => $request->Comment,
+      $lab_exist = Rprtest::where('id', '!=', $updateID_rpr)->where('pid', $request->cid)->where('vdate', $request->vDate)->exists();
+      if (!$lab_exist) {
+        Rprtest::where('id', $updateID_rpr)
+          ->update([
+            'pid' => $request->cid,
+            'visit_date' => $request->vDate,
+            'vdate' => $request->vDate,
+            'fuchiacode' => $request->fuchiaID,
+            'agey' => $request->agey,
+            'agem' => $request->agem,
+            'Gender' => Crypt::encrypt_light($request->gender, $table),
+            'Type Of Patient' => Crypt::encrypt_light($request->Ptype, $table),
+            'Patient Type Sub' => Crypt::encrypt_light($request->Ptype_ext, $table),
+            'RDT(Yes/No)' => Crypt::encrypt_light($request->rdtYes_no, $table),
+            'RDT Result' => Crypt::encrypt_light($request->Sy_rdt_result, $table),
+            'Quantitative(Yes/No)' => Crypt::encrypt_light($request->rprYes_NO, $table),
+            'RPR Qualitative' => Crypt::encrypt_light($request->qualitative, $table),
+            'Titre(current)' => Crypt::encrypt_light($request->titreCur, $table),
+            'Titre(Last)' => Crypt::encrypt_light($request->titreLast, $table),
+            'TitreLastDate' => $request->lastTireDate,
+            'Req_Doctor' => Crypt::encrypt_light($request->reqDoctor, $table),
+            'Counsellor' => Crypt::encrypt_light($request->rpr_counselor, $table),
+            'Lab Tech' => Crypt::encrypt_light($request->lab_tech_rpr, $table),
+            'Issue Date' => $request->rpr_issue_date,
+            'updated_by' => $request->updated_by,
+            'Comment' => $request->Comment,
+          ]);
+        Applog::create([
+          'User' => $request->appUser,
+          'Pid' => $request->cid,
+          'tableName' => "Lab-RPR-Test",
+          'Org_info' => $request->org_info,
+          'Updated_info'   => $request->updated_info,
         ]);
-      Applog::create([
-        'User' => $request->appUser,
-        'Pid' => $request->cid,
-        'tableName' => "Lab-RPR-Test",
-        'Org_info' => $request->org_info,
-        'Updated_info'   => $request->updated_info,
-      ]);
-
-      $rprTest = 0;
-      $success = [[
-        "id" => 1,
-        "name" => "updated"
-      ]];
-      return response()->json([$success]);
+        $rprTest = 0;
+        $success = [[
+          "id" => 1,
+          "name" => "updated"
+        ]];
+        return response()->json([$success]);
+      } else {
+        return response()->json(["This ID has another record in this Day"]);
+      }
     }
     if ($stiTest == 2 && $updateID_sti > 0) {
-      Labstitest::where('id', $updateID_sti)
-        ->update([
-          'CID' => $request->cid,
-          'fuchiacode' => $request->fuchiaID,
-          'agey' => $request->agey,
-          'agem' => $request->agem,
-          'Gender' => Crypt::encrypt_light($request->gender, $table),
-          'Req_Doctor' => Crypt::encrypt_light($request->reqDoctor, $table),
-          'visit_date' => $request->vDate,
-          'vdate' => $request->vDate,
-          'Type Of Patient' => Crypt::encrypt_light($request->Ptype, $table),
-          'Patient Type Sub' => Crypt::encrypt_light($request->ext_sub, $table),
+      $lab_exist = Labstitest::where('id', '!=', $updateID_sti)->where('CID', $request->cid)->where('vdate', $request->vDate)->exists();
+      if (!$lab_exist) {
+        Labstitest::where('id', $updateID_sti)
+          ->update([
+            'CID' => $request->cid,
+            'fuchiacode' => $request->fuchiaID,
+            'agey' => $request->agey,
+            'agem' => $request->agem,
+            'Gender' => Crypt::encrypt_light($request->gender, $table),
+            'Req_Doctor' => Crypt::encrypt_light($request->reqDoctor, $table),
+            'visit_date' => $request->vDate,
+            'vdate' => $request->vDate,
+            'Type Of Patient' => Crypt::encrypt_light($request->Ptype, $table),
+            'Patient Type Sub' => Crypt::encrypt_light($request->ext_sub, $table),
 
-          'Wet Mount clue cell' => Crypt::encrypt_light($request->clue_cells, $table),
-          'Fornix Clue Cells' => Crypt::encrypt_light($request->clue_post_fornix, $table),
-          //next line*****************************
-          'urethra WBC' => Crypt::encrypt_light($request->pmnl_urethra, $table),
-          'Fornix WBC' => Crypt::encrypt_light($request->pmnl_post_fix, $table),
-          'Endo cervix WBC' => Crypt::encrypt_light($request->pmnl_endocevix, $table),
-          'Rectum WBC' => Crypt::encrypt_light($request->pmnl_rectum, $table),
-          // next line****************************
-          'Wet Mount Trichomonas' => Crypt::encrypt_light($request->tricho_wet, $table),
-          // next line ***************************
-          'Urethra diplococci intra-cell' => Crypt::encrypt_light($request->gram_intra_urethra, $table),
-          'Fornix diplococci intra-cell' => Crypt::encrypt_light($request->gram_intra_postfornix, $table),
-          'Endo cervix diplococci intra-cell' => Crypt::encrypt_light($request->gram_intra_endo, $table),
-          'Rectum diplococci intra-cell' => Crypt::encrypt_light($request->gram_intra_rectum, $table),
-          // next line **************************
-          'Urethra diplococci extra-cell' => Crypt::encrypt_light($request->gram_extra_urethra, $table),
-          'Fornix diplococci extra-cell' => Crypt::encrypt_light($request->gram_extra_postfornix, $table),
-          'Endo cervix diplococci extra-cell' => Crypt::encrypt_light($request->gram_extra_endo, $table),
-          'Rectum diplococci extra-cell' => Crypt::encrypt_light($request->gram_extra_rectum, $table),
-          // next line ***************************
-          'Wet Mount candida' => Crypt::encrypt_light($request->candida_wet, $table),
-          'Urethra Candida' => Crypt::encrypt_light($request->candida_urethra, $table),
-          'Fornix Candida' => Crypt::encrypt_light($request->candida_postfornix, $table),
-          'Endo cervix Candida' => Crypt::encrypt_light($request->candida_endo, $table),
-          // next line *******************************
-          'wetoth' => Crypt::encrypt_light($request->Sper_other_wet, $table),
-          //  'uoth'=>Crypt::encrypt_light($request->Sper_other_urethra  ,$table),
-          //  'pfother'=>Crypt::encrypt_light($request->Sper_other_post,$table),
-          //  'eother'=>Crypt::encrypt_light($request->Sper_other_endo,$table),
-          //  'rother'=>Crypt::encrypt_light($request->Sper_other_rectum,$table),
-          // next line *****************************
-          'First Per Urine' => Crypt::encrypt_light($request->urine_exam_done, $table),
-          'Epithelial cells' => Crypt::encrypt_light($request->epithelial_cell, $table),
-          //next line*******************************
-          'First Per Urine Diplococci Intra-Cell' => Crypt::encrypt_light($request->intra_cell, $table),
-          'PMNL cells' => Crypt::encrypt_light($request->pmnl_cell, $table),
-          //next  line******************************
-          'First Per Urine Diplococci Extra-Cell' => Crypt::encrypt_light($request->extra_cell, $table),
-          // next line ****************
-          'Other Bacteria' => Crypt::encrypt_light($request->oth_bact, $table),
-          // End ***********////********************///*********************
-          'Lab Techanician' => Crypt::encrypt_light($request->sti_lab_tech, $table),
-          'idate' => $request->sti_issuDate,
+            'Wet Mount clue cell' => Crypt::encrypt_light($request->clue_cells, $table),
+            'Fornix Clue Cells' => Crypt::encrypt_light($request->clue_post_fornix, $table),
+            //next line*****************************
+            'urethra WBC' => Crypt::encrypt_light($request->pmnl_urethra, $table),
+            'Fornix WBC' => Crypt::encrypt_light($request->pmnl_post_fix, $table),
+            'Endo cervix WBC' => Crypt::encrypt_light($request->pmnl_endocevix, $table),
+            'Rectum WBC' => Crypt::encrypt_light($request->pmnl_rectum, $table),
+            // next line****************************
+            'Wet Mount Trichomonas' => Crypt::encrypt_light($request->tricho_wet, $table),
+            // next line ***************************
+            'Urethra diplococci intra-cell' => Crypt::encrypt_light($request->gram_intra_urethra, $table),
+            'Fornix diplococci intra-cell' => Crypt::encrypt_light($request->gram_intra_postfornix, $table),
+            'Endo cervix diplococci intra-cell' => Crypt::encrypt_light($request->gram_intra_endo, $table),
+            'Rectum diplococci intra-cell' => Crypt::encrypt_light($request->gram_intra_rectum, $table),
+            // next line **************************
+            'Urethra diplococci extra-cell' => Crypt::encrypt_light($request->gram_extra_urethra, $table),
+            'Fornix diplococci extra-cell' => Crypt::encrypt_light($request->gram_extra_postfornix, $table),
+            'Endo cervix diplococci extra-cell' => Crypt::encrypt_light($request->gram_extra_endo, $table),
+            'Rectum diplococci extra-cell' => Crypt::encrypt_light($request->gram_extra_rectum, $table),
+            // next line ***************************
+            'Wet Mount candida' => Crypt::encrypt_light($request->candida_wet, $table),
+            'Urethra Candida' => Crypt::encrypt_light($request->candida_urethra, $table),
+            'Fornix Candida' => Crypt::encrypt_light($request->candida_postfornix, $table),
+            'Endo cervix Candida' => Crypt::encrypt_light($request->candida_endo, $table),
+            // next line *******************************
+            'wetoth' => Crypt::encrypt_light($request->Sper_other_wet, $table),
+            //  'uoth'=>Crypt::encrypt_light($request->Sper_other_urethra  ,$table),
+            //  'pfother'=>Crypt::encrypt_light($request->Sper_other_post,$table),
+            //  'eother'=>Crypt::encrypt_light($request->Sper_other_endo,$table),
+            //  'rother'=>Crypt::encrypt_light($request->Sper_other_rectum,$table),
+            // next line *****************************
+            'First Per Urine' => Crypt::encrypt_light($request->urine_exam_done, $table),
+            'Epithelial cells' => Crypt::encrypt_light($request->epithelial_cell, $table),
+            //next line*******************************
+            'First Per Urine Diplococci Intra-Cell' => Crypt::encrypt_light($request->intra_cell, $table),
+            'PMNL cells' => Crypt::encrypt_light($request->pmnl_cell, $table),
+            //next  line******************************
+            'First Per Urine Diplococci Extra-Cell' => Crypt::encrypt_light($request->extra_cell, $table),
+            // next line ****************
+            'Other Bacteria' => Crypt::encrypt_light($request->oth_bact, $table),
+            // End ***********////********************///*********************
+            'Lab Techanician' => Crypt::encrypt_light($request->sti_lab_tech, $table),
+            'idate' => $request->sti_issuDate,
 
-          'updated_by' => $request->updated_by,
+            'updated_by' => $request->updated_by,
+          ]);
+        Applog::create([
+          'User' => $request->appUser,
+          'Pid' => $request->cid,
+          'tableName' => "Lab-Hiv-Test",
+          'Org_info' => $request->org_info,
+          'Updated_info'   => $request->updated_info,
         ]);
-      Applog::create([
-        'User' => $request->appUser,
-        'Pid' => $request->cid,
-        'tableName' => "Lab-Hiv-Test",
-        'Org_info' => $request->org_info,
-        'Updated_info'   => $request->updated_info,
-      ]);
-      $stiTest = 0;
-      $success = [[
-        "id" => 1,
-        "name" => "updated"
-      ]];
-      return response()->json([$success]);
+        $stiTest = 0;
+        $success = [[
+          "id" => 1,
+          "name" => "updated"
+        ]];
+        return response()->json([$success]);
+      } else {
+        return response()->json(["This ID has another record in this Day"]);
+      }
     }
     if ($hbcTest == 2 && $updateID_hbc > 0) {
-      LabHbcTest::where('id', $updateID_hbc)
-        ->update([
-          'CID' => $request->cid,
-          'fuchiacode' => $request->fuchiaID,
-          'agey' => $request->agey,
-          'agem' => $request->agem,
-          'Gender' => Crypt::encrypt_light($request->gender, $table),
-          'Visit_date' => $request->vDate,
-          'vdate' => $request->vDate,
-          'Req_Doctor' => Crypt::encrypt_light($request->reqDoctor, $table),
-          //'requested Doctor new'=>Crypt::encrypt_light($request-> ,$table),
-          //  'tdate'=>$request->bcdate,
-          'Patient_Type' => Crypt::encrypt_light($request->Ptype, $table),
-          'Patient Type Sub' => Crypt::encrypt_light($request->ext_sub, $table),
-          //'Hiv status'=>Crypt::encrypt_light($request-> ,$table),
-          'HepB Test' => Crypt::encrypt_light($request->hepB, $table),
-          'HepB TOT' => Crypt::encrypt_light($request->totB, $table),
-          'HepB Result' => Crypt::encrypt_light($request->b_result, $table),
-          'HepC Test' => Crypt::encrypt_light($request->c_test, $table),
-          'HepC TOT' => Crypt::encrypt_light($request->totC, $table),
-          'HepC Result' => Crypt::encrypt_light($request->c_result, $table),
-          'Lab Tech' => Crypt::encrypt_light($request->c_lab_tech, $table),
-          'Issue Date' => $request->c_issueDate,
-          //'Visit ID'=>Crypt::encrypt_light($request-> ,$table),
-          'clinic code' => $request->clinic,
+      $lab_exist = LabHbcTest::where('id', '!=', $updateID_hbc)->where('CID', $request->cid)->where('vdate', $request->vDate)->exists();
+      if (!$lab_exist) {
+        LabHbcTest::where('id', $updateID_hbc)
+          ->update([
+            'CID' => $request->cid,
+            'fuchiacode' => $request->fuchiaID,
+            'agey' => $request->agey,
+            'agem' => $request->agem,
+            'Gender' => Crypt::encrypt_light($request->gender, $table),
+            'Visit_date' => $request->vDate,
+            'vdate' => $request->vDate,
+            'Req_Doctor' => Crypt::encrypt_light($request->reqDoctor, $table),
+            //'requested Doctor new'=>Crypt::encrypt_light($request-> ,$table),
+            //  'tdate'=>$request->bcdate,
+            'Patient_Type' => Crypt::encrypt_light($request->Ptype, $table),
+            'Patient Type Sub' => Crypt::encrypt_light($request->ext_sub, $table),
+            //'Hiv status'=>Crypt::encrypt_light($request-> ,$table),
+            'HepB Test' => Crypt::encrypt_light($request->hepB, $table),
+            'HepB TOT' => Crypt::encrypt_light($request->totB, $table),
+            'HepB Result' => Crypt::encrypt_light($request->b_result, $table),
+            'HepC Test' => Crypt::encrypt_light($request->c_test, $table),
+            'HepC TOT' => Crypt::encrypt_light($request->totC, $table),
+            'HepC Result' => Crypt::encrypt_light($request->c_result, $table),
+            'Lab Tech' => Crypt::encrypt_light($request->c_lab_tech, $table),
+            'Issue Date' => $request->c_issueDate,
+            //'Visit ID'=>Crypt::encrypt_light($request-> ,$table),
+            'clinic code' => $request->clinic,
 
-          'updated_by' => $request->updated_by,
+            'updated_by' => $request->updated_by,
+          ]);
+        Applog::create([
+          'User' => $request->appUser,
+          'Pid' => $request->cid,
+          'tableName' => "Lab-Hbc-Test",
+          'Org_info' => $request->org_info,
+          'Updated_info'   => $request->updated_info,
         ]);
-      Applog::create([
-        'User' => $request->appUser,
-        'Pid' => $request->cid,
-        'tableName' => "Lab-Hbc-Test",
-        'Org_info' => $request->org_info,
-        'Updated_info'   => $request->updated_info,
-      ]);
-      $hbc = 0;
-      $success = [[
-        "id" => 1,
-        "name" => "updated"
-      ]];
-      return response()->json([$success]);
+        $hbc = 0;
+        $success = [[
+          "id" => 1,
+          "name" => "updated"
+        ]];
+        return response()->json([$success]);
+      } else {
+        return response()->json(["This ID has another record in this Day"]);
+      }
     }
     if ($urineTest == 2 && $updateID_urine > 0) {
+      $lab_exist = Urine::where('id', '!=', $updateID_urine)->where('CID', $request->cid)->where('vdate', $request->vDate)->exists();
+      if (!$lab_exist) {
+        Urine::where('id', $updateID_urine)
+          ->update([
+            'ClinicName'  => $request->clinic,
+            'CID'         => $request->cid,
+            'visitDate'   => $request->vDate,
+            'vdate' => $request->vDate,
+            'fuchiacode'  => $request->fuchiaID,
+            'agey'        => $request->agey,
+            'agem'        => $request->agem,
+            'Gender'      => Crypt::encrypt_light($request->gender, $table),
+            'Main Risk'    => Crypt::encrypt_light($request->Ptype, $table),
+            'Sub Risk' => Crypt::encrypt_light($request->ext_sub, $table),
+            'Req_Doctor'      => Crypt::encrypt_light($request->reqDoctor, $table),
 
-      Urine::where('id', $updateID_urine)
-        ->update([
-          'ClinicName'  => $request->clinic,
-          'CID'         => $request->cid,
-          'visitDate'   => $request->vDate,
-          'vdate' => $request->vDate,
-          'fuchiacode'  => $request->fuchiaID,
-          'agey'        => $request->agey,
-          'agem'        => $request->agem,
-          'Gender'      => Crypt::encrypt_light($request->gender, $table),
-          'Main Risk'    => Crypt::encrypt_light($request->Ptype, $table),
-          'Sub Risk' => Crypt::encrypt_light($request->ext_sub, $table),
-          'Req_Doctor'      => Crypt::encrypt_light($request->reqDoctor, $table),
+            'Utest_done'  => Crypt::encrypt_light($request->utest_done, $table),
+            'Utot'        => Crypt::encrypt_light($request->typeoftest, $table),
+            'Uturbitity'      => Crypt::encrypt_light($request->turbitity, $table),
+            'Uapp'        => Crypt::encrypt_light($request->appear, $table),
+            'Upus'        => Crypt::encrypt_light($request->pus, $table),
 
-          'Utest_done'  => Crypt::encrypt_light($request->utest_done, $table),
-          'Utot'        => Crypt::encrypt_light($request->typeoftest, $table),
-          'Uturbitity'      => Crypt::encrypt_light($request->turbitity, $table),
-          'Uapp'        => Crypt::encrypt_light($request->appear, $table),
-          'Upus'        => Crypt::encrypt_light($request->pus, $table),
+            'ph'          => Crypt::encrypt_light($request->uph, $table),
+            'Uprotein'    => Crypt::encrypt_light($request->protein, $table),
+            'Uglucose'    => Crypt::encrypt_light($request->glucose, $table),
+            'Urbc'        => Crypt::encrypt_light($request->rbc, $table),
+            'Uleu'        => Crypt::encrypt_light($request->leu, $table),
 
-          'ph'          => Crypt::encrypt_light($request->uph, $table),
-          'Uprotein'    => Crypt::encrypt_light($request->protein, $table),
-          'Uglucose'    => Crypt::encrypt_light($request->glucose, $table),
-          'Urbc'        => Crypt::encrypt_light($request->rbc, $table),
-          'Uleu'        => Crypt::encrypt_light($request->leu, $table),
+            'Unitrite'    => Crypt::encrypt_light($request->nitrite, $table),
+            'Uketone'    => Crypt::encrypt_light($request->ketone, $table),
+            'Uepithelial' => Crypt::encrypt_light($request->epithelial, $table),
+            'Urobili'     => Crypt::encrypt_light($request->robili, $table),
+            'Ubillru'     => Crypt::encrypt_light($request->billru, $table),
 
-          'Unitrite'    => Crypt::encrypt_light($request->nitrite, $table),
-          'Uketone'    => Crypt::encrypt_light($request->ketone, $table),
-          'Uepithelial' => Crypt::encrypt_light($request->epithelial, $table),
-          'Urobili'     => Crypt::encrypt_light($request->robili, $table),
-          'Ubillru'     => Crypt::encrypt_light($request->billru, $table),
+            'Uery'        => Crypt::encrypt_light($request->ery, $table),
+            'Ucrystal'    => Crypt::encrypt_light($request->crystal, $table),
+            'Uhae'        => Crypt::encrypt_light($request->hae, $table),
+            'Uother'      => Crypt::encrypt_light($request->other, $table),
+            'Ucast'       => Crypt::encrypt_light($request->cast, $table),
+            'comment'     => Crypt::encrypt_light($request->Ument, $table),
 
-          'Uery'        => Crypt::encrypt_light($request->ery, $table),
-          'Ucrystal'    => Crypt::encrypt_light($request->crystal, $table),
-          'Uhae'        => Crypt::encrypt_light($request->hae, $table),
-          'Uother'      => Crypt::encrypt_light($request->other, $table),
-          'Ucast'       => Crypt::encrypt_light($request->cast, $table),
-          'comment'     => Crypt::encrypt_light($request->Ument, $table),
+            'Cretinine'     => Crypt::encrypt_light($request->cretinine, $table),
+            'Albumin'     => Crypt::encrypt_light($request->albumin, $table),
+            'A:C_ratio'     => Crypt::encrypt_light($request->a_c_ratio, $table),
 
-          'Cretinine'     => Crypt::encrypt_light($request->cretinine, $table),
-          'Albumin'     => Crypt::encrypt_light($request->albumin, $table),
-          'A:C_ratio'     => Crypt::encrypt_light($request->a_c_ratio, $table),
+            'lab_tech'    => Crypt::encrypt_light($request->lab_tech, $table),
+            'issue_date'  => $request->issue_date,
 
-          'lab_tech'    => Crypt::encrypt_light($request->lab_tech, $table),
-          'issue_date'  => $request->issue_date,
-
-          'updated_by' => $request->updated_by,
+            'updated_by' => $request->updated_by,
+          ]);
+        Applog::create([
+          'User' => $request->appUser,
+          'Pid' => $request->cid,
+          'tableName' => "Lab-Hiv-Test",
+          'Org_info' => $request->org_info,
+          'Updated_info'   => $request->updated_info,
         ]);
-      Applog::create([
-        'User' => $request->appUser,
-        'Pid' => $request->cid,
-        'tableName' => "Lab-Hiv-Test",
-        'Org_info' => $request->org_info,
-        'Updated_info'   => $request->updated_info,
-      ]);
-      $success = [[
-        "id" => 1,
-        "name" => "updated"
-      ]];
+        $success = [[
+          "id" => 1,
+          "name" => "updated"
+        ]];
 
-      return response()->json([$success]);
+        return response()->json([$success]);
+      } else {
+        return response()->json(["This ID has another record in this Day"]);
+      }
     }
     if ($oiTest == 2 && $updateID_oi > 0) {
-      Lab_oi::where('id', $updateID_oi)
-        ->update([
-          'CID'                  => $request->cid,
-          'fuchiacode'           => $request->fuchiaID,
-          'agey'                 => $request->agey,
-          'agem'                 => $request->agem,
-          'Gender'               => Crypt::encrypt_light($request->gender, $table),
-          'Req_Doctor'     => Crypt::encrypt_light($request->reqDoctor, $table),
-          'visit_date'           => $request->vDate,
-          'vdate' => $request->vDate,
-          //'Patient Type'         =>Crypt::encrypt_light( $request -> Ptype,$table),
-          //'Patient Type Sub'     =>Crypt::encrypt_light( $request -> ext_sub,$table),
-          'clinic code'          => $request->clinic,
+      $lab_exist = Lab_oi::where('id', '!=', $updateID_oi)->where('CID', $request->cid)->where('vdate', $request->vDate)->exists();
+      if (!$lab_exist) {
+        Lab_oi::where('id', $updateID_oi)
+          ->update([
+            'CID'                  => $request->cid,
+            'fuchiacode'           => $request->fuchiaID,
+            'agey'                 => $request->agey,
+            'agem'                 => $request->agem,
+            'Gender'               => Crypt::encrypt_light($request->gender, $table),
+            'Req_Doctor'     => Crypt::encrypt_light($request->reqDoctor, $table),
+            'visit_date'           => $request->vDate,
+            'vdate' => $request->vDate,
+            //'Patient Type'         =>Crypt::encrypt_light( $request -> Ptype,$table),
+            //'Patient Type Sub'     =>Crypt::encrypt_light( $request -> ext_sub,$table),
+            'clinic code'          => $request->clinic,
 
-          'TB_LAM_Report'        => Crypt::encrypt_light($request->tb_lam_report, $table),
-          'Serum Result'         => Crypt::encrypt_light($request->serum_cry_antigen, $table),
-          'serum_pos'            => Crypt::encrypt_light($request->serum_cry_due, $table),
-          'CSF for Cryptococcal Antigen' => Crypt::encrypt_light($request->csf_cry_antigen, $table),
-          'csf_crypto_pos'       => Crypt::encrypt_light($request->csf_due, $table),
+            'TB_LAM_Report'        => Crypt::encrypt_light($request->tb_lam_report, $table),
+            'Serum Result'         => Crypt::encrypt_light($request->serum_cry_antigen, $table),
+            'serum_pos'            => Crypt::encrypt_light($request->serum_cry_due, $table),
+            'CSF for Cryptococcal Antigen' => Crypt::encrypt_light($request->csf_cry_antigen, $table),
+            'csf_crypto_pos'       => Crypt::encrypt_light($request->csf_due, $table),
 
 
-          'csf_fungal'           => Crypt::encrypt_light($request->csf_smear, $table),
-          'CSF Smear Giemsa Stain' => Crypt::encrypt_light($request->giemsa_stain_result, $table),
-          'CSF Smear India Ink'  => Crypt::encrypt_light($request->india_ink_result, $table),
+            'csf_fungal'           => Crypt::encrypt_light($request->csf_smear, $table),
+            'CSF Smear Giemsa Stain' => Crypt::encrypt_light($request->giemsa_stain_result, $table),
+            'CSF Smear India Ink'  => Crypt::encrypt_light($request->india_ink_result, $table),
 
-          'skin_fungal'          => Crypt::encrypt_light($request->skin_smear, $table),
-          'Skin Smear Giemsa Stain' => Crypt::encrypt_light($request->skin_giemsa_stain_result, $table),
-          'Skin Smear India Ink' => Crypt::encrypt_light($request->skin_india_ink_result, $table),
+            'skin_fungal'          => Crypt::encrypt_light($request->skin_smear, $table),
+            'Skin Smear Giemsa Stain' => Crypt::encrypt_light($request->skin_giemsa_stain_result, $table),
+            'Skin Smear India Ink' => Crypt::encrypt_light($request->skin_india_ink_result, $table),
 
-          'lymph_test'          => Crypt::encrypt_light($request->lymph_test, $table),
-          'lymph Giemsa Stain'           => Crypt::encrypt_light($request->lymph_giemsa_stain, $table),
-          'lymph India Ink'           => Crypt::encrypt_light($request->lymph_india_ink, $table),
-          //'sample_type'          =>Crypt::encrypt_light( $request -> type_sample ,$table),
+            'lymph_test'          => Crypt::encrypt_light($request->lymph_test, $table),
+            'lymph Giemsa Stain'           => Crypt::encrypt_light($request->lymph_giemsa_stain, $table),
+            'lymph India Ink'           => Crypt::encrypt_light($request->lymph_india_ink, $table),
+            //'sample_type'          =>Crypt::encrypt_light( $request -> type_sample ,$table),
 
-          'Toxo plasma'  => Crypt::encrypt_light($request->toxo_plasma, $table),
-          'Toxo igG'     => Crypt::encrypt_light($request->toxo_igG, $table),
-          'Toxo igM'     => Crypt::encrypt_light($request->toxo_igm, $table),
-          'Lab Techanician'      => Crypt::encrypt_light($request->oi_lab_tech, $table),
-          'issued'               => $request->oi_issue_date,
+            'Toxo plasma'  => Crypt::encrypt_light($request->toxo_plasma, $table),
+            'Toxo igG'     => Crypt::encrypt_light($request->toxo_igG, $table),
+            'Toxo igM'     => Crypt::encrypt_light($request->toxo_igm, $table),
+            'Lab Techanician'      => Crypt::encrypt_light($request->oi_lab_tech, $table),
+            'issued'               => $request->oi_issue_date,
 
-          'updated_by' => $request->updated_by,
+            'updated_by' => $request->updated_by,
+          ]);
+        Applog::create([
+          'User' => $request->appUser,
+          'Pid' => $request->cid,
+          'tableName' => "Lab-Hiv-Test",
+          'Org_info' => $request->org_info,
+          'Updated_info'   => $request->updated_info,
         ]);
-      Applog::create([
-        'User' => $request->appUser,
-        'Pid' => $request->cid,
-        'tableName' => "Lab-Hiv-Test",
-        'Org_info' => $request->org_info,
-        'Updated_info'   => $request->updated_info,
-      ]);
-      $oiTest = 0;
-      $success = [[
-        "id" => 1,
-        "name" => "updated"
-      ]];
-      return response()->json([$success]);
+        $oiTest = 0;
+        $success = [[
+          "id" => 1,
+          "name" => "updated"
+        ]];
+        return response()->json([$success]);
+      } else {
+        return response()->json(["This ID has another record in this Day"]);
+      }
     }
     if ($gtTest == 2 && $updateID_gt > 0) {
-      LabGeneralTest::where('id', $updateID_gt)
-        ->update([
-          'CID'                  => $request->cid,
-          'fuchiacode'           => $request->fuchiaID,
-          'agey'                 => $request->agey,
-          'agem'                 => $request->agem,
-          'Gender'               => Crypt::encrypt_light($request->gender, $table),
-          'Req_Doctor' => Crypt::encrypt_light($request->reqDoctor, $table),
-          'Visit_date'           => $request->vDate,
-          'vdate' => $request->vDate,
-          'Patient_Type'         => Crypt::encrypt_light($request->Ptype, $table),
-          'Patient Type Sub'     => Crypt::encrypt_light($request->ext_sub, $table),
-          'clinic code'          => Crypt::encrypt_light($request->clinic, $table),
+      $lab_exist = LabGeneralTest::where('id', '!=', $updateID_gt)->where('CID', $request->cid)->where('vdate', $request->vDate)->exists();
+      if (!$lab_exist) {
+        LabGeneralTest::where('id', $updateID_gt)
+          ->update([
+            'CID'                  => $request->cid,
+            'fuchiacode'           => $request->fuchiaID,
+            'agey'                 => $request->agey,
+            'agem'                 => $request->agem,
+            'Gender'               => Crypt::encrypt_light($request->gender, $table),
+            'Req_Doctor' => Crypt::encrypt_light($request->reqDoctor, $table),
+            'Visit_date'           => $request->vDate,
+            'vdate' => $request->vDate,
+            'Patient_Type'         => Crypt::encrypt_light($request->Ptype, $table),
+            'Patient Type Sub'     => Crypt::encrypt_light($request->ext_sub, $table),
+            'clinic code'          => Crypt::encrypt_light($request->clinic, $table),
 
-          'Dangue RDT'           => Crypt::encrypt_light($request->dangue_rdt, $table),
-          'NS1 Antigen'          => Crypt::encrypt_light($request->NS1_antigen, $table),
-          'IgG Result'           => Crypt::encrypt_light($request->igG, $table),
-          'IgM Result'           => Crypt::encrypt_light($request->igm, $table),
-          'Malaria RDT'          => Crypt::encrypt_light($request->malaria_rdt_done, $table),
-          'Malaria RDT Result'   => Crypt::encrypt_light($request->malaria_rdt_result, $table),
-          'Malaria_spec'         => Crypt::encrypt_light($request->mal_spec, $table),
-          'Malaria_grade'        => Crypt::encrypt_light($request->mal_grade, $table),
-          'Malaria_stage'        => Crypt::encrypt_light($request->mal_stage, $table),
+            'Dangue RDT'           => Crypt::encrypt_light($request->dangue_rdt, $table),
+            'NS1 Antigen'          => Crypt::encrypt_light($request->NS1_antigen, $table),
+            'IgG Result'           => Crypt::encrypt_light($request->igG, $table),
+            'IgM Result'           => Crypt::encrypt_light($request->igm, $table),
+            'Malaria RDT'          => Crypt::encrypt_light($request->malaria_rdt_done, $table),
+            'Malaria RDT Result'   => Crypt::encrypt_light($request->malaria_rdt_result, $table),
+            'Malaria_spec'         => Crypt::encrypt_light($request->mal_spec, $table),
+            'Malaria_grade'        => Crypt::encrypt_light($request->mal_grade, $table),
+            'Malaria_stage'        => Crypt::encrypt_light($request->mal_stage, $table),
 
-          'malaria_microscopy'   => Crypt::encrypt_light($request->malaria_done, $table),
-          'Malaria Microscopy Result' => Crypt::encrypt_light($request->malaria_microscopy_result, $table),
-          'RBS test'             => Crypt::encrypt_light($request->rbs, $table),
-          'RBS'                  => Crypt::encrypt_light($request->rbs_result, $table),
-          'FBS test'             => Crypt::encrypt_light($request->fbs, $table),
-          'FBS'                  => Crypt::encrypt_light($request->fbs_result, $table),
-          'haemo_done'           => Crypt::encrypt_light($request->gt_haemoglobin, $table),
-          'haemoglobin'          => Crypt::encrypt_light($request->haemoPercent, $table),
+            'malaria_microscopy'   => Crypt::encrypt_light($request->malaria_done, $table),
+            'Malaria Microscopy Result' => Crypt::encrypt_light($request->malaria_microscopy_result, $table),
+            'RBS test'             => Crypt::encrypt_light($request->rbs, $table),
+            'RBS'                  => Crypt::encrypt_light($request->rbs_result, $table),
+            'FBS test'             => Crypt::encrypt_light($request->fbs, $table),
+            'FBS'                  => Crypt::encrypt_light($request->fbs_result, $table),
+            'haemo_done'           => Crypt::encrypt_light($request->gt_haemoglobin, $table),
+            'haemoglobin'          => Crypt::encrypt_light($request->haemoPercent, $table),
 
-          'hba1c'                => Crypt::encrypt_light($request->hba1c, $table),
-          //'visitID'              =>Crypt::encrypt_light( $request ->   ,$table),
-          "Lab Tech"             => Crypt::encrypt_light($request->gt_lab_tech, $table),
-          "Issue Date"           => $request->gt_issue_date,
-          //"ClinicName"           => $request ->   ,
+            'hba1c'                => Crypt::encrypt_light($request->hba1c, $table),
+            //'visitID'              =>Crypt::encrypt_light( $request ->   ,$table),
+            "Lab Tech"             => Crypt::encrypt_light($request->gt_lab_tech, $table),
+            "Issue Date"           => $request->gt_issue_date,
+            //"ClinicName"           => $request ->   ,
 
-          'updated_by' => $request->updated_by,
+            'updated_by' => $request->updated_by,
+          ]);
+        Applog::create([
+          'User' => $request->appUser,
+          'Pid' => $request->cid,
+          'tableName' => "Lab-Hiv-Test",
+          'Org_info' => $request->org_info,
+          'Updated_info'   => $request->updated_info,
         ]);
-      Applog::create([
-        'User' => $request->appUser,
-        'Pid' => $request->cid,
-        'tableName' => "Lab-Hiv-Test",
-        'Org_info' => $request->org_info,
-        'Updated_info'   => $request->updated_info,
-      ]);
-      $gtTest = 0;
-      $success = [[
-        "id" => 1,
-        "name" => "updated"
-      ]];
-      return response()->json([$success]);
+        $gtTest = 0;
+        $success = [[
+          "id" => 1,
+          "name" => "updated"
+        ]];
+        return response()->json([$success]);
+      } else {
+        return response()->json(["This ID has another record in this Day"]);
+      }
     }
     if ($stTest == 2 && $updateID_st > 0) {
-      LabStoolTest::where('id', $updateID_st)
-        ->update([
-          'CID'                  => $request->cid,
-          'fuchiacode'           => $request->fuchiaID,
-          'agey'                 => $request->agey,
-          'agem'                 => $request->agem,
-          'visit_date'           => $request->vDate,
-          'vdate' => $request->vDate,
-          'Gender'               => Crypt::encrypt_light($request->gender, $table),
-          'Req_Doctor'     => Crypt::encrypt_light($request->reqDoctor, $table),
-          'Patient Type'         => Crypt::encrypt_light($request->Ptype, $table),
-          'Patient Type Sub'     => Crypt::encrypt_light($request->ext_sub, $table),
-          'Clinic'               => Crypt::encrypt_light($request->clinic, $table),
-          'st_stool'             => Crypt::encrypt_light($request->st_stool, $table),
-          'st_colour'            => Crypt::encrypt_light($request->st_colour, $table),
-          'wbc_pus_cell'         => Crypt::encrypt_light($request->wbc_pus_cell, $table),
-          'st_consistency'       => Crypt::encrypt_light($request->st_consistency, $table),
-          'st_rbcs'              => Crypt::encrypt_light($request->st_rbcs, $table),
-          'st_other'             => Crypt::encrypt_light($request->st_other, $table),
-          'st_comment'           => $request->st_comment,
-          'st_lab_tech'          => Crypt::encrypt_light($request->st_lab_tech, $table),
-          'st_issue_date'        => $request->st_issue_date,
+      $lab_exist = LabStoolTest::where('id', '!=', $updateID_st)->where('CID', $request->cid)->where('vdate', $request->vDate)->exists();
+      if (!$lab_exist) {
+        LabStoolTest::where('id', $updateID_st)
+          ->update([
+            'CID'                  => $request->cid,
+            'fuchiacode'           => $request->fuchiaID,
+            'agey'                 => $request->agey,
+            'agem'                 => $request->agem,
+            'visit_date'           => $request->vDate,
+            'vdate' => $request->vDate,
+            'Gender'               => Crypt::encrypt_light($request->gender, $table),
+            'Req_Doctor'     => Crypt::encrypt_light($request->reqDoctor, $table),
+            'Patient Type'         => Crypt::encrypt_light($request->Ptype, $table),
+            'Patient Type Sub'     => Crypt::encrypt_light($request->ext_sub, $table),
+            'Clinic'               => Crypt::encrypt_light($request->clinic, $table),
+            'st_stool'             => Crypt::encrypt_light($request->st_stool, $table),
+            'st_colour'            => Crypt::encrypt_light($request->st_colour, $table),
+            'wbc_pus_cell'         => Crypt::encrypt_light($request->wbc_pus_cell, $table),
+            'st_consistency'       => Crypt::encrypt_light($request->st_consistency, $table),
+            'st_rbcs'              => Crypt::encrypt_light($request->st_rbcs, $table),
+            'st_other'             => Crypt::encrypt_light($request->st_other, $table),
+            'st_comment'           => $request->st_comment,
+            'st_lab_tech'          => Crypt::encrypt_light($request->st_lab_tech, $table),
+            'st_issue_date'        => $request->st_issue_date,
 
-          'updated_by' => $request->updated_by,
+            'updated_by' => $request->updated_by,
+          ]);
+        Applog::create([
+          'User' => $request->appUser,
+          'Pid' => $request->cid,
+          'tableName' => "Lab-Hiv-Test",
+          'Org_info' => $request->org_info,
+          'Updated_info'   => $request->updated_info,
         ]);
-      Applog::create([
-        'User' => $request->appUser,
-        'Pid' => $request->cid,
-        'tableName' => "Lab-Hiv-Test",
-        'Org_info' => $request->org_info,
-        'Updated_info'   => $request->updated_info,
-      ]);
-      $stTest = 0;
-      $success = [[
-        "id" => 1,
-        "name" => "updated"
-      ]];
-      return response()->json([$success]);
+        $stTest = 0;
+        $success = [[
+          "id" => 1,
+          "name" => "updated"
+        ]];
+        return response()->json([$success]);
+      } else {
+        return response()->json(["This ID has another record in this Day"]);
+      }
     }
     if ($afbTest == 2 && $updateID_afb > 0) {
       //  $decrypted_string = Crypt::decryptString($encrypted_string); For decryption
-      $ptName = $request->input('afb_pt_name');
-      $encrypted_Name = Crypt::encryptString($ptName);
-      $ptAddress = $request->input('afb_pt_address');
-      $encrypted_Address = Crypt::encryptString($ptAddress);
+      $lab_exist = LabAfbTest::where('id', '!=', $updateID_afb)->where('CID', $request->cid)->where('vdate', $request->vDate)->exists();
+      if (!$lab_exist) {
+        $ptName = $request->input('afb_pt_name');
+        $encrypted_Name = Crypt::encryptString($ptName);
+        $ptAddress = $request->input('afb_pt_address');
+        $encrypted_Address = Crypt::encryptString($ptAddress);
+        LabAfbTest::where('id', $updateID_afb)
+          ->update([
+            'CID'                  => $request->cid,
+            'fuchiacode'           => $request->fuchiaID,
+            'agey'                 => $request->agey,
+            'agem'                 => $request->agem,
+            'visit_date'           => $request->vDate,
+            'vdate' => $request->vDate,
+            'clinic code'               => $request->clinic,
+            'afb_pt_name'          => $encrypted_Name, // Encrypted
+            'afb_pt_address'       => $encrypted_Address, // Encrypted
 
-      LabAfbTest::where('id', $updateID_afb)
-        ->update([
-          'CID'                  => $request->cid,
-          'fuchiacode'           => $request->fuchiaID,
-          'agey'                 => $request->agey,
-          'agem'                 => $request->agem,
-          'visit_date'           => $request->vDate,
-          'vdate' => $request->vDate,
-          'clinic code'               => $request->clinic,
-          'afb_pt_name'          => $encrypted_Name, // Encrypted
-          'afb_pt_address'       => $encrypted_Address, // Encrypted
+            'Gender'               => Crypt::encrypt_light($request->gender, $table),
+            'Req_Doctor'     => Crypt::encrypt_light($request->reqDoctor, $table),
+            'Patient Type'         => Crypt::encrypt_light($request->Ptype, $table),
+            'Patient Type Sub'     => Crypt::encrypt_light($request->ext_sub, $table),
+            'Previous_TB'          => Crypt::encrypt_light($request->Previous_TB, $table),
+            'HIV_status'           => Crypt::encrypt_light($request->HIV_status, $table),
+            'reason_for_exam'      => $request->reason_for_exam,
+            'afb_Pt_type'          => Crypt::encrypt_light($request->afb_Pt_type, $table),
+            'follow_up_mt'         => Crypt::encrypt_light($request->follow_up_mt, $table),
+            'speci_type'           => Crypt::encrypt_light($request->speci_type, $table),
+            'slide_num_1'          => Crypt::encrypt_light($request->slide_num_1, $table),
+            'slide_num_2'          => Crypt::encrypt_light($request->slide_num_2, $table),
+            'speci_receive_dt1'    => $request->speci_receive_dt1,
+            'speci_receive_dt2'    => $request->speci_receive_dt2,
+            'visual_app_1'         => Crypt::encrypt_light($request->visual_app_1, $table),
+            'visual_app_2'         => Crypt::encrypt_light($request->visual_app_2, $table),
+            'afb_result1'          => Crypt::encrypt_light($request->afb_result1, $table),
+            'afb_result2'          => Crypt::encrypt_light($request->afb_result2, $table),
+            'slide1_grading1'      => Crypt::encrypt_light($request->sacnty_grading1, $table),
+            'slide2_grading2'      => Crypt::encrypt_light($request->sacnty_grading2, $table),
+            'afb_lab_techca'       => Crypt::encrypt_light($request->afb_lab_tech, $table),
 
-          'Gender'               => Crypt::encrypt_light($request->gender, $table),
-          'Req_Doctor'     => Crypt::encrypt_light($request->reqDoctor, $table),
-          'Patient Type'         => Crypt::encrypt_light($request->Ptype, $table),
-          'Patient Type Sub'     => Crypt::encrypt_light($request->ext_sub, $table),
-          'Previous_TB'          => Crypt::encrypt_light($request->Previous_TB, $table),
-          'HIV_status'           => Crypt::encrypt_light($request->HIV_status, $table),
-          'reason_for_exam'      => $request->reason_for_exam,
-          'afb_Pt_type'          => Crypt::encrypt_light($request->afb_Pt_type, $table),
-          'follow_up_mt'         => Crypt::encrypt_light($request->follow_up_mt, $table),
-          'speci_type'           => Crypt::encrypt_light($request->speci_type, $table),
-          'slide_num_1'          => Crypt::encrypt_light($request->slide_num_1, $table),
-          'slide_num_2'          => Crypt::encrypt_light($request->slide_num_2, $table),
-          'speci_receive_dt1'    => $request->speci_receive_dt1,
-          'speci_receive_dt2'    => $request->speci_receive_dt2,
-          'visual_app_1'         => Crypt::encrypt_light($request->visual_app_1, $table),
-          'visual_app_2'         => Crypt::encrypt_light($request->visual_app_2, $table),
-          'afb_result1'          => Crypt::encrypt_light($request->afb_result1, $table),
-          'afb_result2'          => Crypt::encrypt_light($request->afb_result2, $table),
-          'slide1_grading1'      => Crypt::encrypt_light($request->sacnty_grading1, $table),
-          'slide2_grading2'      => Crypt::encrypt_light($request->sacnty_grading2, $table),
-          'afb_lab_techca'       => Crypt::encrypt_light($request->afb_lab_tech, $table),
+            'afb_issue_date'       => $request->afb_issue_date,
 
-          'afb_issue_date'       => $request->afb_issue_date,
-
-          'updated_by' => $request->updated_by,
+            'updated_by' => $request->updated_by,
+          ]);
+        Applog::create([
+          'User' => $request->appUser,
+          'Pid' => $request->cid,
+          'tableName' => "Lab-Hiv-Test",
+          'Org_info' => $request->org_info,
+          'Updated_info'   => $request->updated_info,
         ]);
-      Applog::create([
-        'User' => $request->appUser,
-        'Pid' => $request->cid,
-        'tableName' => "Lab-Hiv-Test",
-        'Org_info' => $request->org_info,
-        'Updated_info'   => $request->updated_info,
-      ]);
-      $afbTest = 0;
-      $success = [[
-        "id" => 1,
-        "name" => "updated"
-      ]];
-      return response()->json([$success]);
+        $afbTest = 0;
+        $success = [[
+          "id" => 1,
+          "name" => "updated"
+        ]];
+        return response()->json([$success]);
+      } else {
+        return response()->json(["This ID has another record in this Day"]);
+      }
     }
     if ($covidTest == 2 && $updateID_covid > 0) {
-      LabCovidTest::where('id', $updateID_covid)
-        ->update([
-          'CID'                  => $request->cid,
-          'fuchiacode'           => $request->fuchiaID,
-          'agey'                 => $request->agey,
-          'agem'                 => $request->agem,
-          'visit_date'           => $request->vDate,
-          'vdate' => $request->vDate,
-          'Clinic'               => $request->clinic,
-          'Gender'               => Crypt::encrypt_light($request->gender, $table),
-          'Req_Doctor'     => Crypt::encrypt_light($request->reqDoctor, $table),
-          'Patient Type'         => Crypt::encrypt_light($request->Ptype, $table),
-          'Patient Type Sub'     => Crypt::encrypt_light($request->ext_sub, $table),
-          'type_of_patient_covid' => Crypt::encrypt_light($request->type_of_patient_covid, $table),
-          'specimen_type'        => Crypt::encrypt_light($request->specimen_type, $table),
-          'co_test_type'         => Crypt::encrypt_light($request->co_test_type, $table),
-          'covid_result'         => Crypt::encrypt_light($request->covid_result, $table),
-          'covid_lab_tech'       => Crypt::encrypt_light($request->covid_lab_tech, $table),
-          'covid_issue_date'     => $request->covid_issue_date,
-          'Comment' => $request->co_comment,
-          'updated_by' => $request->updated_by,
+      $lab_exist = LabCovidTest::where('id', '!=', $updateID_covid)->where('CID', $request->cid)->where('vdate', $request->vDate)->exists();
+      if (!$lab_exist) {
+        LabCovidTest::where('id', $updateID_covid)
+          ->update([
+            'CID'                  => $request->cid,
+            'fuchiacode'           => $request->fuchiaID,
+            'agey'                 => $request->agey,
+            'agem'                 => $request->agem,
+            'visit_date'           => $request->vDate,
+            'vdate' => $request->vDate,
+            'Clinic'               => $request->clinic,
+            'Gender'               => Crypt::encrypt_light($request->gender, $table),
+            'Req_Doctor'     => Crypt::encrypt_light($request->reqDoctor, $table),
+            'Patient Type'         => Crypt::encrypt_light($request->Ptype, $table),
+            'Patient Type Sub'     => Crypt::encrypt_light($request->ext_sub, $table),
+            'type_of_patient_covid' => Crypt::encrypt_light($request->type_of_patient_covid, $table),
+            'specimen_type'        => Crypt::encrypt_light($request->specimen_type, $table),
+            'co_test_type'         => Crypt::encrypt_light($request->co_test_type, $table),
+            'covid_result'         => Crypt::encrypt_light($request->covid_result, $table),
+            'covid_lab_tech'       => Crypt::encrypt_light($request->covid_lab_tech, $table),
+            'covid_issue_date'     => $request->covid_issue_date,
+            'Comment' => $request->co_comment,
+            'updated_by' => $request->updated_by,
 
+          ]);
+        Applog::create([
+          'User' => $request->appUser,
+          'Pid' => $request->cid,
+          'tableName' => "Lab-Covid-Test",
+          'Org_info' => $request->org_info,
+          'Updated_info'   => $request->updated_info,
         ]);
-      Applog::create([
-        'User' => $request->appUser,
-        'Pid' => $request->cid,
-        'tableName' => "Lab-Covid-Test",
-        'Org_info' => $request->org_info,
-        'Updated_info'   => $request->updated_info,
-      ]);
-      $covidTest = 0;
-      $success = [[
-        "id" => 1,
-        "name" => "updated"
-      ]];
-      return response()->json([$success]);
+        $covidTest = 0;
+        $success = [[
+          "id" => 1,
+          "name" => "updated"
+        ]];
+        return response()->json([$success]);
+      } else {
+        return response()->json(["This ID has another record in this Day"]);
+      }
     }
     if ($viral_loadTest == 2 && $updateID_viral > 0) {
-      Viralload::where('id', $updateID_viral)
-        ->update([
-          'Clinic' => $request->clinic,
-          'CID' => $request->cid,
-          'fuchiacode' => $request->fuchiaID,
-          'agey' => $request->agey,
-          'agem' => $request->agem,
-          //'Visit_date'=>$request->vDate ,
-          'ART_ini_date' => $request->art_initial_date_time,
-          'Sample_Ship_Date' => $request->sample_ship_date,
-          'vdate' => $request->vDate,
-          'Result received date' => $request->result_received_date,
+      $lab_exist = Viralload::where('id', '!=', $updateID_viral)->where('CID', $request->cid)->where('vdate', $request->vDate)->exists();
+      if (!$lab_exist) {
+        Viralload::where('id', $updateID_viral)
+          ->update([
+            'Clinic' => $request->clinic,
+            'CID' => $request->cid,
+            'fuchiacode' => $request->fuchiaID,
+            'agey' => $request->agey,
+            'agem' => $request->agem,
+            //'Visit_date'=>$request->vDate ,
+            'ART_ini_date' => $request->art_initial_date_time,
+            'Sample_Ship_Date' => $request->sample_ship_date,
+            'vdate' => $request->vDate,
+            'Result received date' => $request->result_received_date,
 
-          'Gender' => Crypt::encrypt_light($request->gender, $table),
-          'Req_Doctor' => Crypt::encrypt_light($request->reqDoctor, $table),
-          'ART_duration' => Crypt::encrypt_light($request->art_duration, $table),
-          'Sample Sent to' => Crypt::encrypt_light($request->sample_sent_to, $table),
-          'Detect' => Crypt::encrypt_light($request->detectable, $table),
-          'Viral Load Result' => Crypt::encrypt_light($request->viral_load_result, $table),
-          'Other org code' => Crypt::encrypt_light($request->other_org_code, $table),
+            'Gender' => Crypt::encrypt_light($request->gender, $table),
+            'Req_Doctor' => Crypt::encrypt_light($request->reqDoctor, $table),
+            'ART_duration' => Crypt::encrypt_light($request->art_duration, $table),
+            'Sample Sent to' => Crypt::encrypt_light($request->sample_sent_to, $table),
+            'Detect' => Crypt::encrypt_light($request->detectable, $table),
+            'Viral Load Result' => Crypt::encrypt_light($request->viral_load_result, $table),
+            'Other org code' => Crypt::encrypt_light($request->other_org_code, $table),
 
-          'Remark' => $request->remark,
-          'updated_by' => $request->updated_by,
+            'Remark' => $request->remark,
+            'updated_by' => $request->updated_by,
 
+          ]);
+        Applog::create([
+          'User' => $request->appUser,
+          'Pid' => $request->cid,
+          'tableName' => "Lab-Covid-Test",
+          'Org_info' => $request->org_info,
+          'Updated_info'   => $request->updated_info,
         ]);
-      Applog::create([
-        'User' => $request->appUser,
-        'Pid' => $request->cid,
-        'tableName' => "Lab-Covid-Test",
-        'Org_info' => $request->org_info,
-        'Updated_info'   => $request->updated_info,
-      ]);
-      $covidTest = 0;
-      $success = [[
-        "id" => 1,
-        "name" => "updated"
-      ]];
-      return response()->json([$success]);
+        $covidTest = 0;
+        $success = [[
+          "id" => 1,
+          "name" => "updated"
+        ]];
+        return response()->json([$success]);
+      } else {
+        return response()->json(["This ID has another record in this Day"]);
+      }
     }
 
     // to fill data to update
@@ -1021,13 +1072,12 @@ class LabsController extends Controller
       if ($printYN == "yes") {
         $id = $request->id;
         $date = $request->date;
-
-        $dataPatient = PtConfig::select('Pid', 'FuchiaID', 'Agey', 'Agem', 'Gender')->where('Pid', $id)
-          ->get();
       } else {
         $id = $request->input('PtID'); //
         $date = $request->input('selected_Date'); //
       }
+      $dataPatient = PtConfig::select('Pid', 'FuchiaID', 'Agey', 'Agem', 'Gender', 'Date of Birth', 'Reg Date', 'Main Risk', 'Sub Risk')->where('Pid', $id)
+        ->first();
 
 
       $data = Lab::where('CID', $id)
@@ -1482,6 +1532,16 @@ class LabsController extends Controller
         $dataPrepare_viral[$i]['updated_by'] = $data10[$i]["updated_by"];
         $dataPrepare_viral[$i]['created_by'] = $data10[$i]["created_by"];
       } //viral
+      $encrypt = [
+        'Gender',
+        'Main Risk',
+        'Sub Risk'
+      ];
+
+      foreach ($encrypt as $encry) {
+        $dataPatient[$encry] = Crypt::decrypt_light($dataPatient[$encry], $table);
+      }
+      $dataPatient = Export_age::Export_general($dataPatient, $date, $dataPatient["Date of Birth"], $dataPatient);
       return response()->json([
         $dataPrepare_hiv,
         $dataPrepare_rpr,

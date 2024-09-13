@@ -1507,7 +1507,7 @@ class CounsellingController extends Controller
 							if ($user1['ptconfig']["Risk Change_Date"] != null && $user1['ptconfig']["Former Risk"] != null && $user1['ptconfig']["Former Risk"] != "731") {
 								$riskChangeDate = Carbon::createFromFormat('Y-m-d', $user1['ptconfig']["Risk Change_Date"]);
 								$riskChangeDate = new DateTime(Carbon::createFromFormat('d-m-Y', $riskChangeDate->format('d-m-Y')));
-								if ($vdate <= $riskChangeDate) {
+								if ($vdate < $riskChangeDate) {
 									$user1["Main Risk"] = $user1['ptconfig']["Former Risk"];
 									$user1["Sub Risk"] = '';
 								}

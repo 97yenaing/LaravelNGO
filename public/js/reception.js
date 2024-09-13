@@ -57,7 +57,7 @@ $(document).ready(function () {
         if ($("#mpox_yes_no").val() == "Yes") {
             $("#mpox_rash_yes_no,#mpox_fur_mx").prop("disabled", false);
         } else {
-            $("#mpox_rash_yes_no").prop("disabled", true).val("No");
+            $("#mpox_rash_yes_no").prop("disabled", true).val("");
             $("#mpox_fur_mx").prop("disabled", true).val("");
         }
     });

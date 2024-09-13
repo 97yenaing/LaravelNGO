@@ -1030,6 +1030,7 @@
                 <select class="form-select reception-select"
                   id="mpox_yes_no"
                   required="">
+                  <option value=""></option>
                   <option value="No">No</option>
                   <option value="Yes">Yes</option>
                 </select>
@@ -1716,6 +1717,7 @@
                   <select class="form-select reception-select"
                     id="mpox_yes_no_update"
                     required="" onchange="mox_update()">
+                    <option value=""></option>
                     <option value="No">No</option>
                     <option value="Yes">Yes</option>
                   </select>
@@ -2140,7 +2142,7 @@
     if ($("#mpox_yes_no_update").val() == "Yes") {
       $("#mpox_rash_yes_no_update,#mpox_fur_mx_update").prop("disabled", false);
     } else {
-      $("#mpox_rash_yes_no_update").prop("disabled", true).val("No");
+      $("#mpox_rash_yes_no_update").prop("disabled", true).val("");
       $("#mpox_fur_mx_update").prop("disabled", true).val("");
     }
   }
@@ -3459,9 +3461,9 @@
             $("#responseText").css("color", "red");
           }
 
-          if (age < 13) {
-            $("#fmaplancheck").prop("disabled", true);
-          }
+          // if (age < 13) {
+          //   $("#fmaplancheck").prop("disabled", true);
+          // }
           if (response[0]['Gender'] == "195997324") {
             $("#fmaplancheck").prop("disabled", true);
             $("#anccheck").prop("disabled", true);

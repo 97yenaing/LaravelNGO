@@ -162,7 +162,7 @@ class PreventionExport implements FromView, WithColumnFormatting
 						if ($user['ptconfig']["Risk Change_Date"] != null && $user['ptconfig']['Former Risk'] != null && $user['ptconfig']['Former Risk'] != "731") {
 							$riskChangeDate = Carbon::createFromFormat('Y-m-d', $user['ptconfig']["Risk Change_Date"]);
 							$riskChangeDate = new DateTime(Carbon::createFromFormat('d-m-Y', $riskChangeDate->format('d-m-Y')));
-							if ($vdate <= $riskChangeDate) {
+							if ($vdate < $riskChangeDate) {
 								$user["Main Risk"] = $user['ptconfig']["Former Risk"];
 								$user["Sub Risk"] = '';
 							}
