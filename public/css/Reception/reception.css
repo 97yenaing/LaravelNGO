@@ -44,6 +44,10 @@
   width: 50%;
 }
 
+#print-section {
+  display: none;
+}
+
 .predefine-section li {
   float: left;
   margin-right: 2%;

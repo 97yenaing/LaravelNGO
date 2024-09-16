@@ -1051,7 +1051,7 @@
                   id="mpox_fur_mx"
                   required="" disabled>
                   <option value=""> </option>
-                  <option value="1.Treated at MAM">1. Treated at MAM</option>
+                  <option value="1.Treated at MAM">1.Treated at MAM</option>
                   <option value="2.Referred to other center">2.Referred to other center</option>
                 </select>
 
@@ -1739,7 +1739,7 @@
                     id="mpox_fur_mx_update"
                     required="" disabled>
                     <option value=""> </option>
-                    <option value="1.Treated at MAM">1. Treated at MAM</option>
+                    <option value="1.Treated at MAM">1.Treated at MAM</option>
                     <option value="2.Referred to other center">2.Referred to other center</option>
                   </select>
                 </div>
@@ -1996,66 +1996,51 @@
     </div>
 
   </div>
-  <div class="row">
-    <div>
-      <div class="vertical-barcode  barcode"
-        style="left:-57px;top:73px">
 
+  <section id="print-section">
+    <div class="row">
+      <div class="col-sm-4">
+        <label for="" class="form-label qr-label"></label>
+        <div class="qr-code"></div>
+      </div>
+      <div class="col-sm-4">
+        <label for="" class="form-label qr-label"></label>
+        <div class="qr-code"></div>
+      </div>
+      <div class="col-sm-4">
+        <label for="" class="form-label qr-label"></label>
+        <div class="qr-code"></div>
       </div>
     </div>
-    <div>
-      <div class="vertical-barcode  barcode"
-        style="left:18px;top:70px">
-
+    <div class="row">
+      <div class="col-sm-4">
+        <label for="" class="form-label qr-label"></label>
+        <div class="qr-code"></div>
+      </div>
+      <div class="col-sm-4">
+        <label for="" class="form-label qr-label"></label>
+        <div class="qr-code"></div>
+      </div>
+      <div class="col-sm-4">
+        <label for="" class="form-label qr-label"></label>
+        <div class="qr-code"></div>
       </div>
     </div>
-    <div>
-      <div class="vertical-barcode  barcode"
-        style="left:100px;top:70px">
-
+    <div class="row">
+      <div class="col-sm-12" style="justify-content: center;">
+        <label for="" class="form-label qr-label"></label>
+        <div class="qr-code"></div>
       </div>
     </div>
-  </div>
-  <div class="row">
-    <div>
-      <div class="vertical-barcode qr-top barcode"
-        style="left:-57px">
-
+    <div class="row">
+      <div class="col-sm-12" style="justify-content: center;">
+        <label for="" class="form-label qr-label"></label>
+        <div class="qr-code"></div>
       </div>
     </div>
-    <div>
-      <div class="vertical-barcode qr-top barcode"
-        style="left:18px">
 
-      </div>
-    </div>
-    <div>
-      <div class="vertical-barcode qr-top barcode"
-        style="left:100px">
 
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div>
-      <div class="barcode"
-        style="left: 20px;
-      top: 510px;
-      position: absolute;">
-
-      </div>
-    </div>
-    <div>
-      <div class=""
-        id="qrcode"
-        style="left: 75px;
-      top: 575px;
-      position: absolute;">
-
-      </div>
-    </div>
-  </div>
+  </section>
 
 </body>
 @endsection
@@ -2177,30 +2162,12 @@
         if (response == "No ID") {
           alert("ဤ ID သည် Confidential အချက်အလက်များမရှိပါ၊၊ Reception တွင် စရင်းသွင်းပးပါ၊၊");
         } else {
-          $('.barcode').html(response.barcode1DHtml);
-          $('#qrcode').html(response.barcode2DHtml);
-
-          $('.barcode').append(
-            $("<label>")
-            .attr({
-              "class": "",
-              "style": "color:black"
-            })
-
-            .text($("#qr_Pid").val())
-          );
-          $('#qrcode').append(
-            $("<label>")
-            .attr({
-              "class": "",
-              "style": "color:black;position:absolute;left:-50%"
-            })
-
-            .text($("#qr_Pid").val())
-          );
+          $('.qr-code').html(response.barcode2DHtml);
           $(".container").hide();
+          $("#print-section").show();
           window.print();
-          //location.reload(true);
+          $("#print-section").hide();
+          location.reload(true);
         }
 
       }
@@ -2994,29 +2961,12 @@
             console.log(response);
 
             if (qrok == "Yes") {
-              $('.barcode').html(response.barcode1DHtml);
-              $('#qrcode').html(response.barcode2DHtml);
 
-              $('.barcode').append(
-                $("<label>")
-                .attr({
-                  "class": "",
-                  "style": "color:black"
-                })
-
-                .text($("#gid").val())
-              );
-              $('#qrcode').append(
-                $("<label>")
-                .attr({
-                  "class": "",
-                  "style": "color:black;position:absolute;left:-50%"
-                })
-
-                .text($("#gid").val())
-              );
+              $('.qr-code').html(response.barcode2DHtml);
               $(".container").hide();
+              $("#print-section").show();
               window.print();
+              $("#print-section").show();
             }
 
             location.reload(true); // to refresh the page
@@ -3177,29 +3127,11 @@
           } else {
             alert("အချက်အလက်များကို သိမ်းပြီးပါပြီ။");
             if (qrok == "Yes") {
-              $('.barcode').html(response.barcode1DHtml);
-              $('#qrcode').html(response.barcode2DHtml);
 
-              $('.barcode').append(
-                $("<label>")
-                .attr({
-                  "class": "",
-                  "style": "color:black"
-                })
-
-                .text($("#gid").val())
-              );
-              $('#qrcode').append(
-                $("<label>")
-                .attr({
-                  "class": "",
-                  "style": "color:black;position:absolute;left:-50%"
-                })
-
-                .text($("#gid").val())
-              );
+              $('.qr-code').html(response.barcode2DHtml);
               $(".container").hide();
               window.print();
+              $("#print-section").show();
             }
           }
           location.reload(true); // to refresh the page
@@ -3367,28 +3299,10 @@
             $('#agey').css("background", "red");
             console.log(response);
             if (qrok == "Yes") {
-              $('.barcode').html(response.barcode1DHtml);
-              $('#qrcode').html(response.barcode2DHtml);
 
-              $('.barcode').append(
-                $("<label>")
-                .attr({
-                  "class": "",
-                  "style": "color:black"
-                })
-
-                .text($("#gid").val())
-              );
-              $('#qrcode').append(
-                $("<label>")
-                .attr({
-                  "class": "",
-                  "style": "color:black;position:absolute;left:-50%"
-                })
-
-                .text($("#gid").val())
-              );
+              $('.qr-code').html(response.barcode2DHtml);
               $(".container").hide();
+              $("#print-section").show();
               window.print();
             }
 
