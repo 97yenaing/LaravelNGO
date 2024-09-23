@@ -55,7 +55,6 @@ class ReceptionController extends Controller
     $mam_clinicID = Auth()->user()->clinic;
 
     $lastPt = PtConfig::where("Mode", "=", 0)
-      ->where("Clinic Code", "=", $mam_clinicID)
       ->where("Pid", "like", $mam_clinicID . "%")
       ->orderBy('Pid', 'desc')
       ->limit(1)
@@ -225,7 +224,7 @@ class ReceptionController extends Controller
 
         $barcode2D = new DNS2D();
         $barcode2D->setStorPath(__DIR__ . '/cache/');
-        $barcode2DHtml = $barcode2D->getBarcodeHTML($request->Pid, 'QRCODE', 3, 3);
+        $barcode2DHtml = $barcode2D->getBarcodeHTML($request->Pid, 'QRCODE', 2, 2);
 
         //$success = [[$barcode1DHtml,$barcode2DHtml]];
         return response()->json([
@@ -494,7 +493,7 @@ class ReceptionController extends Controller
 
         $barcode2D = new DNS2D();
         $barcode2D->setStorPath(__DIR__ . '/cache/');
-        $barcode2DHtml = $barcode2D->getBarcodeHTML($gid, 'QRCODE', 3, 3);
+        $barcode2DHtml = $barcode2D->getBarcodeHTML($gid, 'QRCODE', 2, 2);
         return response()->json([
           'barcode1DHtml' => $barcode1DHtml,
           'barcode2DHtml' => $barcode2DHtml,
@@ -649,7 +648,7 @@ class ReceptionController extends Controller
 
         $barcode2D = new DNS2D();
         $barcode2D->setStorPath(__DIR__ . '/cache/');
-        $barcode2DHtml = $barcode2D->getBarcodeHTML($request->gid, 'QRCODE', 3, 3);
+        $barcode2DHtml = $barcode2D->getBarcodeHTML($request->gid, 'QRCODE', 2, 2);
 
         //$success = [[$barcode1DHtml,$barcode2DHtml]];
         return response()->json([
@@ -793,7 +792,7 @@ class ReceptionController extends Controller
 
       $barcode2D = new DNS2D();
       $barcode2D->setStorPath(__DIR__ . '/cache/');
-      $barcode2DHtml = $barcode2D->getBarcodeHTML($request->gid, 'QRCODE', 3, 3);
+      $barcode2DHtml = $barcode2D->getBarcodeHTML($request->gid, 'QRCODE', 2, 2);
       return response()->json([
         'barcode1DHtml' => $barcode1DHtml,
         'barcode2DHtml' => $barcode2DHtml,

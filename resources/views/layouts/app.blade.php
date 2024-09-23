@@ -131,7 +131,7 @@
                 <li><a class="dropdown-item" href="{{ url('TB/TB_IPT') }}">IPT</a></li>
                 <li><a class="dropdown-item" href="{{ url('RiskHistory/risk_history') }}">Risk Log</a></li>
                 <li><a class="dropdown-item" href="{{ url('All_Export/export_all') }}">Export All Data</a></li>
-                <li><a class="dropdown-item" href="{{ url('MME/mme_export') }}">MNE Export</a></li>
+                <!-- <li><a class="dropdown-item" href="{{ url('MME/mme_export') }}">MNE Export</a></li> -->
 
 
                 <li><a class="dropdown-item" href="{{ url('Id_Fix/Id_Delete') }}">ID Fix</a></li>
@@ -436,16 +436,6 @@
     ]
   };
   document.getElementById("clinic_code").value = @json($mam_clinicID);
-  // const select = $('<select />', {
-  //   class: 'form-select',
-  //   id: 'main_risk',
-  //   onchange: 'MainPatientType()',
-  // });//for Main Risk
-
-  // const sub_select = $('<select />', {
-  //   class: 'form-select',
-  //   id: 'sub_risk',
-  // });
 
   function mainRiskCreate(MainRiskIdBlock) {
     console.log(options);
@@ -462,23 +452,26 @@
     mainriskValue = $(risk).val();
     console.log(subOptions[mainriskValue], mainriskValue, risk, SubRiskIdBlock);
     $("." + SubRiskIdBlock).empty();
-    if (subOptions[mainriskValue].length == 2) {
-      $.each(subOptions[mainriskValue][0], function(index, subOption) {
-        console.log(subOption);
-        $('<option /> ', {
-          value: subOption,
-          text: subOptions[mainriskValue][1][index],
-        }).appendTo($("." + SubRiskIdBlock));
+    if (subOptions[mainriskValue] != undefined || subOptions[mainriskValue] != null) {
+      if (subOptions[mainriskValue].length == 2) {
+        $.each(subOptions[mainriskValue][0], function(index, subOption) {
+          console.log(subOption);
+          $('<option /> ', {
+            value: subOption,
+            text: subOptions[mainriskValue][1][index],
+          }).appendTo($("." + SubRiskIdBlock));
 
-      });
-    } else {
-      $.each(subOptions[mainriskValue][0], function(index, subOption) {
-        $(' <option /> ', {
-          value: subOption,
-          text: subOption,
-        }).appendTo($("." + SubRiskIdBlock));
-      });
+        });
+      } else {
+        $.each(subOptions[mainriskValue][0], function(index, subOption) {
+          $(' <option /> ', {
+            value: subOption,
+            text: subOption,
+          }).appendTo($("." + SubRiskIdBlock));
+        });
+      }
     }
+
   }
 
   function formatDate(dateStr) {
