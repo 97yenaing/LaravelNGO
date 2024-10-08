@@ -4114,7 +4114,7 @@
       ];
       var sti_maleFill_span = [
         "ptype", "Main Risk",
-        "age", 'Agey',
+        "current_reg_age", 'Agey',
         "gender", "Gender",
       ]
       var sti_maleCheck_fill = [
@@ -4581,7 +4581,7 @@
       'risktext', 'risk',
       'riskRemark', 'risk_cal_remark',
     ];
-    $("#age").text(general_object["Agey"])
+    $("#current_reg_age").text(general_object["Agey"])
     $("#fe_ptype").text(general_object["Main Risk"])
     $("#gender").text(general_object["Gender"])
 

@@ -58,6 +58,7 @@
   <link rel="stylesheet" href="/css/TbSection/tb.css">
   <link rel="stylesheet" href="/css/TbSection/Tb-IPT.css">
   <link rel="stylesheet" href="/css/TbSection/preTbassement.css">
+  <link rel="stylesheet" href="/css/MentalHealth/mental.css">
   <link rel="stylesheet" href="/css/Admin/admin.css">
   <link rel="stylesheet" href="{{ asset('css/excel/excel.css') }}">
 
@@ -93,7 +94,7 @@
           @if (Auth::user()->type == 1)
           <ul class="nav nav-tabs reception-nav-ul main-nav" id="main-title">
             <li class="nav-item dropdown recption-dropdown">
-              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Clinic' Reception </a>
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href=''>Clinic' Reception </a>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="{{ url('Reception/Reception') }}">Clinic Reception</a></li>
                 <li><a class="dropdown-item" href="{{ url('import/GeneralPatientImport') }}">General Import</a></li>
@@ -101,13 +102,13 @@
             </li>
 
             <li class="nav-item dropdown recption-dropdown">
-              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Reports </a>
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href=''>Reports </a>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="{{ url('Reception/report') }}">Clinic's Consultation Report</a></li>
               </ul>
             </li>
             <li class="nav-item dropdown recption-dropdown">
-              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Information </a>
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href=''>Information </a>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="{{ url('Manage/info') }}">Announcements</a></li>
               </ul>
@@ -118,7 +119,7 @@
           @if (Auth::user()->type == 2)
           <ul class="nav nav-tabs assist-nav-ul main-nav" id="main-title">
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Programs</a>
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href=''>Programs</a>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="{{ url('STI/stiform') }}">STI Forms</a></li>
                 <li><a class="dropdown-item" href="{{ url('Prevention/log_sheet') }}">Prevention</a></li>
@@ -129,6 +130,7 @@
                 <li><a class="dropdown-item" href="{{ url('TB/tb03') }}">TB-03</a></li>
                 <li><a class="dropdown-item" href="{{ url('TB/preTB_Assement') }}">Pre- TB assement</a></li>
                 <li><a class="dropdown-item" href="{{ url('TB/TB_IPT') }}">IPT</a></li>
+                <li><a class="dropdown-item" href="{{ url('MentalHealth/mentalHealth') }}">Mental Health</a></li>
                 <li><a class="dropdown-item" href="{{ url('RiskHistory/risk_history') }}">Risk Log</a></li>
                 <li><a class="dropdown-item" href="{{ url('All_Export/export_all') }}">Export All Data</a></li>
                 <!-- <li><a class="dropdown-item" href="{{ url('MME/mme_export') }}">MNE Export</a></li> -->
@@ -140,14 +142,14 @@
               </ul>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Reports </a>
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href=''>Reports </a>
               <ul class="dropdown-menu">
 
                 <li><a class="dropdown-item" href="{{ url('Reports/STI_Report') }}">STI report</a></li>
               </ul>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Information </a>
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href=''>Information </a>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="{{ url('Manage/info') }}">Announcements</a></li>
               </ul>
@@ -159,19 +161,19 @@
           @if (Auth::user()->type == '3')
           <ul class="nav nav-tabs lab-nav main-nav" id="main-title">
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Lab</a>
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href=''>Lab</a>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="{{ url('Labs/labs') }}">Labs</a></li>
               </ul>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Reports</a>
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href=''>Reports</a>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="{{ url('Labs/results') }}">Lab's Reports </a></li>
               </ul>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Information </a>
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href=''>Information </a>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="{{ url('Manage/info') }}">Announcements</a></li>
               </ul>
@@ -182,7 +184,7 @@
           @if (Auth::user()->type == 4)
           <ul class="nav nav-tabs consel-mainlist main-nav" id="main-title">
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Counselling Room</a>
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="">Counselling Room</a>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="{{ url('Counsellor/counselling') }}">Counselling Entry</a></li>
                 <li>
@@ -200,7 +202,7 @@
           @if (Auth::user()->type == 5)
           <ul class="nav nav-tabs assist-nav-ul main-nav" id="main-title">
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Programs</a>
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href=''>Programs</a>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="{{ url('Dispensing/dispensing') }}">Dispensing</a></li>
                 <li><a class="dropdown-item" href="{{ url('Dispensing/dispensingReport') }}">Report</a></li>
@@ -208,7 +210,7 @@
             </li>
 
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Information </a>
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href=''>Information </a>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="{{ url('Manage/info') }}">Announcements</a></li>
               </ul>
@@ -220,7 +222,7 @@
           @if (Auth::user()->type == 6)
           <ul class="nav nav-tabs admin-list" id="main-title">
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Manage</a>
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href=''>Manage</a>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="{{ url('Manage/users') }}">Add/Delete User</a></li>
                 <li><a class="dropdown-item" href="{{ url('Manage/users_list') }}">User List</a></li>
@@ -228,7 +230,7 @@
               </ul>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Reports</a>
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href=''>Reports</a>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="{{ url('Reception/report') }}">Clinic Consultation</a></li>
                 <li><a class="dropdown-item" href="{{ url('Manage/users_list') }}">Workloads</a></li>
@@ -236,7 +238,7 @@
               </ul>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">About</a>
+              <a class="nav-link" href=''>About</a>
             </li>
 
           </ul>
@@ -281,7 +283,7 @@
             @endif
             @else
             <li class="nav-item dropdown">
-              <a id="navbarDropdown" name='appUser' class="nav-link dropdown-toggle" href="#" role="button"
+              <a id="navbarDropdown" name='appUser' class="nav-link dropdown-toggle" href='' role="button"
                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                 {{ Auth::user()->name }}
               </a>
@@ -438,7 +440,6 @@
   document.getElementById("clinic_code").value = @json($mam_clinicID);
 
   function mainRiskCreate(MainRiskIdBlock) {
-    console.log(options);
     $.each(options, function(index, option) {
       $('<option />', {
         id: option.id,

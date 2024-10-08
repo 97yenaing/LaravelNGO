@@ -53,6 +53,7 @@ use App\Exports\Reception\ReceptionExport;
 use App\Exports\Lab\LabExport;
 use App\Exports\Sti\StiExport;
 use App\Exports\dispensing\dispensingExport;
+use App\Http\Controllers\MentalController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -207,6 +208,10 @@ Route::post("Cervical_cancer/screnning", [CervicalcancerscrenningController::cla
 //CMV
 Route::get("CMV/cmv_treatment", [CmvController::class, "CMV_View"]);
 Route::post("CMV/cmv_treatment", [CmvController::class, "CMV"])->name("cmv_data");
+
+//MenatalHealth 
+Route::get("MentalHealth/mentalHealth", [MentalController::class, "mental_view"]);
+Route::post("MentalHealth/mentalHealth", [MentalController::class, "mental_process"])->name("mental_data");
 //TB
 Route::get("TB/tb03", [Tb03Controller::class, "tb03_View"]);
 Route::post("TB/tb03", [Tb03Controller::class, "Tb03"])->name("tb03_data");
@@ -234,8 +239,8 @@ Route::post('Id_Fix/Id_Delete', [IdFixController::class, 'idFix_control'])->name
 
 //MME server RiskLog
 
-Route::get("MME/serverRiskLog", [ServerRiskLogController::class, "risk_log_View"])->name("risk_log_view");
-Route::post("MME/serverRiskLog", [ServerRiskLogController::class, "risk_log"])->name("server_risk_log_data");
+// Route::get("MME/serverRiskLog", [ServerRiskLogController::class, "risk_log_View"])->name("risk_log_view");
+// Route::post("MME/serverRiskLog", [ServerRiskLogController::class, "risk_log"])->name("server_risk_log_data");
 
 
 Route::get("/home", [App\Http\Controllers\HomeController::class, "index"])->name("home");

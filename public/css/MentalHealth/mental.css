@@ -1,0 +1,23 @@
+.mental-block {
+  padding: 10px 2%;
+}
+
+.mental-register section {
+  margin-top: 30px;
+}
+
+.mental-register section h3 {
+  margin-bottom: 15px;
+}
+
+#mentalTreatment .form-check-inline,
+#pharmaloTre .form-check-inline,
+#otherManageSection .form-check-inline {
+  margin: 20px 0px;
+}
+
+#mentalTreatment .form-check-inline label,
+#pharmaloTre .form-check-inline label,
+#otherManageSection .form-check-inline label {
+  text-align: left;
+}

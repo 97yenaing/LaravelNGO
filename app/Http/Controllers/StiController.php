@@ -789,14 +789,16 @@ class StiController extends Controller
       $patientMale = [];
       $patientFemale = [];
       $test;
-      $gt_pateint = PtConfig::select("FuchiaID", "Agey", "Gender", "Main Risk",)->where('Pid', $fill_id)->get();
+      $gt_pateint = PtConfig::select("FuchiaID", 'Pid', "Agey", "Gender", "Main Risk", "Date of Birth")->where('Pid', $fill_id)->get();
       $gt_pateint[0]["Main Risk"] = Crypt::decrypt_light($gt_pateint[0]["Main Risk"], $table);
       $gt_pateint[0]["Gender"] = Crypt::decrypt_light($gt_pateint[0]["Gender"], $table);
+      $sti_vdate = null;
 
       // $success=$gt_pateint;
 
       if ($updatedsex == "male") {
         $patientMale_encrpt = Stimale::where('cid', $fill_id)->where('id', $updated_rowID)->get();
+        $sti_vdate = $patientMale_encrpt[0]['Visit_date'];
         $large_encData = [
           'presumptive_diag',
           'tre_remarks',
@@ -929,9 +931,8 @@ class StiController extends Controller
         } //laravel encrypt data
 
       } else if ($updatedsex == "female") {
-
-
         $patientFemale_encrpt = Stifemale::where('cid', $fill_id)->where('id', $updated_rowID)->get();
+        $sti_vdate = $patientFemale_encrpt[0]['Visit_date'];
         $feno_encryptData = ['clinic', 'CID', 'fuchiaID', 'age', 'Visit_date', 'id',];
         $female_dataName = [
           'gender',
@@ -1086,6 +1087,13 @@ class StiController extends Controller
 
 
       }
+
+      if ($gt_pateint) {
+
+        $gt_pateint[0] = Export_age::Export_general($gt_pateint[0], $sti_vdate, $gt_pateint[0]['Date of Birth'], $gt_pateint[0]);
+        $gt_pateint[0]["Agey"] = $gt_pateint[0]["Agey"] . '/' . $gt_pateint[0]['Current Agey'];
+      }
+
 
       return response()->json([
         $gt_pateint,

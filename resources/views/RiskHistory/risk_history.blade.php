@@ -437,11 +437,6 @@
 
     riskLogUpdate["notice"] = "Updating Risk Log";
     riskLogUpdate["generalID"] = $searchIDLog;
-
-
-
-    console.log(riskLogUpdate);
-
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
