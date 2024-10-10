@@ -600,6 +600,7 @@ class MME_ExportController extends Controller
 		$table_name = null;
 		$act_table = null;
 		$sti_values = collect([]);
+
 		switch ($request["other"]) {
 			case "Male":
 				$table_name = "Stimale";
@@ -850,15 +851,38 @@ class MME_ExportController extends Controller
 				$sti_values = $sti_values->merge($sti_values_data);
 			}
 		} else {
+			dd("ok null");
 			abort(404);
 		}
 		foreach ($sti_values as $key => $sit_value) {
 			$carbonDate = Carbon::createFromFormat('Y-m-d', $sit_value['Visit_date']);
 			$carbonDate = Carbon::createFromFormat('d-m-Y', $carbonDate->format('d-m-Y'));
 			$vdate = new DateTime($carbonDate);
+			$sti_value['Pid'] = $sit_value['CID'];
+
+			$sit_value = Export_age::Export_general($sit_value, $sit_value["Visit_date"], $sit_value["Date of Birth"], $sit_value);
+
 			if ($sit_value["Date of Birth"] != null) {
-				$sit_value = Export_age::Export_general($sit_value, $sit_value["Visit_date"], $sit_value["Date of Birth"], $sit_value);
+				$modelClassName = "App\\Models\\Patients";
+				$model->setConnection($this->Extra_DB($sit_value["Clinic Code"]));
+				$model = app()->make($modelClassName);
+				$extraPatient = $model->where('Pid', $sti_value['Pid'])
+					->select("Date of Birth", "Agey", "Agem", "Gender", "FuchiaID", "Pid", "Risk Log", "Former Risk", "Risk Change_Date", "Main Risk", "Sub Risk")->first();
+
+				if ($extraPatient) {
+					$sti_value['Date of Birth'] = $extraPatient["Date of Birth"];
+					$sti_value['Agey'] = $extraPatient["Agey"];
+					$sti_value['Agem'] = $extraPatient["Agem"];
+					$sti_value['FuchiaID'] = $extraPatient["FuchiaID"];
+					$sti_value['Risk Log'] = $extraPatient["Risk Log"];
+					$sti_value['Former Risk'] = $extraPatient["Former Risk"];
+					$sti_value['Risk Change_Date'] = $extraPatient["Risk Change_Date"];
+					$sti_value['Main Risk'] = $extraPatient["Main Risk"];
+					$sti_value['Sub Risk'] = $extraPatient["Sub Risk"];
+					$sit_value = Export_age::Export_general($sit_value, $sit_value["Visit_date"], $sit_value["Date of Birth"], $sit_value);
+				}
 			}
+
 			if ($sit_value["Risk Log"] != null) {
 				$forRiskCheck[1]['Pid'] = $sit_value['CID'];
 				$forRiskCheck[1]['Risk Log'] = $sit_value['Risk Log'];
@@ -885,6 +909,7 @@ class MME_ExportController extends Controller
 					$sit_value['Sub Risk'] = '';
 				}
 			}
+
 			foreach ($encrypted_columns as $key => $encrypte) {
 				$sit_value[$encrypte] = Crypt::decrypt_light($sit_value[$encrypte], "General");
 				if (($encrypte == "Main Risk" || $encrypte == "Sub Risk") && $sit_value[$encrypte] == "-") {
@@ -899,6 +924,7 @@ class MME_ExportController extends Controller
 			$carbonDate = Carbon::createFromFormat("d-m-Y", $carbonDate->format("d-m-Y"));
 			$sit_value["Visit_date"] = Date::dateTimeToExcel($carbonDate->startOfDay());
 		}
+		dd('hello is me');
 		return Excel::download(new STIExport($sti_values, $request["other"]), "STI_" . $request["other"] . "-" . date("d-m-Y") . "." . $request["typeExport"]);
 	}
 
@@ -1301,5 +1327,35 @@ class MME_ExportController extends Controller
 			}
 		}
 		return Excel::download(new TBExport($tb_values, $export_name), $export_name . "-" . date("d-m-Y") . "." . $request["typeExport"]);
+	}
+
+	public function Extra_DB($data)
+	{
+		switch ($data) {
+			case '71':
+				return "MAM_A";
+				break;
+			case '72':
+				return "MAM_B";
+				break;
+			case '73':
+				return "MAM_SPT";
+				break;
+			case '74':
+				return "MAM_TL";
+				break;
+			case '81':
+				return "MAM_C2";
+				break;
+			case '83':
+				return "MAM_C1";
+				break;
+			case '84':
+				return "MAM_SDG";
+				break;
+			default:
+				return false;
+				break;
+		}
 	}
 }
