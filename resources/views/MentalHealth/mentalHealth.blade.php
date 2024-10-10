@@ -783,7 +783,7 @@
             </div>
             <div class="form-check-inline col-sm-4">
               <label class="form-check-label">
-                <input type="checkbox" class="form-check-input" id="" value="" name="referpsyOther">Refer to psychiatris
+                <input type="checkbox" class="form-check-input" id="" value="" name="referpsyCheck">Refer to psychiatris
               </label>
             </div>
             <div class="col-sm-12 radio-check">
