@@ -14,18 +14,22 @@ class Export_age
   public static function Export_general($config, $vdate, $DOB, $origin_data)
   {
     $modify = $origin_data;
+    $current_agey = null;
+    $current_agem = null;
     if ($vdate == null) {
       $currentYear = Carbon::now()->year;
       $currentMonth = Carbon::now()->month;
     } else {
-
       $vdate = explode("-", $vdate);
       $currentYear = $vdate[0];
       $currentMonth = $vdate[1];
     }
     $config["Pid"] = strval($config["Pid"]);
-    $DOB = Crypt::DecryptString($DOB);
-    $DOB = explode("-", $DOB);
+    if ($DOB != null) {
+      $DOB = Crypt::DecryptString($DOB);
+      $DOB = explode("-", $DOB);
+    }
+
 
     if (strlen($config["Pid"]) == 11) {
       $clinic_code = substr($config["Pid"], 1, 2);
@@ -43,13 +47,14 @@ class Export_age
       $reg_year = "20" . substr($config["Pid"], 2, 2);
       $code = substr($config["Pid"], 4);
     } else {
-      dd($config["Pid"]);
+      dd();
+      abort(505, "This ID is invalid Code" . $config["Pid"]);
     }
 
     if ($config["Agey"] != 0) {
       $current_agey = ($currentYear - $reg_year) + $config["Agey"];
       $current_agem = "0";
-    } else {
+    } else if ($DOB != null) {
       if ($currentYear == intval($DOB[0])) {
         $current_agem = ($currentMonth - intval($DOB[1]));
         $current_agey = "0";
