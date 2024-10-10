@@ -193,8 +193,6 @@ class CounsellingController extends Controller
 		}
 		if ($hts_counselling == 1 || $counsellingOnly == 1 || $pt_data_update == 'Only Patient Info_Update' || $pt_data_update == 'Update') {
 			// to save data in  table (config and counselling table and HTS)
-			$patient = 0;
-			$ptconfig = 0;
 			$current_date = Carbon::now()->format('Y-m-d');
 			$region = $request->input('state');
 			$region = Crypt::encryptString($region);
@@ -315,32 +313,34 @@ class CounsellingController extends Controller
 				if ($risk_change_date == null) {
 					$risk_change_date = $current_date;
 				}
+				$changesDate = new DateTime($risk_change_date);
+				$old_risk_log = PtConfig::where('Pid', $gid)->select('Risk Log', 'Main Risk', 'Sub Risk')->first();
 
-
+				$risk_history = $old_risk_log['Risk Log'] . $risk_change_date . ':' . $old_risk_log['Main Risk'] . ':' . $main_risk . ':' . $change_risk_rason . ':' . $request->created_by . ':' . $old_risk_log['Sub Risk'] . ':' . $sub_risk . '/';
+				PtConfig::where('Pid', $gid)
+					->where('Main Risk', '!=', $main_risk)
+					->where('Main Risk', '!=', null)
+					->where('Main Risk', '!=', '731')
+					->update([
+						'Risk Log' => $risk_history,
+					]);
+				Patients::where('Pid', $gid)
+					->where('Main Risk', '!=', $main_risk)
+					->where('Main Risk', '!=', null)
+					->where('Main Risk', '!=', '731')
+					->update([
+						'Risk Log' => $risk_history,
+					]);
 
 				if ($follow_lastDate || $patient_lastDate) {
-					$changesDate = new DateTime($risk_change_date);
-					$old_risk_log = PtConfig::where('Pid', $gid)->select('Risk Log', 'Main Risk', 'Sub Risk')->first();
-
-					$risk_history = $old_risk_log['Risk Log'] . $risk_change_date . ':' . $old_risk_log['Main Risk'] . ':' . $main_risk . ':' . $change_risk_rason . ':' . $request->created_by . ':' . $old_risk_log['Sub Risk'] . ':' . $sub_risk . '/';
-					PtConfig::where('Pid', $gid)
-						->where('Main Risk', '!=', $main_risk)
-						->where('Main Risk', '!=', null)
-						->where('Main Risk', '!=', '731')
-						->update([
-							'Risk Log' => $risk_history,
-						]);
-					Patients::where('Pid', $gid)
-						->where('Main Risk', '!=', $main_risk)
-						->where('Main Risk', '!=', null)
-						->where('Main Risk', '!=', '731')
-						->update([
-							'Risk Log' => $risk_history,
-						]);
 					$patient = Patients::where('Pid', $gid)->update([
 						'Main Risk' => $main_risk,
 						'Sub Risk' => $sub_risk,
 						'updated_by' => $request->created_by,
+					]);
+					PtConfig::where('Pid', $gid)->update([
+						'Main Risk' => $main_risk,
+						'Sub Risk' => $sub_risk,
 					]);
 					$ptconfig = PtConfig::where('Pid', $gid)->update([
 						'Region' => $region,
@@ -349,8 +349,6 @@ class CounsellingController extends Controller
 						'Phone' => $phone,
 						'Phone2' => $phone2,
 						'Phone3' => $phone3,
-						'Main Risk' => $main_risk,
-						'Sub Risk' => $sub_risk,
 						'updated_by' => $request->created_by,
 					]);
 
@@ -1485,6 +1483,8 @@ class CounsellingController extends Controller
 						},
 					])
 					->get();
+				dd($users1);
+
 				$encrypted_columns = ['Gender', 'Counsellor', 'Service_Modality', 'Mode of Entry', 'New_Old', 'Test_Location', 'Main Risk', 'Sub Risk', 'HIV_Test_Determine', 'HIV_Test_UNI', 'HIV_Test_STAT', 'HIV_Final_Result', 'Syphillis_RDT', 'Syphillis_RPR', 'Syphillis_VDRL', 'Hepatitis_B', 'Hepatitis_C', 'Req_Doctor'];
 				$dates_hts = ['Counselling_Date', 'HIV_Test_Date', 'Syp_Test_Date', 'Hep_Test_Date'];
 

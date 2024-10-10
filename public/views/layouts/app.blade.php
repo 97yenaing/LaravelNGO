@@ -16,21 +16,21 @@
   <title>MAM</title>
 
   <!-- Scripts -->
-  <script src="{{ asset('js/jquery.min.js') }}"></script>
-  <script src="{{ asset('js/jquery-ui.min.js') }}"></script>
-  <script src="{{ asset('js/slider.js') }}"></script>
+  <script src="{{asset('js/jquery.min.js')}}"></script>
+  <script src="{{asset('js/jquery-ui.min.js')}}"></script>
+  <script src="{{asset('js/slider.js')}}"></script>
   <script src="{{ asset('js/app.js') }}" defer></script>
-  <script src="{{ asset('js/date.js') }}"></script>
-  <script src="{{ asset('js/toggle.js') }}"></script>
+  <script src="{{asset('js/date.js')}}"></script>
+  <script src="{{asset('js/toggle.js')}}"></script>
 
   {{-- --}}
   <!-- Bootstrap CSS -->
-  <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" media="print" rel="stylesheet">
-  <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" media="screen" rel="stylesheet">
+  <link href="{{asset('bootstrap/css/bootstrap.min.css')}}" media="print" rel="stylesheet">
+  <link href="{{asset('bootstrap/css/bootstrap.min.css')}}" media="screen" rel="stylesheet">
 
 
   <!-- Bootstrap Bundle with Popper -->
-  <script src="{{ asset('bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{asset('bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 
 
   <!-- Styles -->
@@ -58,7 +58,6 @@
   <link rel="stylesheet" href="/css/TbSection/tb.css">
   <link rel="stylesheet" href="/css/TbSection/Tb-IPT.css">
   <link rel="stylesheet" href="/css/TbSection/preTbassement.css">
-  <link rel="stylesheet" href="/css/MentalHealth/mental.css">
   <link rel="stylesheet" href="/css/Admin/admin.css">
   <link rel="stylesheet" href="{{ asset('css/excel/excel.css') }}">
 
@@ -67,7 +66,7 @@
 <body>
   @if (Route::has('login'))
   @php
-  $mam_clinicID = Auth::user()->clinic ?? null;
+  $mam_clinicID=Auth::user()->clinic ?? null;
   @endphp
   @endif
   <div id="app">
@@ -91,179 +90,224 @@
             <span></span>
             <span></span>
           </p>
-          @if (Auth::user()->type == 1)
+          @if (Auth::user()->type==1)
           <ul class="nav nav-tabs reception-nav-ul main-nav" id="main-title">
             <li class="nav-item dropdown recption-dropdown">
-              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href=''>Clinic' Reception </a>
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Clinic' Reception </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{{ url('Reception/Reception') }}">Clinic Reception</a></li>
-                <li><a class="dropdown-item" href="{{ url('import/GeneralPatientImport') }}">General Import</a></li>
+                <li><a class="dropdown-item" href="{{url('Reception/Reception')}}">Clinic Reception</a></li>
+                <li><a class="dropdown-item" href="{{url('import/GeneralPatientImport')}}">General Import</a></li>
+                <!-- <li><a class="dropdown-item" href="{{url('Reception/Reception_return')}}">Return to Reception</a></li>
+                                  <li><a class="dropdown-item" href="{{url('Reception/Reception_next')}}">Next Appointment List</a></li>
+                                  <li><a class="dropdown-item" href="{{url('Reception/reception_followup_history')}}">follow_up_history</a></li>
+                                  <li><a id="patientExport" class="dropdown-item" href="{{url('Reception/patients')}}">Patients List </a></li>
+                                 <li><a class="dropdown-item" href="{{url('import/GeneralPatientImport')}}">General Import</a></li> -->
               </ul>
             </li>
 
             <li class="nav-item dropdown recption-dropdown">
-              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href=''>Reports </a>
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Reports </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{{ url('Reception/report') }}">Clinic's Consultation Report</a></li>
+                <li><a class="dropdown-item" href="{{url('Reception/report')}}">Clinic C2 Consultation</a></li>
               </ul>
             </li>
             <li class="nav-item dropdown recption-dropdown">
-              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href=''>Information </a>
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Information </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{{ url('Manage/info') }}">Announcements</a></li>
+                <li><a class="dropdown-item" href="{{url('Manage/info')}}">Announcements</a></li>
               </ul>
             </li>
 
           </ul>
           @endif
-          @if (Auth::user()->type == 2)
+          @if (Auth::user()->type==2)
           <ul class="nav nav-tabs assist-nav-ul main-nav" id="main-title">
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href=''>Programs</a>
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Programs</a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{{ url('STI/stiform') }}">STI Forms</a></li>
-                <li><a class="dropdown-item" href="{{ url('Prevention/log_sheet') }}">Prevention</a></li>
-                <li><a class="dropdown-item" href="{{ url('Cervical_cancer/screnning') }}">Cervical Cancer Screnning</a>
+                <li><a class="dropdown-item" href="{{url('STI/stiform')}}">STI Forms</a></li>
+                <li><a class="dropdown-item" href="{{url('Prevention/log_sheet')}}">Prevention</a></li>
+                <li><a class="dropdown-item" href="{{url('Cervical_cancer/screnning')}}">Cervical Cancer Screnning</a>
                 </li>
-                <li><a class="dropdown-item" href="{{ url('CMV/cmv_treatment') }}">CMV</a></li>
-                <li><a class="dropdown-item" href="{{ url('NCD/Ncd') }}">NCD</a></li>
-                <li><a class="dropdown-item" href="{{ url('TB/tb03') }}">TB-03</a></li>
-                <li><a class="dropdown-item" href="{{ url('TB/preTB_Assement') }}">Pre- TB assement</a></li>
-                <li><a class="dropdown-item" href="{{ url('TB/TB_IPT') }}">IPT</a></li>
-                <li><a class="dropdown-item" href="{{ url('MentalHealth/mentalHealth') }}">Mental Health</a></li>
-                <li><a class="dropdown-item" href="{{ url('RiskHistory/risk_history') }}">Risk Log</a></li>
-                <li><a class="dropdown-item" href="{{ url('All_Export/export_all') }}">Export All Data</a></li>
-                <li><a class="dropdown-item" href="{{ url('MME/mme_export') }}">MNE Export</a></li>
-
-
-                <li><a class="dropdown-item" href="{{ url('Id_Fix/Id_Delete') }}">ID Fix</a></li>
-
+                <li><a class="dropdown-item" href="{{url('CMV/cmv_treatment')}}">CMV</a></li>
+                <li><a class="dropdown-item" href="{{url('NCD/Ncd')}}">NCD</a></li>
+                <li><a class="dropdown-item" href="{{url('TB/tb03')}}">TB-03</a></li>
+                <li><a class="dropdown-item" href="{{url('TB/preTB_Assement')}}">Pre- TB assement</a></li>
+                <li><a class="dropdown-item" href="{{url('TB/TB_IPT')}}">IPT</a></li>
+                <li><a class="dropdown-item" href="{{url('RiskHistory/risk_history')}}">Risk Log</a></li>
+                <li><a class="dropdown-item" href="{{url('All_Export/export_all')}}">Export All Data</a></li>
+                <li><a class="dropdown-item" href="{{url('MME/mme_export')}}">MME Export</a></li>
+                <li><a class="dropdown-item" href="{{url('Id_Fix/Id_Delete')}}">ID Fix</a></li>
+                <li><a class="dropdown-item" href="{{url('MME/serverRiskLog')}}">Server Risk Log</a></li>
 
               </ul>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href=''>Reports </a>
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Exports Files </a>
               <ul class="dropdown-menu">
-
-                <li><a class="dropdown-item" href="{{ url('Reports/STI_Report') }}">STI report</a></li>
+                <li><a class="dropdown-item" href="{{url('Reception/exports')}}">Register Data Export</a></li>
+                <li><a class="dropdown-item" href="{{url('Reception/export_followup')}}">Follow Up Data Export</a></li>
               </ul>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href=''>Information </a>
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Reports </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{{ url('Manage/info') }}">Announcements</a></li>
+
+                <li><a class="dropdown-item" href="{{url('Reports/STI_Report')}}">STI report</a></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Information </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{{url('Manage/info')}}">Announcements</a></li>
               </ul>
             </li>
 
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Import Files</a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{{url('import/Stimale_Import')}}">STI-Male Import</a></li>
+                <li><a class="dropdown-item" href="{{url('import/StiFemale_Import')}}">STI-Female Import</a></li>
+                <li><a class="dropdown-item" href="{{url('import/RprlabresultsImport')}}">RPR_lab_results Import</a>
+                </li>
+
+              </ul>
+            </li>
+            <!--
+                            <li class="nav-item dropdown">
+                              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Export Files</a>
+                              <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{{url('import/NcdRegImport')}}">NCD Register</a></li>
+                                <li><a class="dropdown-item" href="{{url('import/NcdArImport')}}">NCD AR</a></li>
+                                <li><a class="dropdown-item" href="{{url('import/NcdFollowup')}}">NCD Follow Up</a></li>
+
+                              </ul>
+                            </li>   -->
 
           </ul>
           @endif
-          @if (Auth::user()->type == '3')
+          @if (Auth::user()->type=="3")
           <ul class="nav nav-tabs lab-nav main-nav" id="main-title">
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href=''>Lab</a>
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Lab</a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{{ url('Labs/labs') }}">Labs</a></li>
+                <li><a class="dropdown-item" href="{{url('Labs/labs')}}">Labs</a></li>
+                <li><a class="dropdown-item" href="{{url('Reception/patients')}}">Patients List </a></li>
+                <!--  <li><a class="dropdown-item" href="{{url('import/lab_hiv_import')}}">Lab's Old data Import</a></li> -->
+                <!--  <li><a class="dropdown-item" href="{{url('import/passport')}}">Test</a></li>
+                                <li><a class="dropdown-item" href="{{url('Labs/results')}}">Lab's Reports </a></li>
+                                <li><a class="dropdown-item" href="{{url('Labs/exports')}}">Lab's Exports </a></li> -->
               </ul>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href=''>Reports</a>
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Reports</a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{{ url('Labs/results') }}">Lab's Reports </a></li>
+                <li><a class="dropdown-item" href="{{url('Labs/results')}}">Lab's Reports </a></li>
+                <!--  <li><a class="dropdown-item" href="{{url('import/lab_hiv_import')}}">Lab's Old data Import</a></li> -->
+                <!--  <li><a class="dropdown-item" href="{{url('import/passport')}}">Test</a></li> -->
               </ul>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href=''>Information </a>
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Exports</a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{{ url('Manage/info') }}">Announcements</a></li>
+                <!--  <li><a class="dropdown-item" href="{{url('import/lab_hiv_import')}}">Lab's Old data Import</a></li> -->
+                <!--  <li><a class="dropdown-item" href="{{url('import/passport')}}">Test</a></li> -->
+                <li><a class="dropdown-item" href="{{url('Labs/export')}}">Export </a></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Information </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{{url('Manage/info')}}">Announcements</a></li>
               </ul>
             </li>
 
           </ul>
           @endif
-          @if (Auth::user()->type == 4)
+          @if (Auth::user()->type==4)
           <ul class="nav nav-tabs consel-mainlist main-nav" id="main-title">
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="">Counselling Room</a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{{ url('Counsellor/counselling') }}">Counselling Entry</a></li>
-                <li>
-                  <a class="dropdown-item" href="{{ url('Counsellor/hts_report') }}">HTS Report</a>
-                </li>
-                <li><a class="dropdown-item" href="{{ url('TB/TB_IPT') }}">IPT</a></li>
-                <li><a class="dropdown-item" href="{{ url('RiskHistory/risk_history') }}">Risk Log</a></li>
+              <a class="dropdown-item" href="{{url('Counsellor/counselling')}}">Counselling Room</a>
+            </li>
 
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Report and Information </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a class="dropdown-item" href="{{url('Counsellor/hts_report')}}">HTS Report</a>
+                </li>
+                <li><a class="dropdown-item" href="{{url('Manage/info')}}">Announcements</a></li>
               </ul>
             </li>
+
           </ul>
           @endif
 
 
-          @if (Auth::user()->type == 5)
+          @if (Auth::user()->type==5)
           <ul class="nav nav-tabs assist-nav-ul main-nav" id="main-title">
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href=''>Programs</a>
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Programs</a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{{ url('Dispensing/dispensing') }}">Dispensing</a></li>
-                <li><a class="dropdown-item" href="{{ url('Dispensing/dispensingReport') }}">Report</a></li>
+                <li><a class="dropdown-item" href="{{url('Dispensing/dispensing')}}">Dispensing</a></li>
+                <li><a class="dropdown-item" href="{{url('Dispensing/dispensingReport')}}">Report</a></li>
               </ul>
             </li>
 
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href=''>Information </a>
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Information </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{{ url('Manage/info') }}">Announcements</a></li>
+                <li><a class="dropdown-item" href="{{url('Manage/info')}}">Announcements</a></li>
               </ul>
             </li>
 
 
           </ul>
           @endif
-          @if (Auth::user()->type == 6)
+          @if (Auth::user()->type==6)
           <ul class="nav nav-tabs admin-list" id="main-title">
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href=''>Manage</a>
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Manage</a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{{ url('Manage/users') }}">Add/Delete User</a></li>
-                <li><a class="dropdown-item" href="{{ url('Manage/users_list') }}">User List</a></li>
-                <li><a class="dropdown-item" href="{{ url('Manage/announcement') }}">Announcements</a></li>
+                <li><a class="dropdown-item" href="{{url('Manage/users')}}">Add/Delete User</a></li>
+                <li><a class="dropdown-item" href="{{url('Manage/users_list')}}">User List</a></li>
+                <li><a class="dropdown-item" href="{{url('Manage/announcement')}}">Announcements</a></li>
               </ul>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href=''>Reports</a>
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Reports</a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{{ url('Reception/report') }}">Clinic Consultation</a></li>
-                <li><a class="dropdown-item" href="{{ url('Manage/users_list') }}">Workloads</a></li>
-                <li><a class="dropdown-item" href="{{ url('Reception/patients') }}">Stock</a></li>
+                <li><a class="dropdown-item" href="{{url('Reception/report')}}">Clinic Consultation</a></li>
+                <li><a class="dropdown-item" href="{{url('Manage/users_list')}}">Workloads</a></li>
+                <li><a class="dropdown-item" href="{{url('Reception/patients')}}">Stock</a></li>
               </ul>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href=''>About</a>
+              <a class="nav-link" href="#">About</a>
             </li>
 
           </ul>
           @endif
-          @if (Auth::user()->type == 7)
+          @if (Auth::user()->type==7)
           <ul class="nav nav-tabs reception-nav-ul main-nav" id="main-title">
             <li class="recption-dropdown">
-              <a class="dropdown-item" href="{{ url('Dispensing/dispensing') }}">Consumption</a>
+              <a class="dropdown-item" href="{{url('Dispensing/dispensing')}}">Consumption</a>
             </li>
             <li class="nav-item dropdown recption-dropdown"><a class="dropdown-item"
-                href="{{ url('Dispensing/dispensingReport') }}">Dispensing Report</a>
-            </li>
+                href="{{url('Dispensing/dispensingReport')}}">Dispensing Report</a></li>
             <li class="nav-item dropdown recption-dropdown"><a class="dropdown-item"
-                href="{{ url('Dispensing/dispensingExport') }}">Dispensing Export</a>
-            </li>
+                href="{{url('Dispensing/dispensingExport')}}">Dispensing Export</a></li>
 
 
           </ul>
           @endif
 
           <!-- <ul class="navbar-nav ms-auto"> *  CLINIC CODE
-                                <li>
-                                      <label style="color:red;" class="form-control" id="clinic">Clinic Code :{{ Auth::user()->clinic }}</label>
-                                </li>
-                              </ul> -->
+                          <li>
+                                <label style="color:red;" class="form-control" id="clinic">Clinic Code :{{Auth::user()->clinic}}</label>
+                          </li>
+                        </ul> -->
           @endauth
           <!-- Right Side Of Navbar -->
           <ul class="navbar-nav ms-auto ">
@@ -281,9 +325,11 @@
 
             </li>
             @endif
+
+
             @else
             <li class="nav-item dropdown">
-              <a id="navbarDropdown" name='appUser' class="nav-link dropdown-toggle" href='' role="button"
+              <a id="navbarDropdown" name='appUser' class="nav-link dropdown-toggle" href="#" role="button"
                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                 {{ Auth::user()->name }}
               </a>
@@ -306,9 +352,7 @@
     </nav>
   </div>
   <main class="py-4">
-    <div class="" id="loadingSpinner"></div>
     @yield('content')
-
   </main>
 
 </body>
@@ -321,166 +365,7 @@
   let dob_input = "";
   let input_date = $("input[type='date']").length;
   var mam_clinicID = @json($mam_clinicID);
-  const options = [{
-      value: "-",
-      text: ""
-    },
-    {
-      value: "Pregnant Mother",
-      text: "Pregnant Mother"
-    },
-    {
-      value: "Spouse of pregnant mother",
-      text: "Spouse of pregnant mother"
-    },
-    {
 
-      value: "Exposed Children",
-      text: "Exposed Children"
-    },
-    {
-
-      value: "Low Risk",
-      text: "Low Risk"
-    },
-    {
-
-      value: "PWUD",
-      text: "PWUD"
-    },
-    {
-      value: "FSW",
-      text: "FSW"
-    },
-    {
-      value: "Client of FSW",
-      text: "Client of FSW"
-    },
-    {
-      value: "MSM",
-      text: "MSM"
-    },
-    {
-
-      value: "IDU",
-      text: "IDU"
-    },
-    {
-      value: "TG",
-      text: "TG"
-    },
-    {
-      value: "Partner of KP",
-      text: "Partner of KP"
-    },
-    {
-      value: "Partner of PLHIV",
-      text: "Partner of PLHIV"
-    },
-    {
-
-      value: "Special Groups",
-      text: "Special Groups"
-    },
-    {
-
-      value: "Migrant Population",
-      text: "Migrant Population"
-    }
-  ];
-  const subOptions = {
-    "Pregnant Mother": [
-      ["", "PP", "MP"]
-    ],
-    "Spouse of pregnant mother": [
-      ["", "HIV(Pos)", "HIV(Neg)Woman"]
-    ],
-    "Exposed Children": [
-      ["", "0", "1", "3", "4"]
-    ],
-    "Low Risk": [
-      ["", "Youth(15-24)", "Other Low Risk"]
-    ],
-    "PWUD": [
-      [""]
-    ],
-    "FSW": [
-      ["", "FSW_PWID", "FSW_PWUD"],
-      ["", "FSW/PWID", "FSW/PWUD"]
-    ],
-    "Client of FSW": [
-      [""]
-    ],
-    "MSM": [
-      ["", "MSM_PWID", "MSM_PWUD"],
-      ["", "MSM/PWID", "MSM/PWUD"]
-    ],
-    "IDU": [
-      ["", "PWID_FSW", "PWID_MSM"],
-      ["", "PWID/FSW", "PWID/MSM"]
-    ],
-    "TG": [
-      ["", "TG_PWID", "TG_PWUD", "TG_SW"],
-      ["", "TG/PWID", "TG/PWUD", "TG/SW"]
-    ],
-    "Partner of KP": [
-      ["", "Partner of PWID", "Partner of FSW", "Female of MSM", "Partner of TG"],
-      ["", "Partner of PWID", "Partner of FSW", "Female Partner of MSM", "Partner of TG"]
-    ],
-    "Partner of PLHIV": [
-      [""]
-    ],
-    "Special Groups": [
-      ["", "TB Patient", "Institutionalize", "Uniformed Services Personnel"]
-    ],
-    "Migrant Population": [
-      [""]
-    ]
-  };
-  document.getElementById("clinic_code").value = @json($mam_clinicID);
-  // const select = $('<select />', {
-  //   class: 'form-select',
-  //   id: 'main_risk',
-  //   onchange: 'MainPatientType()',
-  // });//for Main Risk
-
-  // const sub_select = $('<select />', {
-  //   class: 'form-select',
-  //   id: 'sub_risk',
-  // });
-
-  function mainRiskCreate(MainRiskIdBlock) {
-    $.each(options, function(index, option) {
-      $('<option />', {
-        id: option.id,
-        value: option.value,
-        text: option.text
-      }).appendTo($('.' + MainRiskIdBlock));
-    });
-  }
-
-  function subRiskCreate(SubRiskIdBlock, risk) {
-    mainriskValue = $(risk).val();
-    console.log(subOptions[mainriskValue], mainriskValue, risk, SubRiskIdBlock);
-    $("." + SubRiskIdBlock).empty();
-    if (subOptions[mainriskValue].length == 2) {
-      $.each(subOptions[mainriskValue][0], function(index, subOption) {
-        console.log(subOption);
-        $('<option /> ', {
-          value: subOption,
-          text: subOptions[mainriskValue][1][index],
-        }).appendTo($("." + SubRiskIdBlock));
-
-      });
-    } else {
-      $.each(subOptions[mainriskValue][0], function(index, subOption) {
-        $(' <option /> ', {
-          value: subOption,
-          text: subOption,
-        }).appendTo($("." + SubRiskIdBlock));
-      });
-    }
-  }
 
   function formatDate(dateStr) {
     if (dateStr != "") {
@@ -1063,7 +948,7 @@
       if (tt_inner.innerHTML != null) {
         tt_inner.innerHTML = "";
       }
-    } else if (state == "Yangon") {
+    } else {
       var Tcount = 45;
       const yangon = [];
       yangon[0] = "Hlaingtharya";
@@ -1129,15 +1014,7 @@
         // add opt to end of select box (sel)
         sel.appendChild(opt);
       }
-    } else {
-      $("#sub_risk").empty();
     }
-  }
-
-  function oneClick() {
-    $("#loadingSpinner").css("opacity", 1).addClass("spinner");
-    $(".tab-content").css("opacity", 0.3);
-    $(".tab-content").addClass("freeze-body");
   }
 
   function net_age(reg_date, date_ofBirth, visit_date) {
@@ -1157,11 +1034,6 @@
         current_month = visit_date[1];
         current_year = visit_date[2];
       }
-
-      // var Adate = new Date();
-      // current_month=Adate.getMonth()+1
-      // current_year=Adate.getFullYear();
-
 
       reg_age = reg_year - dob_year;
       current_age = current_year - dob_year;
@@ -1232,109 +1104,103 @@
     });
   }
 
-  function dateOfBirth() {
+  // function dateOfBirth() {
 
-    var estimated_DoB = 0;
-    var vDate_dob = document.getElementById('vDate').value;
-    var agey_dob = document.getElementById("agey_register").value;
-    var agem_dob = document.getElementById("agem_register").value;
-    console.log(dob_input, register_date + "dob adn reg");
-    if (dob_input == "") {
-      console.log(document.getElementById('dob').value + "dob")
-      dob_input = formatDate(document.getElementById('dob').value);
-    }
-    if (register_date == "") {
-      register_date = formatDate($("#register_date").val());
-    }
-    console.log("hello DoB function");
+  //   var estimated_DoB = 0;
+  //   var vDate_dob = document.getElementById('vDate').value;
+  //   var agey_dob = document.getElementById("agey_register").value;
+  //   var agem_dob = document.getElementById("agem_register").value;
+  //   console.log(dob_input, register_date + "dob adn reg");
+  //   if (dob_input == "") {
+  //     dob_input = formatDate(document.getElementById('dob').value);
+  //   }
+  //   if (register_date == "") {
+  //     register_date = formatDate($("#register_date").val());
+  //   }
 
-    var Adate = new Date();
-    var Ayear = Adate.getFullYear();
-    var birth_year = Ayear - agey_dob;
+  //   var Bmonth = register_date.split('-')[1];
+  //   var reg_forDob = register_date.split('-');
+  //   var reg_date_year = reg_forDob[0];
+  //   console.log(dob_input + "hello dob new");
+  //   if (dob_input.length == 0) {
+  //     if (agey_dob == "" && agem_dob == "") {
+  //       alert("Input Register Age or  zzzzzzzzzzzzzzzz Date of birth");
+  //     } else {
+  //       var dobarray = dob_input.split("-");
+  //       var dt_yearDay = dobarray[0];
+  //       var dtYear = dobarray[2];
+  //       if (agey_dob > 0) { // For Age in Year
+  //         if (agey_dob == 1) {
+  //           var estimated_Year = reg_date_year - agey_dob;
+  //           var estimated_Month = reg_forDob[1];
+  //           var estimated_Day = reg_forDob[2];
+  //           estimated_DoB = estimated_Year + "-" + estimated_Month + "-" + estimated_Day;
+  //           //console.log(estimated_DoB+"you are fool dob");
+  //         } else {
+  //           var estimated_Year = reg_date_year - agey_dob;
+  //           var estimated_Month = 6; //Fixed Define Month of Birth "June"
+  //           var estimated_Day = 1; //Fixed Define day of Birth "1st"
+  //           if (estimated_Month < 10) {
+  //             estimated_Month = "0" + estimated_Month;
+  //           }
+  //           if (estimated_Day < 10) {
+  //             estimated_Day = "0" + estimated_Day;
+  //           }
+  //           estimated_DoB = estimated_Year + "-" + estimated_Month + "-" + estimated_Day;
+  //         }
 
-    var Bmonth = register_date.split('-')[1];
-    var reg_forDob = register_date.split('-');
-    var reg_date_year = reg_forDob[0];
-    if (dob_input.length == 0) {
-      if (agey_dob == "" && agem_dob == "") {
-        alert("Input Register Age or Date of birth");
-      } else {
-        var dobarray = dob_input.split("-");
-        var dt_yearDay = dobarray[0];
-        var dtYear = dobarray[2];
-        if (agey_dob > 0) { // For Age in Year
-          if (agey_dob == 1) {
+  //       } else if (agem_dob > 0) { // For Age in Month
 
-            var estimated_Year = reg_date_year - agey_dob;
-            var estimated_Month = reg_forDob[1];
-            var estimated_Day = reg_forDob[2];
-            estimated_DoB = estimated_Year + "-" + estimated_Month + "-" + estimated_Day;
-            //console.log(estimated_DoB+"you are fool dob");
-          } else {
-            var estimated_Year = reg_date_year - agey_dob;
-            var estimated_Month = 6; //Fixed Define Month of Birth "June"
-            var estimated_Day = 1; //Fixed Define day of Birth "1st"
-            if (estimated_Month < 10) {
-              estimated_Month = "0" + estimated_Month;
-            }
-            if (estimated_Day < 10) {
-              estimated_Day = "0" + estimated_Day;
-            }
-            estimated_DoB = estimated_Year + "-" + estimated_Month + "-" + estimated_Day;
-          }
+  //         var estimated_Year = reg_date_year;
+  //         var estimated_Month = Bmonth - agem_dob;
+  //         console.log(estimated_Month);
+  //         if (estimated_Month < 0) {
+  //           estimated_Month = 12 + estimated_Month;
+  //           estimated_Year = estimated_Year - 1;
 
-        } else if (agem_dob > 0) { // For Age in Month
+  //         }
 
-          var estimated_Year = reg_date_year;
-          var estimated_Month = Bmonth - agem_dob;
-          console.log(estimated_Month);
-          if (estimated_Month < 0) {
-            estimated_Month = 12 + estimated_Month;
-            estimated_Year = estimated_Year - 1;
+  //         if (estimated_Month == 0) {
+  //           estimated_Year = estimated_Year - 1;
+  //           estimated_Month = estimated_Month + 12;
+  //         }
+  //         var estimated_Day = 1; //fixed defined  estimated Day " 1st "
+  //         if (estimated_Month < 10) {
+  //           estimated_Month = "0" + estimated_Month;
+  //         }
+  //         if (estimated_Day < 10) {
+  //           estimated_Day = "0" + estimated_Day;
+  //         }
+  //         estimated_DoB = estimated_Year + "-" + estimated_Month + "-" + estimated_Day;
 
-          }
+  //         console.log(estimated_DoB + "dob months is here")
 
-          if (estimated_Month == 0) {
-            estimated_Year = estimated_Year - 1;
-            estimated_Month = estimated_Month + 12;
-          }
-          var estimated_Day = 1; //fixed defined  estimated Day " 1st "
-          if (estimated_Month < 10) {
-            estimated_Month = "0" + estimated_Month;
-          }
-          if (estimated_Day < 10) {
-            estimated_Day = "0" + estimated_Day;
-          }
-          estimated_DoB = estimated_Year + "-" + estimated_Month + "-" + estimated_Day;
+  //       }
+  //       ddDate = estimated_DoB;
 
-          console.log(estimated_DoB + "dob months is here")
+  //     }
+  //   } else {
+  //     if (dob_input == undefined) {
+  //       estimated_DoB = document.getElementById('dob').value;
+  //       ddDate = formatDate(estimated_DoB);
+  //     } else {
+  //       ddDate = dob_input;
+  //     }
 
-        }
-        ddDate = estimated_DoB;
+  //     // $("#dob").val(ddDate);
+  //   }
+  //   if (agem_dob == 12) {
+  //     $("#agem_register").val("");
+  //     $("#agey_register").focus();
+  //     alert("if month is 12,add one year to age")
+  //   } else {
+  //     net_age(register_date, ddDate, vDate_dob); //register_date
 
-      }
-    } else {
-      if (dob_input == undefined) {
-        estimated_DoB = document.getElementById('dob').value;
-        ddDate = formatDate(estimated_DoB);
-      } else {
-        ddDate = dob_input;
-      }
-
-      // $("#dob").val(ddDate);
-    }
-    if (agem_dob == 12) {
-      $("#agem_register").val("");
-      $("#agey_register").focus();
-      alert("if month is 12,add one year to age")
-    } else {
-      net_age(register_date, ddDate, vDate_dob); //register_date
-
-    }
-    if (date_origin != agey_dob) {
-      edit = 1; // date_origin must come form confidential DB age
-    }
-  }
+  //   }
+  //   if (date_origin != agey_dob) {
+  //     edit = 1; // date_origin must come form confidential DB age
+  //   }
+  // }
 
   function reg_age_change() {
     dob_input = "";
@@ -1345,45 +1211,45 @@
     register_date = "";
   }
 
-  function dateOfBirth_to_age() {
-    var Adate = new Date();
-    var Aday = Adate.getDate();
-    var Bmonth = Adate.getMonth() + 1;
-    var Ayear = Adate.getFullYear();
+  // function dateOfBirth_to_age() {
+  //   var Adate = new Date();
+  //   var Aday = Adate.getDate();
+  //   var Bmonth = Adate.getMonth() + 1;
+  //   var Ayear = Adate.getFullYear();
 
 
-    var estimated_DoB = 0;
+  //   var estimated_DoB = 0;
 
-    var dob_input = document.getElementById('dob').value;
-    console.log(dob_input + "date of birth function");
+  //   var dob_input = document.getElementById('dob').value;
+  //   console.log(dob_input + "date of birth function");
 
-    if (!dob_input) {
-      document.getElementById('agey').value = "";
-    } else {
-      var dobarray = dob_input.split("-");
-      var dt_yearDay = dobarray[0];
-      if (dt_yearDay.length < 3) {
-        var dtYear = dobarray[2]
-      } else {
-        var dtYear = dt_yearDay
-      }
-      console.log(dtYear + "date of Year only");
+  //   if (!dob_input) {
+  //     document.getElementById('agey').value = "";
+  //   } else {
+  //     var dobarray = dob_input.split("-");
+  //     var dt_yearDay = dobarray[0];
+  //     if (dt_yearDay.length < 3) {
+  //       var dtYear = dobarray[2]
+  //     } else {
+  //       var dtYear = dt_yearDay
+  //     }
+  //     console.log(dtYear + "date of Year only");
 
-      if (dtYear == Ayear) {
-        var AgeMonth = dobarray[1];
-        document.getElementById('agem').value = Bmonth - AgeMonth;
-        document.getElementById('agey').value = "";
-        $("#agey_register").val("");
-      } else {
-        document.getElementById('agey').value = Ayear - dtYear;
-        register_age = Number(register_date.split("-")[0]) - dtYear;
-        $("#agem").val("");
+  //     if (dtYear == Ayear) {
+  //       var AgeMonth = dobarray[1];
+  //       document.getElementById('agem').value = Bmonth - AgeMonth;
+  //       document.getElementById('agey').value = "";
+  //       $("#agey_register").val("");
+  //     } else {
+  //       document.getElementById('agey').value = Ayear - dtYear;
+  //       register_age = Number(register_date.split("-")[0]) - dtYear;
+  //       $("#agem").val("");
 
-        $("#agey_register").val(register_age);
-      }
+  //       $("#agey_register").val(register_age);
+  //     }
 
-    }
-  }
+  //   }
+  // }
 
   function dateCalender() {
     var dateid = $(event.target).prev("input").attr("id"); // Get the ID of the input field

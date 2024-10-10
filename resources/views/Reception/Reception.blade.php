@@ -1998,46 +1998,48 @@
   </div>
 
   <section id="print-section">
-    <div class="qrblock clearfix">
-      <div class="qr-data ">
-        <label for="" class="form-label qr-label varticle-print"></label>
+    <div class="row">
+      <div class="col-sm-4">
+        <label for="" class="form-label qr-label"></label>
         <div class="qr-code"></div>
       </div>
-      <div class="qr-data ">
-        <label for="" class="form-label qr-label varticle-print"></label>
+      <div class="col-sm-4">
+        <label for="" class="form-label qr-label"></label>
         <div class="qr-code"></div>
       </div>
-      <div class="qr-data ">
-        <label for="" class="form-label qr-label varticle-print"></label>
-        <div class="qr-code"></div>
-      </div>
-    </div>
-    <div class="qrblock clearfix">
-      <div class="qr-data ">
-        <label for="" class="form-label qr-label varticle-print"></label>
-        <div class="qr-code"></div>
-      </div>
-      <div class="qr-data ">
-        <label for="" class="form-label qr-label varticle-print"></label>
-        <div class="qr-code"></div>
-      </div>
-      <div class="qr-data ">
-        <label for="" class="form-label qr-label varticle-print"></label>
+      <div class="col-sm-4">
+        <label for="" class="form-label qr-label"></label>
         <div class="qr-code"></div>
       </div>
     </div>
-    <div class="qrblock clearfix">
-      <div class="qr-data" style="width:100%;padding-left:40px">
-        <label for="" class="form-label qr-label" style="text-align: left;"></label>
+    <div class="row">
+      <div class="col-sm-4">
+        <label for="" class="form-label qr-label"></label>
+        <div class="qr-code"></div>
+      </div>
+      <div class="col-sm-4">
+        <label for="" class="form-label qr-label"></label>
+        <div class="qr-code"></div>
+      </div>
+      <div class="col-sm-4">
+        <label for="" class="form-label qr-label"></label>
         <div class="qr-code"></div>
       </div>
     </div>
-    <div class="qrblock clearfix">
-      <div class="qr-data" style="width:100%;padding-left:40px">
-        <label for="" class="form-label qr-label" style="text-align: left;"></label>
+    <div class="row">
+      <div class="col-sm-12" style="justify-content: center;">
+        <label for="" class="form-label qr-label"></label>
         <div class="qr-code"></div>
       </div>
     </div>
+    <div class="row">
+      <div class="col-sm-12" style="justify-content: center;">
+        <label for="" class="form-label qr-label"></label>
+        <div class="qr-code"></div>
+      </div>
+    </div>
+
+
   </section>
 
 </body>
@@ -2163,8 +2165,8 @@
           $('.qr-code').html(response.barcode2DHtml);
           $(".container").hide();
           $("#print-section").show();
-          $("main").removeClass('py-4');
           window.print();
+          $("#print-section").hide();
           location.reload(true);
         }
 
@@ -2963,10 +2965,8 @@
               $('.qr-code').html(response.barcode2DHtml);
               $(".container").hide();
               $("#print-section").show();
-              $("main").removeClass("py-4");
               window.print();
-              $("main").addClass("py-4");
-
+              $("#print-section").show();
             }
 
             location.reload(true); // to refresh the page
@@ -3130,11 +3130,8 @@
 
               $('.qr-code').html(response.barcode2DHtml);
               $(".container").hide();
-              $("#print-section").show();
-              $("main").removeClass('py-4');
               window.print();
-              $("main").addClass('py-4');
-
+              $("#print-section").show();
             }
           }
           location.reload(true); // to refresh the page
@@ -3306,9 +3303,7 @@
               $('.qr-code').html(response.barcode2DHtml);
               $(".container").hide();
               $("#print-section").show();
-              $("main").removeClass("py-4");
               window.print();
-              $("main").addClass("py-4");
             }
 
             alert("အချက်အလက်များကို သိမ်းပြီးပါပြီ။");
