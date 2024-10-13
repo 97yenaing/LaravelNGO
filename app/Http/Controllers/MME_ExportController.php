@@ -22,7 +22,7 @@ use App\Exports\MME_Export\CervicalCancer\CervicalExport;
 use App\Exports\MME_Export\CMV\CMVExport;
 use App\Exports\MME_Export\NCD\NCDExport;
 use App\Exports\MME_Export\TB\TBExport;
-use App\Exports\RiskbackExcel\RefillRisk;
+use App\Exports\RefillRisk;
 use DateTime;
 
 class MME_ExportController extends Controller
@@ -35,7 +35,30 @@ class MME_ExportController extends Controller
 
 	public function mme_export_View()
 	{
-		return view("MME.mme_export");
+		$DB = ["MAM_A", "MAM_B", "MAM_C1", "MAM_C2", "MAM_SPT", "MAM_SDG", "MAM_TL"];
+		$mam_userType = Auth()->user()->type;
+		//return view("MME.mme_export");
+		//return view('MME.mme_export',['userType'=> $mam_userType]);
+		$latestRecords = [];
+		foreach ($DB as $data_row) {
+			$latestRecord = DB::connection($data_row)
+				->table('followup_generals')
+				->latest('created_at')  // Change to your date column
+				->first();
+
+			if ($latestRecord) {
+				$latestRecords[$data_row] = $latestRecord->created_at;
+			} else {
+				$latestRecords[$data_row] = 'No records found';
+			}
+		}
+		// Output the latest records from all 4 databases
+		//foreach ($latestRecords as $db_data => $latestDateTime) {
+		//	echo "Latest record from $db_data: $latestDateTime \n";
+		//}
+
+
+		return view("MME.mme_export", ["userType" => $mam_userType, "latestRecords" => $latestRecords]);
 	}
 	public function mme_export(Request $request)
 	{
@@ -419,7 +442,6 @@ class MME_ExportController extends Controller
 				$carbonDate = Carbon::createFromFormat('d-m-Y', $carbonDate->format('d-m-Y'));
 				$vdate = new DateTime($carbonDate);
 				if ($user["Risk Log"] != null) {
-					dd("hello is me");
 					$forRiskCheck[1]['Pid'] = $user['Pid'];
 					$forRiskCheck[1]['Risk Log'] = $user['Risk Log'];
 					if (!array_key_exists($user['Pid'], $this->final_log)) {
@@ -600,7 +622,6 @@ class MME_ExportController extends Controller
 		$table_name = null;
 		$act_table = null;
 		$sti_values = collect([]);
-
 		switch ($request["other"]) {
 			case "Male":
 				$table_name = "Stimale";
@@ -851,20 +872,19 @@ class MME_ExportController extends Controller
 				$sti_values = $sti_values->merge($sti_values_data);
 			}
 		} else {
-			dd("ok null");
 			abort(404);
 		}
-		foreach ($sti_values as $key => $sit_value) {
-			$carbonDate = Carbon::createFromFormat('Y-m-d', $sit_value['Visit_date']);
+		foreach ($sti_values as $key => $sti_value) {
+			$carbonDate = Carbon::createFromFormat('Y-m-d', $sti_value['Visit_date']);
 			$carbonDate = Carbon::createFromFormat('d-m-Y', $carbonDate->format('d-m-Y'));
 			$vdate = new DateTime($carbonDate);
-			$sti_value['Pid'] = $sit_value['CID'];
+			$sti_value['Pid'] = $sti_value['CID'];
 
-			$sit_value = Export_age::Export_general($sit_value, $sit_value["Visit_date"], $sit_value["Date of Birth"], $sit_value);
+			$sti_value = Export_age::Export_general($sti_value, $sti_value["Visit_date"], $sti_value["Date of Birth"], $sti_value);
 
-			if ($sit_value["Date of Birth"] != null) {
+			if ($sti_value["Date of Birth"] == null) {
 				$modelClassName = "App\\Models\\Patients";
-				$model->setConnection($this->Extra_DB($sit_value["Clinic Code"]));
+				$model->setConnection($this->Extra_DB($sti_value["Clinic Code"]));
 				$model = app()->make($modelClassName);
 				$extraPatient = $model->where('Pid', $sti_value['Pid'])
 					->select("Date of Birth", "Agey", "Agem", "Gender", "FuchiaID", "Pid", "Risk Log", "Former Risk", "Risk Change_Date", "Main Risk", "Sub Risk")->first();
@@ -879,52 +899,50 @@ class MME_ExportController extends Controller
 					$sti_value['Risk Change_Date'] = $extraPatient["Risk Change_Date"];
 					$sti_value['Main Risk'] = $extraPatient["Main Risk"];
 					$sti_value['Sub Risk'] = $extraPatient["Sub Risk"];
-					$sit_value = Export_age::Export_general($sit_value, $sit_value["Visit_date"], $sit_value["Date of Birth"], $sit_value);
+					$sti_value = Export_age::Export_general($sti_value, $sti_value["Visit_date"], $sti_value["Date of Birth"], $sti_value);
 				}
 			}
 
-			if ($sit_value["Risk Log"] != null) {
-				$forRiskCheck[1]['Pid'] = $sit_value['CID'];
-				$forRiskCheck[1]['Risk Log'] = $sit_value['Risk Log'];
-				if (!array_key_exists($sit_value['CID'], $this->final_log) && $sit_value['Risk Log'] != null) {
+			if ($sti_value["Risk Log"] != null) {
+				$forRiskCheck[1]['Pid'] = $sti_value['CID'];
+				$forRiskCheck[1]['Risk Log'] = $sti_value['Risk Log'];
+				if (!array_key_exists($sti_value['CID'], $this->final_log) && $sti_value['Risk Log'] != null) {
 					$this->final_risklog = RefillRisk::FillRisk($forRiskCheck);
-					$this->final_log[$sit_value['CID']] = $this->final_risklog;
+					$this->final_log[$sti_value['CID']] = $this->final_risklog;
 				}
-				if (array_key_exists($sit_value['CID'], $this->final_log)) {
-					foreach (array_reverse($this->final_log[$sit_value['CID']][$sit_value['CID']]) as $date => $data) {
+				if (array_key_exists($sti_value['CID'], $this->final_log)) {
+					foreach (array_reverse($this->final_log[$sti_value['CID']][$sti_value['CID']]) as $date => $data) {
 						if (strlen($date) == 10) {
 							$riskChangeDate = new DateTime($date);
 							if ($vdate < $riskChangeDate) {
-								$sit_value['Main Risk'] = Crypt::encrypt_light($data['Old Risk'], 'General');
-								$sit_value['Sub Risk'] = Crypt::encrypt_light($data['Old Sub Risk'], 'General');
+								$sti_value['Main Risk'] = Crypt::encrypt_light($data['Old Risk'], 'General');
+								$sti_value['Sub Risk'] = Crypt::encrypt_light($data['Old Sub Risk'], 'General');
 							}
 						}
 					}
 				}
-			} elseif ($sit_value['Risk Change_Date'] != null && $sit_value['Former Risk'] != null && $sit_value['Former Risk'] != "731") {
-				$riskChangeDate = Carbon::createFromFormat('Y-m-d', $sit_value['Risk Change_Date']);
+			} elseif ($sti_value['Risk Change_Date'] != null && $sti_value['Former Risk'] != null && $sti_value['Former Risk'] != "731") {
+				$riskChangeDate = Carbon::createFromFormat('Y-m-d', $sti_value['Risk Change_Date']);
 				$riskChangeDate = new DateTime(Carbon::createFromFormat('d-m-Y', $riskChangeDate->format('d-m-Y')));
 				if ($vdate < $riskChangeDate) {
-					$sit_value['Main Risk'] = $sit_value['Former Risk'];
-					$sit_value['Sub Risk'] = '';
+					$sti_value['Main Risk'] = $sti_value['Former Risk'];
+					$sti_value['Sub Risk'] = '';
 				}
 			}
-
 			foreach ($encrypted_columns as $key => $encrypte) {
-				$sit_value[$encrypte] = Crypt::decrypt_light($sit_value[$encrypte], "General");
-				if (($encrypte == "Main Risk" || $encrypte == "Sub Risk") && $sit_value[$encrypte] == "-") {
-					$sit_value[$encrypte] = null;
+				$sti_value[$encrypte] = Crypt::decrypt_light($sti_value[$encrypte], "General");
+				if (($encrypte == "Main Risk" || $encrypte == "Sub Risk") && $sti_value[$encrypte] == "-") {
+					$sti_value[$encrypte] = null;
 				}
-				$sit_value[$encrypte] = Crypt::codeBook($sit_value[$encrypte], "encode");
+				$sti_value[$encrypte] = Crypt::codeBook($sti_value[$encrypte], "encode");
 			}
 			foreach ($encrypted_38 as $column) {
-				$sit_value[$column] = Crypt::decryptString($sit_value[$column], "General");
+				$sti_value[$column] = Crypt::decryptString($sti_value[$column], "General");
 			}
-			$carbonDate = Carbon::createFromFormat("Y-m-d", $sit_value["Visit_date"]);
+			$carbonDate = Carbon::createFromFormat("Y-m-d", $sti_value["Visit_date"]);
 			$carbonDate = Carbon::createFromFormat("d-m-Y", $carbonDate->format("d-m-Y"));
-			$sit_value["Visit_date"] = Date::dateTimeToExcel($carbonDate->startOfDay());
+			$sti_value["Visit_date"] = Date::dateTimeToExcel($carbonDate->startOfDay());
 		}
-		dd('hello is me');
 		return Excel::download(new STIExport($sti_values, $request["other"]), "STI_" . $request["other"] . "-" . date("d-m-Y") . "." . $request["typeExport"]);
 	}
 
