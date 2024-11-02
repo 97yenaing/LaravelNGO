@@ -2359,8 +2359,6 @@
     $("#secondPage,#second").removeClass("active");
     mental_click_id = event.target.id.match(/\d+/)[0];
     $("#pateint_type").val(resp[0][mental_click_id]);
-    $("#phq4").prop("checked", true);
-    console.log(resp, "hello");
     $("#gid").val(resp[0][mental_click_id]["Pid"]);
     $("#vDate").val(resp[0][mental_click_id]["Counselling_Date"]);
 
@@ -2377,9 +2375,6 @@
         }
       }
     }
-    //mental_show_hide();
-    // q1q2();
-    // q3q4();
     DateTo_text();
     $("#mental_save").prop("disabled", false);
     $("#mental_save").text("Update MentalHealth");
@@ -2505,7 +2500,7 @@
             response[1][counselling_type_array[check_select]] == 1 ?
               ($("#" + counselling_type_array[check_select + 1]).prop("checked", true), $("#" + counselling_type_array[check_select + 1]).parent()
                 .parent().find("select").show()) : ($("#" + counselling_type_array[check_select + 1]).prop(
-                "checked", false), $("#" + counselling_type_array[check_select + 1]).parent().parent().find("select").hide());
+                "checked", false));
 
           }
         }
@@ -3330,21 +3325,9 @@
               document.getElementById("new_old").value = "New";
               document.getElementById("new_old").style = "color:red";
             }
-            if (response[15] == true) {
-              for (let check_select = 0; check_select < counselling_type_array.length; check_select += 2) {
-                if ($("#" + counselling_type_array[check_select + 1]).is("select")) {
-                  $("#" + counselling_type_array[check_select + 1]).val(response[14][counselling_type_array[check_select]])
-                } else {
-                  if (!$("#" + counselling_type_array[check_select + 1]).is("input[type='checkbox'")) {
-                    $("#" + counselling_type_array[check_select + 1]).val(response[14][counselling_type_array[check_select]]);
-                  }
-                  response[14][counselling_type_array[check_select]] == 1 ? ($("#" + counselling_type_array[check_select + 1]).prop("checked", true)) : $(
-                    "#" + counselling_type_array[check_select + 1]).prop("checked", false);
-                }
-              }
-            }
-            //mental_show_hide();
+
             $("#mental_save").prop("disabled", false);
+            //refill mental screen data
             if (response[0]["mental_exist"] != null) {
               $("#mental_save").text("Update MentalHealth");
               for (let index = 0; index < mental_fill_array.length; index = index + 2) {
@@ -3358,18 +3341,25 @@
                   }
                 }
               }
-              // q1q2();
-              // q3q4();
-
-
             } else {
               $("#mental_save").text('Save MentalHealth');
             }
+            //refill counselling type data
+            if (response[15] == true) {
+              for (let check_select = 0; check_select < counselling_type_array.length; check_select += 2) {
+                if ($("#" + counselling_type_array[check_select + 1]).is("select")) {
+                  $("#" + counselling_type_array[check_select + 1]).val(response[14][counselling_type_array[check_select]])
+                } else {
+                  if (!$("#" + counselling_type_array[check_select + 1]).is("input[type='checkbox'")) {
+                    $("#" + counselling_type_array[check_select + 1]).val(response[14][counselling_type_array[check_select]]);
+                  }
+                  response[14][counselling_type_array[check_select]] == 1 ? ($("#" + counselling_type_array[check_select + 1]).prop("checked", true)) : $(
+                    "#" + counselling_type_array[check_select + 1]).prop("checked", false);
+                }
+              }
+            }
 
-
-
-            $("#ls_rpr_dilution").text(response[16]);
-
+            $("#ls_rpr_dilution").text(response[16]); // rpr show from lab
             $("#hts-search").prop("disabled", true);
             if ($("#test_do").val() == "pat_record" && response[0]["Counselling_Date"] != null) {
 
@@ -4485,27 +4475,5 @@
     $(".phpq4_detail").addClass("phq4-hide");
     $(".phpq4_detail").removeClass("phq4-show");
     $(".counselling-button").show();
-  }
-
-  function q1q2() {
-    let q1_q2 = $("#q1_q2_amount").val();
-    if (q1_q2 >= 3) {
-      $("#gad7").prop("checked", true);
-      $("#gad7_sub,#gad7_amount").prop("disabled", false);
-    } else {
-      $("#gad7").prop("checked", false);
-      $("#gad7_sub,#gad7_amount").prop("disabled", true).val("");
-    }
-  }
-
-  function q3q4() {
-    let q3_q4 = $("#q3_q4_amount").val();
-    if (q3_q4 >= 3) {
-      $("#phq9").prop("checked", true);
-      $("#phq9_sub,#phq9_amount").prop("disabled", false);
-    } else {
-      $("#phq9").prop("checked", false);
-      $("#phq9_sub,#phq9_amount").prop("disabled", true).val("");
-    }
   }
 </script>
