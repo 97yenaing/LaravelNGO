@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class mentalRegister extends Model
 {
+    protected $connection = 'mysql';
     use HasFactory;
     protected $fillable = [
         'Pid',
@@ -36,6 +37,8 @@ class mentalRegister extends Model
         'Drug_name_3_risk',
         'Drug_name_4',
         'Drug_name_4_risk',
+        'Drug_name_5',
+        'Drug_name_5_risk',
         'Brief',
         'Brief_plan',
         'Brief_plan_detail',
@@ -55,4 +58,8 @@ class mentalRegister extends Model
         'Next_meetdate',
 
     ];
+    public function ptconfig()
+    {
+        return $this->belongsTo(PtConfig::class, 'Pid', 'Pid');
+    }
 }

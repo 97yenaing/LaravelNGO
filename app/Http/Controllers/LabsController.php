@@ -99,7 +99,6 @@ class LabsController extends Controller
   }
   public function labResponse(Request $request)
   {
-
     $hiv = 0;
     $updateID = 0;
     $notice = $request["notice"];

@@ -52,11 +52,10 @@ class MME_ExportController extends Controller
 				$latestRecords[$data_row] = 'No records found';
 			}
 		}
-		// Output the latest records from all 4 databases
-		//foreach ($latestRecords as $db_data => $latestDateTime) {
-		//	echo "Latest record from $db_data: $latestDateTime \n";
-		//}
-
+		// // Output the latest records from all 4 databases
+		// //foreach ($latestRecords as $db_data => $latestDateTime) {
+		// //	echo "Latest record from $db_data: $latestDateTime \n";
+		// //}
 
 		return view("MME.mme_export", ["userType" => $mam_userType, "latestRecords" => $latestRecords]);
 	}
@@ -224,10 +223,9 @@ class MME_ExportController extends Controller
 					$diagnosisArray[$diagnosis_dataonly[$i]] = "";
 				}
 			}
-
-
-			if ($export["Date of Birth"] != null) {
-				$export = Export_age::Export_general($export, $export["Visit Date"], $export["Date of Birth"], $export);
+			$export = Export_age::Export_general($export, $export["Visit Date"], $export["Date of Birth"], $export);
+			if ($export["Date of Birth"] == null) {
+				$export = $this->NoCofidential($export, $export["Visit Date"]);
 			}
 			if ($export["Risk Log"] != null) {
 				$carbonDate = Carbon::createFromFormat('Y-m-d', $export['Visit Date']);
@@ -435,9 +433,14 @@ class MME_ExportController extends Controller
 			}
 
 			foreach ($users as $key => $user) {
-				if ($user["Date of Birth"] != null) {
-					$user = Export_age::Export_general($user, $user["vdate"], $user["Date of Birth"], $user);
+				$user["Pid"] = $user[$target_id];
+				$user = Export_age::Export_general($user, $user["vdate"], $user["Date of Birth"], $user);
+				if ($user["Date of Birth"] == null) {
+					$user = $this->NoCofidential($user, $user["vdate"]);
 				}
+				// if ($user["Date of Birth"] != null) {
+				// 	$user = Export_age::Export_general($user, $user["vdate"], $user["Date of Birth"], $user);
+				// }
 				$carbonDate = Carbon::createFromFormat('Y-m-d', $user['vdate']);
 				$carbonDate = Carbon::createFromFormat('d-m-Y', $carbonDate->format('d-m-Y'));
 				$vdate = new DateTime($carbonDate);
@@ -562,8 +565,9 @@ class MME_ExportController extends Controller
 			abort(404);
 		}
 		foreach ($counselling_records as $key => $counselling_record) {
-			if ($counselling_record["Date of Birth"] != null) {
-				$counselling_record = Export_age::Export_general($counselling_record, $counselling_record["Counselling_Date"], $counselling_record["Date of Birth"], $counselling_record);
+			$counselling_record = Export_age::Export_general($counselling_record, $counselling_record["Counselling_Date"], $counselling_record["Date of Birth"], $counselling_record);
+			if ($counselling_record["Date of Birth"] == null) {
+				$counselling_record = $this->NoCofidential($counselling_record, $counselling_record["Counselling_Date"]);
 			}
 			$carbonDate = Carbon::createFromFormat('Y-m-d', $counselling_record['Counselling_Date']);
 			$carbonDate = Carbon::createFromFormat('d-m-Y', $carbonDate->format('d-m-Y'));
@@ -883,24 +887,7 @@ class MME_ExportController extends Controller
 			$sti_value = Export_age::Export_general($sti_value, $sti_value["Visit_date"], $sti_value["Date of Birth"], $sti_value);
 
 			if ($sti_value["Date of Birth"] == null) {
-				$modelClassName = "App\\Models\\Patients";
-				$model->setConnection($this->Extra_DB($sti_value["Clinic Code"]));
-				$model = app()->make($modelClassName);
-				$extraPatient = $model->where('Pid', $sti_value['Pid'])
-					->select("Date of Birth", "Agey", "Agem", "Gender", "FuchiaID", "Pid", "Risk Log", "Former Risk", "Risk Change_Date", "Main Risk", "Sub Risk")->first();
-
-				if ($extraPatient) {
-					$sti_value['Date of Birth'] = $extraPatient["Date of Birth"];
-					$sti_value['Agey'] = $extraPatient["Agey"];
-					$sti_value['Agem'] = $extraPatient["Agem"];
-					$sti_value['FuchiaID'] = $extraPatient["FuchiaID"];
-					$sti_value['Risk Log'] = $extraPatient["Risk Log"];
-					$sti_value['Former Risk'] = $extraPatient["Former Risk"];
-					$sti_value['Risk Change_Date'] = $extraPatient["Risk Change_Date"];
-					$sti_value['Main Risk'] = $extraPatient["Main Risk"];
-					$sti_value['Sub Risk'] = $extraPatient["Sub Risk"];
-					$sti_value = Export_age::Export_general($sti_value, $sti_value["Visit_date"], $sti_value["Date of Birth"], $sti_value);
-				}
+				$sti_value = $this->NoCofidential($sti_value, $sti_value["Visit_date"]);
 			}
 
 			if ($sti_value["Risk Log"] != null) {
@@ -1137,8 +1124,10 @@ class MME_ExportController extends Controller
 		}
 
 		foreach ($cervical_values as $key => $cervical_value) {
-			if ($cervical_value["Date of Birth"] != null) {
-				$cervical_value = Export_age::Export_general($cervical_value, $cervical_value["Visit_date"], $cervical_value["Date of Birth"], $cervical_value);
+			$cervical_value["Pid"] = $cervical_value["General ID"];
+			$cervical_value = Export_age::Export_general($cervical_value, $cervical_value["Visit_date"], $cervical_value["Date of Birth"], $cervical_value);
+			if ($cervical_value["Date of Birth"] == null) {
+				$cervical_value = $this->NoCofidential($cervical_value, $cervical_value["Visit_date"]);
 			}
 			foreach ($cervical_dates as $cervical_date) {
 				if ($cervical_value[$cervical_date] != null) {
@@ -1168,8 +1157,10 @@ class MME_ExportController extends Controller
 			$cmv_values = $cmv_values->merge($cmv_values_data);
 		}
 		foreach ($cmv_values as $key => $cmv_value) {
-			if ($cmv_value["Date of Birth"] != null) {
-				$cmv_value = Export_age::Export_general($cmv_value, $cmv_value["Visit_date"], $cmv_value["Date of Birth"], $cmv_value);
+			$cmv_value["Pid"] = $cmv_value["Pid_cmv"];
+			$cmv_value = Export_age::Export_general($cmv_value, $cmv_value["Visit_date"], $cmv_value["Date of Birth"], $cmv_value);
+			if ($cmv_value["Date of Birth"] == null) {
+				$cmv_value = $this->NoCofidential($cmv_value, $cmv_value["Visit_date"]);
 			}
 			foreach ($cmv_dates as $cmv_date) {
 				if ($cmv_value[$cmv_date] != null) {
@@ -1230,8 +1221,15 @@ class MME_ExportController extends Controller
 			abort(404);
 		}
 		foreach ($ncd_values as $key => $ncd_value) {
-			if ($ncd_value["Date of Birth"] != null) {
-				$ncd_value = Export_age::Export_general($ncd_value, $ncd_value[$test_date], $ncd_value["Date of Birth"], $ncd_value);
+			if ($ncd_value["Pid"] == "7118005845") {
+				var_dump($ncd_value);
+			}
+			$ncd_value = Export_age::Export_general($ncd_value, $ncd_value[$test_date], $ncd_value["Date of Birth"], $ncd_value);
+			if ($ncd_value["Pid"] == "7118005845") {
+				dd($ncd_value);
+			}
+			if ($ncd_value["Date of Birth"] == null) {
+				$ncd_value = $this->NoCofidential($ncd_value, $ncd_value[$test_date]);
 			}
 			foreach ($ncd_dates as $ncd_date) {
 				if ($ncd_value[$ncd_date] !== null) {
@@ -1322,8 +1320,10 @@ class MME_ExportController extends Controller
 			}
 
 			foreach ($tb_values as $tb_value) {
-				if ($tb_value["Date of Birth"] != null) {
-					$tb_value = Export_age::Export_general($tb_value, $tb_value[$patient_vdate], $tb_value["Date of Birth"], $tb_value);
+				$tb_value["Pid"] = $tb_value[$target_id];
+				$tb_value = Export_age::Export_general($tb_value, $tb_value[$patient_vdate], $tb_value["Date of Birth"], $tb_value);
+				if ($tb_value["Date of Birth"] == null) {
+					$tb_value = $this->NoCofidential($tb_value, $tb_value[$patient_vdate]);
 				}
 				foreach ($encryptes as $key => $encrypte) {
 					$tb_value[$encrypte] = Crypt::decrypt_light($tb_value[$encrypte], "General");
@@ -1375,5 +1375,35 @@ class MME_ExportController extends Controller
 				return false;
 				break;
 		}
+	}
+
+	public function NoCofidential($data, $vdate)
+	{
+		$modelClassName = "App\\Models\\Patients";
+		$model = app()->make($modelClassName);
+		$model->setConnection($this->Extra_DB($data["Clinic Code"]));
+		$extraPatient = $model->where('Pid', $data["Pid"])
+			->select("Date of Birth", "Agey", "Agem", "Gender", "FuchiaID", "Pid", "Risk Log", "Former Risk", "Risk Change_Date", "Main Risk", "Sub Risk")->first();
+
+
+		if (!$extraPatient) {
+			$model->setConnection("MAM_C2");
+			$extraPatient = $model->where('Pid', $data["Pid"])
+				->select("Date of Birth", "Agey", "Agem", "Gender", "FuchiaID", "Pid", "Risk Log", "Former Risk", "Risk Change_Date", "Main Risk", "Sub Risk")->first();
+		}
+		if ($extraPatient) {
+			$data['Date of Birth'] = $extraPatient["Date of Birth"];
+			$data['Agey'] = $extraPatient["Agey"];
+			$data['Agem'] = $extraPatient["Agem"];
+			$data['FuchiaID'] = $extraPatient["FuchiaID"];
+			$data['Risk Log'] = $extraPatient["Risk Log"];
+			$data['Gender'] = $extraPatient["Gender"];
+			$data['Former Risk'] = $extraPatient["Former Risk"];
+			$data['Risk Change_Date'] = $extraPatient["Risk Change_Date"];
+			$data['Main Risk'] = $extraPatient["Main Risk"];
+			$data['Sub Risk'] = $extraPatient["Sub Risk"];
+			$data = Export_age::Export_general($data, $vdate, $data["Date of Birth"], $data);
+		}
+		return $data;
 	}
 }

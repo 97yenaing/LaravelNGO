@@ -1123,12 +1123,6 @@
       console.log(Tb03_name)
     })
     TB03_data["Clinic Code"] = clinic_Code;
-
-
-    console.log(Object.keys(TB03_data).length);
-    console.log(Object.keys(TB03_data))
-    console.log(TB03_data)
-    console.log("TB 03 save");
     if (TB03_data["TB03_gender"] == "Female") {
       TB03_data["TB03_gender"] = "F"
     } else {

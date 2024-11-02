@@ -33,7 +33,6 @@ class NCDExport implements FromCollection, WithMapping, WithHeadings, WithChunkR
 				$row["Visit_date"],
 				$row["Reg_Date"],
 				$row["visit_Age"],
-
 				$row["Current Agey"],
 				$row["Gender"],
 				$row["Area_Division"],
@@ -144,7 +143,6 @@ class NCDExport implements FromCollection, WithMapping, WithHeadings, WithChunkR
 				$row["Height"],
 				$row["Weight"],
 				$row["Register_Bmi"],
-
 				$row["1stBP"],
 				$row["1stBP_date"],
 				$row["2ndBP"],

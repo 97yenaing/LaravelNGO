@@ -47,14 +47,13 @@ class Export_age
       $reg_year = "20" . substr($config["Pid"], 2, 2);
       $code = substr($config["Pid"], 4);
     } else {
-      dd();
       abort(505, "This ID is invalid Code" . $config["Pid"]);
     }
 
-    if ($config["Agey"] != 0) {
+    if ($config["Agey"] != 0 && $config["Agey"] != null) {
       $current_agey = ($currentYear - $reg_year) + $config["Agey"];
       $current_agem = "0";
-    } else if ($DOB != null) {
+    } else if ($DOB != null && ($config["Agey"] == 0 || $config["Agey"] == null)) {
       if ($currentYear == intval($DOB[0])) {
         $current_agem = ($currentMonth - intval($DOB[1]));
         $current_agey = "0";
@@ -74,6 +73,7 @@ class Export_age
         }
       }
     }
+
     if ($vdate == null) {
       $current_agey = "No vdate";
       $current_agem = "No vdate";

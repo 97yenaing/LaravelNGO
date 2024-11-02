@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class mentalFollow extends Model
 {
+    protected $connection = 'mysql';
     use HasFactory;
     protected $fillable = [
         'Pid',
@@ -25,6 +26,8 @@ class mentalFollow extends Model
         'Scroe_3_risk',
         'Scroe_4',
         'Scroe_4_risk',
+        'Scroe_5',
+        'Scroe_5_risk',
         'Brief',
         'Brief_plan',
         'Brief_plan_detail',
@@ -51,11 +54,13 @@ class mentalFollow extends Model
         'Stop_drug',
         'Psy_interview_mam',
         'Other_refer_psychiatrist',
-        'Mental_hospital',
-        'General_hospital',
-        'Private_psychiatrist',
         'MD_initial', // Use string for fixed-length text
         'CSL_initial',
         'Next_meetdate',
     ];
+
+    public function ptconfig()
+    {
+        return $this->belongsTo(PtConfig::class, 'Pid', 'Pid');
+    }
 }

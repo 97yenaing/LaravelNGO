@@ -2,8 +2,25 @@
   padding: 10px 2%;
 }
 
+#mentalFollowHistory table {
+  width: 70%;
+  /* margin: 20px 18%; */
+}
+
+.mentalDetail {
+  margin-right: 15%;
+}
+
+#mentalFollowHistory {
+  display: none;
+}
+
 .mental-register section {
   margin-top: 30px;
+}
+
+#patient_information {
+  position: relative;
 }
 
 .mental-register section h3 {
@@ -20,4 +37,29 @@
 #pharmaloTre .form-check-inline label,
 #otherManageSection .form-check-inline label {
   text-align: left;
+}
+
+.mental-follow {
+  display: none;
+}
+
+#patient_information button {
+  position: absolute;
+  top: 10px;
+}
+
+.mental-registerHistoy,
+.mental-followHistoy {
+  left: 2%;
+}
+
+.mental-toFollow,
+.mental-toRegister {
+  right: 2%;
+}
+
+.mental-followHistoy,
+.mental-toRegister,
+.mental-toFollow {
+  display: none;
 }

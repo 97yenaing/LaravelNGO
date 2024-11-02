@@ -9837,7 +9837,8 @@
 		$('#agey').text(resp[11]['Current Agey']);
 		$('#agem').text(resp[11]['Current Agem']);
 		$('#Ptype').val(resp[11]['Main Risk']);
-
+		$('#fuchiaID').val(resp[11]['FuchiaID']);
+		$('#gender').val(esp[11]['Gender'])
 		$('#hivSave').hide();
 		$('#rprSave').hide();
 		$('#stiSave').hide();

@@ -142,68 +142,64 @@
 </form>
 @endauth
 @endsection
-{{-- <script src="resources/views/RiskHistory/risk_histroy.js" defer>
-  --}}
+
 <script type="text/javascript">
-
-  var final_log=@json($final_log);
+  var final_log = @json($final_log);
   console.log(final_log);
-  function riskLogType(){
-   var search_riskType=$("#riskLog_searchType").val();
-   if(search_riskType=="Date"){
-    $(".riskLog-id").hide();
-    $("#riskLog_id").val("");
-    $(".risklog-date").show();
-   
 
-   }else if(search_riskType=="ID"){
-    $(".risklog-date").hide();
-    $("#riskLog_From,#riskLog_To").val("");
-    $(".riskLog-id").show();
-   }
+  function riskLogType() {
+    var search_riskType = $("#riskLog_searchType").val();
+    if (search_riskType == "Date") {
+      $(".riskLog-id").hide();
+      $("#riskLog_id").val("");
+      $(".risklog-date").show();
+
+
+    } else if (search_riskType == "ID") {
+      $(".risklog-date").hide();
+      $("#riskLog_From,#riskLog_To").val("");
+      $(".riskLog-id").show();
+    }
 
   }
-  function risk_change_date(){
-    var changeDate=$(event.target).val();
-    var gid=$(event.target).parent().parent().children().eq(0).find("label").text();
-    if(changeDate.length>5){
+
+  function risk_change_date() {
+    var changeDate = $(event.target).val();
+    var gid = $(event.target).parent().parent().children().eq(0).find("label").text();
+    if (changeDate.length > 5) {
       $(event.target)
-      .parent()
-      .parent()
-      .children().eq(2) // Use eq(2) to get the third child
-      .find('.form-label') // Assuming the label has a class "form-label"
-      .text(final_log[gid][changeDate]["Old Risk"]);
+        .parent()
+        .parent()
+        .children().eq(2) // Use eq(2) to get the third child
+        .find('.form-label') // Assuming the label has a class "form-label"
+        .text(final_log[gid][changeDate]["Old Risk"]);
       $(event.target)
-      .parent()
-      .parent()
-      .children().eq(3) 
-      .find('.form-label') 
-      .text(final_log[gid][changeDate]["Current Risk"]);
+        .parent()
+        .parent()
+        .children().eq(3)
+        .find('.form-label')
+        .text(final_log[gid][changeDate]["Current Risk"]);
       $(event.target)
-      .parent()
-      .parent()
-      .children().eq(4) // Use eq(2) to get the third child
-      .find('.form-label') // Assuming the label has a class "form-label"
-      .text(final_log[gid][changeDate]["Due_to_patient"]);
+        .parent()
+        .parent()
+        .children().eq(4) // Use eq(2) to get the third child
+        .find('.form-label') // Assuming the label has a class "form-label"
+        .text(final_log[gid][changeDate]["Due_to_patient"]);
       $(event.target)
-      .parent()
-      .parent()
-      .children().eq(5) // Use eq(2) to get the third child
-      .find('.form-label') // Assuming the label has a class "form-label"
-      .text(final_log[gid][changeDate]["change_user"]);
-    }else{
+        .parent()
+        .parent()
+        .children().eq(5) // Use eq(2) to get the third child
+        .find('.form-label') // Assuming the label has a class "form-label"
+        .text(final_log[gid][changeDate]["change_user"]);
+    } else {
       $(event.target)
-      .parent()
-      .parent()
-      .children().filter(function(index) {
+        .parent()
+        .parent()
+        .children().filter(function(index) {
           return index >= 2 && index <= 5; // Filter elements with indices 2, 3, 4, and 5
-      })
-      .find('.form-label') // Assuming the label has a class "form-label"
-      .text("");
+        })
+        .find('.form-label') // Assuming the label has a class "form-label"
+        .text("");
     }
-    
-
-
-    console.log(gid);
   }
 </script>

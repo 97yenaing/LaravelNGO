@@ -1483,8 +1483,6 @@ class CounsellingController extends Controller
 						},
 					])
 					->get();
-				dd($users1);
-
 				$encrypted_columns = ['Gender', 'Counsellor', 'Service_Modality', 'Mode of Entry', 'New_Old', 'Test_Location', 'Main Risk', 'Sub Risk', 'HIV_Test_Determine', 'HIV_Test_UNI', 'HIV_Test_STAT', 'HIV_Final_Result', 'Syphillis_RDT', 'Syphillis_RPR', 'Syphillis_VDRL', 'Hepatitis_B', 'Hepatitis_C', 'Req_Doctor'];
 				$dates_hts = ['Counselling_Date', 'HIV_Test_Date', 'Syp_Test_Date', 'Hep_Test_Date'];
 

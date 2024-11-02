@@ -49,13 +49,10 @@ class CreateMentalRegistersTable extends Migration
             $table->string('Brief_no', 100)->nullable();
             $table->integer('Psychosocial_mam')->nullable(); // No length for integer
             $table->integer('Pharmacologica_mam')->nullable();
-            $table->text('Fluoxetine')->nullable();
-            $table->text('Haloparidol')->nullable();
+            $table->string('Fluoxetine', 100)->nullable();
+            $table->string('Haloparidol', 100)->nullable();
             $table->text('Tre_other')->nullable();
-            $table->integer('Refer_psychiatrist')->nullable();
-            $table->integer('Mental_hospital')->nullable();
-            $table->integer('General_hospital')->nullable();
-            $table->integer('Private_psychiatrist')->nullable();
+            $table->string('Refer_psychiatrist', 100)->nullable();
             $table->string('MD_initial', 100)->nullable(); // Use string for fixed-length text
             $table->string('CSL_initial', 100)->nullable();
             $table->date('Next_meetdate')->nullable();

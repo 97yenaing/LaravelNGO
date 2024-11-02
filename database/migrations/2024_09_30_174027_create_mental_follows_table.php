@@ -31,6 +31,8 @@ class CreateMentalFollowsTable extends Migration
             $table->string('Scroe_3_risk', 100)->nullable();
             $table->string('Scroe_4', 100)->nullable();
             $table->string('Scroe_4_risk', 100)->nullable();
+            $table->string('Scroe_5', 100)->nullable();
+            $table->string('Scroe_5_risk', 100)->nullable();
             $table->text('Brief')->nullable();
             $table->text('Brief_plan')->nullable();
             $table->text('Brief_plan_detail')->nullable();
@@ -56,10 +58,7 @@ class CreateMentalFollowsTable extends Migration
             $table->integer('Refer_psychiatrist')->nullable();
             $table->integer('Stop_drug')->nullable();
             $table->string('Psy_interview_mam', 100)->nullable();
-            $table->integer('Other_refer_psychiatrist')->nullable();
-            $table->integer('Mental_hospital')->nullable();
-            $table->integer('General_hospital')->nullable();
-            $table->integer('Private_psychiatrist')->nullable();
+            $table->string('Other_refer_psychiatrist', 100)->nullable();
             $table->string('MD_initial', 100)->nullable(); // Use string for fixed-length text
             $table->string('CSL_initial', 100)->nullable();
             $table->date('Next_meetdate')->nullable();
