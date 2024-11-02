@@ -882,7 +882,6 @@
                       class="form-check-input"
                       id="gad7"
                       value=""
-                      disabled
                       name="gad7"> GAD7
                   </label>
                 </div>
@@ -890,15 +889,14 @@
                   <label for="" class="form-label">GAD7<br class="tablet"> New/Old</label>
                   <select name="gad7_def"
                     id="gad7_sub"
-                    class="form-select"
-                    disabled>
+                    class="form-select">
                     <option value=""></option>
                     <option value="New">New</option>
                     <option value="Follow up">Follow up</option>
                   </select>
                 </div>
                 <div class="col-sm-2"><label for="" class="form-label">GAD7<br class="tablet"> Score</label>
-                  <input type="number" name="gad7_amount" class="form-control" id="gad7_amount" disabled>
+                  <input type="number" name="gad7_amount" class="form-control" id="gad7_amount">
                 </div>
 
                 <div class="form-check-inline col-sm-2">
@@ -906,7 +904,6 @@
                     <input type="checkbox"
                       class="form-check-input"
                       id="phq9"
-                      disabled
                       value=""
                       name="phq9"> PHQ9
                   </label>
@@ -916,7 +913,7 @@
 
                   <select name="phq9_def"
                     id="phq9_sub"
-                    class="form-select" disabled>
+                    class="form-select">
                     <option value=""></option>
                     <option value="New">New</option>
                     <option value="Follow up">Follow up</option>
@@ -924,7 +921,7 @@
                 </div>
                 <div class="col-sm-2"><label for="" class="form-label">PHQ9<br class="tablet"> Score</label>
 
-                  <input type="number" name="phq9_amount" class="form-control" id="phq9_amount" disabled>
+                  <input type="number" name="phq9_amount" class="form-control" id="phq9_amount">
                 </div>
                 <div class="col-sm-4">
                   <label class="form-label">1.Any type of drug use<br class="tablet"> within 3 months</label>
@@ -1374,6 +1371,7 @@
                   name="cage"> CAGE
               </label>
             </div>
+            <div class="col-sm-2"><button class="btn btn-info" id="mentalScreen">Mental Screen</button></div>
           </div>
 
           <br>
@@ -2379,9 +2377,9 @@
         }
       }
     }
-    phq4_show_hide();
-    q1q2();
-    q3q4();
+    //mental_show_hide();
+    // q1q2();
+    // q3q4();
     DateTo_text();
     $("#mental_save").prop("disabled", false);
     $("#mental_save").text("Update MentalHealth");
@@ -3345,7 +3343,7 @@
                 }
               }
             }
-            phq4_show_hide();
+            //mental_show_hide();
             $("#mental_save").prop("disabled", false);
             if (response[0]["mental_exist"] != null) {
               $("#mental_save").text("Update MentalHealth");
@@ -3360,8 +3358,8 @@
                   }
                 }
               }
-              q1q2();
-              q3q4();
+              // q1q2();
+              // q3q4();
 
 
             } else {
@@ -4477,18 +4475,10 @@
 
   }
 
-  function phq4_show_hide() {
-    if ($("#phq4").prop("checked") == true) {
-      $(".phpq4_detail").removeClass("phq4-hide");
-      $(".phpq4_detail").addClass("phq4-show");
-      $(".counselling-button").hide();
-    } else {
-      $(".phpq4_detail").addClass("phq4-hide");
-      $(".phpq4_detail").removeClass("phq4-show");
-      $(".phpq4_detail select,.phpq4_detail input").val("");
-      $(".phpq4_detail input[type='checkbox']").prop("checked", false);
-      $(".counselling-button").show();
-    }
+  function mental_show_hide() {
+    $(".phpq4_detail").removeClass("phq4-hide");
+    $(".phpq4_detail").addClass("phq4-show");
+    $(".counselling-button").hide();
   }
 
   function backCounselling() {

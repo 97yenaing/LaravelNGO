@@ -11,8 +11,9 @@ $(document).ready(function () {
         q3q4();
     });
 
-    $("#phq4").click(function () {
-        phq4_show_hide();
+    $("#mentalScreen").click(function () {
+        console.log("hello mental");
+        mental_show_hide();
     });
     $("#back_counselling").click(function () {
         console.log("hello back");
