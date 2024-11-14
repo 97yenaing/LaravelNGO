@@ -463,23 +463,26 @@
     mainriskValue = $(risk).val();
     console.log(subOptions[mainriskValue], mainriskValue, risk, SubRiskIdBlock);
     $("." + SubRiskIdBlock).empty();
-    if (subOptions[mainriskValue].length == 2) {
-      $.each(subOptions[mainriskValue][0], function(index, subOption) {
-        console.log(subOption);
-        $('<option /> ', {
-          value: subOption,
-          text: subOptions[mainriskValue][1][index],
-        }).appendTo($("." + SubRiskIdBlock));
+    if (mainriskValue != null) {
+      if (subOptions[mainriskValue].length == 2) {
+        $.each(subOptions[mainriskValue][0], function(index, subOption) {
+          console.log(subOption);
+          $('<option /> ', {
+            value: subOption,
+            text: subOptions[mainriskValue][1][index],
+          }).appendTo($("." + SubRiskIdBlock));
 
-      });
-    } else {
-      $.each(subOptions[mainriskValue][0], function(index, subOption) {
-        $(' <option /> ', {
-          value: subOption,
-          text: subOption,
-        }).appendTo($("." + SubRiskIdBlock));
-      });
+        });
+      } else {
+        $.each(subOptions[mainriskValue][0], function(index, subOption) {
+          $(' <option /> ', {
+            value: subOption,
+            text: subOption,
+          }).appendTo($("." + SubRiskIdBlock));
+        });
+      }
     }
+
   }
 
   function formatDate(dateStr) {

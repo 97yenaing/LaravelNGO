@@ -12,7 +12,6 @@ $(document).ready(function () {
     });
 
     $("#mentalScreen").click(function () {
-        console.log("hello mental");
         mental_show_hide();
     });
     $("#back_counselling").click(function () {

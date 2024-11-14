@@ -32,6 +32,13 @@
             <h3>Patient Identificationn</h3>
           </div>
           <div class="row">
+            <div class="col-sm-2">
+              <label for="" class="form-label">Reg Date</label>
+              <div class="date-holder input-group-append no-margin">
+                <input type="text" id="mentalRegDate" name="mentalRegDate" class="form-control Gdate" placeholder="dd-mm-yyyy">
+                <img src="../img/calendar3.svg" class="dateimg" alt="date">
+              </div>
+            </div>
             <div class="col-sm-3">
               <label for="validationCustom01" class="form-label">General ID</label>
               <div class="input-group">
@@ -60,8 +67,8 @@
             </div>
             <div class="col-sm-2">
               <label for="" class='form-label'>HIV Status</label>
-              <select name="mentalHIV" id="mental_hiv" class="form-control">
-                <option value=""></option>
+              <select name="mentalHIV" id="mental_hiv" class="form-control" disabled>
+                <option value="">Unknown</option>
                 <option value="Positive">Positive</option>
                 <option value="Negative">Negative</option>
                 <option value="Inconclusive">Inconclusive</option>
@@ -100,13 +107,7 @@
                 <option value="Ex-drinker">Ex-drinker</option>
               </select>
             </div>
-            <div class="col-sm-2">
-              <label for="" class="form-label">Reg Date</label>
-              <div class="date-holder input-group-append no-margin">
-                <input type="text" id="mentalRegDate" name="mentalRegDate" class="form-control Gdate" placeholder="dd-mm-yyyy">
-                <img src="../img/calendar3.svg" class="dateimg" alt="date">
-              </div>
-            </div>
+
           </div>
 
         </section>
@@ -545,7 +546,7 @@
             <h3>ASSIST Score (Rescreenning)</h3>
           </div>
           <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-3">
               <label class="form-label" for="">Drug use reassessment:</label>
               <select name="drugUseReassement" id="drugUseReassement" class="form-select">
                 <option value=""></option>
@@ -553,13 +554,17 @@
                 <option value="No">No</option>
               </select>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-3">
               <label class="form-label" for="">ASSIST Score (Screenning)</label>
               <select name="assistScore" id="assistScoreFollow" class="form-select" disabled>
                 <option value=""></option>
                 <option value="Yes">Yes</option>
                 <option value="No">No</option>
               </select>
+            </div>
+            <div class="col-sm-2">
+              <label for="" class="form-label">Drug 1</label>
+              <input type="text" class="form-control" name="followDrug_1" id="followDrug_1">
             </div>
             <div class="col-sm-4">
               <label for="validationCustom01" class="form-label">Score-1 && Risk</label>
@@ -581,7 +586,11 @@
               </div>
               <!-- onclick="findRegisterData()" -->
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-2">
+              <label for="" class="form-label">Drug 3</label>
+              <input type="text" class="form-control" name="followDrug_2" id="followDrug_2">
+            </div>
+            <div class="col-sm-4">
               <label for="validationCustom01" class="form-label">Score-2 && Risk</label>
               <div class="input-group mb-4">
                 <select name="drugScore-2" id="drugScore-2" onchange="calucuteRisk(this)" class="form-select input-group-append no-margin" disabled>
@@ -599,7 +608,11 @@
 
               </div>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-2">
+              <label for="" class="form-label">Drug 3</label>
+              <input type="text" class="form-control" name="followDrug_3" id="followDrug_3">
+            </div>
+            <div class="col-sm-4">
               <label for="validationCustom01" class="form-label">Score-3 && Risk</label>
               <div class="input-group mb-4">
                 <select name="drugScore-3" id="drugScore-3" onchange="calucuteRisk(this)" class="form-select  input-group-append no-margin" disabled>
@@ -616,7 +629,11 @@
                 </select>
               </div>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-2">
+              <label for="" class="form-label">Drug 4</label>
+              <input type="text" class="form-control" name="followDrug_4" id="followDrug_4">
+            </div>
+            <div class="col-sm-4">
               <label for="validationCustom01" class="form-label">Score-4 && Risk</label>
               <div class="input-group mb-4">
                 <select name="drugScore-4" id="drugScore-4" onchange="calucuteRisk(this)" class="form-select input-group-append no-margin" disabled>
@@ -633,7 +650,11 @@
                 </select>
               </div>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-2">
+              <label for="" class="form-label">Drug 5</label>
+              <input type="text" class="form-control" name="followDrug_5" id="followDrug_5">
+            </div>
+            <div class="col-sm-4">
               <label for="validationCustom01" class="form-label">Score-5 && Risk</label>
               <div class="input-group mb-4">
                 <select name="drugScore-5" id="drugScore-5" onchange="calucuteRisk(this)" class="form-select input-group-append no-margin" disabled>
@@ -650,6 +671,28 @@
                 </select>
               </div>
             </div>
+            <div class="col-sm-2">
+              <label for="" class="form-label">Drug 6</label>
+              <input type="text" class="form-control" name="followDrug_6" id="followDrug_6">
+            </div>
+            <div class="col-sm-4">
+              <label for="validationCustom01" class="form-label">Score-6 && Risk</label>
+              <div class="input-group mb-4">
+                <select name="drugScore-6" id="drugScore-6" onchange="calucuteRisk(this)" class="form-select input-group-append no-margin" disabled>
+                  <option value=""></option>
+                  <option value="0-3">0-3</option>
+                  <option value="4-26">4-26</option>
+                  <option value=">27">&gt;27</option>
+                </select>
+                <select name="drugScore-6-Risk" id="drugScore-6-Risk" class="form-select" disabled>
+                  <option value=""></option>
+                  <option value="Low risk">Low risk</option>
+                  <option value="Moderate risk">Moderate risk</option>
+                  <option value="High risk">High risk</option>
+                </select>
+              </div>
+            </div>
+
 
 
           </div>
@@ -881,7 +924,52 @@
     </div>
 
     <div class="tab-pane  mental-block " id="mentalHealthExport">
-      <h1>Hello world</h1>
+      <form action="{{ route('mentalControl') }}" method="post">
+        @csrf
+        <section class="" id="mental_export">
+          <h2 class="header-text">Mental Health Export Data</h2>
+        </section>
+        <section>
+          <div class="row">
+            <div class="col-sm-2">
+              <label for="ExportType" class="form-label">Export Type</label>
+              <select name="ExportType" id="" class="form-select">
+                <option value="Register">Register</option>
+                <option value="FollowUp">Follow up</option>
+              </select>
+            </div>
+            <div class="col-sm-2">
+              <label for="FromDate" class="form-label">From Date</label>
+              <div class="date-holder">
+                <input type="text" id="FromDate" name="FromDate" class="form-control Gdate" placeholder="dd-mm-yyyy">
+                <img src="../img/calendar3.svg" class="dateimg" alt="date">
+              </div>
+              @error('FromDate')
+              <div class="alert alert-danger">Please input date</div>
+              @enderror
+
+            </div>
+            <div class="col-sm-2">
+              <label for="ToDate" class="form-label">To Date</label>
+              <div class="date-holder">
+                <input type="text" id="ToDate" name="ToDate" class="form-control Gdate" placeholder="dd-mm-yyyy">
+                <img src="../img/calendar3.svg" class="dateimg" alt="date">
+              </div>
+              @error('ToDate')
+              <div class="alert alert-danger">Please input date</div>
+              @enderror
+            </div>
+            <div class="col-sm-2" style="display: none;">
+              <input type="text" name="notice" value="Export Mental Data">
+            </div>
+            <div class="col-sm-2">
+              <button class="btn btn-info" style="margin-top: 35px;">Export</button>
+            </div>
+          </div>
+
+        </section>
+
+      </form>
     </div>
 
   </section>
@@ -890,7 +978,6 @@
 @endsection
 <script>
   const mentalReg = [
-    'mental_hiv', 'Hiv_status',
     'ifPWID', 'If_pwud',
     'ifEx', 'If_pwudEx',
     'alcohol_drink', 'Alcohol_drinking',
@@ -946,16 +1033,25 @@
     'noRescreen', 'No_asses_describe',
     'drugUseReassement', 'Drug_reassesment',
     'assistScoreFollow', 'Assist_score_screen',
+    'followDrug_1', 'Drug_1',
     'drugScore-1', 'Scroe_1',
     'drugScore-1-Risk', 'Scroe_1_risk',
+    'followDrug_2', 'Drug_2',
     'drugScore-2', 'Scroe_2',
     'drugScore-2-Risk', 'Scroe_2_risk',
+    'followDrug_3', 'Drug_3',
     'drugScore-3', 'Scroe_3',
     'drugScore-3-Risk', 'Scroe_3_risk',
+    'followDrug_4', 'Drug_4',
     'drugScore-4', 'Scroe_4',
     'drugScore-4-Risk', 'Scroe_4_risk',
+    'followDrug_5', 'Drug_5',
     'drugScore-5', 'Scroe_5',
     'drugScore-5-Risk', 'Scroe_5_risk',
+
+    'followDrug_6', 'Drug_6',
+    'drugScore-6', 'Scroe_6',
+    'drugScore-6-Risk', 'Scroe_6_risk',
     'rebi', 'Brief',
     'rePlanGo', 'Brief_plan',
     'replanDescribe', 'Brief_plan_detail',
@@ -1048,8 +1144,8 @@
   function drugassemnt() {
 
     $("#drugUseReassement").val() == "Yes" ?
-      $("#assistScoreFollow,#drugScore-1,#drugScore-2,#drugScore-3,#drugScore-4,#drugScore-5").prop("disabled", false) :
-      $("#,assistScoreFollow#drugScore-1,#drugScore-2,#drugScore-3,#drugScore-4,#drugScore-5").prop("disabled", true).val("");
+      $("#assistScoreFollow,#drugScore-1,#drugScore-2,#drugScore-3,#drugScore-4,#drugScore-5,#drugScore-6").prop("disabled", false) :
+      $("#assistScoreFollow,#drugScore-1,#drugScore-2,#drugScore-3,#drugScore-4,#drugScore-5,#drugScore-6").prop("disabled", true).val("");
   }
 
   function birefRe() {
@@ -1124,6 +1220,7 @@
           $("#phq9ScoreRegister").val(response['mentalScreening']['PHQ9_amount']);
           if (response["mental_register"] != null) {
             mentalRegister = response["mental_register"];
+            $("#mental_hiv").val(response["hivResult"]);
             $("#metal_toFollowBtn").show();
             for (let index = 0; index < mentalReg.length; index += 2) {
               $("#" + mentalReg[index]).val(response["mental_register"][mentalReg[index + 1]])
@@ -1156,7 +1253,7 @@
           $("#mental_register input,#mental_register select").val("");
           $("#mental_register span").text("");
           $("#saveUPdate").prop("disabled", true);
-          $("#Pid").focus();
+          $("#mentalRegDate").focus();
         }
       }
     })

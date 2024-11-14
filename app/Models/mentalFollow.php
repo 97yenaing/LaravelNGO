@@ -28,6 +28,8 @@ class mentalFollow extends Model
         'Scroe_4_risk',
         'Scroe_5',
         'Scroe_5_risk',
+        'Scroe_6',
+        'Scroe_6_risk',
         'Brief',
         'Brief_plan',
         'Brief_plan_detail',
@@ -57,6 +59,12 @@ class mentalFollow extends Model
         'MD_initial', // Use string for fixed-length text
         'CSL_initial',
         'Next_meetdate',
+        'Drug_1',
+        'Drug_2',
+        'Drug_3',
+        'Drug_4',
+        'Drug_5',
+        'Drug_6',
     ];
 
     public function ptconfig()

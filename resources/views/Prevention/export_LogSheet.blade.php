@@ -128,7 +128,7 @@
             <td> {{ $users[$index]['Township'] }} </td>
 
 
-            <td> {{ $users[$index]['New_Old'] }} </td>
+            <td> {{ $users[$index]["Final_new_old"] }} </td>
             <td> {{ $users[$index]['Substantial Risk'] }} </td>
             <td> {{ $users[$index]['Meeting Point'] }} </td>
             <td> {{ $users[$index]['Service Provision1'] }} </td>
