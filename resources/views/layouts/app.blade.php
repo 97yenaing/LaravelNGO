@@ -59,6 +59,7 @@
   <link rel="stylesheet" href="/css/TbSection/Tb-IPT.css">
   <link rel="stylesheet" href="/css/TbSection/preTbassement.css">
   <link rel="stylesheet" href="/css/MentalHealth/mental.css">
+  <link rel="stylesheet" href="/css/Prep/prep.css">
   <link rel="stylesheet" href="/css/Admin/admin.css">
   <link rel="stylesheet" href="{{ asset('css/excel/excel.css') }}">
 
@@ -131,6 +132,7 @@
                 <li><a class="dropdown-item" href="{{ url('TB/preTB_Assement') }}">Pre- TB assement</a></li>
                 <li><a class="dropdown-item" href="{{ url('TB/TB_IPT') }}">IPT</a></li>
                 <li><a class="dropdown-item" href="{{ url('MentalHealth/mentalHealth') }}">Mental Health</a></li>
+                <li><a class="dropdown-item" href="{{ url('Prep/prepScreening') }}">Prep Screening</a></li>
                 <li><a class="dropdown-item" href="{{ url('RiskHistory/risk_history') }}">Risk Log</a></li>
                 <li><a class="dropdown-item" href="{{ url('All_Export/export_all') }}">Export All Data</a></li>
                 <li><a class="dropdown-item" href="{{ url('MME/mme_export') }}">MNE Export</a></li>

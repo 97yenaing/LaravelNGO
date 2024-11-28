@@ -54,6 +54,7 @@ use App\Exports\Lab\LabExport;
 use App\Exports\Sti\StiExport;
 use App\Exports\dispensing\dispensingExport;
 use App\Http\Controllers\MentalController;
+use App\Http\Controllers\PrepScreeningController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -198,6 +199,10 @@ Route::post("All_Export/export_all", function (Request $request) {
 //MME Export
 Route::get("MME/mme_export", [MME_ExportController::class, "mme_export_View"])->name("mme_exportview");
 Route::post("MME/mme_export", [MME_ExportController::class, "mme_export"])->name("mme_export");
+
+//PrepScreening 
+Route::get("Prep/prepScreening", [PrepScreeningController::class, "PrepView"]);
+Route::post("Prep/prepScreening", [PrepScreeningController::class, "PrepControl"])->name("prepControl");
 
 //NCD
 Route::get("NCD/Ncd", [ncdRegisterPtController::class, "ncd_View"]);

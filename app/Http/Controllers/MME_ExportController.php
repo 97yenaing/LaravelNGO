@@ -1225,9 +1225,7 @@ class MME_ExportController extends Controller
 				var_dump($ncd_value);
 			}
 			$ncd_value = Export_age::Export_general($ncd_value, $ncd_value[$test_date], $ncd_value["Date of Birth"], $ncd_value);
-			if ($ncd_value["Pid"] == "7118005845") {
-				dd($ncd_value);
-			}
+
 			if ($ncd_value["Date of Birth"] == null) {
 				$ncd_value = $this->NoCofidential($ncd_value, $ncd_value[$test_date]);
 			}

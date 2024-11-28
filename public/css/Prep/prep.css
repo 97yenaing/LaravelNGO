@@ -1,0 +1,9 @@
+#subHIV .row label {
+  text-align: left;
+  margin-left: 5%;
+  margin-bottom: 10px;
+}
+
+#subHIV .row label input {
+  float: right;
+}

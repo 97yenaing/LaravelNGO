@@ -3182,6 +3182,7 @@
           PatientType();
 
           $("#sub_risk").val(response[0]["Sub Risk"]);
+          $("#prepCode").val(response[0]["PrEPCode"]);
           $("#fid").val(response[0]["FuchiaID"]);
           $("#gender").val(response[0]["Gender"])
           $("#gid").val(response[0]["Pid"])

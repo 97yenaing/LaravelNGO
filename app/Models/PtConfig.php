@@ -53,4 +53,8 @@ class PtConfig extends Model
   {
     return $this->hasMany(mentalFollow::class, 'Pid', 'Pid');
   }
+  public function prepScreen()
+  {
+    return $this->hasMany(prepScreen::class, 'Pid', 'Pid');
+  }
 }
