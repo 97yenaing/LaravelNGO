@@ -15,6 +15,11 @@
     <li class="nav-item">
       <a class="nav-link toggle-link "
         data-toggle="tab"
+        href="#prepUpdateSearch">Search Update</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link toggle-link "
+        data-toggle="tab"
         href="#prepScreenExport">PrepScreen Export</a>
     </li>
   </ul>
@@ -36,7 +41,7 @@
             </div>
           </div>
 
-          <div class="col-sm-2"> <button class="btn btn-primary" onclick="findRegisterData()" type="button" style="margin-top: 35px; width:70%">Search</button></div>
+          <div class="col-sm-2"> <button class="btn btn-primary" id="prepSearchBtn" onclick="findRegisterData()" type="button" style="margin-top: 35px; width:70%">Search</button></div>
           <div class="col-sm-2">
             <label for="" class="form-label">Prep ID</label>
             <span class="form-control" id="prepID"></span>
@@ -67,7 +72,7 @@
           </div>
           <div class="col-sm-2">
             <label for="" class="form-label">Sex Other</label>
-            <input type="number" class="form-control" id="sexOther" name="sexOther">
+            <input type="text" class="form-control" id="sexOther" name="sexOther">
           </div>
           <div class="col-sm-2">
             <label for="" class="form-label">Age</label>
@@ -312,7 +317,7 @@
             </label>
           </div>
           <div class="col-sm-12">
-            <h5>3. If client reports having a sexual partner in the last 6 months who is HIV positive AND who has not been on effective * HIV treatment ) ( * the partner has been on effective * HIV treatment</h5>
+            <h5>3. If client reports having a sexual partner in the last 6 months who is HIV positive AND who has not been on effective * HIV treatment ) ( * the partner has been on effective * HIV treatment)</h5>
           </div>
           <div class="form-check-inline col-sm-12">
             <label class="form-check-label">
@@ -445,9 +450,26 @@
 
         </div>
       </section>
-      <section id="prepScreenControl">
+      <section id="declineReason">
+        <h2 class="subTb-header">Reasons for Declining PrEP</h2>
         <div class="row">
-          <div class="col-sm-2">
+          <div class="col-sm-4">
+            <label for="" class="form-label">Does not think it necessary</label>
+            <select name="dontNecessary" class="form-select" id="noNecessary">
+              <option value=""></option>
+              <option value="1">Yes</option>
+              <option value="0">No</option>
+            </select>
+          </div>
+          <div class="col-sm-8">
+            <label for="" class="form-label">Reason for does not need</label>
+            <input type="text" class="form-control" name='noNecessaryReason' id="noNecessaryReason">
+          </div>
+        </div>
+      </section>
+      <section id="prepScreenControl">
+        <div class="row" style="justify-content: center;">
+          <div class=" col-sm-2">
             <button class="btn btn-info" id="screenBTn" value="savePrep" onclick="saveUpdate(this)">Save Screen</button>
           </div>
         </div>
@@ -455,8 +477,46 @@
 
     </div>
 
+    <div class="tab-pane mental-block" id="prepUpdateSearch">
+      <section class="" id="prepScreen_update">
+        <h2 class="header-text">Search For Update</h2>
+        <section>
+          <div class="row">
+            <div class="col-sm-2">
+              <label for="" class="form-label">General ID</label>
+              <input type="number" class="form-control" name="GeneralID">
+            </div>
+            <div class="col-sm-1" style="display: none;">
+              <input type="text" name="notice" value="Search Update" id="">
+            </div>
+            <div class="col-sm-2">
+              <button class="btn btn-info" style="margin-top: 33px;" onclick="SearchUpdate()">Search</button>
+            </div>
+          </div>
+          <section class="update-list">
+            <table class="table table-bordered" id="updateListTable">
+              <thead>
+                <tr>
+                  <th>NO.</th>
+                  <th>General ID</th>
+                  <th>Intial Date</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </section>
+          <div id="pagination-links">
+
+          </div>
+        </section>
+      </section>
+
+
+    </div>
+
     <div class="tab-pane mental-block" id="prepScreenExport">
-      <form>
+      <form action="{{ route('prepControl') }}" method="post">
         @csrf
         <section class="" id="prepScreen_export">
           <h2 class="header-text">Prep Screen Export Data</h2>
@@ -498,6 +558,7 @@
     </div>
 
   </section>
+
 </div>
 @endauth
 @endsection
@@ -507,7 +568,7 @@
     'Pid', 'Pid',
     'intitalDate', 'Inital_date',
     'dhis2', 'DHIS2_id',
-    'sexOtherstate', 'Sex_other',
+    'sexOther', 'Sex_other',
     'state', 'Birth_state',
     'tt', 'Birth_township',
     'clinic_code', 'Facility_name',
@@ -518,7 +579,7 @@
     'sexWith', 'Sex_with',
     'exchangeSex', 'Sex_orgam_6month',
     'drugUse', 'Drug_use_6month',
-    'v_analNoCon', 'Sex_ondrugUsee_noCon',
+    'v_analNoCon', 'Sex_one_noCon',
     'sexHIV', 'Sex_oneMore_HIV',
     'sexSTI', 'Sex_STI_transmit',
     'postPEP', 'PEP_expose',
@@ -537,9 +598,11 @@
     'hivSubRisk', 'HIV_sub_risk',
     'acuteHiv', 'HIV_sup_infection',
     'prepEli', 'Prep_eligible',
+    'noNecessary', 'NO_necesary',
+    'noNecessaryReason', 'No_reason',
   ]
-  let prepHistory;
   let updatePrepID;
+  let fillResult;
 
   function findRegisterData() {
     let prepFind = {
@@ -563,7 +626,6 @@
         success: function(response) {
           if (response != false) {
             console.log(response);
-            prepHistory = response['prep_screen'];
             $('#prepID').text(response['PrEPCode']);
             $('#name').text(response['Name']);
             $('#stateSpan').text(response['Region']);
@@ -622,15 +684,154 @@
       dataType: 'json',
       contentType: 'application/json',
       data: JSON.stringify(prepData),
-      // beforeSend: function() {
-      //   $(button).prop("disabled", true);
-      //   timeoutHandle = setTimeout(oneClick, 3000);
-      // },
+      beforeSend: function() {
+        $(button).prop("disabled", true);
+        timeoutHandle = setTimeout(oneClick, 3000);
+      },
       success: function(response) {
-        //$(button).prop("disabled", false);
-        //clearTimeout(timeoutHandle);
-        console.log("OK")
+        $(button).prop("disabled", false);
+        clearTimeout(timeoutHandle);
+        if (prepData["notice"] == "Update prep") {
+          if (response) {
+            alert("Sccessfull Update");
+            location.reload(true);
+          } else alret("Fail Update Contact to System Admin")
+        } else if (prepData["notice"] == "Save prep") {
+          if (response) {
+            alert("Sccessfull Save")
+            location.reload(true);
+          } else alret("Fail Save Contact to System Admin")
+        }
       }
     })
+  }
+
+  function SearchUpdate() {
+    const generalId = document.querySelector('input[name="GeneralID"]').value;
+
+    fetch(`/search-data?GeneralID=${generalId}`)
+      .then(response => response.json())
+      .then(data => {
+        showUpdate(data);
+      })
+      .catch(error => console.error('Error:', error));
+  }
+
+  function DeleteData(index) {
+    let generalId = fillResult[index].Pid;
+    fetch(`/delete-screen?GeneralID=${generalId}&id=${fillResult[index].id}`, {
+        method: 'DELETE',
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+          'Content-Type': 'application/json',
+        },
+      })
+      .then(response => {
+        if (response.ok) {
+          console.log(response);
+          alert("Success Delete");
+          SearchUpdate();
+        } else {
+          alert("Fail Delete");
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert("Fail Delete");
+      });
+  }
+
+  function showUpdate(data) {
+    Id = document.querySelector('input[name="GeneralID"]').value;
+    console.log(data.data);
+    fillResult = data.data;
+    $("#updateListTable tbody").empty();
+    if (data.data.length > 0) {
+      data.data.forEach((item, index) => {
+        updateData = $("<tr>")
+          .append($("<td>").text(`${index + 1}`))
+          .append($("<td>").text(`${item.Pid}`))
+          .append($("<td>").text(`${item.Inital_date}`))
+          .append(
+            $("<td>")
+            .append(
+              $("<button>")
+              .attr({
+                class: 'btn btn-info prep-goUpdate',
+                onclick: `FillerData(${index})`, // Function to be called
+              })
+              .text('Go Update')
+            )
+            .append(
+              $("<button>")
+              .attr({
+                class: 'btn btn-danger',
+                onclick: `DeleteData(${index})`, // You can specify a different function here
+
+              })
+              .text('Delete')
+            )
+          );
+        $("#updateListTable tbody").append(updateData);
+      });
+
+      // Add pagination links
+      const pagination = document.getElementById('pagination-links');
+      pagination.innerHTML = data.links.map(link =>
+        `<button class="btn btn-info paginite-btn" onclick="paganiteFetch('${link.url}&GeneralID=${Id}')">${link.label}</a>`).join(' ');
+    } else {
+      $(".container").append('<p>No results found</p>');
+    }
+  }
+
+  function paganiteFetch(url) {
+    let Id = document.querySelector('input[name="GeneralID"]').value;
+    fetch(url)
+      .then(response => response.json())
+      .then(data => showUpdate(data))
+      .catch(error => console.error('Error:', error));
+  }
+
+  function FillerData(index) {
+    $("#prepScreen input,#prepScreen select").val("");
+    $("#prepScreen input[type='checkbox']").prop('chekced', false);
+
+    $('#prepID').text(fillResult[index]['ptconfig']['PrEPCode']);
+    $('#pid').val(fillResult[index]['Pid']);
+    $('#name').text(fillResult[index]['Name']);
+    $('#stateSpan').text(fillResult[index]['Region']);
+    $('#phone1').val(fillResult[index]['Phone']);
+    $('#phone2').val(fillResult[index]['Phone2']);
+    $('#sex').text(fillResult[index]['Gender']);
+    $('#age').text(fillResult[index]['Current Agey']);
+    $('#mainRisk').text(fillResult[index]['Main Risk']);
+    $('#subRisk').text(fillResult[index]['Sub Risk']);
+
+    for (let key = 0; key < screenFill.length; key += 2) {
+      if ($('#' + screenFill[key]).is("input[type='checkbox']")) {
+        if (fillResult[index][screenFill[key + 1]] == '1') {
+          $('#' + screenFill[key]).prop('checked', true);
+          console.log("chektrue")
+        } else {
+          $('#' + screenFill[key]).prop('checked', false);
+          console.log("chekfalse")
+        }
+      } else {
+        $('#' + screenFill[key]).val(fillResult[index][screenFill[key + 1]])
+        if (screenFill[key] == "state") {
+          region();
+        }
+      }
+
+
+    }
+    updatePrepID = fillResult[index]["id"];
+    DateTo_text();
+    $("#hidden-title li:nth-child(2) .nav-link,#prepUpdateSearch").removeClass('active');
+    $("#hidden-title li:nth-child(1) .nav-link,#prepScreen").addClass('active');
+    $("#prepSearchBtn").prop("disabled", true);
+    $("#screenBTn").val('updatePrep').text("Update Prep");
+
+
   }
 </script>

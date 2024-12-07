@@ -15,7 +15,7 @@ class CreatePrepScreensTable extends Migration
     {
         Schema::create('prep_screens', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('Pid')->unique(); // No length for bigInteger
+            $table->bigInteger('Pid'); // No length for bigInteger
             $table->date('Inital_date')->nullable();
             $table->string('DHIS2_id', 100)->nullable();
 
@@ -60,6 +60,9 @@ class CreatePrepScreensTable extends Migration
             $table->string('ref_pep', 10)->nullable();
             $table->string('ref_hiv_retest', 10)->nullable();
             $table->string('ref_hiv_treat', 10)->nullable();
+            $table->string('NO_necesary', 10)->nullable();
+            $table->text('No_reason')->nullable();
+
 
 
             $table->timestamps();

@@ -433,7 +433,7 @@ class MentalController extends Controller
 						} elseif ($mentalValue["ptConfig"]['Risk Change_Date'] != null && $mentalValue["ptConfig"]['Former Risk'] != null && $mentalValue["ptConfig"]['Former Risk'] != "731") {
 							$riskChangeDate = Carbon::createFromFormat('Y-m-d', $mentalValue["ptConfig"]['Risk Change_Date']);
 							$riskChangeDate = new DateTime(Carbon::createFromFormat('d-m-Y', $riskChangeDate->format('d-m-Y')));
-							if ($vdate < $riskChangeDate) {
+							if ($recordVdate < $riskChangeDate) {
 								$mentalValue['Main Risk'] = $mentalValue["ptConfig"]['Former Risk'];
 								$mentalValue['Sub Risk'] = '';
 							}

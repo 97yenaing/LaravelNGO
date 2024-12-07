@@ -43,6 +43,8 @@ class prepScreen extends Model
         'HIV_sub_risk',
         'HIV_sup_infection',
         'Prep_eligible',
+        'NO_necesary',
+        'No_reason',
         //ko myo min ss DB
         'die_effect',
         'oth_might_think',
@@ -55,6 +57,7 @@ class prepScreen extends Model
         'ref_hiv_retest',
         'ref_hiv_treat',
     ];
+
     public function ptconfig()
     {
         return $this->belongsTo(PtConfig::class, 'Pid', 'Pid');

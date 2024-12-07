@@ -204,6 +204,10 @@ Route::post("MME/mme_export", [MME_ExportController::class, "mme_export"])->name
 Route::get("Prep/prepScreening", [PrepScreeningController::class, "PrepView"]);
 Route::post("Prep/prepScreening", [PrepScreeningController::class, "PrepControl"])->name("prepControl");
 
+Route::get('/search-data', [PrepScreeningController::class, "SearchUpdate"])->name('search.data');
+Route::delete('/delete-screen', [PrepScreeningController::class, "DeleteScreen"]);
+
+
 //NCD
 Route::get("NCD/Ncd", [ncdRegisterPtController::class, "ncd_View"]);
 Route::post("NCD/Ncd", [ncdRegisterPtController::class, "ncdRegister_data"])->name("ncd");

@@ -11,7 +11,7 @@ class preTB extends Model
     protected $fillable = [
         'Clinic_code',
         'Pid_preTB',
-        'FuchiaID_preTB', 
+        'FuchiaID_preTB',
         'Agey_preTB',
         'Agem_preTB',
         'Gender_preTB',
@@ -34,7 +34,7 @@ class preTB extends Model
         'LowDay_preTB',
         'LoaDay_preTB',
         'lymph_check',
-        
+
         'AntiTB_History_preTB',
         'NsweatDay_preTB',
 
@@ -58,8 +58,9 @@ class preTB extends Model
         'CaseNodeIn',
         'CaseNode',
     ];
-    protected $connection ='mysql';
-    public function ptconfig(){
-        return $this->belongsTo(PtConfig::class,"Pid_preTB","Pid");
+    protected $connection = 'mysql';
+    public function ptconfig()
+    {
+        return $this->belongsTo(PtConfig::class, "Pid_preTB", "Pid");
     }
 }

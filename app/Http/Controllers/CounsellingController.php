@@ -15,16 +15,6 @@ use App\Models\Rprtest;
 use App\Models\Coulselling;
 use App\Models\CounsellorRecords;
 
-use App\Models\Cervicalcancer;
-
-use App\Models\ncd_pt_register;
-use App\Models\ncdFollowup;
-use App\Models\tb_registerO3;
-
-
-use App\Models\Tbipt;
-use App\Models\preTB;
-
 use Carbon\Carbon;
 use Exception;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
